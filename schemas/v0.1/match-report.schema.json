@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agiofit.org/schemas/v0.1/match-report.schema.json",
+  "title": "Match Report",
+  "description": "What the matcher reports after reading a Fit Profile and a Cut Profile. Designed to be the ONLY thing that crosses the boundary in the common case.",
+  "type": "object",
+  "required": ["schema_version", "cut_profile_id", "disclosure_level", "confidence", "computed_at"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "cut_profile_id": { "type": "string" },
+    "computed_at": { "type": "string", "format": "date-time" },
+    "disclosure_level": { "enum": ["result_only", "explained", "scoped", "full"] },
+    "recommended_size": {
+      "type": ["string", "null"],
+      "description": "Null is a legitimate answer. 'I do not know enough to tell you' beats a confident guess, and the schema makes it expressible."
+    },
+    "alternatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["size_label", "score"],
+        "additionalProperties": false,
+        "properties": {
+          "size_label": { "type": "string" },
+          "score": { "type": "number", "minimum": 0, "maximum": 1 },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "explanation": {
+      "type": "array",
+      "description": "Per-zone reasoning. At disclosure_level 'explained', numeric fields MUST be omitted: ease values plus published garment measurements would let a verifier reconstruct body measurements, which defeats the point of not sending them.",
+      "items": {
+        "type": "object",
+        "required": ["zone", "assessment"],
+        "additionalProperties": false,
+        "properties": {
+          "zone": { "type": "string" },
+          "assessment": { "enum": ["too_tight", "snug", "as_cut", "roomy", "too_loose", "unknown"] },
+          "critical": { "type": "boolean" },
+          "ease_cm": { "type": "number" },
+          "intended_ease_cm": {
+            "type": "array",
+            "items": { "type": "number" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "based_on": {
+      "type": "object",
+      "description": "How the answer was reached, in counts rather than in content. Lets a person see that an answer rests on one self-reported measurement and nothing else.",
+      "additionalProperties": false,
+      "properties": {
+        "body_signals": { "type": "integer", "minimum": 0 },
+        "preference_signals": { "type": "integer", "minimum": 0 },
+        "history_signals": { "type": "integer", "minimum": 0 },
+        "brand_specific_history_signals": { "type": "integer", "minimum": 0 },
+        "learned_offset_applied": { "type": "boolean" }
+      }
+    },
+    "caveats": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Plain-language warnings: missing garment data, stale measurements, fallback defaults used."
+    },
+    "improve_by": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "What the person could add to raise confidence. The cold-start path out."
+    },
+    "correctable": {
+      "const": true,
+      "description": "Normative: every report is correctable. A consumer that presents this output as final is not conformant."
+    }
+  }
+}

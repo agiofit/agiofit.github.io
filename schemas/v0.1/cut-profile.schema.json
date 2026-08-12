@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agiofit.org/schemas/v0.1/cut-profile.schema.json",
+  "title": "Cut Profile",
+  "description": "How a specific garment is actually cut, size by size. The counterpart a Fit Profile is matched against.",
+  "type": "object",
+  "required": ["schema_version", "cut_profile_id", "category", "size_system", "sizes", "measurement_method", "provenance"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "cut_profile_id": { "type": "string" },
+    "brand": { "type": "string" },
+    "style_id": { "type": "string" },
+    "style_name": { "type": "string" },
+    "gtin": { "type": "string" },
+    "category": {
+      "enum": ["tops", "shirts", "knitwear", "outerwear", "tailoring", "dresses", "trousers", "jeans", "skirts", "activewear", "underwear", "swimwear", "footwear", "accessories"]
+    },
+    "cut": {
+      "enum": ["very_fitted", "fitted", "regular", "relaxed", "oversized"],
+      "description": "The designer's intent, in the same vocabulary the person uses to state a preference. Deliberately shared with fit_preference so the two can be compared directly."
+    },
+    "size_system": {
+      "enum": ["EU", "IT", "FR", "UK", "US", "JP", "alpha", "numeric_waist_inseam", "brand_specific"]
+    },
+    "measurement_method": {
+      "enum": ["flat_laid", "circumference", "iso_8559", "brand_defined"],
+      "description": "Flat-laid measurements are half-circumferences and MUST be doubled before comparison with body circumferences. Getting this wrong silently produces answers that are off by a factor of two, which is why it is required."
+    },
+    "sizes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["size_label", "finished_measurements"],
+        "additionalProperties": false,
+        "properties": {
+          "size_label": { "type": "string" },
+          "finished_measurements": {
+            "type": "object",
+            "propertyNames": { "pattern": "^(x_)?[a-z][a-z0-9_]*$" },
+            "additionalProperties": {
+              "type": "object",
+              "required": ["value", "unit"],
+              "additionalProperties": false,
+              "properties": {
+                "value": { "type": "number", "exclusiveMinimum": 0 },
+                "unit": { "enum": ["cm", "in"] },
+                "tolerance": { "type": "number", "minimum": 0, "description": "Overrides production_tolerance for this measurement." }
+              }
+            }
+          },
+          "availability": {
+            "enum": ["in_stock", "low_stock", "out_of_stock", "unknown"],
+            "description": "Advisory only. Availability is the commerce protocol's job; it appears here so a match report can avoid proposing a size nobody can buy."
+          }
+        }
+      }
+    },
+    "intended_ease": {
+      "type": "object",
+      "description": "The ease the designer intended at each zone, as a range. Where absent, an implementation falls back to a category default and MUST lower confidence accordingly.",
+      "propertyNames": { "pattern": "^(x_)?[a-z][a-z0-9_]*$" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["min", "max", "unit"],
+        "additionalProperties": false,
+        "properties": {
+          "min": { "type": "number" },
+          "max": { "type": "number" },
+          "unit": { "enum": ["cm", "in"] }
+        }
+      }
+    },
+    "fabric": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stretch_class": { "enum": ["none", "low", "medium", "high"] },
+        "stretch_pct": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "horizontal": { "type": "number", "minimum": 0 },
+            "vertical": { "type": "number", "minimum": 0 }
+          },
+          "description": "Percentage of comfortable extension, not extension to failure. Only the comfortable range is usable for fit."
+        },
+        "recovery": { "enum": ["poor", "moderate", "good"] },
+        "composition": { "type": "string" }
+      }
+    },
+    "production_tolerance": {
+      "type": "object",
+      "required": ["value", "unit"],
+      "additionalProperties": false,
+      "properties": {
+        "value": { "type": "number", "minimum": 0 },
+        "unit": { "enum": ["cm", "in"] }
+      },
+      "description": "Default plus/minus applied to every finished measurement. Two garments of the same size are not identical objects, and an answer that pretends otherwise is overconfident."
+    },
+    "critical_zones": {
+      "type": "array",
+      "description": "Zones where a mismatch cannot be tolerated or altered — shoulders on a tailored jacket, rise on trousers. Overrides the category defaults used by the reference implementation.",
+      "items": { "type": "string" }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["published_by"],
+      "additionalProperties": false,
+      "properties": {
+        "published_by": {
+          "enum": ["brand", "manufacturer", "retailer", "marketplace_seller", "community", "measured_by_owner"],
+          "description": "A community-measured second-hand jacket and a brand-published spec are both useful and are not the same thing. Consumers are expected to weight them differently."
+        },
+        "verified": { "type": "boolean" },
+        "verification_method": { "type": "string" },
+        "source_url": { "type": "string", "format": "uri" },
+        "dpp_id": {
+          "type": "string",
+          "description": "Digital Product Passport identifier where one exists. The DPP is the natural long-term carrier for this document, even though its current scope is materials, durability and circularity rather than fit."
+        },
+        "published_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

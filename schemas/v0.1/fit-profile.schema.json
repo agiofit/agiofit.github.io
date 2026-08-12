@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agiofit.org/schemas/v0.1/fit-profile.schema.json",
+  "title": "Fit Profile",
+  "description": "A portable, person-owned description of how garments fit.",
+  "type": "object",
+  "required": ["schema_version", "profile_id", "updated_at", "units"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "0.1.0" },
+    "profile_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Pseudonymous identifier for this profile. MUST NOT be derived from, or resolvable to, a civil identity. Rotating it is a legitimate privacy action and consumers MUST NOT rely on its stability."
+    },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "units": {
+      "type": "object",
+      "required": ["length"],
+      "additionalProperties": false,
+      "properties": {
+        "length": { "enum": ["cm", "in"] },
+        "mass": { "enum": ["kg", "lb"] }
+      }
+    },
+    "body": {
+      "type": "object",
+      "description": "Layer 1: physical characteristics. Entirely optional. A profile with no body layer is valid and MUST still be usable.",
+      "additionalProperties": false,
+      "properties": {
+        "measurements": {
+          "type": "object",
+          "description": "Keyed by measurement name. Implementations MAY add keys prefixed with 'x_'.",
+          "propertyNames": { "pattern": "^(x_)?[a-z][a-z0-9_]*$" },
+          "additionalProperties": { "$ref": "#/$defs/measurement" }
+        },
+        "morphology": {
+          "type": "object",
+          "description": "Qualitative shape traits that measurements do not capture.",
+          "additionalProperties": false,
+          "properties": {
+            "shoulder_slope": { "$ref": "#/$defs/qualitative" },
+            "torso_length": { "$ref": "#/$defs/qualitative" },
+            "posture": { "$ref": "#/$defs/qualitative" },
+            "limb_length": { "$ref": "#/$defs/qualitative" }
+          }
+        }
+      }
+    },
+    "preferences": {
+      "type": "array",
+      "description": "Layer 2: how the person wants things to fit, per category and per zone.",
+      "items": { "$ref": "#/$defs/fit_preference" }
+    },
+    "history": {
+      "type": "array",
+      "description": "Layer 3: outcomes, not intentions. It records what the person actually wore, returned, exchanged or kept \u2014 and kept_despite marks what they tolerated in order to keep it.",
+      "items": { "$ref": "#/$defs/wear_outcome" }
+    },
+    "disclosure_defaults": {
+      "type": "object",
+      "description": "The person's standing preference for how much a verifier may receive. Advisory: enforcement belongs to the vault, not to this document.",
+      "additionalProperties": false,
+      "properties": {
+        "default_level": { "$ref": "#/$defs/disclosure_level" },
+        "never_share": {
+          "type": "array",
+          "description": "Measurement keys or layers the person has excluded from all sharing.",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "source": {
+      "description": "How this value came to exist. Never omit: a value without provenance is not interoperable, it is a rumour.",
+      "enum": [
+        "tape_measured",
+        "scan_3d",
+        "self_reported",
+        "inferred_from_history",
+        "imported_from_retailer",
+        "estimated_from_size_labels"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Producer's own estimate of how much this value should be trusted. Not a statistical guarantee."
+    },
+    "disclosure_level": {
+      "enum": ["result_only", "explained", "scoped", "full"],
+      "description": "result_only: the verifier receives a size and a confidence. explained: plus qualitative per-zone reasoning, no numbers. scoped: plus the specific measurements needed for this garment. full: the whole profile, and it should be rare."
+    },
+    "qualitative": {
+      "type": "object",
+      "required": ["value"],
+      "additionalProperties": false,
+      "properties": {
+        "value": { "enum": ["much_below_average", "below_average", "average", "above_average", "much_above_average"] },
+        "source": { "$ref": "#/$defs/source" },
+        "confidence": { "$ref": "#/$defs/confidence" }
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "required": ["value", "unit", "source", "observed_at"],
+      "additionalProperties": false,
+      "properties": {
+        "value": { "type": "number", "exclusiveMinimum": 0 },
+        "unit": { "enum": ["cm", "in"] },
+        "source": { "$ref": "#/$defs/source" },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "observed_at": { "type": "string", "format": "date-time" },
+        "tolerance": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Plus/minus uncertainty in the same unit. A self-reported waist deserves a wider tolerance than a scanned one, and saying so is the point."
+        },
+        "method": {
+          "type": "string",
+          "description": "Free text or an ISO 8559-1 measurement identifier where one applies."
+        }
+      }
+    },
+    "fit_preference": {
+      "type": "object",
+      "required": ["category", "zone", "preference", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "category": { "$ref": "#/$defs/category" },
+        "zone": { "$ref": "#/$defs/zone" },
+        "preference": { "enum": ["very_fitted", "fitted", "regular", "relaxed", "oversized"] },
+        "strength": { "type": "number", "minimum": 0, "maximum": 1, "description": "How firmly the person holds this. A stated dislike of tight sleeves is not the same as a hard constraint." },
+        "source": { "enum": ["declared", "inferred_from_history"] },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "wear_outcome": {
+      "type": "object",
+      "required": ["occurred_at", "garment_ref", "outcome", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "occurred_at": { "type": "string", "format": "date-time" },
+        "garment_ref": {
+          "type": "object",
+          "required": ["size_label"],
+          "additionalProperties": false,
+          "properties": {
+            "brand": { "type": "string" },
+            "style_id": { "type": "string" },
+            "gtin": { "type": "string" },
+            "cut_profile_id": { "type": "string", "description": "Reference to a Cut Profile document, when one existed." },
+            "category": { "$ref": "#/$defs/category" },
+            "size_label": { "type": "string" },
+            "size_system": { "$ref": "#/$defs/size_system" }
+          }
+        },
+        "outcome": {
+          "enum": ["kept", "returned_too_small", "returned_too_large", "returned_wrong_shape", "returned_other", "exchanged_for_smaller", "exchanged_for_larger"]
+        },
+        "zone_feedback": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["zone", "verdict"],
+            "additionalProperties": false,
+            "properties": {
+              "zone": { "$ref": "#/$defs/zone" },
+              "verdict": { "enum": ["too_tight", "snug", "right", "roomy", "too_loose"] }
+            }
+          }
+        },
+        "kept_despite": {
+          "type": "array",
+          "description": "Zones that were imperfect on a garment the person kept anyway. This is the signal that separates a tolerated compromise from a dealbreaker, and no other field carries it.",
+          "items": { "$ref": "#/$defs/zone" }
+        },
+        "source": { "enum": ["user", "retailer_import", "marketplace_import"] },
+        "import_ref": {
+          "type": "string",
+          "description": "Opaque reference to the import batch, so a person can revoke or delete everything that came from one source at once."
+        }
+      }
+    },
+    "category": {
+      "enum": ["tops", "shirts", "knitwear", "outerwear", "tailoring", "dresses", "trousers", "jeans", "skirts", "activewear", "underwear", "swimwear", "footwear", "accessories"]
+    },
+    "zone": {
+      "enum": ["overall", "neck", "shoulders", "chest", "bust", "waist", "hip", "thigh", "calf", "sleeve_length", "arm_width", "inseam", "rise", "total_length", "foot_length", "foot_width"]
+    },
+    "size_system": {
+      "enum": ["EU", "IT", "FR", "UK", "US", "JP", "alpha", "numeric_waist_inseam", "brand_specific"]
+    }
+  }
+}

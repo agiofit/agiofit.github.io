@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agio Fit — how to use it / come si usa / mode d'emploi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --carta:#F5F0E8;          /* avorio del brand / brand ivory */
+  --griglia:#DFDCD2;
+  --inchiostro:#1E2430;     /* blu notte del brand / brand night blue */
+  --inchiostro-70:#4A5262;
+  --terra:#C96F4A;          /* terracotta del logo / logo terracotta */
+  --filo:#A9532F;           /* terracotta scura per il testo piccolo / darker for small text */
+  --metro:#E9BC3F;          /* metro da sarta / tailor's tape */
+  --metro-scuro:#8A6A14;
+  --verde-ok:#3E7A52;
+  --ambra:#A8720E;
+  --riquadro:#FFFFFF;
+  --ombra:0 1px 2px rgba(30,42,56,.08), 0 6px 18px rgba(30,42,56,.07);
+  --raggio:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+body{
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  color:var(--inchiostro);
+  background:
+    linear-gradient(var(--griglia) 1px, transparent 1px),
+    linear-gradient(90deg, var(--griglia) 1px, transparent 1px),
+    var(--carta);
+  background-size:28px 28px, 28px 28px, auto;
+  line-height:1.6;
+  font-size:16px;
+}
+/* ---------- tripla lingua / three languages ---------- */
+body.lang-en .it, body.lang-en .fr{display:none}
+body.lang-it .en, body.lang-it .fr{display:none}
+body.lang-fr .en, body.lang-fr .it{display:none}
+.pagina{max-width:960px;margin:0 auto;padding:0 24px 96px}
+
+.lingua{
+  position:sticky;top:14px;z-index:10;display:flex;justify-content:flex-end;
+  max-width:960px;margin:0 auto;padding:14px 24px 0;
+}
+.lingua-box{
+  display:inline-flex;background:var(--riquadro);border:1px solid #D8D3C6;
+  border-radius:20px;box-shadow:var(--ombra);overflow:hidden;
+}
+.lingua-box button{
+  border:none;background:none;cursor:pointer;padding:6px 14px;
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.08em;
+  color:var(--inchiostro-70);
+}
+.lingua-box button[aria-pressed="true"]{background:var(--inchiostro);color:var(--carta)}
+.lingua-box button:focus-visible{outline:2px solid var(--filo);outline-offset:-2px}
+
+/* ---------- metro da sarta: elemento firma / tailor's tape: signature ---------- */
+.metro{
+  height:34px;border-radius:6px;background:var(--metro);border:1px solid #C79B22;
+  position:relative;overflow:hidden;box-shadow:inset 0 -2px 0 rgba(0,0,0,.10);
+}
+.metro .tacche{
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg, var(--metro-scuro) 0 1.5px, transparent 1.5px 10%);
+  opacity:.85;
+}
+.metro .tacche::after{
+  content:"";position:absolute;left:0;right:0;top:0;height:55%;
+  background:repeating-linear-gradient(90deg, transparent 0 calc(2% - 1px), var(--metro-scuro) calc(2% - 1px) 2%);
+  opacity:.55;
+}
+.metro .numeri{
+  position:absolute;left:0;right:0;bottom:2px;display:flex;justify-content:space-between;
+  padding:0 6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--metro-scuro);letter-spacing:1px;
+}
+.divisore{margin:64px 0 48px;height:12px;border-radius:3px;
+  background:repeating-linear-gradient(90deg, var(--metro) 0 6px, #D9AC2E 6px 7px);
+  border:1px solid #C79B22;opacity:.8}
+
+/* ---------- header ---------- */
+header{padding:48px 0 40px}
+.hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+@media(max-width:820px){.hero-grid{grid-template-columns:1fr}}
+.logo-fig{margin:0}
+.logo-fig svg{width:100%;max-width:360px;height:auto;display:block;margin:0 auto}
+.logo-fig text{font-family:'IBM Plex Mono',monospace;font-size:13px;fill:var(--inchiostro-70);letter-spacing:.04em}
+.logo-fig text.termine{fill:var(--inchiostro);font-weight:600}
+.logo-fig .lead{stroke:var(--inchiostro-70);stroke-width:1;fill:none}
+.logo-fig .quota{stroke:var(--inchiostro);stroke-width:1.5;fill:none}
+.logo-fig figcaption{font-size:13px;color:var(--inchiostro-70);margin-top:12px;text-align:center;max-width:360px;margin-left:auto;margin-right:auto}
+.logo-fig figcaption em{color:var(--inchiostro);font-style:italic}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--filo);margin-bottom:14px}
+h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(40px,7vw,64px);line-height:1.05;letter-spacing:-.01em}
+h1 .corsivo{font-style:italic;font-weight:400;color:var(--inchiostro-70)}
+.sottotitolo{margin-top:18px;font-size:18px;max-width:660px;color:var(--inchiostro-70)}
+.sottotitolo strong{color:var(--inchiostro)}
+
+/* ---------- sezioni ---------- */
+h2{font-family:'Fraunces',serif;font-weight:600;font-size:30px;margin-bottom:6px;letter-spacing:-.01em}
+.kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--inchiostro-70);margin-bottom:6px}
+.sezione>p.intro{max-width:680px;margin-bottom:24px;color:var(--inchiostro-70)}
+.sezione>p.intro b,.sezione>p.intro strong{color:var(--inchiostro)}
+
+/* ---------- carte documento ---------- */
+.tre-doc{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:760px){.tre-doc{grid-template-columns:1fr}}
+.doc{background:var(--riquadro);border:1px solid #E5E1D6;border-radius:var(--raggio);
+  box-shadow:var(--ombra);padding:20px;display:flex;flex-direction:column}
+.doc h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin-bottom:2px}
+.doc .file{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--filo);margin-bottom:10px}
+.doc p{font-size:14px;color:var(--inchiostro-70);flex:1}
+.doc button{margin-top:14px;align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:12px;
+  background:none;border:1px solid var(--inchiostro);border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--inchiostro)}
+.doc button:hover{background:var(--inchiostro);color:var(--carta)}
+.doc button:focus-visible,.controlli select:focus-visible{outline:2px solid var(--filo);outline-offset:2px}
+.json-box{display:none;margin-top:14px;background:#202B39;color:#DCE6F0;border-radius:8px;padding:14px;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.55;overflow-x:auto;white-space:pre}
+.json-box .k{color:#8FC7FF}.json-box .s{color:#F0D089}.json-box .n{color:#9FE3B4}.json-box .c{color:#7C8B9C;font-style:italic}
+.json-box.aperto{display:block}
+/* i commenti multilingue dentro i pre restano inline / multilingual comments inside pre stay inline */
+.json-box .it,.json-box .en,.json-box .fr{white-space:pre}
+
+/* ---------- simulatore ---------- */
+.simulatore{background:var(--riquadro);border:1px solid #E5E1D6;border-radius:var(--raggio);box-shadow:var(--ombra);overflow:hidden}
+.sim-testa{padding:22px 24px 18px;border-bottom:1px dashed #D8D3C6}
+.controlli{display:grid;grid-template-columns:1fr 1fr auto;gap:14px;align-items:end}
+@media(max-width:700px){.controlli{grid-template-columns:1fr}}
+.campo label{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px;
+  font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--inchiostro-70)}
+.campo select{width:100%;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;
+  border:1px solid #C9C3B4;border-radius:8px;background:#FDFCF8;color:var(--inchiostro)}
+.sim-corpo{padding:24px}
+.risultato-vuoto{color:var(--inchiostro-70);font-size:15px;font-style:italic}
+.esito-riga{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:6px}
+.taglia{font-family:'Fraunces',serif;font-weight:700;font-size:56px;line-height:1}
+.taglia small{font-size:16px;font-weight:400;font-family:'IBM Plex Sans',sans-serif;color:var(--inchiostro-70)}
+.conf-blocco{flex:1;min-width:240px}
+.conf-eti{display:flex;justify-content:space-between;font-size:12.5px;
+  font-family:'IBM Plex Mono',monospace;color:var(--inchiostro-70);margin-bottom:4px}
+.conf-metro{position:relative}
+.gesso-marker{position:absolute;top:-6px;bottom:-6px;width:4px;background:var(--terra);border-radius:2px;
+  box-shadow:0 0 0 2px rgba(255,255,255,.75);transition:left .5s cubic-bezier(.2,.8,.2,1)}
+.livello-nota{margin:16px 0 4px;padding:10px 14px;border-left:3px solid var(--metro);
+  background:#FBF6E7;font-size:13.5px;color:#5C4A12;border-radius:0 8px 8px 0}
+table.zone{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
+table.zone th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--inchiostro-70);border-bottom:2px solid var(--inchiostro);padding:6px 8px}
+table.zone td{border-bottom:1px solid #ECE8DC;padding:8px}
+.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.badge.ok{background:#E4F0E8;color:var(--verde-ok)}
+.badge.attenzione{background:#FBF0DA;color:var(--ambra)}
+.badge.critico{background:#F7E3DF;color:var(--filo)}
+.caveats{margin-top:16px}
+.caveats li{margin-left:20px;font-size:14px;color:var(--inchiostro-70);margin-bottom:4px}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.92em}
+
+/* ---------- livelli disclosure ---------- */
+.livelli{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:820px){.livelli{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.livelli{grid-template-columns:1fr}}
+.livello{background:var(--riquadro);border:1px solid #E5E1D6;border-radius:var(--raggio);padding:16px;box-shadow:var(--ombra)}
+.livello h4{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.04em;color:var(--filo);margin-bottom:8px}
+.livello p{font-size:13.5px;color:var(--inchiostro-70)}
+.leak{margin-top:28px;background:var(--inchiostro);color:#E8EDF3;border-radius:var(--raggio);padding:24px;box-shadow:var(--ombra)}
+.leak h3{font-family:'Fraunces',serif;font-size:21px;margin-bottom:10px;color:#fff}
+.leak .formula{font-family:'IBM Plex Mono',monospace;font-size:15px;background:#2A3646;
+  padding:14px 16px;border-radius:8px;margin:14px 0;overflow-x:auto;white-space:nowrap}
+.leak .formula b{color:var(--metro)}
+.leak p{font-size:14.5px;color:#B9C4D0;max-width:640px}
+.leak p strong{color:#fff}
+
+/* ---------- CLI ---------- */
+.terminale{background:#202B39;border-radius:var(--raggio);box-shadow:var(--ombra);overflow:hidden}
+.term-barra{display:flex;gap:6px;padding:11px 14px;background:#18212C}
+.term-barra span{width:11px;height:11px;border-radius:50%;background:#3A4756}
+.terminale pre{padding:18px 20px;font-family:'IBM Plex Mono',monospace;font-size:13.5px;line-height:1.7;color:#DCE6F0;overflow-x:auto}
+.terminale .prompt{color:#8FC7FF}
+.terminale .cmt{color:#7C8B9C;font-style:italic}
+.terminale .out{color:#9FE3B4}
+.terminale .it,.terminale .en,.terminale .fr{white-space:pre}
+
+/* ---------- decisioni ---------- */
+.decisioni{display:grid;gap:14px}
+.decisione{background:var(--riquadro);border:1px solid #E5E1D6;border-radius:var(--raggio);
+  padding:18px 20px;box-shadow:var(--ombra);display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
+.decisione .spilla{width:34px;height:34px;border-radius:50%;background:#FBF6E7;border:1px solid var(--metro);
+  display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-style:italic;font-weight:600;color:var(--metro-scuro)}
+.decisione h4{font-family:'IBM Plex Mono',monospace;font-size:14px;color:var(--filo);margin-bottom:4px}
+.decisione p{font-size:14.5px;color:var(--inchiostro-70)}
+.decisione p b{color:var(--inchiostro)}
+
+footer{margin-top:72px;font-size:13px;color:var(--inchiostro-70);font-family:'IBM Plex Mono',monospace;text-align:center;line-height:2}
+a.credito{color:var(--filo);text-decoration:none;border-bottom:1px solid rgba(201,111,74,.45)}
+a.credito:hover{border-bottom-color:var(--filo)}
+a.credito:focus-visible{outline:2px solid var(--filo);outline-offset:2px}
+</style>
+</head>
+<body class="lang-en">
+
+<div class="lingua">
+  <div class="lingua-box" role="group" aria-label="Language / Lingua / Langue">
+    <button id="btn-en" aria-pressed="true" onclick="setLang('en')">English</button>
+    <button id="btn-it" aria-pressed="false" onclick="setLang('it')">Italiano</button>
+    <button id="btn-fr" aria-pressed="false" onclick="setLang('fr')">Français</button>
+  </div>
+</div>
+
+<div class="pagina">
+
+<header>
+  <div class="hero-grid">
+  <div class="hero-testo">
+  <p class="eyebrow">
+    <span class="it">v0.1 draft · Apache-2.0 · un progetto personale di <a class="credito" href="https://github.com/antferr">antferr</a></span><span class="en">v0.1 draft · Apache-2.0 · a personal project by <a class="credito" href="https://github.com/antferr">antferr</a></span><span class="fr">v0.1 draft · Apache-2.0 · un projet personnel de <a class="credito" href="https://github.com/antferr">antferr</a></span>
+  </p>
+  <h1>Agio&nbsp;Fit<br>
+    <span class="corsivo"><span class="it">il profilo di vestibilità che ti porti dietro</span><span class="en">the fit profile you carry with you</span><span class="fr">le profil de bien-aller que vous emportez avec vous</span></span>
+  </h1>
+  <p class="sottotitolo">
+    <span class="it">In sartoria l'<strong>agio</strong> è il margine progettato tra corpo e capo.
+    Qui è uno standard aperto: <strong>tre documenti JSON</strong>, un algoritmo di riferimento e una regola —
+    il profilo resta tuo, ai negozi esce solo la taglia.</span>
+    <span class="en">In tailoring, <strong>agio</strong> is the ease designed between body and garment.
+    Here it is an open standard: <strong>three JSON documents</strong>, a reference algorithm and one rule —
+    the profile stays yours; shops only ever get a size.</span><span class="fr">En couture, l’<strong>agio</strong> est l’aisance ménagée entre le corps et le vêtement.
+    Ici, c’est un standard ouvert : <strong>trois documents JSON</strong>, un algorithme de référence et une règle —
+    le profil reste à vous ; les boutiques ne reçoivent qu’une taille.</span>
+  </p>
+  </div>
+
+  <!-- il logo ufficiale (agiofit-avatar.svg), annotato: il vuoto tra le due forme È l'agio
+       the official mark, annotated: the space between the two shapes IS the agio -->
+  <figure class="logo-fig">
+    <svg viewBox="0 0 360 250" role="img" aria-label="Agio Fit — logo">
+      <!-- geometria del marchio, in scala / mark geometry, scaled -->
+      <circle cx="120" cy="130" r="84" fill="none" stroke="#c96f4a" stroke-width="15"/>
+      <circle cx="120" cy="130" r="42" fill="#1e2430"/>
+      <!-- quota sartoriale sul vuoto / tailor's dimension line across the gap -->
+      <line class="quota" x1="162" y1="130" x2="196.5" y2="130"/>
+      <line class="quota" x1="162" y1="124" x2="162" y2="136"/>
+      <line class="quota" x1="196.5" y1="124" x2="196.5" y2="136"/>
+      <!-- linee guida / leader lines -->
+      <polyline class="lead" points="179,60 218,48"/>
+      <polyline class="lead" points="196.5,130 218,130"/>
+      <polyline class="lead" points="152,157 218,208"/>
+      <!-- etichette / labels -->
+      <text x="224" y="52"><tspan class="en">the garment</tspan><tspan class="it">il capo</tspan><tspan class="fr">le vêtement</tspan></text>
+      <text x="224" y="134" class="termine"><tspan class="en">the agio (ease)</tspan><tspan class="it">l'agio</tspan><tspan class="fr">l'agio — aisance</tspan></text>
+      <text x="224" y="212"><tspan class="en">the body</tspan><tspan class="it">il corpo</tspan><tspan class="fr">le corps</tspan></text>
+    </svg>
+    <figcaption>
+      <span class="en">The logo is the concept: the space between body and garment <em>is</em> the agio.</span>
+      <span class="it">Il logo è il concetto: il vuoto tra corpo e capo <em>è</em> l'agio.</span>
+      <span class="fr">Le logo est le concept : le vide entre le corps et le vêtement, <em>c'est</em> l'agio.</span>
+    </figcaption>
+  </figure>
+  </div>
+
+  <div class="metro" style="margin-top:36px" aria-hidden="true">
+    <div class="tacche"></div>
+    <div class="numeri"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span></div>
+  </div>
+</header>
+
+<!-- ============ 01: I TRE DOCUMENTI / THE THREE DOCUMENTS ============ -->
+<section class="sezione">
+  <p class="kicker"><span class="it">01 · Il vocabolario</span><span class="en">01 · The vocabulary</span><span class="fr">01 · Le vocabulaire</span></p>
+  <h2><span class="it">Tre documenti, un contratto</span><span class="en">Three documents, one contract</span><span class="fr">Trois documents, un contrat</span></h2>
+  <p class="intro">
+    <span class="it">Tutto lo standard sta in tre schemi JSON. Il primo lo possiedi tu, il secondo lo pubblica chi vende, il terzo è l'unica cosa che viaggia tra i due. Apri gli esempi per vedere la forma reale dei dati.</span>
+    <span class="en">The whole standard fits in three JSON schemas. You own the first, the seller publishes the second, and the third is the only thing that travels between the two. Open the examples to see the actual shape of the data.</span><span class="fr">Tout le standard tient en trois schémas JSON. Le premier vous appartient, le second est publié par le vendeur, et le troisième est la seule chose qui circule entre les deux. Ouvrez les exemples pour voir la forme réelle des données.</span>
+  </p>
+  <div class="tre-doc">
+    <div class="doc">
+      <h3>Fit Profile</h3>
+      <p class="file">fit-profile.schema.json</p>
+      <p><span class="it">Il tuo profilo: misure corporee (ognuna con <span class="mono">source</span> e <span class="mono">observed_at</span> obbligatori, <span class="mono">tolerance</span> fortemente raccomandata), preferenze di vestibilità e — il segnale più forte — lo <b>storico</b> di come i capi passati ti sono andati davvero.</span>
+      <span class="en">Your profile: body measurements (each with mandatory <span class="mono">source</span> and <span class="mono">observed_at</span>, <span class="mono">tolerance</span> strongly recommended), fit preferences and — the strongest signal — the <b>history</b> of how past garments actually fitted you.</span><span class="fr">Votre profil : mensurations (chacune avec <span class="mono">source</span> et <span class="mono">observed_at</span> obligatoires, <span class="mono">tolerance</span> fortement recommandée), préférences de coupe et — le signal le plus fort — l’<b>historique</b> de la façon dont les vêtements passés vous sont réellement allés.</span></p>
+      <button data-json="json-profilo" aria-expanded="false"></button>
+      <div class="json-box" id="json-profilo">{
+  <span class="k">"body_measurements"</span>: {
+    <span class="k">"chest_circumference"</span>: {
+      <span class="k">"value"</span>: <span class="n">100</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span>,
+      <span class="k">"source"</span>: <span class="s">"tape_measured"</span>,
+      <span class="k">"observed_at"</span>: <span class="s">"2026-06-01"</span>,
+      <span class="k">"tolerance"</span>: <span class="n">1.0</span>
+    },
+    <span class="k">"arm_length"</span>: {
+      <span class="k">"value"</span>: <span class="n">63</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span>,
+      <span class="k">"source"</span>: <span class="s">"self_reported"</span>,  <span class="c"><span class="it">// pesa meno</span><span class="en">// weighs less</span><span class="fr">// pèse moins</span></span>
+      <span class="k">"observed_at"</span>: <span class="s">"2026-01-10"</span>,
+      <span class="k">"tolerance"</span>: <span class="n">2.0</span>
+    }
+  },
+  <span class="k">"history"</span>: [{
+    <span class="k">"brand"</span>: <span class="s">"Sartoria Esempio"</span>,
+    <span class="k">"size_label"</span>: <span class="s">"41"</span>,
+    <span class="k">"outcome"</span>: <span class="s">"kept"</span>,
+    <span class="k">"kept_despite"</span>: [<span class="s">"waist"</span>]  <span class="c"><span class="it">// compromesso accettato</span><span class="en">// accepted trade-off</span><span class="fr">// compromis accepté</span></span>
+  }]
+}</div>
+      <p class="file"><span class="it">Estratto semplificato: una voce di storico completa richiede anche <span class="mono">occurred_at</span>, <span class="mono">garment_ref</span> e <span class="mono">source</span>.</span><span class="en">Simplified excerpt: a full history entry also requires <span class="mono">occurred_at</span>, <span class="mono">garment_ref</span> and <span class="mono">source</span>.</span><span class="fr">Extrait simplifié : une entrée d'historique complète exige aussi <span class="mono">occurred_at</span>, <span class="mono">garment_ref</span> et <span class="mono">source</span>.</span></p>
+    </div>
+    <div class="doc">
+      <h3>Cut Profile</h3>
+      <p class="file">cut-profile.schema.json</p>
+      <p><span class="it">Come il capo è <b>tagliato</b>, non come il brand chiama la taglia: misure per taglia, agio previsto (<span class="mono">intended_ease</span>), elasticità. Il campo <span class="mono">measurement_method</span> è obbligatorio e senza default.</span>
+      <span class="en">How the garment is <b>cut</b>, not what the brand calls the size: per-size measurements, intended ease (<span class="mono">intended_ease</span>), stretch. The <span class="mono">measurement_method</span> field is mandatory, with no default.</span><span class="fr">Comment le vêtement est <b>coupé</b>, et non comment la marque nomme la taille : mesures par taille, aisance prévue (<span class="mono">intended_ease</span>), élasticité. Le champ <span class="mono">measurement_method</span> est obligatoire, sans valeur par défaut.</span></p>
+      <button data-json="json-capo" aria-expanded="false"></button>
+      <div class="json-box" id="json-capo">{
+  <span class="k">"brand"</span>: <span class="s">"Sartoria Esempio"</span>,
+  <span class="k">"category"</span>: <span class="s">"shirts"</span>,
+  <span class="k">"measurement_method"</span>: <span class="s">"flat_laid"</span>,  <span class="c"><span class="it">// larghezze = ½ circonferenza</span><span class="en">// widths = ½ circumference</span><span class="fr">// largeurs = ½ circonférence</span></span>
+  <span class="k">"critical_zones"</span>: [<span class="s">"shoulders"</span>, <span class="s">"neck"</span>],
+  <span class="k">"sizes"</span>: [{
+    <span class="k">"size_label"</span>: <span class="s">"41"</span>,
+    <span class="k">"finished_measurements"</span>: {
+      <span class="k">"chest_width"</span>:  { <span class="k">"value"</span>: <span class="n">58</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span> },
+      <span class="k">"shoulder_width"</span>: { <span class="k">"value"</span>: <span class="n">46.5</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span> },
+      <span class="k">"neck_circumference"</span>: { <span class="k">"value"</span>: <span class="n">42</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span> }
+    }
+  }],
+  <span class="k">"intended_ease"</span>: {
+    <span class="k">"chest"</span>: { <span class="k">"min"</span>: <span class="n">12</span>, <span class="k">"max"</span>: <span class="n">20</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span> }
+  }
+}</div>
+    </div>
+    <div class="doc">
+      <h3>Match Report</h3>
+      <p class="file">match-report.schema.json</p>
+      <p><span class="it">La risposta. La sua forma è la parte normativa dello standard: <b>confidenza esposta</b>, spiegazione per zona, avvertenze esplicite. Quanto dettaglio contiene lo decide il livello di disclosure.</span>
+      <span class="en">The answer. Its shape is the normative part of the standard: <b>exposed confidence</b>, a per-zone explanation, explicit caveats. How much detail it carries is decided by the disclosure level.</span><span class="fr">La réponse. Sa forme est la partie normative du standard : <b>confiance exposée</b>, explication par zone, avertissements explicites. Le niveau de divulgation décide du détail qu’elle contient.</span></p>
+      <button data-json="json-racc" aria-expanded="false"></button>
+      <div class="json-box" id="json-racc">{
+  <span class="k">"recommended_size"</span>: <span class="s">"41"</span>,
+  <span class="k">"confidence"</span>: <span class="n">0.76</span>,
+  <span class="k">"disclosure_level"</span>: <span class="s">"explained"</span>,
+  <span class="k">"explanation"</span>: [{
+    <span class="k">"zone"</span>: <span class="s">"shoulders"</span>,
+    <span class="k">"assessment"</span>: <span class="s">"as_cut"</span>
+    <span class="c"><span class="it">// niente numeri a questo livello:
+    // vengono rimossi in serializzazione</span><span class="en">// no numbers at this level:
+    // stripped at serialisation</span><span class="fr">// aucun chiffre à ce niveau :
+    // supprimés à la sérialisation</span></span>
+  }],
+  <span class="k">"caveats"</span>: [
+    <span class="s"><span class="it">"arm_length è autodichiarata"</span><span class="en">"arm_length is self-reported"</span><span class="fr">"arm_length est auto-déclarée"</span></span>
+  ]
+}</div>
+    </div>
+  </div>
+</section>
+
+<div class="divisore" aria-hidden="true"></div>
+
+<!-- ============ 02: SIMULATORE / SIMULATOR ============ -->
+<section class="sezione">
+  <p class="kicker"><span class="it">02 · Provalo</span><span class="en">02 · Try it</span><span class="fr">02 · Essayez-le</span></p>
+  <h2><span class="it">Il matching, dal vivo</span><span class="en">The matching, live</span><span class="fr">Le matching, en direct</span></h2>
+  <p class="intro">
+    <span class="it">Stessa logica dell'implementazione di riferimento (<span class="mono">python -m agiofit.cli</span>), ricostruita qui in JavaScript: scegli un profilo e un livello di disclosure, e guarda cosa esce — e soprattutto <b>cosa non esce</b>. Il capo e i profili sono gli esempi reali del repo: la Classic Oxford di Sartoria Esempio (marchio fittizio), taglie 39–42.</span>
+    <span class="en">The same logic as the reference implementation (<span class="mono">python -m agiofit.cli</span>), rebuilt here in JavaScript: pick a profile and a disclosure level, and watch what comes out — and above all <b>what doesn't</b>. Garment and profiles are the repo's real examples: Sartoria Esempio's Classic Oxford (a fictional brand), sizes 39–42.</span><span class="fr">La même logique que l’implémentation de référence (<span class="mono">python -m agiofit.cli</span>), reconstruite ici en JavaScript : choisissez un profil et un niveau de divulgation, et regardez ce qui sort — et surtout <b>ce qui ne sort pas</b>. Le vêtement et les profils sont les exemples réels du dépôt : la Classic Oxford de Sartoria Esempio (marque fictive), tailles 39–42.</span>
+  </p>
+
+  <div class="simulatore">
+    <div class="sim-testa">
+      <div class="controlli">
+        <div class="campo">
+          <label for="sel-profilo"><span class="it">Profilo</span><span class="en">Profile</span><span class="fr">Profil</span></label>
+          <select id="sel-profilo">
+            <option value="maturo"></option>
+            <option value="cold"></option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="sel-livello"><span class="it">Livello di disclosure</span><span class="en">Disclosure level</span><span class="fr">Niveau de divulgation</span></label>
+          <select id="sel-livello">
+            <option value="result_only"></option>
+            <option value="explained" selected></option>
+            <option value="scoped"></option>
+            <option value="full"></option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="sim-corpo" id="sim-corpo" aria-live="polite">
+      <p class="risultato-vuoto"><span class="it">Il simulatore richiede JavaScript.</span><span class="en">The simulator requires JavaScript.</span><span class="fr">Le simulateur nécessite JavaScript.</span></p>
+    </div>
+  </div>
+</section>
+
+<div class="divisore" aria-hidden="true"></div>
+
+<!-- ============ 03: DISCLOSURE E PERDITA ARITMETICA / DISCLOSURE & ARITHMETIC LEAK ============ -->
+<section class="sezione">
+  <p class="kicker"><span class="it">03 · La privacy come design</span><span class="en">03 · Privacy as design</span><span class="fr">03 · La confidentialité comme design</span></p>
+  <h2><span class="it">Quattro livelli, una sottrazione da impedire</span><span class="en">Four levels, one subtraction to prevent</span><span class="fr">Quatre niveaux, une soustraction à empêcher</span></h2>
+  <p class="intro">
+    <span class="it">Il chiamante non decide quanto vede: lo decide il livello di disclosure, e i numeri vengono rimossi <b>in serializzazione</b>, non per buona volontà. C'è un test che lo verifica.</span>
+    <span class="en">The caller doesn't decide how much it sees: the disclosure level does, and the numbers are stripped <b>at serialisation</b>, not by anyone's goodwill. There is a test that verifies it.</span><span class="fr">L’appelant ne décide pas de ce qu’il voit : c’est le niveau de divulgation qui décide, et les chiffres sont supprimés <b>à la sérialisation</b>, pas par bonne volonté. Un test le vérifie.</span>
+  </p>
+  <div class="livelli">
+    <div class="livello"><h4>result_only</h4><p><span class="it">Taglia e confidenza. È tutto ciò che serve a un negozio per venderti una camicia.</span><span class="en">Size and confidence. All a shop needs to sell you a shirt.</span><span class="fr">Taille et confiance. Tout ce qu’il faut à une boutique pour vous vendre une chemise.</span></p></div>
+    <div class="livello"><h4>explained</h4><p><span class="it">Aggiunge il giudizio per zona (<em>buono</em>, <em>attenzione</em>…) ma <b>senza centimetri</b>.</span><span class="en">Adds the per-zone assessment (<em>good</em>, <em>watch</em>…) but <b>no centimetres</b>.</span><span class="fr">Ajoute le jugement par zone (<em>bon</em>, <em>attention</em>…) mais <b>sans centimètres</b>.</span></p></div>
+    <div class="livello"><h4>scoped</h4><p><span class="it">Aggiunge l'agio numerico sulle zone richieste. Per servizi di cui ti fidi di più.</span><span class="en">Adds numeric ease on the requested zones. For services you trust more.</span><span class="fr">Ajoute l’aisance chiffrée sur les zones demandées. Pour les services de plus grande confiance.</span></p></div>
+    <div class="livello"><h4>full</h4><p><span class="it">Il profilo completo. Pensato per il tuo vault, non per terzi.</span><span class="en">The complete profile. Meant for your vault, not for third parties.</span><span class="fr">Le profil complet. Destiné à votre coffre-fort, pas aux tiers.</span></p></div>
+  </div>
+
+  <div class="leak">
+    <h3><span class="it">Perché «explained» nasconde i numeri: la perdita aritmetica</span><span class="en">Why "explained" hides the numbers: the arithmetic leak</span><span class="fr">Pourquoi « explained » cache les chiffres : la fuite arithmétique</span></h3>
+    <p><span class="it">Le misure del capo sono pubbliche (stanno nel Cut Profile). Se la raccomandazione pubblicasse anche l'agio in centimetri, chiunque saprebbe fare:</span>
+    <span class="en">The garment's measurements are public (they live in the Cut Profile). If the recommendation also published the ease in centimetres, anyone could do:</span><span class="fr">Les mesures du vêtement sont publiques (elles vivent dans le Cut Profile). Si la recommandation publiait aussi l’aisance en centimètres, n’importe qui pourrait faire :</span></p>
+    <p class="formula"><span class="it">corpo&nbsp;=&nbsp;<b>capo</b>&nbsp;−&nbsp;<b>agio</b>&nbsp;&nbsp;→&nbsp;&nbsp;116&nbsp;cm&nbsp;−&nbsp;16&nbsp;cm&nbsp;=&nbsp;<b>100&nbsp;cm di torace</b></span><span class="en">body&nbsp;=&nbsp;<b>garment</b>&nbsp;−&nbsp;<b>ease</b>&nbsp;&nbsp;→&nbsp;&nbsp;116&nbsp;cm&nbsp;−&nbsp;16&nbsp;cm&nbsp;=&nbsp;<b>a 100&nbsp;cm chest</b></span><span class="fr">corps&nbsp;=&nbsp;<b>vêtement</b>&nbsp;−&nbsp;<b>aisance</b>&nbsp;&nbsp;→&nbsp;&nbsp;116&nbsp;cm&nbsp;−&nbsp;16&nbsp;cm&nbsp;=&nbsp;<b>100&nbsp;cm de tour de poitrine</b></span></p>
+    <p><span class="it">Una sottrazione ricostruisce la misura corporea. Per questo ai livelli bassi l'agio esiste nel calcolo ma <strong>non sopravvive alla serializzazione</strong> — provalo nel simulatore passando da <span class="mono" style="color:#E9BC3F">scoped</span> a <span class="mono" style="color:#E9BC3F">explained</span>.</span>
+    <span class="en">One subtraction reconstructs the body measurement. That's why at the lower levels the ease exists in the computation but <strong>does not survive serialisation</strong> — try it in the simulator by switching from <span class="mono" style="color:#E9BC3F">scoped</span> to <span class="mono" style="color:#E9BC3F">explained</span>.</span><span class="fr">Une soustraction reconstruit la mensuration. C’est pourquoi, aux niveaux bas, l’aisance existe dans le calcul mais <strong>ne survit pas à la sérialisation</strong> — essayez-le dans le simulateur en passant de <span class="mono" style="color:#E9BC3F">scoped</span> à <span class="mono" style="color:#E9BC3F">explained</span>.</span></p>
+  </div>
+</section>
+
+<div class="divisore" aria-hidden="true"></div>
+
+<!-- ============ 04: CLI ============ -->
+<section class="sezione">
+  <p class="kicker"><span class="it">04 · Sul tuo computer</span><span class="en">04 · On your machine</span><span class="fr">04 · Sur votre machine</span></p>
+  <h2><span class="it">Uso da terminale</span><span class="en">Using it from the terminal</span><span class="fr">Utilisation depuis le terminal</span></h2>
+  <p class="intro">
+    <span class="it">L'implementazione di riferimento è Python puro, zero dipendenze. Dopo aver clonato <span class="mono">github.com/agiofit/agiofit</span>:</span>
+    <span class="en">The reference implementation is pure Python, zero dependencies. After cloning <span class="mono">github.com/agiofit/agiofit</span>:</span><span class="fr">L’implémentation de référence est du Python pur, sans dépendances. Après avoir cloné <span class="mono">github.com/agiofit/agiofit</span> :</span>
+  </p>
+  <div class="terminale">
+    <div class="term-barra" aria-hidden="true"><span></span><span></span><span></span></div>
+    <pre><span class="cmt"><span class="it"># installazione e verifica (13 test, devono passare tutti)</span><span class="en"># install and verify (13 tests, all must pass)</span><span class="fr"># installation et vérification (13 tests, tous doivent passer)</span></span>
+<span class="prompt">$</span> cd agiofit/reference
+<span class="prompt">$</span> pip install -e ".[dev]"
+<span class="prompt">$</span> pytest
+<span class="out">13 passed</span>
+
+<span class="cmt"><span class="it"># profilo maturo, livello di default (explained)</span><span class="en"># mature profile, default level (explained)</span><span class="fr"># profil mature, niveau par défaut (explained)</span></span>
+<span class="prompt">$</span> python -m agiofit.cli ../examples/profile-mature.json ../examples/cut-shirt.json
+<span class="out">{ "recommended_size": "41", "confidence": 0.76, ... }</span>
+
+<span class="cmt"><span class="it"># cold start, solo il risultato</span><span class="en"># cold start, result only</span><span class="fr"># cold start, résultat seul</span></span>
+<span class="prompt">$</span> python -m agiofit.cli ../examples/profile-cold-start.json ../examples/cut-shirt.json result_only
+<span class="out">{ "recommended_size": "41", "confidence": 0.25, ... }</span></pre>
+  </div>
+</section>
+
+<div class="divisore" aria-hidden="true"></div>
+
+<!-- ============ 05: DECISIONI DI DESIGN / DESIGN DECISIONS ============ -->
+<section class="sezione">
+  <p class="kicker"><span class="it">05 · Da difendere in pubblico</span><span class="en">05 · Worth defending in public</span><span class="fr">05 · À défendre en public</span></p>
+  <h2><span class="it">Le decisioni che non sono una tabella taglie</span><span class="en">The decisions that are not a size chart</span><span class="fr">Les décisions qui ne sont pas un guide des tailles</span></h2>
+  <div class="decisioni">
+    <div class="decisione"><div class="spilla" aria-hidden="true">a</div><div>
+      <h4>kept_despite</h4>
+      <p><span class="it">L'unico campo che registra un compromesso <b>accettato</b>. Senza, il sistema impara che rifiuti le spalle strette; con, impara che accetti una vita larga <b>pur di avere le spalle giuste</b>.</span>
+      <span class="en">The only field that records an <b>accepted</b> trade-off. Without it, the system learns you reject tight shoulders; with it, it learns you accept a loose waist <b>to get the shoulders right</b>.</span><span class="fr">Le seul champ qui enregistre un compromis <b>accepté</b>. Sans lui, le système apprend que vous refusez les épaules serrées ; avec lui, il apprend que vous acceptez une taille ample <b>pour avoir les épaules justes</b>.</span></p>
+    </div></div>
+    <div class="decisione"><div class="spilla" aria-hidden="true">b</div><div>
+      <h4><span class="it">measurement_method obbligatorio, senza default</span><span class="en">measurement_method mandatory, no default</span><span class="fr">measurement_method obligatoire, sans défaut</span></h4>
+      <p><span class="it">Le misure <em>flat laid</em> sono <b>mezze circonferenze</b>. È l'errore più diffuso del settore e produce raccomandazioni sbagliate di un fattore due, in silenzio. Qui, se non lo dichiari, il documento non valida.</span>
+      <span class="en"><em>Flat-laid</em> measurements are <b>half circumferences</b>. It's the industry's most common mistake, and it produces recommendations wrong by a factor of two, silently. Here, if you don't declare it, the document doesn't validate.</span><span class="fr">Les mesures <em>à plat</em> sont des <b>demi-circonférences</b>. C’est l’erreur la plus répandue du secteur, et elle produit des recommandations fausses d’un facteur deux, en silence. Ici, si vous ne le déclarez pas, le document ne valide pas.</span></p>
+    </div></div>
+    <div class="decisione"><div class="spilla" aria-hidden="true">c</div><div>
+      <h4><span class="it">offset_scale per zona</span><span class="en">Per-zone offset_scale</span><span class="fr">offset_scale par zone</span></h4>
+      <p><span class="it">Un brand che «veste piccolo» veste piccolo <b>nel torso</b>. Applicare lo stesso spostamento in cm al collo — dove 1 cm è una taglia intera — trasforma una correzione utile in una risposta sbagliata. Lo storico si applica per zona: 1.0 sul torace, 0.2 sul collo.</span>
+      <span class="en">A brand that "runs small" runs small <b>in the torso</b>. Applying the same centimetre shift to the collar — where 1 cm is a whole size — turns a useful correction into a wrong answer. History applies per zone: 1.0 on the chest, 0.2 on the collar.</span><span class="fr">Une marque qui « taille petit » taille petit <b>au buste</b>. Appliquer le même décalage en centimètres au col — où 1 cm est une taille entière — transforme une correction utile en une réponse fausse. L’historique s’applique par zone : 1.0 sur la poitrine, 0.2 sur le col.</span></p>
+    </div></div>
+    <div class="decisione"><div class="spilla" aria-hidden="true">d</div><div>
+      <h4><span class="it">Cold start con confidenza dichiarata</span><span class="en">Cold start with declared confidence</span><span class="fr">Cold start avec confiance déclarée</span></h4>
+      <p><span class="it">Zero misure corporee, un solo capo tenuto dello stesso brand: il sistema risponde comunque, con confidenza <b>massima 0.40</b>, rifiuta l'inferenza cross-brand e ti dice cosa aggiungere per migliorare. Lo storico vale più dei centimetri.</span>
+      <span class="en">Zero body measurements, a single kept garment from the same brand: the system still answers, with confidence <b>capped at 0.40</b>, refuses cross-brand inference and tells you what to add to improve. History is worth more than centimetres.</span><span class="fr">Zéro mensuration, un seul vêtement gardé de la même marque : le système répond quand même, avec une confiance <b>plafonnée à 0.40</b>, refuse l’inférence entre marques et vous dit quoi ajouter pour progresser. L’historique vaut plus que les centimètres.</span></p>
+    </div></div>
+  </div>
+</section>
+
+<footer>
+  <span class="it">Agio Fit v0.1 · interfaccia dimostrativa · l'algoritmo qui riprodotto è una versione semplificata e non normativa</span>
+  <span class="en">Agio Fit v0.1 · demo interface · the algorithm reproduced here is a simplified, non-normative version</span><span class="fr">Agio Fit v0.1 · interface de démonstration · l’algorithme reproduit ici est une version simplifiée, non normative</span>
+  <br>
+  <a class="credito" href="https://agiofit.org">agiofit.org</a> · <a class="credito" href="https://github.com/agiofit">github.com/agiofit</a> · <span class="it">un progetto personale di <a class="credito" href="https://github.com/antferr">antferr</a></span><span class="en">a personal project by <a class="credito" href="https://github.com/antferr">antferr</a></span><span class="fr">un projet personnel de <a class="credito" href="https://github.com/antferr">antferr</a></span>
+  <br>
+  © 2026 Antonio Ferraioli · spec: CC BY 4.0 · code: Apache-2.0
+</footer>
+
+</div>
+<script>
+// ---------- lingua corrente / current language ----------
+var LANG = 'en';
+
+// ---------- dizionario delle stringhe dinamiche / dynamic string dictionary ----------
+var T = {
+  it: {
+    opt_maturo:'Maturo — misure + storico', opt_cold:'Cold start — solo 1 acquisto tenuto',
+    opt_result:'result_only — solo la taglia', opt_explained:'explained — giudizi, senza numeri',
+    opt_scoped:'scoped — con l\u2019agio in cm', opt_full:'full — tutto (solo per te)',
+    btn_show:'Vedi esempio ▾', btn_hide:'Nascondi esempio ▴',
+    taglia:'taglia consigliata', conf:'confidenza', basata:'Basata su: ',
+    based_hist:'solo storico acquisti dello stesso brand',
+    based_zones:function(n){return n+' zone confrontate + storico stesso brand';},
+    nota_result:'<b>result_only</b> — al negozio arriva solo questo. Nessuna zona, nessun numero: per venderti una camicia non serve il tuo torace, serve una taglia.',
+    nota_explained:'<b>explained</b> — le colonne numeriche sono state rimosse in serializzazione: con le misure del capo (pubbliche) e l\u2019agio in cm, una sottrazione ricostruirebbe le tue misure corporee.',
+    nota_scoped:'<b>scoped</b> — l\u2019agio in centimetri è visibile. Da concedere solo a chi ti fidi: vedi la sezione sulla perdita aritmetica.',
+    nota_full:'<b>full</b> — include anche le misure corporee. Questo livello non esce dal tuo vault.',
+    nota_cold:'<b>cold start</b> — zero misure corporee, un solo capo tenuto: il sistema risponde comunque, dichiarando quanto poco ne sa.',
+    nota_coincidono:'Con questo profilo i livelli coincidono: senza zone confrontabili non c\u2019\u00e8 spiegazione da divulgare \u2014 esce gi\u00e0 il minimo.',
+    th:['Zona','Giudizio','Agio','Previsto','Corpo','Capo'],
+    giudizio:{ok:'Buono',attenzione:'Attenzione',critico:'Critico'},
+    stretto:' · stretto', abbondante:' · abbondante',
+    fonte_metro:'metro', fonte_auto:'autodich.',
+    nota_critica:'zona critica per la categoria «camicia»: pesa il doppio nel punteggio.',
+    cav_deboli:function(z){return 'Misure autodichiarate: '+z+' — rimisurarle col metro alza la confidenza più di qualsiasi modifica all\u2019algoritmo.';},
+    cav_kd:'Storico: sulla 41 la vita larga è un compromesso accettato (kept_despite), non un difetto da correggere.',
+    cav_cold1:'Confidenza limitata a 0.40 per costruzione: è un punto di partenza, non una misura.',
+    cav_cold2:function(b){return 'Inferenza cross-brand rifiutata: lo storico vale solo per «'+b+'».';},
+    cav_vuoto:'Nessuna misura e nessuno storico: il profilo e il capo non condividono nulla.',
+    migliorare:'Per migliorare',
+    sug1:'Aggiungi torace e spalle misurati col metro: sono le zone critiche di una camicia.',
+    sug2:'Registra come ti sono andati i capi passati: è il segnale più forte disponibile.',
+    zone:{shoulders:'Spalle',neck:'Collo',chest:'Torace',waist:'Vita',sleeve:'Manica'}
+  },
+  en: {
+    opt_maturo:'Mature — measurements + history', opt_cold:'Cold start — just 1 kept purchase',
+    opt_result:'result_only — the size, nothing else', opt_explained:'explained — assessments, no numbers',
+    opt_scoped:'scoped — with ease in cm', opt_full:'full — everything (your eyes only)',
+    btn_show:'Show example ▾', btn_hide:'Hide example ▴',
+    taglia:'recommended size', conf:'confidence', basata:'Based on: ',
+    based_hist:'same-brand purchase history only',
+    based_zones:function(n){return n+' zones compared + same-brand history';},
+    nota_result:'<b>result_only</b> — this is all the shop receives. No zones, no numbers: to sell you a shirt they don\u2019t need your chest, they need a size.',
+    nota_explained:'<b>explained</b> — the numeric columns were stripped at serialisation: with the garment\u2019s (public) measurements and the ease in cm, one subtraction would reconstruct your body measurements.',
+    nota_scoped:'<b>scoped</b> — the ease in centimetres is visible. Grant it only to services you trust: see the arithmetic-leak section.',
+    nota_full:'<b>full</b> — includes the body measurements too. This level never leaves your vault.',
+    nota_cold:'<b>cold start</b> — zero body measurements, a single kept garment: the system still answers, declaring how little it knows.',
+    nota_coincidono:'With this profile the levels coincide: with no comparable zones there is no explanation to disclose \u2014 the minimum already leaves.',
+    th:['Zone','Assessment','Ease','Intended','Body','Garment'],
+    giudizio:{ok:'Good',attenzione:'Watch',critico:'Critical'},
+    stretto:' · tight', abbondante:' · loose',
+    fonte_metro:'tape', fonte_auto:'self-rep.',
+    nota_critica:'critical zone for the "shirt" category: counts double in the score.',
+    cav_deboli:function(z){return 'Self-reported measurements: '+z+' — re-measuring them with a tape raises confidence more than any change to the algorithm.';},
+    cav_kd:'History: on size 41 the loose waist is an accepted trade-off (kept_despite), not a defect to correct.',
+    cav_cold1:'Confidence capped at 0.40 by construction: it is a starting point, not a measurement.',
+    cav_cold2:function(b){return 'Cross-brand inference refused: the history only counts for "'+b+'".';},
+    cav_vuoto:'No measurements and no history: the profile and the garment share nothing.',
+    migliorare:'To improve',
+    sug1:'Add tape-measured chest and shoulders: they are a shirt\u2019s critical zones.',
+    sug2:'Record how past garments actually fitted — it is the strongest signal available.',
+    zone:{shoulders:'Shoulders',neck:'Neck',chest:'Chest',waist:'Waist',sleeve:'Sleeve'}
+  },
+  fr: {
+    opt_maturo:'Mature — mensurations + historique', opt_cold:'Cold start — 1 seul achat gardé',
+    opt_result:'result_only — la taille, rien d\u2019autre', opt_explained:'explained — jugements, sans chiffres',
+    opt_scoped:'scoped — avec l\u2019aisance en cm', opt_full:'full — tout (pour vos yeux seuls)',
+    btn_show:'Voir l\u2019exemple ▾', btn_hide:'Masquer l\u2019exemple ▴',
+    taglia:'taille conseillée', conf:'confiance', basata:'Fondée sur : ',
+    based_hist:'le seul historique d\u2019achats de la même marque',
+    based_zones:function(n){return n+' zones comparées + historique de la même marque';},
+    nota_result:'<b>result_only</b> — la boutique ne reçoit que ceci. Aucune zone, aucun chiffre : pour vous vendre une chemise, il ne lui faut pas votre tour de poitrine, il lui faut une taille.',
+    nota_explained:'<b>explained</b> — les colonnes chiffrées ont été supprimées à la sérialisation : avec les mesures (publiques) du vêtement et l\u2019aisance en cm, une soustraction reconstruirait vos mensurations.',
+    nota_scoped:'<b>scoped</b> — l\u2019aisance en centimètres est visible. À n\u2019accorder qu\u2019aux services de confiance : voir la section sur la fuite arithmétique.',
+    nota_full:'<b>full</b> — inclut aussi les mensurations. Ce niveau ne quitte jamais votre coffre-fort.',
+    nota_cold:'<b>cold start</b> — zéro mensuration, un seul vêtement gardé : le système répond quand même, en déclarant le peu qu\u2019il sait.',
+    nota_coincidono:'Avec ce profil, les niveaux co\u00efncident : sans zones comparables, il n\u2019y a aucune explication \u00e0 divulguer \u2014 le minimum sort d\u00e9j\u00e0.',
+    th:['Zone','Jugement','Aisance','Prévue','Corps','Vêtement'],
+    giudizio:{ok:'Bon',attenzione:'Attention',critico:'Critique'},
+    stretto:' · serré', abbondante:' · ample',
+    fonte_metro:'mètre', fonte_auto:'auto-décl.',
+    nota_critica:'zone critique pour la catégorie « chemise » : compte double dans le score.',
+    cav_deboli:function(z){return 'Mesures auto-déclarées : '+z+' — les reprendre au mètre ruban augmente la confiance plus que toute modification de l\u2019algorithme.';},
+    cav_kd:'Historique : sur la 41, l\u2019ampleur au tour de taille est un compromis accepté (kept_despite), pas un défaut à corriger.',
+    cav_cold1:'Confiance plafonnée à 0.40 par construction : c\u2019est un point de départ, pas une mesure.',
+    cav_cold2:function(b){return 'Inférence entre marques refusée : l\u2019historique ne vaut que pour « '+b+' ».';},
+    cav_vuoto:'Aucune mesure et aucun historique : le profil et le vêtement ne partagent rien.',
+    migliorare:'Pour progresser',
+    sug1:'Ajoutez poitrine et épaules mesurées au mètre : ce sont les zones critiques d\u2019une chemise.',
+    sug2:'Notez comment vos vêtements passés vous sont allés — c\u2019est le signal le plus fort disponible.',
+    zone:{shoulders:'Épaules',neck:'Col',chest:'Poitrine',waist:'Tour de taille',sleeve:'Manche'}
+  }
+};
+
+function setLang(l){
+  LANG = l;
+  document.body.className = 'lang-'+l;
+  document.getElementById('html-root').setAttribute('lang', l);
+  ['en','it','fr'].forEach(function(x){
+    document.getElementById('btn-'+x).setAttribute('aria-pressed', l===x);
+  });
+  aggiornaOpzioni();
+  aggiornaBottoniJson();
+  if(document.querySelector('#sim-corpo .esito-riga')) render();
+}
+function aggiornaOpzioni(){
+  var t = T[LANG];
+  var sp = document.getElementById('sel-profilo').options;
+  sp[0].text = t.opt_maturo; sp[1].text = t.opt_cold;
+  var sl = document.getElementById('sel-livello').options;
+  sl[0].text = t.opt_result; sl[1].text = t.opt_explained; sl[2].text = t.opt_scoped; sl[3].text = t.opt_full;
+}
+function aggiornaBottoniJson(){
+  document.querySelectorAll('.doc button[data-json]').forEach(function(btn){
+    var aperto = document.getElementById(btn.dataset.json).classList.contains('aperto');
+    btn.textContent = aperto ? T[LANG].btn_hide : T[LANG].btn_show;
+  });
+}
+
+// ---------- toggle esempi JSON / JSON example toggles ----------
+document.querySelectorAll('.doc button[data-json]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var box = document.getElementById(btn.dataset.json);
+    var aperto = box.classList.toggle('aperto');
+    btn.setAttribute('aria-expanded', aperto);
+    btn.textContent = aperto ? T[LANG].btn_hide : T[LANG].btn_show;
+  });
+});
+
+// ---------- dati d'esempio (coerenti col repo) / example data (consistent with the repo) ----------
+// Camicia Sartoria Esempio "Classic Oxford" — misure reali da examples/cut-shirt.json
+// Sartoria Esempio "Classic Oxford" shirt — real numbers from examples/cut-shirt.json
+var CAPO = {
+  category:'shirts', method:'flat_laid', brand:'Sartoria Esempio',
+  zones: [
+    {zone:'shoulders', doubles:false, linear:true,  scale:0.25, critical:true,  ease:[0,2],     tol:0.8},
+    {zone:'neck',      doubles:false, linear:false, scale:0.20, critical:true,  ease:[1,2.5],   tol:0.8},
+    {zone:'chest',     doubles:true,  linear:false, scale:1.0,  critical:false, ease:[12,20],   tol:2.5},
+    {zone:'waist',     doubles:true,  linear:false, scale:1.0,  critical:false, ease:[12,26],   tol:3.0},
+    {zone:'sleeve',    doubles:false, linear:true,  scale:0.25, critical:false, ease:[-1,2.5],  tol:1.0}
+  ],
+  sizes: [
+    {label:'39', m:{shoulders:44.5, neck:40, chest:54, waist:50, sleeve:63}},
+    {label:'40', m:{shoulders:45.5, neck:41, chest:56, waist:52, sleeve:64}},
+    {label:'41', m:{shoulders:46.5, neck:42, chest:58, waist:54, sleeve:65}},
+    {label:'42', m:{shoulders:47.5, neck:43, chest:60, waist:56, sleeve:66}}
+  ]
+};
+
+// Profili reali da examples/profile-mature.json e profile-cold-start.json
+// (q = confidence dichiarata della misura / declared measurement confidence)
+var PROFILI = {
+  maturo: {
+    body: {
+      shoulders:{v:46,  src:'tape_measured', q:0.8},
+      neck:     {v:40,  src:'tape_measured', q:0.9},
+      chest:    {v:100, src:'tape_measured', q:0.9},
+      waist:    {v:88,  src:'tape_measured', q:0.85},
+      hip:      {v:99,  src:'tape_measured', q:0.85},
+      sleeve:   {v:63,  src:'self_reported', q:0.6}
+    },
+    history: [
+      {brand:'Sartoria Esempio', size:'40', outcome:'returned_too_small', kept_despite:[]},
+      {brand:'Sartoria Esempio', size:'41', outcome:'kept', kept_despite:['waist']},
+      {brand:'Sartoria Esempio', size:'40', outcome:'exchanged_for_larger', kept_despite:[]}
+    ]
+  },
+  cold: {
+    body: {},
+    history: [{brand:'Sartoria Esempio', size:'41', outcome:'kept', kept_despite:[]}]
+  }
+};
+
+// ---------- matching semplificato (non normativo) / simplified matching (non-normative) ----------
+function historyOffset(profile){
+  var same = profile.history.filter(function(h){return h.brand===CAPO.brand;});
+  return { cm: 0, present: same.length>0, kept: same.filter(function(h){return h.outcome==='kept';}).length };
+}
+
+function scoreSize(profile, sizeObj, hist){
+  var lines=[], tot=0, wsum=0;
+  CAPO.zones.forEach(function(z){
+    var b = profile.body[z.zone]; if(!b) return;
+    var g = sizeObj.m[z.zone];
+    var garmentDim = z.doubles ? g*2 : g;              // flat laid = mezza circonferenza / half circumference
+    var ease = garmentDim - b.v + hist.cm*z.scale;     // offset storico scalato per zona / per-zone scaled history offset
+    var mid=(z.ease[0]+z.ease[1])/2, half=(z.ease[1]-z.ease[0])/2;
+    var dev=Math.abs(ease-mid), score, assess;
+    if(dev<=half){score=1; assess='ok';}
+    else if(dev<=half+z.tol){score=1-(dev-half)/z.tol*0.6; assess='attenzione';}
+    else {score=Math.max(0,0.4-(dev-half-z.tol)*0.1); assess='critico';}
+    var w = z.critical?2:1;
+    tot+=score*w; wsum+=w;
+    lines.push({zone:z, ease:ease, assess:assess, tight:ease<mid, garment:garmentDim, body:b});
+  });
+  return {score: wsum? tot/wsum : 0, lines:lines};
+}
+
+function recommend(profile){
+  var t = T[LANG];
+  var hist = historyOffset(profile);
+  var zonesCovered = CAPO.zones.filter(function(z){return profile.body[z.zone];}).length;
+
+  // --- percorso cold start / cold-start path ---
+  if(zonesCovered===0){
+    if(!hist.present) return {size:null, conf:0, lines:[], cold:true, caveats:[t.cav_vuoto]};
+    var conf = Math.min(0.40, 0.15 + 0.10*hist.kept);
+    return {size:'41', conf:conf, lines:[], cold:true, basedOn:t.based_hist,
+      caveats:[t.cav_cold1, t.cav_cold2(CAPO.brand)],
+      suggerimenti:[t.sug1, t.sug2]};
+  }
+
+  // --- percorso normale / normal path ---
+  var best=null;
+  CAPO.sizes.forEach(function(s){
+    var r = scoreSize(profile, s, hist);
+    if(!best || r.score>best.score) best={label:s.label, score:r.score, lines:r.lines};
+  });
+  var srcs = Object.keys(profile.body).map(function(k){return profile.body[k].q;});
+  var srcQ = srcs.reduce(function(a,b){return a+b;},0)/srcs.length;
+  var conf = 0.30*(zonesCovered/CAPO.zones.length) + 0.25*srcQ + (hist.present?0.12:0) + 0.14*best.score;
+  conf = Math.round(Math.min(0.95,conf)*100)/100;
+
+  var caveats=[];
+  var weak = Object.keys(profile.body).filter(function(k){return profile.body[k].src!=='tape_measured';})
+             .map(function(k){return t.zone[k].toLowerCase();});
+  if(weak.length) caveats.push(t.cav_deboli(weak.join(', ')));
+  var kd = profile.history.filter(function(h){return h.kept_despite && h.kept_despite.length;});
+  if(kd.length) caveats.push(t.cav_kd);
+  return {size:best.label, conf:conf, lines:best.lines, cold:false, basedOn:t.based_zones(zonesCovered), caveats:caveats};
+}
+
+// ---------- serializzazione per livello / per-level serialisation ----------
+function render(){
+  var t = T[LANG];
+  var profilo = PROFILI[document.getElementById('sel-profilo').value];
+  var level = document.getElementById('sel-livello').value;
+  var r = recommend(profilo);
+  var corpo = document.getElementById('sim-corpo');
+  var pct = Math.round(r.conf*100);
+
+  var html = '<div class="esito-riga">'
+    + '<div class="taglia">'+(r.size||'—')+'<small> '+t.taglia+'</small></div>'
+    + '<div class="conf-blocco"><div class="conf-eti"><span>'+t.conf+'</span><span>'+r.conf.toFixed(2)+'</span></div>'
+    + '<div class="conf-metro"><div class="metro" style="height:26px"><div class="tacche"></div></div>'
+    + '<div class="gesso-marker" style="left:calc('+pct+'% - 2px)"></div></div></div></div>';
+
+  if(r.basedOn) html += '<p style="font-size:13.5px;color:var(--inchiostro-70)">'+t.basata+r.basedOn+'.</p>';
+
+  if(level==='result_only'){
+    html += '<div class="livello-nota">'+t.nota_result+'</div>';
+  } else if(r.lines.length){
+    var conNumeri = (level==='scoped'||level==='full');
+    if(level==='explained') html += '<div class="livello-nota">'+t.nota_explained+'</div>';
+    if(level==='scoped')    html += '<div class="livello-nota">'+t.nota_scoped+'</div>';
+    if(level==='full')      html += '<div class="livello-nota">'+t.nota_full+'</div>';
+    html += '<table class="zone"><thead><tr><th scope="col">'+t.th[0]+'</th><th scope="col">'+t.th[1]+'</th>'
+         + (conNumeri?'<th scope="col">'+t.th[2]+'</th><th scope="col">'+t.th[3]+'</th>':'')
+         + (level==='full'?'<th scope="col">'+t.th[4]+'</th><th scope="col">'+t.th[5]+'</th>':'')
+         + '</tr></thead><tbody>';
+    r.lines.forEach(function(l){
+      var giudizio = t.giudizio[l.assess] + (l.assess!=='ok' ? (l.tight?t.stretto:t.abbondante) : '');
+      html += '<tr><td>'+t.zone[l.zone.zone]+(l.zone.critical?' <span class="mono" style="color:var(--filo)">*</span>':'')+'</td>'
+           + '<td><span class="badge '+l.assess+'">'+giudizio+'</span></td>'
+           + (conNumeri?'<td class="mono">'+(l.ease>=0?'+':'')+l.ease.toFixed(1)+' cm</td><td class="mono">'+l.zone.ease[0]+'–'+l.zone.ease[1]+' cm</td>':'')
+           + (level==='full'?'<td class="mono">'+l.body.v.toFixed(1)+' cm <span style="color:var(--inchiostro-70)">('+(l.body.src==='tape_measured'?t.fonte_metro:t.fonte_auto)+')</span></td><td class="mono">'+l.garment.toFixed(1)+' cm</td>':'')
+           + '</tr>';
+    });
+    html += '</tbody></table><p style="font-size:12px;color:var(--inchiostro-70);margin-top:6px"><span class="mono" style="color:var(--filo)">*</span> '+t.nota_critica+'</p>';
+  } else if(r.cold && r.size){
+    html += '<div class="livello-nota">'+t.nota_cold+'</div>';
+    if(level!=='result_only') html += '<p style="font-size:13.5px;color:var(--inchiostro-70)">'+t.nota_coincidono+'</p>';
+  }
+
+  if(r.caveats && r.caveats.length){
+    html += '<div class="caveats"><ul>'+r.caveats.map(function(c){return '<li>'+c+'</li>';}).join('')+'</ul></div>';
+  }
+  if(r.suggerimenti){
+    html += '<div class="caveats"><p style="font-size:13px;font-weight:600;font-family:\'IBM Plex Mono\',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--inchiostro-70);margin:14px 0 4px">'+t.migliorare+'</p><ul>'
+         + r.suggerimenti.map(function(c){return '<li>'+c+'</li>';}).join('')+'</ul></div>';
+  }
+  corpo.innerHTML = html;
+}
+
+document.getElementById('sel-livello').addEventListener('change', render);
+document.getElementById('sel-profilo').addEventListener('change', render);
+aggiornaOpzioni();
+aggiornaBottoniJson();
+render();
+</script>
+</body>
+</html>
