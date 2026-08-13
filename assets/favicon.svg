@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Agio Fit — terracotta ring (garment), night-blue nucleus (body).
+       Dark scheme swaps background and nucleus; the ring stays terracotta. -->
+  <style>
+    .bg{fill:#F5F0E8}
+    .nucleus{fill:#1E2430}
+    .ring{fill:none;stroke:#C96F4A;stroke-width:15}
+    @media (prefers-color-scheme: dark){
+      .bg{fill:#1E2430}
+      .nucleus{fill:#F5F0E8}
+    }
+  </style>
+  <rect class="bg" width="256" height="256"/>
+  <circle class="ring" cx="128" cy="128" r="82.5"/>
+  <circle class="nucleus" cx="128" cy="128" r="40"/>
+</svg>
