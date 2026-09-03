@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://agiofit.org/</loc><priority>1.0</priority></url>
+  <url><loc>https://agiofit.org/guide/</loc><priority>0.8</priority></url>
+  <url><loc>https://agiofit.org/schemas/v0.1/fit-profile.schema.json</loc></url>
+  <url><loc>https://agiofit.org/schemas/v0.1/cut-profile.schema.json</loc></url>
+  <url><loc>https://agiofit.org/schemas/v0.1/match-report.schema.json</loc></url>
+</urlset>
