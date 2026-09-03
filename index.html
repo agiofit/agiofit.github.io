@@ -8,7 +8,21 @@
 <link rel="icon" type="image/png" sizes="192x192" href="/assets/agiofitavatar192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <title>Agio Fit — an open, portable fit profile owned by the person</title>
-<meta name="description" content="Agio Fit is an open data model for a portable fit profile: three JSON schemas, a reference implementation, and one rule — the profile stays yours; shops only ever get a size.">
+<meta name="description" content="Agio Fit is an open data model for a portable fit profile: Fit Profile, Cut Profile and Match Report, a reference implementation, and one rule — the profile stays yours; shops only ever get a size.">
+<link rel="canonical" href="https://agiofit.org/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agio Fit">
+<meta property="og:url" content="https://agiofit.org/">
+<meta property="og:title" content="Agio Fit — an open, portable fit profile owned by the person">
+<meta property="og:description" content="An open data model for a portable fit profile: Fit Profile, Cut Profile and Match Report. The profile stays yours; shops only ever get a size.">
+<meta property="og:image" content="https://agiofit.org/assets/social-preview-light.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="The Agio Fit logo, a terracotta ring around a night-blue disc, beside the words: an open, portable fit profile owned by the person, not the platform.">
+<meta property="og:locale" content="en">
+<meta property="og:locale:alternate" content="it">
+<meta property="og:locale:alternate" content="fr">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -165,6 +179,50 @@ footer .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
   .livello .nome{padding-bottom:4px;background:transparent}
 }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://agiofit.org/#author",
+      "name": "Antonio Ferraioli",
+      "identifier": "https://orcid.org/0009-0009-9344-1975",
+      "sameAs": ["https://orcid.org/0009-0009-9344-1975", "https://github.com/antferr"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://agiofit.org/#website",
+      "url": "https://agiofit.org/",
+      "name": "Agio Fit",
+      "inLanguage": ["en", "it", "fr"],
+      "publisher": {"@id": "https://agiofit.org/#author"},
+      "mainEntity": {"@id": "https://agiofit.org/#specification"}
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://agiofit.org/#specification",
+      "name": "Agio Fit: an open data model for a portable fit profile",
+      "description": "An open data model for a portable, person-owned fit profile. Three JSON Schema 2020-12 documents: Fit Profile (the person), Cut Profile (how a garment is cut, size by size) and Match Report (the explained recommendation). The profile stays with the person; only the result is disclosed.",
+      "url": "https://agiofit.org/",
+      "version": "0.1.0",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "author": {"@id": "https://agiofit.org/#author"},
+      "sameAs": "https://doi.org/10.5281/zenodo.21922898"
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "@id": "https://agiofit.org/#reference-implementation",
+      "name": "Agio Fit reference implementation",
+      "codeRepository": "https://github.com/agiofit/agiofit",
+      "programmingLanguage": "Python",
+      "license": "https://www.apache.org/licenses/LICENSE-2.0",
+      "isBasedOn": {"@id": "https://agiofit.org/#specification"},
+      "author": {"@id": "https://agiofit.org/#author"}
+    }
+  ]
+}
+</script>
 </head>
 <body class="lang-en">
 
