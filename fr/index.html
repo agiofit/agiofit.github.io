@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,14 +11,14 @@
 <meta name="description" content="Agio Fit is an open data model for a portable fit profile: Fit Profile, Cut Profile and Match Report, a reference implementation, and one rule — the profile stays yours; shops only ever get a size.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Agio Fit">
-<meta property="og:url" content="https://agiofit.org/">
+<meta property="og:url" content="https://agiofit.org/fr/">
 <meta property="og:title" content="Agio Fit — an open, portable fit profile owned by the person">
 <meta property="og:description" content="An open data model for a portable fit profile: Fit Profile, Cut Profile and Match Report. The profile stays yours; shops only ever get a size.">
 <meta property="og:image" content="https://agiofit.org/assets/social-preview-light.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
 <meta property="og:image:alt" content="The Agio Fit logo, a terracotta ring around a night-blue disc, beside the words: an open, portable fit profile owned by the person, not the platform.">
-<meta property="og:locale" content="en">
+<meta property="og:locale" content="fr">
 <meta property="og:locale:alternate" content="it">
 <meta property="og:locale:alternate" content="fr">
 <meta name="twitter:card" content="summary_large_image">
@@ -242,7 +242,7 @@ footer .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
   ]
 }
 </script>
-<link rel="canonical" href="https://agiofit.org/">
+<link rel="canonical" href="https://agiofit.org/fr/">
 <link rel="alternate" hreflang="en" href="https://agiofit.org/">
 <link rel="alternate" hreflang="it" href="https://agiofit.org/it/">
 <link rel="alternate" hreflang="fr" href="https://agiofit.org/fr/">
@@ -251,9 +251,9 @@ footer .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
 <body>
 <nav class="sitenav">
   <div class="sitenav-inner">
-    <a class="sitenav-mark" href="/"><img src="/assets/agiofitavatar32.png" alt="" width="22" height="22">Agio Fit</a>
-    <a class="sitenav-link" aria-current="page" href="/">Overview</a>
-    <a class="sitenav-link" href="/guide/">Guide</a>
+    <a class="sitenav-mark" href="/fr/"><img src="/assets/agiofitavatar32.png" alt="" width="22" height="22">Agio Fit</a>
+    <a class="sitenav-link" aria-current="page" href="/fr/">Overview</a>
+    <a class="sitenav-link" href="/fr/guide/">Guide</a>
     <a class="sitenav-link" href="/builder/">Builder</a>
     <a class="sitenav-link" href="/schemas/v0.1/cut-profile.schema.json">Schemas</a>
     <span class="sitenav-ver">v0.1 draft</span>
@@ -263,9 +263,9 @@ footer .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
 
 <div class="lingua">
   <div class="lingua-box" role="group" aria-label="Language / Lingua / Langue">
-    <a href="/" aria-current="true" hreflang="en">English</a>
+    <a href="/" hreflang="en">English</a>
     <a href="/it/" hreflang="it">Italiano</a>
-    <a href="/fr/" hreflang="fr">Français</a>
+    <a href="/fr/" aria-current="true" hreflang="fr">Français</a>
   </div>
 </div>
 
@@ -275,19 +275,19 @@ footer .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
   <div class="hero-grid">
     <div>
       <p class="eyebrow">
-        v0.1 draft · open standard · a personal project by <a class="credito" href="https://github.com/antferr">antferr</a>
+        v0.1 draft · standard ouvert · un projet personnel de <a class="credito" href="https://github.com/antferr">antferr</a>
       </p>
       <h1>Agio&nbsp;Fit
-        <span class="corsivo">your fit profile is yours. Everywhere.</span>
+        <span class="corsivo">votre profil de bien-aller vous appartient. Partout.</span>
       </h1>
       <p class="sottotitolo">
         
-        Every size-recommendation service works — and keeps your profile captive. Agio Fit is the opposite: an open data model where your measurements live in a <em>vault</em> you choose, and shops only ever get a size.
         
+        Tous les services de recommandation de taille fonctionnent — et gardent votre profil captif. Agio Fit fait l'inverse : un modèle de données ouvert où vos mensurations vivent dans un <em>vault</em> que vous choisissez, et les boutiques ne reçoivent qu'une taille.
       </p>
       <div class="cta">
-        <a class="piena" href="/guide/">How it works</a>
-        <a class="vuota" href="https://github.com/agiofit/agiofit">Spec &amp; code</a>
+        <a class="piena" href="/fr/guide/">Comment ça marche</a>
+        <a class="vuota" href="https://github.com/agiofit/agiofit">Spécification &amp; code</a>
       </div>
     </div>
 
@@ -309,50 +309,50 @@ footer .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
 
 <!-- ============ il problema / the problem ============ -->
 <section class="sezione">
-  <p class="kicker">The problem</p>
-  <h2>The right size already exists. Your profile doesn't.</h2>
+  <p class="kicker">Le problème</p>
+  <h2>La bonne taille existe déjà. Votre profil, non.</h2>
   <div class="problema">
     <div class="voce">
-      <b>Returns</b>
-      <p>A large share of online fashion returns are size-related. The market's answer is <em>bracketing</em>: order three sizes, keep one, send two back.</p>
+      <b>Les retours</b>
+      <p>Une part importante des retours dans la mode en ligne est liée à la taille. La réponse du marché : le <em>bracketing</em> — commander trois tailles, en garder une, en renvoyer deux.</p>
     </div>
     <div class="voce">
-      <b>The silos</b>
-      <p>Size recommendation works — but in every existing implementation the profile belongs to the vendor or the retailer. You rebuild it, implicitly, at every shop you visit.</p>
+      <b>Les silos</b>
+      <p>La recommandation de taille fonctionne — mais dans toutes les implémentations existantes, le profil appartient au fournisseur ou au détaillant. Vous le reconstruisez, implicitement, dans chaque boutique.</p>
     </div>
     <div class="voce">
-      <b>The agents</b>
-      <p>Agentic commerce protocols are standardising catalogue, checkout and interfaces — but not fit. The assistant that will buy clothes on your behalf would, today, guess your size from nothing.</p>
+      <b>Les agents</b>
+      <p>Les protocoles du commerce agentique standardisent le catalogue, le paiement et les interfaces — mais pas le bien-aller. L'assistant qui achètera vos vêtements devinerait, aujourd'hui, votre taille à partir de rien.</p>
     </div>
   </div>
 </section>
 
 <!-- ============ cosa è / what it is ============ -->
 <section class="sezione">
-  <p class="kicker">What it is</p>
-  <h2>Three JSON documents, one explained recommendation</h2>
+  <p class="kicker">Ce que c'est</p>
+  <h2>Trois documents JSON, une recommandation expliquée</h2>
   <p class="intro">
     
-    You own the first. The seller publishes the second. The third is the only thing that travels between the two — confidence exposed, per-zone reasoning, never a size handed down from a black box.
     
+    Le premier vous appartient. Le second est publié par le vendeur. Le troisième est la seule chose qui circule entre les deux — confiance exposée, raisonnement par zone, jamais une taille tombée d'une boîte noire.
   </p>
   <div class="tre-doc">
     <div class="doc">
       <h3>Fit Profile</h3>
-      <p class="chi">— yours</p>
-      <p>Body measurements with declared source and uncertainty, fit preferences, and the history of how past garments actually fitted you.</p>
+      <p class="chi">— à vous</p>
+      <p>Mensurations avec source et incertitude déclarées, préférences de coupe et historique de la façon dont les vêtements passés vous sont réellement allés.</p>
       <a class="schema" href="/schemas/v0.1/fit-profile.schema.json">schemas/v0.1/fit-profile.schema.json</a>
     </div>
     <div class="doc">
       <h3>Cut Profile</h3>
-      <p class="chi">— the seller's</p>
-      <p>How the garment is <b>cut</b>, not what the brand calls the size: finished measurements per size, intended ease, stretch, data provenance.</p>
+      <p class="chi">— au vendeur</p>
+      <p>Comment le vêtement est <b>coupé</b>, et non comment la marque nomme la taille : mesures du vêtement fini par taille, aisance prévue, élasticité, provenance des données.</p>
       <a class="schema" href="/schemas/v0.1/cut-profile.schema.json">schemas/v0.1/cut-profile.schema.json</a>
     </div>
     <div class="doc">
       <h3>Match Report</h3>
-      <p class="chi">— what travels</p>
-      <p>A size, the alternatives, zone-by-zone reasoning and an honest confidence — decomposed, capped when data is thin, never overstated.</p>
+      <p class="chi">— ce qui circule</p>
+      <p>Une taille, les alternatives, le raisonnement zone par zone et une confiance honnête — décomposée, plafonnée quand les données manquent, jamais surestimée.</p>
       <a class="schema" href="/schemas/v0.1/match-report.schema.json">schemas/v0.1/match-report.schema.json</a>
     </div>
   </div>
@@ -360,20 +360,20 @@ footer .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
 
 <!-- ============ scenari / what becomes possible ============ -->
 <section class="sezione">
-  <p class="kicker">In practice</p>
-  <h2>What becomes possible when a garment publishes its cut</h2>
+  <p class="kicker">En pratique</p>
+  <h2>Ce qui devient possible quand un vêtement publie sa coupe</h2>
   <div class="problema">
     <div class="voce">
-      <b>In store</b>
-      <p>The fitting room in your pocket: a QR code on the label points to the Cut Profile. Scan it and the match runs on your phone — you know whether it fits before trying it on, and nothing leaves for the shop. Not even the size.</p>
+      <b>En boutique</b>
+      <p>La cabine d'essayage dans la poche : un QR code sur l'étiquette pointe vers le Cut Profile. Scannez-le et la comparaison se fait sur votre téléphone — vous savez s'il vous va avant de l'essayer, et rien ne sort vers la boutique. Pas même la taille.</p>
     </div>
     <div class="voce">
-      <b>Online</b>
-      <p>The same gesture where no fitting room exists: online the garment can't be tried on, but its cut is published and your profile answers — with confidence exposed and per-zone reasoning, not a promise.</p>
+      <b>En ligne</b>
+      <p>Le même geste là où la cabine n'existe pas : en ligne le vêtement ne s'essaie pas, mais sa coupe est publiée et votre profil répond — avec la confiance exposée et le raisonnement par zone, pas une promesse.</p>
     </div>
     <div class="voce">
-      <b>"Fits like"</b>
-      <p>Two garments that publish their cut can be compared with each other: a retailer can tell you this jacket is cut like the one you kept. A garment-to-garment comparison that never touches your measurements.</p>
+      <b>« Taille comme »</b>
+      <p>Deux vêtements qui publient leur coupe se comparent entre eux : un détaillant peut vous dire que cette veste est coupée comme celle que vous avez gardée. Une comparaison vêtement-contre-vêtement, qui ne touche jamais vos mensurations.</p>
     </div>
   </div>
 </section>
@@ -381,38 +381,38 @@ footer .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
 <!-- ============ la firma: cosa esce dal vault / signature: what leaves the vault ============ -->
 <section class="sezione">
   <p class="kicker">Privacy by design</p>
-  <h2>Four disclosure levels. You choose what leaves.</h2>
+  <h2>Quatre niveaux de divulgation. Vous choisissez ce qui sort.</h2>
   <p class="intro">
     
-    In the in-store scenario nothing leaves: the computation happens entirely on your side. When something does need to leave — an online shop, a return, your tailor — the answer is graduated: from the full profile down to a size and nothing else.
     
+    Dans le scénario en boutique, rien ne sort : le calcul se fait entièrement de votre côté. Quand quelque chose doit sortir — une boutique en ligne, un retour, votre tailleur — la réponse est graduée : du profil complet jusqu'à une taille et rien d'autre.
   </p>
   <div class="vault">
     <div class="livello">
       <div class="nome">full</div>
       <div class="campi">
-        <span class="campo">body measurements</span>
-        <span class="campo">preferences</span>
-        <span class="campo">history</span>
-        <span class="campo">per-zone reasoning</span>
+        <span class="campo">mensurations</span>
+        <span class="campo">préférences</span>
+        <span class="campo">historique</span>
+        <span class="campo">raisonnement par zone</span>
         <span class="campo taglia">41</span>
       </div>
     </div>
     <div class="livello">
       <div class="nome">scoped</div>
       <div class="campi">
-        <span class="campo via">body measurements</span>
-        <span class="campo">requested zones only</span>
-        <span class="campo">per-zone reasoning</span>
+        <span class="campo via">mensurations</span>
+        <span class="campo">zones demandées uniquement</span>
+        <span class="campo">raisonnement par zone</span>
         <span class="campo taglia">41</span>
       </div>
     </div>
     <div class="livello">
       <div class="nome">explained</div>
       <div class="campi">
-        <span class="campo via">body measurements</span>
-        <span class="campo via">ease in cm</span>
-        <span class="campo">per-zone reasoning, no numbers</span>
+        <span class="campo via">mensurations</span>
+        <span class="campo via">aisance en cm</span>
+        <span class="campo">raisonnement par zone, sans chiffres</span>
         <span class="campo taglia">41</span>
       </div>
     </div>
@@ -424,49 +424,49 @@ footer .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
     </div>
     <p class="vault-nota">
       , i valori di agio vengono rimossi alla serializzazione.</span>
-      <b>The arithmetic leak</b> is why the lower levels exist: publishing ease in centimetres next to the garment's measurements would reveal body measurements by subtraction. Below <span class="mono">scoped, ease values are stripped at serialisation.</span>
-      , les valeurs d'aisance sont retirées à la sérialisation.</span>
+      , ease values are stripped at serialisation.</span>
+      <b>La fuite arithmétique</b> justifie les niveaux bas : publier l'aisance en centimètres à côté des mesures du vêtement révélerait les mensurations par soustraction. En dessous de <span class="mono">scoped, les valeurs d'aisance sont retirées à la sérialisation.</span>
     </p>
   </div>
 </section>
 
 <!-- ============ cosa non è / what it is not ============ -->
 <section class="sezione">
-  <p class="kicker">Scope</p>
-  <h2>What it is not, stated before you ask</h2>
+  <p class="kicker">Périmètre</p>
+  <h2>Ce que ce n'est pas, déclaré avant qu'on le demande</h2>
   <div class="non-e">
-    <p><b>Not a size-recommendation vendor.</b> The argument is ownership and portability; becoming another silo would destroy it.</p>
-    <p><b>Not an identity system.</b> The profile lives in a vault the person chooses; authentication and custody are deferred to existing wallets.</p>
-    <p><b>Not a scanning technology.</b> The model accepts measurements from any source — and declares their quality instead of pretending it uniform.</p>
-    <p><b>Not a size-chart aggregator.</b> Charts say what a brand <em>calls</em> a size, not how the garment is cut.</p>
-    <p><b>Not a protocol.</b> It is a data model: it works over a plain HTTP API, and the algorithm is not normative — the shape of the answer is.</p>
+    <p><b>Pas un fournisseur de recommandation de taille.</b> L'argument est la propriété et la portabilité ; devenir un silo de plus le détruirait.</p>
+    <p><b>Pas un système d'identité.</b> Le profil vit dans un vault choisi par la personne ; authentification et garde sont déléguées aux wallets existants.</p>
+    <p><b>Pas une technologie de scan.</b> Le modèle accepte des mesures de toute source — et en déclare la qualité au lieu de la feindre uniforme.</p>
+    <p><b>Pas un agrégateur de guides des tailles.</b> Les guides disent comment une marque <em>nomme</em> une taille, pas comment le vêtement est coupé.</p>
+    <p><b>Pas un protocole.</b> C'est un modèle de données : il fonctionne sur une simple API HTTP, et l'algorithme n'est pas normatif — la forme de la réponse l'est.</p>
   </div>
 </section>
 
 <!-- ============ stato e partecipazione / status and getting involved ============ -->
 <section class="sezione">
-  <p class="kicker">Status</p>
-  <h2>v0.1 draft, in the open</h2>
+  <p class="kicker">État</p>
+  <h2>v0.1 draft, au grand jour</h2>
   <div class="stato">
     <p><span class="badge-draft">v0.1 draft</span>
       
-      Nothing is stable before 1.0. One commitment already holds: schema identifiers stay resolvable, and breaking changes bump the version instead of mutating a published schema.
       
+      Rien n'est stable avant la 1.0. Un engagement tient déjà : les identifiants des schémas restent résolubles, et les ruptures incrémentent la version au lieu de modifier un schéma publié.
     </p>
     <p>
       
-      Specification under CC BY 4.0, reference implementation under Apache 2.0 — zero runtime dependencies, so the privacy invariant can be verified by reading the code in an afternoon. The most valuable contribution? A body and a garment where the answer is obviously wrong, as a failing test.
       
+      Spécification sous CC BY 4.0, implémentation de référence sous Apache 2.0 — zéro dépendance à l'exécution, pour que l'invariant de vie privée se vérifie en lisant le code en un après-midi. La contribution la plus précieuse ? Un corps et un vêtement où la recommandation est manifestement fausse, sous forme de test qui échoue.
     </p>
     <div class="cta" style="margin-top:18px">
-      <a class="piena" href="https://github.com/agiofit/agiofit">The repository</a>
-      <a class="vuota" href="/guide/">The interactive guide</a>
+      <a class="piena" href="https://github.com/agiofit/agiofit">Le dépôt</a>
+      <a class="vuota" href="/fr/guide/">Le guide interactif</a>
     </div>
   </div>
 </section>
 
 <footer>
-  <span>© 2026 Antonio Ferraioli · Agio Fit · a personal project by <a href="https://github.com/antferr">antferr</a></span>
+  <span>© 2026 Antonio Ferraioli · Agio Fit · un projet personnel de <a href="https://github.com/antferr">antferr</a></span>
   <span class="mono-piccolo">spec: CC BY 4.0 · code: Apache-2.0 · <a href="https://github.com/agiofit">github.com/agiofit</a></span>
 </footer>
 

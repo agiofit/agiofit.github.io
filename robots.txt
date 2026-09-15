@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://agiofit.org/sitemap.xml
+
+# sources for build.py, not pages
+Disallow: /_src/

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="html-root">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 <title>Agio Fit — how to use it / come si usa / mode d'emploi</title>
 <meta name="description" content="An interactive walkthrough of the Agio Fit data model: a shirt, a fit profile, and what a shop actually receives at each disclosure level.">
+<link rel="canonical" href="https://agiofit.org/guide/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Agio Fit">
 <meta property="og:url" content="https://agiofit.org/guide/">
@@ -50,9 +51,9 @@ body{
   font-size:16px;
 }
 /* ---------- tripla lingua / three languages ---------- */
-
-
-
+body.lang-en .it, body.lang-en .fr{display:none}
+body.lang-it .en, body.lang-it .fr{display:none}
+body.lang-fr .en, body.lang-fr .it{display:none}
 .pagina{max-width:960px;margin:0 auto;padding:0 24px 96px}
 
 .lingua{
@@ -228,18 +229,9 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
   .sitenav-ver{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;
     background:var(--tape);color:var(--tape-ink);border-radius:999px;padding:3px 9px}
   @media(max-width:640px){.sitenav-inner{gap:14px;overflow-x:auto}.sitenav-ver{display:none}}
-  .lingua-box a{font:inherit;font-size:13px;text-decoration:none;color:var(--ink);
-    opacity:.6;padding:6px 12px;border-radius:999px}
-  .lingua-box a:hover{opacity:1}
-  .lingua-box a[aria-current]{opacity:1;font-weight:600;background:rgba(30,36,48,.06)}
 </style>
-<link rel="canonical" href="https://agiofit.org/guide/">
-<link rel="alternate" hreflang="en" href="https://agiofit.org/guide/">
-<link rel="alternate" hreflang="it" href="https://agiofit.org/it/guide/">
-<link rel="alternate" hreflang="fr" href="https://agiofit.org/fr/guide/">
-<link rel="alternate" hreflang="x-default" href="https://agiofit.org/guide/">
 </head>
-<body>
+<body class="lang-en">
 <nav class="sitenav">
   <div class="sitenav-inner">
     <a class="sitenav-mark" href="/"><img src="/assets/agiofitavatar32.png" alt="" width="22" height="22">Agio Fit</a>
@@ -254,9 +246,9 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 
 <div class="lingua">
   <div class="lingua-box" role="group" aria-label="Language / Lingua / Langue">
-    <a href="/guide/" aria-current="true" hreflang="en">English</a>
-    <a href="/it/guide/" hreflang="it">Italiano</a>
-    <a href="/fr/guide/" hreflang="fr">Français</a>
+    <button id="btn-en" aria-pressed="true" onclick="setLang('en')">English</button>
+    <button id="btn-it" aria-pressed="false" onclick="setLang('it')">Italiano</button>
+    <button id="btn-fr" aria-pressed="false" onclick="setLang('fr')">Français</button>
   </div>
 </div>
 
@@ -266,16 +258,20 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
   <div class="hero-grid">
   <div class="hero-testo">
   <p class="eyebrow">
-    v0.1 draft · open standard · a personal project by <a class="credito" href="https://github.com/antferr">antferr</a>
+    <span class="it">v0.1 draft · standard aperto · un progetto personale di <a class="credito" href="https://github.com/antferr">antferr</a></span><span class="en">v0.1 draft · open standard · a personal project by <a class="credito" href="https://github.com/antferr">antferr</a></span><span class="fr">v0.1 draft · standard ouvert · un projet personnel de <a class="credito" href="https://github.com/antferr">antferr</a></span>
   </p>
   <h1>Agio&nbsp;Fit<br>
-    <span class="corsivo">the fit profile you carry with you</span>
+    <span class="corsivo"><span class="it">il profilo di vestibilità che ti porti dietro</span><span class="en">the fit profile you carry with you</span><span class="fr">le profil de bien-aller que vous emportez avec vous</span></span>
   </h1>
   <p class="sottotitolo">
-    
-    In tailoring, <strong>agio</strong> is the ease designed between body and garment.
+    <span class="it">In sartoria l'<strong>agio</strong> è il margine progettato tra corpo e capo.
+    Qui è uno standard aperto: <strong>tre documenti JSON</strong>, un algoritmo di riferimento e una regola —
+    il profilo resta tuo, ai negozi esce solo la taglia.</span>
+    <span class="en">In tailoring, <strong>agio</strong> is the ease designed between body and garment.
     Here it is an open standard: <strong>three JSON documents</strong>, a reference algorithm and one rule —
-    the profile stays yours; shops only ever get a size.
+    the profile stays yours; shops only ever get a size.</span><span class="fr">En couture, l’<strong>agio</strong> est l’aisance ménagée entre le corps et le vêtement.
+    Ici, c’est un standard ouvert : <strong>trois documents JSON</strong>, un algorithme de référence et une règle —
+    le profil reste à vous ; les boutiques ne reçoivent qu’une taille.</span>
   </p>
   </div>
 
@@ -300,9 +296,9 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
       <text x="224" y="212"><tspan class="en">the body</tspan><tspan class="it">il corpo</tspan><tspan class="fr">le corps</tspan></text>
     </svg>
     <figcaption>
-      The logo is the concept: the space between body and garment <em>is</em> the agio.
-      
-      
+      <span class="en">The logo is the concept: the space between body and garment <em>is</em> the agio.</span>
+      <span class="it">Il logo è il concetto: il vuoto tra corpo e capo <em>è</em> l'agio.</span>
+      <span class="fr">Le logo est le concept : le vide entre le corps et le vêtement, <em>c'est</em> l'agio.</span>
     </figcaption>
   </figure>
   </div>
@@ -315,18 +311,18 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 
 <!-- ============ 01: I TRE DOCUMENTI / THE THREE DOCUMENTS ============ -->
 <section class="sezione">
-  <p class="kicker">01 · The vocabulary</p>
-  <h2>Three documents, one contract</h2>
+  <p class="kicker"><span class="it">01 · Il vocabolario</span><span class="en">01 · The vocabulary</span><span class="fr">01 · Le vocabulaire</span></p>
+  <h2><span class="it">Tre documenti, un contratto</span><span class="en">Three documents, one contract</span><span class="fr">Trois documents, un contrat</span></h2>
   <p class="intro">
-    
-    The whole standard fits in three JSON schemas. You own the first, the seller publishes the second, and the third is the only thing that travels between the two. Open the examples to see the actual shape of the data.
+    <span class="it">Tutto lo standard sta in tre schemi JSON. Il primo lo possiedi tu, il secondo lo pubblica chi vende, il terzo è l'unica cosa che viaggia tra i due. Apri gli esempi per vedere la forma reale dei dati.</span>
+    <span class="en">The whole standard fits in three JSON schemas. You own the first, the seller publishes the second, and the third is the only thing that travels between the two. Open the examples to see the actual shape of the data.</span><span class="fr">Tout le standard tient en trois schémas JSON. Le premier vous appartient, le second est publié par le vendeur, et le troisième est la seule chose qui circule entre les deux. Ouvrez les exemples pour voir la forme réelle des données.</span>
   </p>
   <div class="tre-doc">
     <div class="doc">
       <h3>Fit Profile</h3>
       <p class="file">fit-profile.schema.json</p>
-      <p> e <span class="mono">observed_at</span> obbligatori, <span class="mono">tolerance</span> fortemente raccomandata), preferenze di vestibilità e — il segnale più forte — lo <b>storico</b> di come i capi passati ti sono andati davvero.</span>
-      Your profile: body measurements (each with mandatory <span class="mono">source and <span class="mono">observed_at</span>, <span class="mono">tolerance</span> strongly recommended), fit preferences and — the strongest signal — the <b>history</b> of how past garments actually fitted you.</span> et <span class="mono">observed_at</span> obligatoires, <span class="mono">tolerance</span> fortement recommandée), préférences de coupe et — le signal le plus fort — l’<b>historique</b> de la façon dont les vêtements passés vous sont réellement allés.</span></p>
+      <p><span class="it">Il tuo profilo: misure corporee (ognuna con <span class="mono">source</span> e <span class="mono">observed_at</span> obbligatori, <span class="mono">tolerance</span> fortemente raccomandata), preferenze di vestibilità e — il segnale più forte — lo <b>storico</b> di come i capi passati ti sono andati davvero.</span>
+      <span class="en">Your profile: body measurements (each with mandatory <span class="mono">source</span> and <span class="mono">observed_at</span>, <span class="mono">tolerance</span> strongly recommended), fit preferences and — the strongest signal — the <b>history</b> of how past garments actually fitted you.</span><span class="fr">Votre profil : mensurations (chacune avec <span class="mono">source</span> et <span class="mono">observed_at</span> obligatoires, <span class="mono">tolerance</span> fortement recommandée), préférences de coupe et — le signal le plus fort — l’<b>historique</b> de la façon dont les vêtements passés vous sont réellement allés.</span></p>
       <button data-json="json-profilo" aria-expanded="false"></button>
       <div class="json-box" id="json-profilo">{
   <span class="k">"body_measurements"</span>: {
@@ -338,7 +334,7 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
     },
     <span class="k">"arm_length"</span>: {
       <span class="k">"value"</span>: <span class="n">63</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span>,
-      <span class="k">"source"</span>: <span class="s">"self_reported"</span>,  <span class="c">// weighs less</span>
+      <span class="k">"source"</span>: <span class="s">"self_reported"</span>,  <span class="c"><span class="it">// pesa meno</span><span class="en">// weighs less</span><span class="fr">// pèse moins</span></span>
       <span class="k">"observed_at"</span>: <span class="s">"2026-01-10"</span>,
       <span class="k">"tolerance"</span>: <span class="n">2.0</span>
     }
@@ -347,21 +343,21 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
     <span class="k">"brand"</span>: <span class="s">"Sartoria Esempio"</span>,
     <span class="k">"size_label"</span>: <span class="s">"41"</span>,
     <span class="k">"outcome"</span>: <span class="s">"kept"</span>,
-    <span class="k">"kept_despite"</span>: [<span class="s">"waist"</span>]  <span class="c">// accepted trade-off</span>
+    <span class="k">"kept_despite"</span>: [<span class="s">"waist"</span>]  <span class="c"><span class="it">// compromesso accettato</span><span class="en">// accepted trade-off</span><span class="fr">// compromis accepté</span></span>
   }]
 }</div>
-      <p class="file">, <span class="mono">garment_ref</span> e <span class="mono">source</span>.</span>Simplified excerpt: a full history entry also requires <span class="mono">occurred_at, <span class="mono">garment_ref</span> and <span class="mono">source</span>.</span>, <span class="mono">garment_ref</span> et <span class="mono">source</span>.</span></p>
+      <p class="file"><span class="it">Estratto semplificato: una voce di storico completa richiede anche <span class="mono">occurred_at</span>, <span class="mono">garment_ref</span> e <span class="mono">source</span>.</span><span class="en">Simplified excerpt: a full history entry also requires <span class="mono">occurred_at</span>, <span class="mono">garment_ref</span> and <span class="mono">source</span>.</span><span class="fr">Extrait simplifié : une entrée d'historique complète exige aussi <span class="mono">occurred_at</span>, <span class="mono">garment_ref</span> et <span class="mono">source</span>.</span></p>
     </div>
     <div class="doc">
       <h3>Cut Profile</h3>
       <p class="file">cut-profile.schema.json</p>
-      <p>), elasticità. Il campo <span class="mono">measurement_method</span> è obbligatorio e senza default.</span>
-      How the garment is <b>cut</b>, not what the brand calls the size: per-size measurements, intended ease (<span class="mono">intended_ease), stretch. The <span class="mono">measurement_method</span> field is mandatory, with no default.</span>), élasticité. Le champ <span class="mono">measurement_method</span> est obligatoire, sans valeur par défaut.</span></p>
+      <p><span class="it">Come il capo è <b>tagliato</b>, non come il brand chiama la taglia: misure per taglia, agio previsto (<span class="mono">intended_ease</span>), elasticità. Il campo <span class="mono">measurement_method</span> è obbligatorio e senza default.</span>
+      <span class="en">How the garment is <b>cut</b>, not what the brand calls the size: per-size measurements, intended ease (<span class="mono">intended_ease</span>), stretch. The <span class="mono">measurement_method</span> field is mandatory, with no default.</span><span class="fr">Comment le vêtement est <b>coupé</b>, et non comment la marque nomme la taille : mesures par taille, aisance prévue (<span class="mono">intended_ease</span>), élasticité. Le champ <span class="mono">measurement_method</span> est obligatoire, sans valeur par défaut.</span></p>
       <button data-json="json-capo" aria-expanded="false"></button>
       <div class="json-box" id="json-capo">{
   <span class="k">"brand"</span>: <span class="s">"Sartoria Esempio"</span>,
   <span class="k">"category"</span>: <span class="s">"shirts"</span>,
-  <span class="k">"measurement_method"</span>: <span class="s">"flat_laid"</span>,  <span class="c">// widths = ½ circumference</span>
+  <span class="k">"measurement_method"</span>: <span class="s">"flat_laid"</span>,  <span class="c"><span class="it">// larghezze = ½ circonferenza</span><span class="en">// widths = ½ circumference</span><span class="fr">// largeurs = ½ circonférence</span></span>
   <span class="k">"critical_zones"</span>: [<span class="s">"shoulders"</span>, <span class="s">"neck"</span>],
   <span class="k">"sizes"</span>: [{
     <span class="k">"size_label"</span>: <span class="s">"41"</span>,
@@ -379,8 +375,8 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
     <div class="doc">
       <h3>Match Report</h3>
       <p class="file">match-report.schema.json</p>
-      <p>
-      The answer. Its shape is the normative part of the standard: <b>exposed confidence</b>, a per-zone explanation, explicit caveats. How much detail it carries is decided by the disclosure level.</p>
+      <p><span class="it">La risposta. La sua forma è la parte normativa dello standard: <b>confidenza esposta</b>, spiegazione per zona, avvertenze esplicite. Quanto dettaglio contiene lo decide il livello di disclosure.</span>
+      <span class="en">The answer. Its shape is the normative part of the standard: <b>exposed confidence</b>, a per-zone explanation, explicit caveats. How much detail it carries is decided by the disclosure level.</span><span class="fr">La réponse. Sa forme est la partie normative du standard : <b>confiance exposée</b>, explication par zone, avertissements explicites. Le niveau de divulgation décide du détail qu’elle contient.</span></p>
       <button data-json="json-racc" aria-expanded="false"></button>
       <div class="json-box" id="json-racc">{
   <span class="k">"recommended_size"</span>: <span class="s">"41"</span>,
@@ -389,11 +385,13 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
   <span class="k">"explanation"</span>: [{
     <span class="k">"zone"</span>: <span class="s">"shoulders"</span>,
     <span class="k">"assessment"</span>: <span class="s">"as_cut"</span>
-    <span class="c">// no numbers at this level:
-    // stripped at serialisation</span>
+    <span class="c"><span class="it">// niente numeri a questo livello:
+    // vengono rimossi in serializzazione</span><span class="en">// no numbers at this level:
+    // stripped at serialisation</span><span class="fr">// aucun chiffre à ce niveau :
+    // supprimés à la sérialisation</span></span>
   }],
   <span class="k">"caveats"</span>: [
-    <span class="s">"arm_length is self-reported"</span>
+    <span class="s"><span class="it">"arm_length è autodichiarata"</span><span class="en">"arm_length is self-reported"</span><span class="fr">"arm_length est auto-déclarée"</span></span>
   ]
 }</div>
     </div>
@@ -404,25 +402,25 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 
 <!-- ============ 02: SIMULATORE / SIMULATOR ============ -->
 <section class="sezione">
-  <p class="kicker">02 · Try it</p>
-  <h2>The matching, live</h2>
+  <p class="kicker"><span class="it">02 · Provalo</span><span class="en">02 · Try it</span><span class="fr">02 · Essayez-le</span></p>
+  <h2><span class="it">Il matching, dal vivo</span><span class="en">The matching, live</span><span class="fr">Le matching, en direct</span></h2>
   <p class="intro">
-    ), ricostruita qui in JavaScript: scegli un profilo e un livello di disclosure, e guarda cosa esce — e soprattutto <b>cosa non esce</b>. Il capo e i profili sono gli esempi reali del repo: la Classic Oxford di Sartoria Esempio (marchio fittizio), taglie 39–42.</span>
-    The same logic as the reference implementation (<span class="mono">python -m agiofit.cli), rebuilt here in JavaScript: pick a profile and a disclosure level, and watch what comes out — and above all <b>what doesn't</b>. Garment and profiles are the repo's real examples: Sartoria Esempio's Classic Oxford (a fictional brand), sizes 39–42.</span>), reconstruite ici en JavaScript : choisissez un profil et un niveau de divulgation, et regardez ce qui sort — et surtout <b>ce qui ne sort pas</b>. Le vêtement et les profils sont les exemples réels du dépôt : la Classic Oxford de Sartoria Esempio (marque fictive), tailles 39–42.</span>
+    <span class="it">Stessa logica dell'implementazione di riferimento (<span class="mono">python -m agiofit.cli</span>), ricostruita qui in JavaScript: scegli un profilo e un livello di disclosure, e guarda cosa esce — e soprattutto <b>cosa non esce</b>. Il capo e i profili sono gli esempi reali del repo: la Classic Oxford di Sartoria Esempio (marchio fittizio), taglie 39–42.</span>
+    <span class="en">The same logic as the reference implementation (<span class="mono">python -m agiofit.cli</span>), rebuilt here in JavaScript: pick a profile and a disclosure level, and watch what comes out — and above all <b>what doesn't</b>. Garment and profiles are the repo's real examples: Sartoria Esempio's Classic Oxford (a fictional brand), sizes 39–42.</span><span class="fr">La même logique que l’implémentation de référence (<span class="mono">python -m agiofit.cli</span>), reconstruite ici en JavaScript : choisissez un profil et un niveau de divulgation, et regardez ce qui sort — et surtout <b>ce qui ne sort pas</b>. Le vêtement et les profils sont les exemples réels du dépôt : la Classic Oxford de Sartoria Esempio (marque fictive), tailles 39–42.</span>
   </p>
 
   <div class="simulatore">
     <div class="sim-testa">
       <div class="controlli">
         <div class="campo">
-          <label for="sel-profilo">Profile</label>
+          <label for="sel-profilo"><span class="it">Profilo</span><span class="en">Profile</span><span class="fr">Profil</span></label>
           <select id="sel-profilo">
             <option value="maturo"></option>
             <option value="cold"></option>
           </select>
         </div>
         <div class="campo">
-          <label for="sel-livello">Disclosure level</label>
+          <label for="sel-livello"><span class="it">Livello di disclosure</span><span class="en">Disclosure level</span><span class="fr">Niveau de divulgation</span></label>
           <select id="sel-livello">
             <option value="result_only"></option>
             <option value="explained" selected></option>
@@ -433,7 +431,7 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
       </div>
     </div>
     <div class="sim-corpo" id="sim-corpo" aria-live="polite">
-      <p class="risultato-vuoto">The simulator requires JavaScript.</p>
+      <p class="risultato-vuoto"><span class="it">Il simulatore richiede JavaScript.</span><span class="en">The simulator requires JavaScript.</span><span class="fr">Le simulateur nécessite JavaScript.</span></p>
     </div>
   </div>
 </section>
@@ -442,26 +440,26 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 
 <!-- ============ 03: DISCLOSURE E PERDITA ARITMETICA / DISCLOSURE & ARITHMETIC LEAK ============ -->
 <section class="sezione">
-  <p class="kicker">03 · Privacy as design</p>
-  <h2>Four levels, one subtraction to prevent</h2>
+  <p class="kicker"><span class="it">03 · La privacy come design</span><span class="en">03 · Privacy as design</span><span class="fr">03 · La confidentialité comme design</span></p>
+  <h2><span class="it">Quattro livelli, una sottrazione da impedire</span><span class="en">Four levels, one subtraction to prevent</span><span class="fr">Quatre niveaux, une soustraction à empêcher</span></h2>
   <p class="intro">
-    
-    The caller doesn't decide how much it sees: the disclosure level does, and the numbers are stripped <b>at serialisation</b>, not by anyone's goodwill. There is a test that verifies it.
+    <span class="it">Il chiamante non decide quanto vede: lo decide il livello di disclosure, e i numeri vengono rimossi <b>in serializzazione</b>, non per buona volontà. C'è un test che lo verifica.</span>
+    <span class="en">The caller doesn't decide how much it sees: the disclosure level does, and the numbers are stripped <b>at serialisation</b>, not by anyone's goodwill. There is a test that verifies it.</span><span class="fr">L’appelant ne décide pas de ce qu’il voit : c’est le niveau de divulgation qui décide, et les chiffres sont supprimés <b>à la sérialisation</b>, pas par bonne volonté. Un test le vérifie.</span>
   </p>
   <div class="livelli">
-    <div class="livello"><h4>result_only</h4><p>Size and confidence. All a shop needs to sell you a shirt.</p></div>
-    <div class="livello"><h4>explained</h4><p>Adds the per-zone assessment (<em>good</em>, <em>watch</em>…) but <b>no centimetres</b>.</p></div>
-    <div class="livello"><h4>scoped</h4><p>Adds numeric ease on the requested zones. For services you trust more.</p></div>
-    <div class="livello"><h4>full</h4><p>The complete profile. Meant for your vault, not for third parties.</p></div>
+    <div class="livello"><h4>result_only</h4><p><span class="it">Taglia e confidenza. È tutto ciò che serve a un negozio per venderti una camicia.</span><span class="en">Size and confidence. All a shop needs to sell you a shirt.</span><span class="fr">Taille et confiance. Tout ce qu’il faut à une boutique pour vous vendre une chemise.</span></p></div>
+    <div class="livello"><h4>explained</h4><p><span class="it">Aggiunge il giudizio per zona (<em>buono</em>, <em>attenzione</em>…) ma <b>senza centimetri</b>.</span><span class="en">Adds the per-zone assessment (<em>good</em>, <em>watch</em>…) but <b>no centimetres</b>.</span><span class="fr">Ajoute le jugement par zone (<em>bon</em>, <em>attention</em>…) mais <b>sans centimètres</b>.</span></p></div>
+    <div class="livello"><h4>scoped</h4><p><span class="it">Aggiunge l'agio numerico sulle zone richieste. Per servizi di cui ti fidi di più.</span><span class="en">Adds numeric ease on the requested zones. For services you trust more.</span><span class="fr">Ajoute l’aisance chiffrée sur les zones demandées. Pour les services de plus grande confiance.</span></p></div>
+    <div class="livello"><h4>full</h4><p><span class="it">Il profilo completo. Pensato per il tuo vault, non per terzi.</span><span class="en">The complete profile. Meant for your vault, not for third parties.</span><span class="fr">Le profil complet. Destiné à votre coffre-fort, pas aux tiers.</span></p></div>
   </div>
 
   <div class="leak">
-    <h3>Why "explained" hides the numbers: the arithmetic leak</h3>
-    <p>
-    The garment's measurements are public (they live in the Cut Profile). If the recommendation also published the ease in centimetres, anyone could do:</p>
-    <p class="formula">body&nbsp;=&nbsp;<b>garment</b>&nbsp;−&nbsp;<b>ease</b>&nbsp;&nbsp;→&nbsp;&nbsp;116&nbsp;cm&nbsp;−&nbsp;16&nbsp;cm&nbsp;=&nbsp;<b>a 100&nbsp;cm chest</b></p>
-    <p> a <span class="mono" style="color:#E9BC3F">explained</span>.</span>
-    One subtraction reconstructs the body measurement. That's why at the lower levels the ease exists in the computation but <strong>does not survive serialisation</strong> — try it in the simulator by switching from <span class="mono" style="color:#E9BC3F">scoped to <span class="mono" style="color:#E9BC3F">explained</span>.</span> à <span class="mono" style="color:#E9BC3F">explained</span>.</span></p>
+    <h3><span class="it">Perché «explained» nasconde i numeri: la perdita aritmetica</span><span class="en">Why "explained" hides the numbers: the arithmetic leak</span><span class="fr">Pourquoi « explained » cache les chiffres : la fuite arithmétique</span></h3>
+    <p><span class="it">Le misure del capo sono pubbliche (stanno nel Cut Profile). Se la raccomandazione pubblicasse anche l'agio in centimetri, chiunque saprebbe fare:</span>
+    <span class="en">The garment's measurements are public (they live in the Cut Profile). If the recommendation also published the ease in centimetres, anyone could do:</span><span class="fr">Les mesures du vêtement sont publiques (elles vivent dans le Cut Profile). Si la recommandation publiait aussi l’aisance en centimètres, n’importe qui pourrait faire :</span></p>
+    <p class="formula"><span class="it">corpo&nbsp;=&nbsp;<b>capo</b>&nbsp;−&nbsp;<b>agio</b>&nbsp;&nbsp;→&nbsp;&nbsp;116&nbsp;cm&nbsp;−&nbsp;16&nbsp;cm&nbsp;=&nbsp;<b>100&nbsp;cm di torace</b></span><span class="en">body&nbsp;=&nbsp;<b>garment</b>&nbsp;−&nbsp;<b>ease</b>&nbsp;&nbsp;→&nbsp;&nbsp;116&nbsp;cm&nbsp;−&nbsp;16&nbsp;cm&nbsp;=&nbsp;<b>a 100&nbsp;cm chest</b></span><span class="fr">corps&nbsp;=&nbsp;<b>vêtement</b>&nbsp;−&nbsp;<b>aisance</b>&nbsp;&nbsp;→&nbsp;&nbsp;116&nbsp;cm&nbsp;−&nbsp;16&nbsp;cm&nbsp;=&nbsp;<b>100&nbsp;cm de tour de poitrine</b></span></p>
+    <p><span class="it">Una sottrazione ricostruisce la misura corporea. Per questo ai livelli bassi l'agio esiste nel calcolo ma <strong>non sopravvive alla serializzazione</strong> — provalo nel simulatore passando da <span class="mono" style="color:#E9BC3F">scoped</span> a <span class="mono" style="color:#E9BC3F">explained</span>.</span>
+    <span class="en">One subtraction reconstructs the body measurement. That's why at the lower levels the ease exists in the computation but <strong>does not survive serialisation</strong> — try it in the simulator by switching from <span class="mono" style="color:#E9BC3F">scoped</span> to <span class="mono" style="color:#E9BC3F">explained</span>.</span><span class="fr">Une soustraction reconstruit la mensuration. C’est pourquoi, aux niveaux bas, l’aisance existe dans le calcul mais <strong>ne survit pas à la sérialisation</strong> — essayez-le dans le simulateur en passant de <span class="mono" style="color:#E9BC3F">scoped</span> à <span class="mono" style="color:#E9BC3F">explained</span>.</span></p>
   </div>
 </section>
 
@@ -469,25 +467,25 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 
 <!-- ============ 04: CLI ============ -->
 <section class="sezione">
-  <p class="kicker">04 · On your machine</p>
-  <h2>Using it from the terminal</h2>
+  <p class="kicker"><span class="it">04 · Sul tuo computer</span><span class="en">04 · On your machine</span><span class="fr">04 · Sur votre machine</span></p>
+  <h2><span class="it">Uso da terminale</span><span class="en">Using it from the terminal</span><span class="fr">Utilisation depuis le terminal</span></h2>
   <p class="intro">
-    :</span>
-    The reference implementation is pure Python, zero dependencies. After cloning <span class="mono">github.com/agiofit/agiofit:</span> :</span>
+    <span class="it">L'implementazione di riferimento è Python puro, zero dipendenze. Dopo aver clonato <span class="mono">github.com/agiofit/agiofit</span>:</span>
+    <span class="en">The reference implementation is pure Python, zero dependencies. After cloning <span class="mono">github.com/agiofit/agiofit</span>:</span><span class="fr">L’implémentation de référence est du Python pur, sans dépendances. Après avoir cloné <span class="mono">github.com/agiofit/agiofit</span> :</span>
   </p>
   <div class="terminale">
     <div class="term-barra" aria-hidden="true"><span></span><span></span><span></span></div>
-    <pre><span class="cmt"># install and verify (13 tests, all must pass)</span>
+    <pre><span class="cmt"><span class="it"># installazione e verifica (13 test, devono passare tutti)</span><span class="en"># install and verify (13 tests, all must pass)</span><span class="fr"># installation et vérification (13 tests, tous doivent passer)</span></span>
 <span class="prompt">$</span> cd agiofit/reference
 <span class="prompt">$</span> pip install -e ".[dev]"
 <span class="prompt">$</span> pytest
 <span class="out">13 passed</span>
 
-<span class="cmt"># mature profile, default level (explained)</span>
+<span class="cmt"><span class="it"># profilo maturo, livello di default (explained)</span><span class="en"># mature profile, default level (explained)</span><span class="fr"># profil mature, niveau par défaut (explained)</span></span>
 <span class="prompt">$</span> python -m agiofit.cli ../examples/profile-mature.json ../examples/cut-shirt.json
 <span class="out">{ "recommended_size": "41", "confidence": 0.76, ... }</span>
 
-<span class="cmt"># cold start, result only</span>
+<span class="cmt"><span class="it"># cold start, solo il risultato</span><span class="en"># cold start, result only</span><span class="fr"># cold start, résultat seul</span></span>
 <span class="prompt">$</span> python -m agiofit.cli ../examples/profile-cold-start.json ../examples/cut-shirt.json result_only
 <span class="out">{ "recommended_size": "41", "confidence": 0.25, ... }</span></pre>
   </div>
@@ -497,37 +495,37 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 
 <!-- ============ 05: DECISIONI DI DESIGN / DESIGN DECISIONS ============ -->
 <section class="sezione">
-  <p class="kicker">05 · Worth defending in public</p>
-  <h2>The decisions that are not a size chart</h2>
+  <p class="kicker"><span class="it">05 · Da difendere in pubblico</span><span class="en">05 · Worth defending in public</span><span class="fr">05 · À défendre en public</span></p>
+  <h2><span class="it">Le decisioni che non sono una tabella taglie</span><span class="en">The decisions that are not a size chart</span><span class="fr">Les décisions qui ne sont pas un guide des tailles</span></h2>
   <div class="decisioni">
     <div class="decisione"><div class="spilla" aria-hidden="true">a</div><div>
       <h4>kept_despite</h4>
-      <p>
-      The only field that records an <b>accepted</b> trade-off. Without it, the system learns you reject tight shoulders; with it, it learns you accept a loose waist <b>to get the shoulders right</b>.</p>
+      <p><span class="it">L'unico campo che registra un compromesso <b>accettato</b>. Senza, il sistema impara che rifiuti le spalle strette; con, impara che accetti una vita larga <b>pur di avere le spalle giuste</b>.</span>
+      <span class="en">The only field that records an <b>accepted</b> trade-off. Without it, the system learns you reject tight shoulders; with it, it learns you accept a loose waist <b>to get the shoulders right</b>.</span><span class="fr">Le seul champ qui enregistre un compromis <b>accepté</b>. Sans lui, le système apprend que vous refusez les épaules serrées ; avec lui, il apprend que vous acceptez une taille ample <b>pour avoir les épaules justes</b>.</span></p>
     </div></div>
     <div class="decisione"><div class="spilla" aria-hidden="true">b</div><div>
-      <h4>measurement_method mandatory, no default</h4>
-      <p>
-      <em>Flat-laid</em> measurements are <b>half circumferences</b>. It's the industry's most common mistake, and it produces recommendations wrong by a factor of two, silently. Here, if you don't declare it, the document doesn't validate.</p>
+      <h4><span class="it">measurement_method obbligatorio, senza default</span><span class="en">measurement_method mandatory, no default</span><span class="fr">measurement_method obligatoire, sans défaut</span></h4>
+      <p><span class="it">Le misure <em>flat laid</em> sono <b>mezze circonferenze</b>. È l'errore più diffuso del settore e produce raccomandazioni sbagliate di un fattore due, in silenzio. Qui, se non lo dichiari, il documento non valida.</span>
+      <span class="en"><em>Flat-laid</em> measurements are <b>half circumferences</b>. It's the industry's most common mistake, and it produces recommendations wrong by a factor of two, silently. Here, if you don't declare it, the document doesn't validate.</span><span class="fr">Les mesures <em>à plat</em> sont des <b>demi-circonférences</b>. C’est l’erreur la plus répandue du secteur, et elle produit des recommandations fausses d’un facteur deux, en silence. Ici, si vous ne le déclarez pas, le document ne valide pas.</span></p>
     </div></div>
     <div class="decisione"><div class="spilla" aria-hidden="true">c</div><div>
-      <h4>Per-zone offset_scale</h4>
-      <p>
-      A brand that "runs small" runs small <b>in the torso</b>. Applying the same centimetre shift to the collar — where 1 cm is a whole size — turns a useful correction into a wrong answer. History applies per zone: 1.0 on the chest, 0.2 on the collar.</p>
+      <h4><span class="it">offset_scale per zona</span><span class="en">Per-zone offset_scale</span><span class="fr">offset_scale par zone</span></h4>
+      <p><span class="it">Un brand che «veste piccolo» veste piccolo <b>nel torso</b>. Applicare lo stesso spostamento in cm al collo — dove 1 cm è una taglia intera — trasforma una correzione utile in una risposta sbagliata. Lo storico si applica per zona: 1.0 sul torace, 0.2 sul collo.</span>
+      <span class="en">A brand that "runs small" runs small <b>in the torso</b>. Applying the same centimetre shift to the collar — where 1 cm is a whole size — turns a useful correction into a wrong answer. History applies per zone: 1.0 on the chest, 0.2 on the collar.</span><span class="fr">Une marque qui « taille petit » taille petit <b>au buste</b>. Appliquer le même décalage en centimètres au col — où 1 cm est une taille entière — transforme une correction utile en une réponse fausse. L’historique s’applique par zone : 1.0 sur la poitrine, 0.2 sur le col.</span></p>
     </div></div>
     <div class="decisione"><div class="spilla" aria-hidden="true">d</div><div>
-      <h4>Cold start with declared confidence</h4>
-      <p>
-      Zero body measurements, a single kept garment from the same brand: the system still answers, with confidence <b>capped at 0.40</b>, refuses cross-brand inference and tells you what to add to improve. History is worth more than centimetres.</p>
+      <h4><span class="it">Cold start con confidenza dichiarata</span><span class="en">Cold start with declared confidence</span><span class="fr">Cold start avec confiance déclarée</span></h4>
+      <p><span class="it">Zero misure corporee, un solo capo tenuto dello stesso brand: il sistema risponde comunque, con confidenza <b>massima 0.40</b>, rifiuta l'inferenza cross-brand e ti dice cosa aggiungere per migliorare. Lo storico vale più dei centimetri.</span>
+      <span class="en">Zero body measurements, a single kept garment from the same brand: the system still answers, with confidence <b>capped at 0.40</b>, refuses cross-brand inference and tells you what to add to improve. History is worth more than centimetres.</span><span class="fr">Zéro mensuration, un seul vêtement gardé de la même marque : le système répond quand même, avec une confiance <b>plafonnée à 0.40</b>, refuse l’inférence entre marques et vous dit quoi ajouter pour progresser. L’historique vaut plus que les centimètres.</span></p>
     </div></div>
   </div>
 </section>
 
 <footer>
-  
-  Agio Fit v0.1 · demo interface · the algorithm reproduced here is a simplified, non-normative version
+  <span class="it">Agio Fit v0.1 · interfaccia dimostrativa · l'algoritmo qui riprodotto è una versione semplificata e non normativa</span>
+  <span class="en">Agio Fit v0.1 · demo interface · the algorithm reproduced here is a simplified, non-normative version</span><span class="fr">Agio Fit v0.1 · interface de démonstration · l’algorithme reproduit ici est une version simplifiée, non normative</span>
   <br>
-  <a class="credito" href="https://agiofit.org">agiofit.org</a> · <a class="credito" href="https://github.com/agiofit">github.com/agiofit</a> · a personal project by <a class="credito" href="https://github.com/antferr">antferr</a>
+  <a class="credito" href="https://agiofit.org">agiofit.org</a> · <a class="credito" href="https://github.com/agiofit">github.com/agiofit</a> · <span class="it">un progetto personale di <a class="credito" href="https://github.com/antferr">antferr</a></span><span class="en">a personal project by <a class="credito" href="https://github.com/antferr">antferr</a></span><span class="fr">un projet personnel de <a class="credito" href="https://github.com/antferr">antferr</a></span>
   <br>
   © 2026 Antonio Ferraioli · spec: CC BY 4.0 · code: Apache-2.0
 </footer>
@@ -628,6 +626,17 @@ var T = {
   }
 };
 
+function setLang(l){
+  LANG = l;
+  document.body.className = 'lang-'+l;
+  document.getElementById('html-root').setAttribute('lang', l);
+  ['en','it','fr'].forEach(function(x){
+    document.getElementById('btn-'+x).setAttribute('aria-pressed', l===x);
+  });
+  aggiornaOpzioni();
+  aggiornaBottoniJson();
+  if(document.querySelector('#sim-corpo .esito-riga')) render();
+}
 function aggiornaOpzioni(){
   var t = T[LANG];
   var sp = document.getElementById('sel-profilo').options;

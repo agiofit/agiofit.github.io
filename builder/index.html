@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cut Profile builder — Agio Fit</title>
+<meta name="description" content="Measure a garment with a tape and write a valid Agio Fit Cut Profile. Nothing is uploaded: the file is yours and downloads to your device.">
+<link rel="canonical" href="https://agiofit.org/builder/">
+<link rel="icon" href="/assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F0E8;          /* brand ivory */
+  --rule:#DFDCD2;
+  --ink:#1E2430;     /* brand night blue */
+  --ink-70:#4A5262;
+  --accent:#C96F4A;          /* logo terracotta */
+  --accent-ink:#A9532F;           /* darker terracotta, for small text */
+  --tape:#E9BC3F;          /* tailor's tape */
+  --tape-ink:#8A6A14;
+  --ok:#3E7A52;
+  --danger:#9A2B24;
+  --surface:#FFFFFF;
+  --shadow:0 1px 2px rgba(30,42,56,.08), 0 6px 18px rgba(30,42,56,.07);
+  --radius:10px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);
+  background:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px),
+    var(--paper);
+  background-size:28px 28px, 28px 28px, auto;
+  line-height:1.6;font-size:16px;margin:0;
+}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* barra condivisa */
+.sitenav{border-bottom:1px solid var(--rule);background:rgba(245,240,232,.9);
+  backdrop-filter:saturate(140%) blur(6px);position:sticky;top:0;z-index:20}
+.sitenav-inner{max-width:960px;margin:0 auto;padding:0 24px;height:58px;display:flex;align-items:center;gap:24px}
+.sitenav-mark{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--ink);
+  text-decoration:none;margin-right:auto;letter-spacing:-.01em;
+  display:flex;align-items:center;gap:9px}
+.sitenav-mark img{display:block;border-radius:999px}
+.sitenav a.sitenav-link{font-size:14.5px;color:var(--ink);text-decoration:none;opacity:.7}
+.sitenav a.sitenav-link:hover{opacity:1}
+.sitenav a.sitenav-link[aria-current]{opacity:1;font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
+.sitenav-ver{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;
+  background:var(--tape);color:var(--tape-ink);border:1px solid var(--tape-ink);
+  border-radius:6px;padding:2px 9px}
+@media(max-width:640px){.sitenav-inner{gap:14px;overflow-x:auto}.sitenav-ver{display:none}}
+
+/* impaginato identico al sito: contenuto sulla carta, niente schede attorno alle sezioni */
+.page{max-width:960px;margin:0 auto;padding:0 24px 96px}
+.head{padding-top:44px;max-width:60ch}
+.kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent-ink);margin:0 0 10px}
+h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(34px,6vw,52px);line-height:1.05;
+  letter-spacing:-.01em;margin:0}
+h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(24px,3.4vw,32px);line-height:1.15;margin:0}
+.lede{margin-top:20px;font-size:17.5px;color:var(--ink-70);max-width:56ch}
+.sub{margin-top:12px;font-size:15px;color:var(--ink-70);max-width:60ch}
+
+/* il riquadro di stato, nella forma di .stato del sito */
+.status{margin-top:26px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:var(--radius);box-shadow:var(--shadow);padding:4px 20px;max-width:620px}
+.status dl{margin:0;display:grid;grid-template-columns:auto 1fr}
+.status dt,.status dd{margin:0;padding:11px 0;border-bottom:1px solid var(--rule);font-size:14.5px}
+.status dt{color:var(--ink-70);padding-right:26px;white-space:nowrap}
+.status dd{font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+.status dl>:nth-last-child(1),.status dl>:nth-last-child(2){border-bottom:none}
+
+.block{margin-top:72px}
+.bh{display:flex;flex-direction:column}
+.bh .n{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px}
+.hint{margin-top:12px;color:var(--ink-70);max-width:64ch}
+.body{margin-top:22px}
+
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px;max-width:620px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.wide{grid-column:1/-1}
+label{font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-70)}
+.note{font-size:13.5px;color:var(--ink-70);margin:0}
+input,select{width:100%;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;
+  border:1px solid #C9C3B4;border-radius:8px;background:#FDFCF8;color:var(--ink)}
+input::placeholder{color:#8A93A1}
+input:focus,select:focus{border-color:var(--accent);background:#fff}
+input:disabled,select:disabled{background:rgba(30,36,48,.04);color:#8A93A1}
+input.num{font-family:'IBM Plex Mono',monospace;text-align:right}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+
+/* la taglia e' un documento: qui il bianco ci sta, come .doc */
+.sizeblock{background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
+  box-shadow:var(--shadow);margin:0 0 18px;overflow:hidden}
+.sizeblock .top{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;padding:18px}
+.sizeblock .top .field{max-width:270px}
+.drop{font-family:inherit;font-size:13px;color:var(--ink-70);background:transparent;
+  border:1.5px solid var(--rule);border-radius:999px;padding:7px 16px;cursor:pointer}
+.drop:hover{border-color:var(--accent-ink);color:var(--accent-ink)}
+
+.pom{display:grid;grid-template-columns:168px 1fr 128px;border-top:1px solid var(--rule);
+  padding:16px 18px;align-items:start}
+.pom .key{font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding-top:10px}
+.pom .key .tag{display:block;margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+  letter-spacing:.06em;background:var(--tape);color:var(--tape-ink);
+  border:1px solid var(--tape-ink);border-radius:6px;padding:1px 8px;width:max-content;text-transform:none}
+.pom .how{font-size:14.5px;color:var(--ink-70);line-height:1.5;padding:8px 22px 0 0;max-width:56ch}
+.pom .how em{font-style:normal;color:var(--ink)}
+.pom .val{display:flex;align-items:center;gap:8px}
+.pom .val .u{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-70)}
+.pom .warn{grid-column:1/-1;font-size:13.5px;color:var(--tape-ink);background:#FBF6E7;
+  border:1px solid #EADFB4;border-radius:8px;padding:9px 12px;margin:12px 0 0;max-width:62ch}
+@media(max-width:720px){.pom{grid-template-columns:1fr;gap:8px}.pom .key{padding-top:0}
+  .pom .how{padding:0}.pom .key .tag{display:inline-block;margin:0 0 0 8px}}
+
+details.advanced{margin-top:28px;border:1px dashed var(--rule);border-radius:var(--radius)}
+details.advanced>summary{cursor:pointer;padding:16px 20px;font-family:'Fraunces',serif;
+  font-size:19px;font-weight:600;list-style:none;display:flex;align-items:center;gap:10px}
+details.advanced>summary::-webkit-details-marker{display:none}
+details.advanced>summary::before{content:"+";font-family:'IBM Plex Mono',monospace;color:var(--accent)}
+details.advanced[open]>summary::before{content:"\2212"}
+details.advanced.locked>summary{color:var(--ink-70);cursor:default}
+details.advanced.locked>summary::before{color:var(--ink-70)}
+details.advanced .inner{padding:0 20px 24px}
+.why,.locked-msg{font-size:14.5px;color:var(--ink-70);margin:0 0 20px;max-width:62ch}
+#ease{margin-top:26px}
+#ease>label{display:block;margin-bottom:12px}
+
+button{cursor:pointer}
+.btn{display:inline-block;font-family:inherit;font-weight:600;font-size:15px;
+  border-radius:999px;padding:11px 22px;border:1.5px solid var(--ink);
+  background:var(--ink);color:var(--paper)}
+.btn:hover{background:#2A3444}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:rgba(30,36,48,.05)}
+.btn:disabled{opacity:.38;cursor:not-allowed}
+.actions{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+#result{margin-top:22px}
+.ok,.bad{border-radius:8px;padding:13px 16px;font-size:14.5px;border:1px solid}
+.ok{background:#EFF6F1;border-color:#CADFD2;color:var(--ok)}
+.bad{background:#FBF0EF;border-color:#E6C9C6;color:var(--danger)}
+.bad ul{margin:9px 0 0;padding-left:20px}
+.bad li{font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+pre{font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.55;
+  background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:18px;overflow:auto;max-height:440px;margin:18px 0 0}
+
+footer{margin-top:72px;padding-top:26px;border-top:1px solid var(--rule);max-width:64ch}
+footer p{font-size:14.5px;color:var(--ink-70);margin:0 0 12px}
+footer p:last-child{margin-bottom:0}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="sitenav">
+  <div class="sitenav-inner">
+    <a class="sitenav-mark" href="/"><img src="/assets/agiofitavatar32.png" alt="" width="22" height="22">Agio Fit</a>
+    <a class="sitenav-link" href="/">Overview</a>
+    <a class="sitenav-link" href="/guide/">Guide</a>
+    <a class="sitenav-link" aria-current="page" href="/builder/">Builder</a>
+    <a class="sitenav-link" href="/schemas/v0.1/cut-profile.schema.json">Schemas</a>
+    <span class="sitenav-ver">v0.1 draft</span>
+  </div>
+</nav>
+
+
+
+<div class="page">
+  <div class="head">
+    <p class="kicker">Cut Profile</p>
+    <h1>Cut Profile builder</h1>
+    <p class="lede" id="t-lede"></p>
+    <p class="sub" id="t-spec"></p>
+  </div>
+
+  <div class="status">
+    <dl>
+      <dt id="s-writes-t"></dt><dd id="s-writes"></dd>
+      <dt id="s-schema-t"></dt><dd id="s-schema"></dd>
+      <dt id="s-status-t"></dt><dd id="s-status"></dd>
+      <dt id="s-data-t"></dt><dd id="s-data"></dd>
+    </dl>
+  </div>
+
+  <section class="block">
+    <div class="bh"><span class="n">Step 1</span><h2 id="t-garment"></h2></div>
+    <div class="body">
+      <p class="hint" id="t-garment-hint"></p>
+      <div class="grid">
+        <div class="field"><label for="category" id="l-category"></label><select id="category"></select></div>
+        <div class="field"><label for="size_system" id="l-size-system"></label><select id="size_system"></select></div>
+        <div class="field"><label for="brand" id="l-brand"></label><input id="brand" autocomplete="off"></div>
+        <div class="field"><label for="style_name" id="l-style"></label><input id="style_name" autocomplete="off"></div>
+        <div class="field wide">
+          <label for="composition" id="l-composition"></label>
+          <input id="composition" autocomplete="off" placeholder="97% cotton, 3% elastane">
+          <p class="note" id="n-composition"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bh"><span class="n">Step 2</span><h2 id="t-flat"></h2></div>
+    <div class="body">
+      <p class="hint" id="t-flat-hint"></p>
+      <div class="grid">
+        <div class="field">
+          <label for="unit" id="l-unit"></label>
+          <select id="unit"><option value="cm">cm</option><option value="in">in</option></select>
+          <p class="note" id="t-unit-hint"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bh"><span class="n">Step 3</span><h2 id="t-measure"></h2></div>
+    <div class="body">
+      <p class="hint" id="t-measure-hint"></p>
+      <div id="sizes"></div>
+      <button class="btn ghost" id="add-size" type="button"></button>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bh"><span class="n">Step 4</span><h2 id="t-who"></h2></div>
+    <div class="body">
+      <p class="hint" id="t-who-hint"></p>
+      <div class="grid">
+        <div class="field"><label for="published_by" id="l-published-by"></label><select id="published_by"></select></div>
+      </div>
+      <details class="advanced" id="adv">
+        <summary id="t-adv"></summary>
+        <div class="inner">
+          <p class="why" id="t-adv-why"></p>
+          <p class="locked-msg" id="t-adv-locked" hidden></p>
+          <div class="grid">
+            <div class="field"><label for="cut" id="l-cut"></label><select id="cut"></select></div>
+            <div class="field">
+              <label for="production_tolerance" id="l-prodtol"></label>
+              <input id="production_tolerance" class="num" inputmode="decimal" autocomplete="off">
+              <p class="note" id="n-prodtol"></p>
+            </div>
+            <div class="field wide">
+              <label for="critical_zones" id="l-crit"></label>
+              <input id="critical_zones" autocomplete="off" placeholder="shoulders, neck">
+              <p class="note" id="n-crit"></p>
+            </div>
+          </div>
+          <div id="ease"></div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="bh"><span class="n">Step 5</span><h2 id="t-make"></h2></div>
+    <div class="body">
+      <p class="hint" id="t-make-hint"></p>
+      <div class="actions">
+        <button class="btn" id="build" type="button"></button>
+        <button class="btn ghost" id="download" type="button" disabled></button>
+      </div>
+      <div id="result"></div>
+      <pre id="out" hidden></pre>
+    </div>
+  </section>
+
+  <footer>
+    <p id="t-foot-1"></p>
+    <p id="t-foot-2"></p>
+    <p id="t-foot-3"></p>
+  </footer>
+</div>
+
+<script src="./ajv2020.bundle.js"
+        integrity="sha384-BD14ZYKsZds1BCMmD60Ia0dGf/TSWRFJVKHkaSGpeJH0tXm3I9A5KTO0ym42fg00"
+        crossorigin="anonymous"></script>
+<script>
+
+"use strict";
+
+/* ---------------------------------------------------------------- categories
+   Categories are data, not markup: adding one is one entry here, plus its
+   measurement prose in the static HTML the script clones from. `critical` is
+   used to mark the instructions on the page. It is deliberately NOT written
+   into the file: the field overrides a consumer's own defaults, and someone
+   who measured a shirt has not decided to override anything.               */
+const CATEGORIES = {
+  shirts: {
+    label: "Shirt",
+    critical: ["shoulders", "neck"],
+    size_systems: ["IT", "EU", "FR", "UK", "US", "JP", "alpha", "brand_specific"],
+    size_examples: {
+      IT: "40, 41, 42", EU: "40, 41, 42", FR: "40, 41, 42", JP: "39, 40, 41",
+      UK: "15.5, 16, 16.5", US: "15.5, 16, 16.5",
+      alpha: "S, M, L, XL", brand_specific: "whatever the brand prints"
+    },
+    measurements: [
+      { key: "neck_circumference", zone: "neck",          cm: [28, 55] },
+      { key: "shoulder_width",     zone: "shoulders",     cm: [30, 65] },
+      { key: "chest_width",        zone: "chest",         cm: [35, 85] },
+      { key: "waist_width",        zone: "waist",         cm: [30, 85] },
+      { key: "sleeve_length",      zone: "sleeve_length", cm: [35, 95] }
+    ]
+  }
+};
+
+/* ------------------------------------------------------------------- strings
+   No English string is written inside a statement below. Measurement prose
+   lives in MEASURE and is taken verbatim from spec/02-cut-profile.md, section
+   "Measurement names". When translation comes, it is a page per language.  */
+const UI = {
+  lede: "Lay a garment flat, take five measurements, and get a file that describes how it is cut.",
+  spec: 'The form is the easy way in. The data model is the point: read the <a href="https://github.com/agiofit/agiofit/tree/main/spec">specification</a>.',
+
+  sWrites: "Writes", sWritesV: "Cut Profile, one garment",
+  sSchema: "Checked against", sSchemaV: "cut-profile.schema.json v0.1.0",
+  sStatus: "Status", sStatusV: "draft \u2014 the model may still change",
+  sData: "Your data", sDataV: "stays in this browser, nothing is sent",
+
+  garment: "The garment",
+  garmentHint: "Only shirts for now. The rest of the vocabulary exists, but each category needs its measuring instructions written properly, so they arrive when someone asks for them. Tell us which you want.",
+  category: "Category",
+  sizeSystem: "Size system",
+  brand: "Brand",
+  styleName: "Model name",
+  composition: "Fabric composition",
+  compositionNote: "Copy the care label as it is written.",
+  unit: "Your tape reads in",
+  unitHint: "This is about the tape in your hand, not about the garment. A shirt labelled in one country can be measured with any tape: if yours is marked in centimetres, choose centimetres, whatever the size label says.",
+  implausible: "That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.",
+
+  flat: "Lay it flat",
+  flatHint: "The garment is laid flat, fastened, and not stretched. Widths are taken perpendicular to the centre line. Leave out anything you cannot measure rather than estimating it: a gap is useful, a guess is not.",
+
+  measure: "The measurements",
+  measureHint: "One garment, one size. If you own the same model in another size, add it: a Cut Profile describes a model, not a single item.",
+  sizeLabel: "Size label",
+  sizeLabelHint: "Exactly as written on the garment label.",
+  addSize: "Add another size",
+  dropSize: "Remove this size",
+  criticalTag: "cannot be altered",
+  criticalNote: "Leave this one out and every answer about this garment will count for less, and say so.",
+
+  who: "Who measured it",
+  whoHint: "This says where the numbers came from. It does not say they are right.",
+  publishedBy: "Measured by",
+  publishedByOptions: {
+    measured_by_owner: "The owner, with a tape",
+    brand: "The brand",
+    manufacturer: "The manufacturer",
+    retailer: "The retailer",
+    third_party_lab: "A third-party lab",
+    community: "The community"
+  },
+
+  advanced: "What the garment was meant to do",
+  advancedWhy: "These four fields ask what the garment was designed to do, not what the tape says. Only whoever drew or produced it can answer them.",
+  advancedLocked: "Choose the brand or the manufacturer above to fill these in. As the owner of a garment you can measure it exactly, but you cannot know what ease its designer intended, and an invented value is worse than an absent one.",
+  cut: "Cut",
+  cutNone: "not stated",
+  prodTol: "Production tolerance",
+  prodTolNote: "In the units you chose above.",
+  crit: "Critical zones",
+  critNote: "Comma separated. This replaces the reader's own defaults for this category.",
+  easeTitle: "Intended ease, per zone",
+  easeMin: "min",
+  easeMax: "max",
+
+  make: "Make the file",
+  makeHint: "The file is checked against the published schema before you can download it.",
+  build: "Check and show the file",
+  download: "Download",
+  valid: "Valid against cut-profile.schema.json v0.1.",
+  invalid: "Not valid yet:",
+  needOne: "Fill in at least one measurement.",
+  needSize: "Every size needs a label.",
+  schemaFail: "Could not load the schema to check against. Nothing was built.",
+
+  foot1: "The file is yours. Publish it where you like, send it to whoever you like, or keep it. Nothing is uploaded here and no Cut Profile is stored on agiofit.org.",
+  foot2: "This tool never asks for body measurements, and we do not want to receive any. A Cut Profile is about a garment.",
+  foot3: "There is no matching here yet. This page writes the garment side of the model; the part that compares it against a person is a separate piece of work."
+};
+
+/* Measurement prose, verbatim from spec/02-cut-profile.md. */
+const MEASURE = {
+  neck_circumference: "Collar fastened and laid flat, measured along the collar from the centre of the button to the centre of the buttonhole. This is the whole circumference, not half of it, despite the garment being flat.",
+  shoulder_width: "From shoulder seam to shoulder seam across the back. A raglan or kimono garment has no shoulder seams and should leave this out rather than estimate.",
+  chest_width: "Across, from armhole seam to armhole seam, about 2 cm below the armhole.",
+  waist_width: "Across, at the narrowest point. Where the garment does not narrow, halfway between armhole and hem.",
+  sleeve_length: "From the shoulder seam to the edge of the cuff, following the sleeve. On a raglan, from the base of the collar."
+};
+
+const CUTS = ["very_fitted", "fitted", "regular", "relaxed", "oversized"];
+const SCHEMA_URL = "../schemas/v0.1/cut-profile.schema.json";
+
+const $ = (id) => document.getElementById(id);
+const text = (id, s) => { const n = $(id); if (n) n.textContent = s; };
+
+/* ------------------------------------------------------------------ chrome */
+function paintStatic() {
+  text("t-lede", UI.lede);
+  $("t-spec").innerHTML = UI.spec;
+  text("s-writes-t", UI.sWrites); text("s-writes", UI.sWritesV);
+  text("s-schema-t", UI.sSchema); text("s-schema", UI.sSchemaV);
+  text("s-status-t", UI.sStatus); text("s-status", UI.sStatusV);
+  text("s-data-t", UI.sData);     text("s-data", UI.sDataV);
+  text("t-garment", UI.garment);   text("t-garment-hint", UI.garmentHint);
+  text("l-category", UI.category); text("l-size-system", UI.sizeSystem);
+  text("l-brand", UI.brand);       text("l-style", UI.styleName);
+  text("l-unit", UI.unit); text("t-unit-hint", UI.unitHint);
+  text("l-composition", UI.composition); text("n-composition", UI.compositionNote);
+  text("t-flat", UI.flat);         text("t-flat-hint", UI.flatHint);
+  text("t-measure", UI.measure);   text("t-measure-hint", UI.measureHint);
+  text("add-size", UI.addSize);
+  text("t-who", UI.who);           text("t-who-hint", UI.whoHint);
+  text("l-published-by", UI.publishedBy);
+  text("t-adv", UI.advanced);      text("t-adv-why", UI.advancedWhy);
+  text("t-adv-locked", UI.advancedLocked);
+  text("l-cut", UI.cut);
+  text("l-prodtol", UI.prodTol);   text("n-prodtol", UI.prodTolNote);
+  text("l-crit", UI.crit);         text("n-crit", UI.critNote);
+  text("t-make", UI.make);         text("t-make-hint", UI.makeHint);
+  text("build", UI.build);         text("download", UI.download);
+  text("t-foot-1", UI.foot1);      text("t-foot-2", UI.foot2); text("t-foot-3", UI.foot3);
+
+  for (const [key, c] of Object.entries(CATEGORIES)) {
+    $("category").append(new Option(c.label, key));
+  }
+  for (const [k, v] of Object.entries(UI.publishedByOptions)) {
+    $("published_by").append(new Option(v, k));
+  }
+  $("cut").append(new Option(UI.cutNone, ""));
+  for (const c of CUTS) $("cut").append(new Option(c.replace("_", " "), c));
+}
+
+function paintCategory() {
+  const c = CATEGORIES[$("category").value];
+  const sel = $("size_system");
+  sel.textContent = "";
+  for (const s of c.size_systems) sel.append(new Option(s, s));
+  $("sizes").textContent = "";
+  addSize();
+  paintEase(c);
+}
+
+/* ------------------------------------------------------------------- sizes */
+let sizeSeq = 0;
+
+function addSize() {
+  const c = CATEGORIES[$("category").value];
+  const id = ++sizeSeq;
+  const block = document.createElement("div");
+  block.className = "sizeblock";
+  block.dataset.size = id;
+
+  const top = document.createElement("div");
+  top.className = "top";
+  const f = document.createElement("div");
+  f.className = "field";
+  const lab = document.createElement("label");
+  lab.setAttribute("for", "size-label-" + id);
+  lab.textContent = UI.sizeLabel;
+  const inp = document.createElement("input");
+  inp.id = "size-label-" + id;
+  inp.className = "size-label";
+  inp.autocomplete = "off";
+  inp.placeholder = c.size_examples[$("size_system").value] || "";
+  const lnote = document.createElement("p");
+  lnote.className = "note";
+  lnote.textContent = UI.sizeLabelHint;
+  f.append(lab, inp, lnote);
+  top.append(f);
+  if (id > 1) {
+    const drop = document.createElement("button");
+    drop.type = "button";
+    drop.className = "drop";
+    drop.textContent = UI.dropSize;
+    drop.addEventListener("click", () => block.remove());
+    top.append(drop);
+  }
+  block.append(top);
+
+  for (const m of c.measurements) {
+    const row = document.createElement("div");
+    row.className = "pom";
+    const isCrit = c.critical.includes(m.zone);
+
+    const key = document.createElement("div");
+    key.className = "key";
+    key.textContent = m.key;
+    if (isCrit) {
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = UI.criticalTag;
+      key.append(tag);
+    }
+
+    const how = document.createElement("div");
+    how.className = "how";
+    how.textContent = MEASURE[m.key];
+    if (isCrit) {
+      const em = document.createElement("em");
+      em.textContent = " " + UI.criticalNote;
+      how.append(em);
+    }
+
+    const val = document.createElement("div");
+    val.className = "val";
+    const v = document.createElement("input");
+    v.className = "num measure-value";
+    v.inputMode = "decimal";
+    v.autocomplete = "off";
+    v.dataset.key = m.key;
+    v.setAttribute("aria-label", m.key);
+    const u = document.createElement("span");
+    u.className = "u";
+    u.textContent = $("unit").value;
+    val.append(v, u);
+
+    const warn = document.createElement("p");
+    warn.className = "warn";
+    warn.hidden = true;
+    warn.textContent = UI.implausible;
+    v.addEventListener("input", () => { warn.hidden = plausible(m, v); });
+
+    row.append(key, how, val, warn);
+    block.append(row);
+  }
+  $("sizes").append(block);
+}
+
+/* A hint, never a block. The garment may genuinely be unusual; the tape may be in the
+   other unit. Saying so is useful, refusing to write the file is not. */
+function plausible(m, input) {
+  const v = num(input);
+  if (v === null || !m.cm) return true;
+  const cm = $("unit").value === "in" ? v * 2.54 : v;
+  return cm >= m.cm[0] && cm <= m.cm[1];
+}
+
+/* The conditional section belongs to a population, and the document already says which one:
+   `published_by`. Nobody has to be told twice who they are. Fields inside are disabled when
+   they do not apply, and a disabled field is never collected. */
+const CAN_DECLARE_INTENT = ["brand", "manufacturer"];
+
+function paintAdvanced() {
+  const allowed = CAN_DECLARE_INTENT.includes($("published_by").value);
+  const box = $("adv");
+  box.classList.toggle("locked", !allowed);
+  $("t-adv-locked").hidden = allowed;
+  $("t-adv-why").hidden = !allowed;
+  for (const el of box.querySelectorAll("input, select")) el.disabled = !allowed;
+  if (!allowed) box.open = false;
+}
+
+function paintEase(c) {
+  const host = $("ease");
+  host.textContent = "";
+  const h = document.createElement("label");
+  h.textContent = UI.easeTitle;
+  h.style.display = "block";
+  h.style.marginBottom = "10px";
+  host.append(h);
+  const grid = document.createElement("div");
+  grid.className = "grid";
+  for (const m of c.measurements) {
+    const f = document.createElement("div");
+    f.className = "field";
+    const l = document.createElement("label");
+    l.textContent = m.zone;
+    const row = document.createElement("div");
+    row.className = "row";
+    row.style.display = "flex";
+    row.style.gap = "8px";
+    const lo = document.createElement("input");
+    lo.className = "num ease-min"; lo.inputMode = "decimal"; lo.placeholder = UI.easeMin;
+    lo.dataset.zone = m.zone;
+    const hi = document.createElement("input");
+    hi.className = "num ease-max"; hi.inputMode = "decimal"; hi.placeholder = UI.easeMax;
+    hi.dataset.zone = m.zone;
+    row.append(lo, hi);
+    f.append(l, row);
+    grid.append(f);
+  }
+  host.append(grid);
+}
+
+/* ------------------------------------------------------------------- build */
+function num(el) {
+  const raw = (el.value || "").trim().replace(",", ".");
+  if (raw === "") return null;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : null;
+}
+
+function collect() {
+  const unit = $("unit").value;
+  const doc = {
+    schema_version: "0.1.0",
+    cut_profile_id: crypto.randomUUID()
+  };
+
+  const brand = $("brand").value.trim();
+  const style = $("style_name").value.trim();
+  const comp = $("composition").value.trim();
+  if (brand) doc.brand = brand;
+  if (style) doc.style_name = style;
+
+  doc.category = $("category").value;
+  doc.size_system = $("size_system").value;
+  doc.measurement_method = "flat_laid";
+  if (comp) doc.fabric = { composition: comp };
+  doc.sizes = [];
+
+  for (const block of $("sizes").querySelectorAll(".sizeblock")) {
+    const label = block.querySelector(".size-label").value.trim();
+    const fm = {};
+    for (const input of block.querySelectorAll(".measure-value")) {
+      const v = num(input);
+      if (v !== null) fm[input.dataset.key] = { value: v, unit };
+    }
+    if (!label && Object.keys(fm).length === 0) continue;
+    doc.sizes.push({ size_label: label, finished_measurements: fm });
+  }
+
+  const intent = CAN_DECLARE_INTENT.includes($("published_by").value);
+
+  const cut = intent ? $("cut").value : "";
+  if (cut) doc.cut = cut;
+  const tol = intent ? num($("production_tolerance")) : null;
+  if (tol !== null) doc.production_tolerance = { value: tol, unit };
+  const crit = intent
+    ? $("critical_zones").value.split(",").map(s => s.trim()).filter(Boolean)
+    : [];
+  if (crit.length) doc.critical_zones = crit;
+
+  const ease = {};
+  for (const lo of (intent ? $("ease").querySelectorAll(".ease-min") : [])) {
+    const hi = $("ease").querySelector('.ease-max[data-zone="' + lo.dataset.zone + '"]');
+    const a = num(lo), b = num(hi);
+    if (a !== null && b !== null) ease[lo.dataset.zone] = { min: a, max: b, unit };
+  }
+  if (Object.keys(ease).length) doc.intended_ease = ease;
+
+  doc.provenance = {
+    published_by: $("published_by").value,
+    published_at: new Date().toISOString()
+  };
+
+  return doc;
+}
+
+function localProblems(doc) {
+  const out = [];
+  if (!doc.sizes.length) out.push(UI.needOne);
+  for (const s of doc.sizes) {
+    if (!s.size_label) { out.push(UI.needSize); break; }
+  }
+  if (doc.sizes.length && doc.sizes.every(s => Object.keys(s.finished_measurements).length === 0)) {
+    out.push(UI.needOne);
+  }
+  return out;
+}
+
+function slug(s) {
+  return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+let validator = null;
+let ready = null;
+
+function loadValidator() {
+  if (ready) return ready;
+  ready = fetch(SCHEMA_URL)
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(schema => {
+      const { Ajv2020, addFormats } = globalThis.AgioAjv;
+      const Ctor = Ajv2020.default || Ajv2020;
+      const fmt = addFormats.default || addFormats;
+      const ajv = new Ctor({ allErrors: true, strict: false });
+      fmt(ajv);
+      validator = ajv.compile(schema);
+    });
+  return ready;
+}
+
+let current = null;
+
+function show(doc, problems) {
+  const box = $("result");
+  box.textContent = "";
+  const out = $("out");
+  if (problems.length) {
+    const d = document.createElement("div");
+    d.className = "bad";
+    d.textContent = UI.invalid;
+    const ul = document.createElement("ul");
+    for (const p of problems) {
+      const li = document.createElement("li");
+      li.textContent = p;
+      ul.append(li);
+    }
+    d.append(ul);
+    box.append(d);
+    out.hidden = true;
+    $("download").disabled = true;
+    current = null;
+    return;
+  }
+  const d = document.createElement("div");
+  d.className = "ok";
+  d.textContent = UI.valid;
+  box.append(d);
+  out.textContent = JSON.stringify(doc, null, 2);
+  out.hidden = false;
+  $("download").disabled = false;
+  current = doc;
+}
+
+/* -------------------------------------------------------------------- wire */
+paintStatic();
+paintCategory();
+paintAdvanced();
+
+$("category").addEventListener("change", paintCategory);
+$("size_system").addEventListener("change", () => {
+  const c = CATEGORIES[$("category").value];
+  for (const el of document.querySelectorAll(".size-label")) {
+    el.placeholder = c.size_examples[$("size_system").value] || "";
+  }
+});
+$("unit").addEventListener("change", () => {
+  for (const u of document.querySelectorAll(".pom .u")) u.textContent = $("unit").value;
+  for (const input of document.querySelectorAll(".measure-value")) {
+    input.dispatchEvent(new Event("input"));
+  }
+});
+$("add-size").addEventListener("click", addSize);
+$("published_by").addEventListener("change", paintAdvanced);
+
+$("build").addEventListener("click", () => {
+  const doc = collect();
+  const problems = localProblems(doc);
+  if (problems.length) { show(doc, problems); return; }
+  loadValidator().then(() => {
+    if (validator(doc)) { show(doc, []); return; }
+    show(doc, validator.errors.map(e => (e.instancePath || "/") + " " + e.message));
+  }).catch(() => show(doc, [UI.schemaFail]));
+});
+
+$("download").addEventListener("click", () => {
+  if (!current) return;
+  const bits = [current.brand, current.style_name].filter(Boolean).map(slug).filter(Boolean);
+  const name = (bits.length ? bits.join("-") : current.category) + ".cut-profile.json";
+  const blob = new Blob([JSON.stringify(current, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(a.href);
+});
+</script>
+</body>
+</html>

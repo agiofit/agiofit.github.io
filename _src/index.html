@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/agiofitavatar32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/agiofitavatar192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<title>Agio Fit — an open, portable fit profile owned by the person</title>
+<meta name="description" content="Agio Fit is an open data model for a portable fit profile: Fit Profile, Cut Profile and Match Report, a reference implementation, and one rule — the profile stays yours; shops only ever get a size.">
+<link rel="canonical" href="https://agiofit.org/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agio Fit">
+<meta property="og:url" content="https://agiofit.org/">
+<meta property="og:title" content="Agio Fit — an open, portable fit profile owned by the person">
+<meta property="og:description" content="An open data model for a portable fit profile: Fit Profile, Cut Profile and Match Report. The profile stays yours; shops only ever get a size.">
+<meta property="og:image" content="https://agiofit.org/assets/social-preview-light.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="The Agio Fit logo, a terracotta ring around a night-blue disc, beside the words: an open, portable fit profile owned by the person, not the platform.">
+<meta property="og:locale" content="en">
+<meta property="og:locale:alternate" content="it">
+<meta property="og:locale:alternate" content="fr">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F0E8;          /* brand ivory */
+  --rule:#DFDCD2;
+  --ink:#1E2430;     /* brand night blue */
+  --ink-70:#4A5262;
+  --accent:#C96F4A;          /* logo terracotta */
+  --accent-ink:#A9532F;           /* darker terracotta, for small text */
+  --tape:#E9BC3F;          /* tailor's tape */
+  --tape-ink:#8A6A14;
+  --surface:#FFFFFF;
+  --shadow:0 1px 2px rgba(30,42,56,.08), 0 6px 18px rgba(30,42,56,.07);
+  --radius:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
+body{
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  color:var(--ink);
+  background:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px),
+    var(--paper);
+  background-size:28px 28px, 28px 28px, auto;
+  line-height:1.6;
+  font-size:16px;
+}
+a{color:var(--accent-ink)}
+a:focus-visible, button:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+/* ---------- tripla lingua / three languages ---------- */
+body.lang-en .it, body.lang-en .fr{display:none}
+body.lang-it .en, body.lang-it .fr{display:none}
+body.lang-fr .en, body.lang-fr .it{display:none}
+
+.pagina{max-width:960px;margin:0 auto;padding:0 24px 96px}
+
+.lingua{
+  position:sticky;top:14px;z-index:10;display:flex;justify-content:flex-end;
+  max-width:960px;margin:0 auto;padding:14px 24px 0;
+}
+.lingua-box{display:flex;gap:4px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:999px;padding:4px;box-shadow:var(--shadow)}
+.lingua-box button{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.04em;
+  border:0;background:transparent;color:var(--ink-70);padding:5px 12px;border-radius:999px;cursor:pointer;
+}
+.lingua-box button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+
+/* ---------- hero ---------- */
+header{padding-top:44px}
+.hero-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:36px;align-items:center}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px}
+.eyebrow a.credito{color:inherit}
+h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(40px,7vw,64px);line-height:1.05;letter-spacing:-.01em}
+h1 .corsivo{font-weight:400;font-style:italic;font-size:.52em;display:block;margin-top:10px;color:var(--ink-70)}
+.sottotitolo{margin-top:20px;font-size:17.5px;color:var(--ink-70);max-width:56ch}
+.cta{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
+.cta a{
+  display:inline-block;text-decoration:none;border-radius:999px;padding:11px 22px;
+  font-weight:600;font-size:15px;border:1.5px solid var(--ink);
+}
+.cta a.piena{background:var(--ink);color:var(--paper)}
+.cta a.vuota{background:transparent;color:var(--ink)}
+.cta a.piena:hover{background:var(--accent);border-color:var(--accent)}
+.cta a.vuota:hover{border-color:var(--accent);color:var(--accent-ink)}
+
+.logo-hero{display:flex;justify-content:center}
+.logo-hero svg{width:min(240px,60vw);height:auto;filter:drop-shadow(0 8px 22px rgba(30,42,56,.12))}
+
+/* ---------- metro da sarta / tailor's tape divider ---------- */
+.metro{margin:44px 0 0;user-select:none}
+.metro .tacche{height:16px;background:
+  repeating-linear-gradient(90deg, var(--tape-ink) 0 1px, transparent 1px 7px),
+  var(--tape);
+  border-radius:3px 3px 0 0;border:1px solid var(--tape-ink);border-bottom:0}
+.metro .numeri{display:flex;justify-content:space-between;border:1px solid var(--tape-ink);border-top:0;
+  background:var(--tape);border-radius:0 0 3px 3px;
+  padding:0 6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--tape-ink);letter-spacing:1px}
+
+/* ---------- sezioni / sections ---------- */
+.sezione{margin-top:72px}
+.kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px}
+h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.15}
+.intro{margin-top:12px;color:var(--ink-70);max-width:64ch}
+
+/* problema / problem */
+.problema{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.problema .voce{background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
+  padding:18px 18px 16px;box-shadow:var(--shadow)}
+.problema .voce b{display:block;font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin-bottom:6px}
+.problema .voce p{font-size:14.5px;color:var(--ink-70)}
+
+/* tre documenti / three documents */
+.tre-doc{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.doc{background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
+  padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.doc h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600}
+.doc .chi{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--tape-ink);margin:2px 0 8px}
+.doc p{font-size:14.5px;color:var(--ink-70);flex:1}
+.doc a.schema{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--accent-ink);
+  margin-top:12px;word-break:break-all;text-decoration:none;border-top:1px dashed var(--rule);padding-top:10px}
+.doc a.schema:hover{text-decoration:underline}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:.92em;background:rgba(30,36,48,.06);padding:1px 5px;border-radius:4px}
+
+/* ---------- la firma: il gradiente di disclosure / signature: the disclosure gradient ---------- */
+.vault{margin-top:26px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.livello{display:grid;grid-template-columns:170px 1fr;border-top:1px solid var(--rule)}
+.livello:first-child{border-top:0}
+.livello .nome{
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.04em;
+  padding:16px 14px;background:rgba(30,36,48,.035);color:var(--ink);
+  display:flex;align-items:center;gap:8px}
+.livello .nome::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:0 0 auto}
+.livello .campi{padding:14px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.campo{font-family:'IBM Plex Mono',monospace;font-size:12px;background:rgba(30,36,48,.06);
+  border:1px solid var(--rule);border-radius:6px;padding:3px 9px;color:var(--ink-70)}
+.campo.via{opacity:.34;text-decoration:line-through;text-decoration-color:var(--accent-ink)}
+.campo.taglia{background:var(--ink);color:var(--paper);border-color:var(--ink);
+  font-size:15px;font-weight:500;padding:5px 14px}
+.vault-nota{padding:14px 16px;border-top:1px dashed var(--rule);font-size:13.5px;color:var(--ink-70)}
+.vault-nota b{color:var(--accent-ink)}
+
+/* non è / is not */
+.non-e{margin-top:26px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 22px}
+.non-e p{font-size:15px;padding-left:26px;position:relative;color:var(--ink-70)}
+.non-e p::before{content:"✕";position:absolute;left:0;top:1px;color:var(--accent);font-weight:600}
+.non-e p b{color:var(--ink)}
+
+/* stato / status */
+.stato{margin-top:26px;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:20px 22px}
+.stato p{font-size:15px;color:var(--ink-70)}
+.stato p + p{margin-top:10px}
+.stato .badge-draft{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;
+  background:var(--tape);color:var(--tape-ink);border:1px solid var(--tape-ink);
+  border-radius:6px;padding:2px 9px;margin-right:8px;white-space:nowrap}
+
+footer{margin-top:80px;border-top:1px solid var(--rule);padding-top:22px;
+  font-size:13px;color:var(--ink-70);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
+
+@media (max-width:760px){
+  .hero-grid{grid-template-columns:1fr}
+  .logo-hero{order:-1}
+  .problema,.tre-doc,.non-e{grid-template-columns:1fr}
+  .livello{grid-template-columns:1fr}
+  .livello .nome{padding-bottom:4px;background:transparent}
+}
+
+  /* ---- barra di navigazione condivisa / shared site navigation ---- */
+  .sitenav{border-bottom:1px solid var(--rule);background:rgba(245,240,232,.9);
+    backdrop-filter:saturate(140%) blur(6px);position:sticky;top:0;z-index:20}
+  .sitenav-inner{max-width:960px;margin:0 auto;padding:0 24px;height:58px;
+    display:flex;align-items:center;gap:24px}
+  .sitenav-mark{font-family:'Fraunces',serif;font-weight:600;font-size:18px;
+    color:var(--ink);text-decoration:none;margin-right:auto;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+  .sitenav-mark img{display:block;border-radius:999px}
+  .sitenav a.sitenav-link{font-size:14.5px;color:var(--ink);text-decoration:none;opacity:.7}
+  .sitenav a.sitenav-link:hover{opacity:1}
+  .sitenav a.sitenav-link[aria-current]{opacity:1;font-weight:600;
+    box-shadow:inset 0 -2px 0 var(--accent)}
+  .sitenav-ver{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;
+    background:var(--tape);color:var(--tape-ink);border-radius:999px;padding:3px 9px}
+  @media(max-width:640px){.sitenav-inner{gap:14px;overflow-x:auto}.sitenav-ver{display:none}}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://agiofit.org/#author",
+      "name": "Antonio Ferraioli",
+      "identifier": "https://orcid.org/0009-0009-9344-1975",
+      "sameAs": ["https://orcid.org/0009-0009-9344-1975", "https://github.com/antferr"]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://agiofit.org/#website",
+      "url": "https://agiofit.org/",
+      "name": "Agio Fit",
+      "inLanguage": ["en", "it", "fr"],
+      "publisher": {"@id": "https://agiofit.org/#author"},
+      "mainEntity": {"@id": "https://agiofit.org/#specification"}
+    },
+    {
+      "@type": "TechArticle",
+      "@id": "https://agiofit.org/#specification",
+      "name": "Agio Fit: an open data model for a portable fit profile",
+      "description": "An open data model for a portable, person-owned fit profile. Three JSON Schema 2020-12 documents: Fit Profile (the person), Cut Profile (how a garment is cut, size by size) and Match Report (the explained recommendation). The profile stays with the person; only the result is disclosed.",
+      "url": "https://agiofit.org/",
+      "version": "0.1.0",
+      "license": "https://creativecommons.org/licenses/by/4.0/",
+      "author": {"@id": "https://agiofit.org/#author"},
+      "sameAs": "https://doi.org/10.5281/zenodo.21922898"
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "@id": "https://agiofit.org/#reference-implementation",
+      "name": "Agio Fit reference implementation",
+      "codeRepository": "https://github.com/agiofit/agiofit",
+      "programmingLanguage": "Python",
+      "license": "https://www.apache.org/licenses/LICENSE-2.0",
+      "isBasedOn": {"@id": "https://agiofit.org/#specification"},
+      "author": {"@id": "https://agiofit.org/#author"}
+    }
+  ]
+}
+</script>
+</head>
+<body class="lang-en">
+<nav class="sitenav">
+  <div class="sitenav-inner">
+    <a class="sitenav-mark" href="/"><img src="/assets/agiofitavatar32.png" alt="" width="22" height="22">Agio Fit</a>
+    <a class="sitenav-link" aria-current="page" href="/">Overview</a>
+    <a class="sitenav-link" href="/guide/">Guide</a>
+    <a class="sitenav-link" href="/builder/">Builder</a>
+    <a class="sitenav-link" href="/schemas/v0.1/cut-profile.schema.json">Schemas</a>
+    <span class="sitenav-ver">v0.1 draft</span>
+  </div>
+</nav>
+
+
+<div class="lingua">
+  <div class="lingua-box" role="group" aria-label="Language / Lingua / Langue">
+    <button id="btn-en" aria-pressed="true" onclick="setLang('en')">English</button>
+    <button id="btn-it" aria-pressed="false" onclick="setLang('it')">Italiano</button>
+    <button id="btn-fr" aria-pressed="false" onclick="setLang('fr')">Français</button>
+  </div>
+</div>
+
+<div class="pagina">
+
+<header>
+  <div class="hero-grid">
+    <div>
+      <p class="eyebrow">
+        <span class="it">v0.1 draft · standard aperto · un progetto personale di <a class="credito" href="https://github.com/antferr">antferr</a></span><span class="en">v0.1 draft · open standard · a personal project by <a class="credito" href="https://github.com/antferr">antferr</a></span><span class="fr">v0.1 draft · standard ouvert · un projet personnel de <a class="credito" href="https://github.com/antferr">antferr</a></span>
+      </p>
+      <h1>Agio&nbsp;Fit
+        <span class="corsivo"><span class="it">il profilo di vestibilità è tuo. Ovunque.</span><span class="en">your fit profile is yours. Everywhere.</span><span class="fr">votre profil de bien-aller vous appartient. Partout.</span></span>
+      </h1>
+      <p class="sottotitolo">
+        <span class="it">Ogni servizio di size recommendation funziona — e tiene il tuo profilo prigioniero. Agio Fit è il contrario: un modello dati aperto in cui le misure vivono in un <em>vault</em> che scegli tu, e ai negozi esce solo la taglia.</span>
+        <span class="en">Every size-recommendation service works — and keeps your profile captive. Agio Fit is the opposite: an open data model where your measurements live in a <em>vault</em> you choose, and shops only ever get a size.</span>
+        <span class="fr">Tous les services de recommandation de taille fonctionnent — et gardent votre profil captif. Agio Fit fait l'inverse : un modèle de données ouvert où vos mensurations vivent dans un <em>vault</em> que vous choisissez, et les boutiques ne reçoivent qu'une taille.</span>
+      </p>
+      <div class="cta">
+        <a class="piena" href="guide/"><span class="it">Come funziona</span><span class="en">How it works</span><span class="fr">Comment ça marche</span></a>
+        <a class="vuota" href="https://github.com/agiofit/agiofit"><span class="it">Specifica e codice</span><span class="en">Spec &amp; code</span><span class="fr">Spécification &amp; code</span></a>
+      </div>
+    </div>
+
+    <!-- il marchio, pulito: la versione quotata vive nella guida
+         the mark, clean: the annotated version lives in the guide -->
+    <div class="logo-hero" aria-hidden="false">
+      <svg viewBox="0 0 240 240" role="img" aria-label="Agio Fit — logo">
+        <circle cx="120" cy="120" r="84" fill="none" stroke="#c96f4a" stroke-width="15"/>
+        <circle cx="120" cy="120" r="42" fill="#1e2430"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="metro" aria-hidden="true">
+    <div class="tacche"></div>
+    <div class="numeri"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span></div>
+  </div>
+</header>
+
+<!-- ============ il problema / the problem ============ -->
+<section class="sezione">
+  <p class="kicker"><span class="it">Il problema</span><span class="en">The problem</span><span class="fr">Le problème</span></p>
+  <h2><span class="it">La taglia giusta esiste già. Il tuo profilo no.</span><span class="en">The right size already exists. Your profile doesn't.</span><span class="fr">La bonne taille existe déjà. Votre profil, non.</span></h2>
+  <div class="problema">
+    <div class="voce">
+      <b><span class="it">I resi</span><span class="en">Returns</span><span class="fr">Les retours</span></b>
+      <p><span class="it">Una quota rilevante dei resi nel fashion online dipende dalla taglia. La risposta del mercato è il <em>bracketing</em>: ordini tre taglie, ne tieni una, ne rispedisci due.</span><span class="en">A large share of online fashion returns are size-related. The market's answer is <em>bracketing</em>: order three sizes, keep one, send two back.</span><span class="fr">Une part importante des retours dans la mode en ligne est liée à la taille. La réponse du marché : le <em>bracketing</em> — commander trois tailles, en garder une, en renvoyer deux.</span></p>
+    </div>
+    <div class="voce">
+      <b><span class="it">I silos</span><span class="en">The silos</span><span class="fr">Les silos</span></b>
+      <p><span class="it">La size recommendation funziona — ma in ogni implementazione esistente il profilo appartiene al fornitore o al retailer. Lo ricostruisci, implicitamente, in ogni negozio in cui entri.</span><span class="en">Size recommendation works — but in every existing implementation the profile belongs to the vendor or the retailer. You rebuild it, implicitly, at every shop you visit.</span><span class="fr">La recommandation de taille fonctionne — mais dans toutes les implémentations existantes, le profil appartient au fournisseur ou au détaillant. Vous le reconstruisez, implicitement, dans chaque boutique.</span></p>
+    </div>
+    <div class="voce">
+      <b><span class="it">Gli agenti</span><span class="en">The agents</span><span class="fr">Les agents</span></b>
+      <p><span class="it">I protocolli del commercio agentico stanno standardizzando catalogo, checkout e interfacce — ma non la vestibilità. L'assistente che comprerà vestiti per te oggi indovinerebbe la taglia dal nulla.</span><span class="en">Agentic commerce protocols are standardising catalogue, checkout and interfaces — but not fit. The assistant that will buy clothes on your behalf would, today, guess your size from nothing.</span><span class="fr">Les protocoles du commerce agentique standardisent le catalogue, le paiement et les interfaces — mais pas le bien-aller. L'assistant qui achètera vos vêtements devinerait, aujourd'hui, votre taille à partir de rien.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ cosa è / what it is ============ -->
+<section class="sezione">
+  <p class="kicker"><span class="it">Cosa è</span><span class="en">What it is</span><span class="fr">Ce que c'est</span></p>
+  <h2><span class="it">Tre documenti JSON, una raccomandazione spiegata</span><span class="en">Three JSON documents, one explained recommendation</span><span class="fr">Trois documents JSON, une recommandation expliquée</span></h2>
+  <p class="intro">
+    <span class="it">Il primo lo possiedi tu. Il secondo lo pubblica chi vende. Il terzo è l'unica cosa che viaggia tra i due — con la confidenza esposta e le ragioni per zona, mai una taglia calata dall'alto.</span>
+    <span class="en">You own the first. The seller publishes the second. The third is the only thing that travels between the two — confidence exposed, per-zone reasoning, never a size handed down from a black box.</span>
+    <span class="fr">Le premier vous appartient. Le second est publié par le vendeur. Le troisième est la seule chose qui circule entre les deux — confiance exposée, raisonnement par zone, jamais une taille tombée d'une boîte noire.</span>
+  </p>
+  <div class="tre-doc">
+    <div class="doc">
+      <h3>Fit Profile</h3>
+      <p class="chi"><span class="it">— tuo</span><span class="en">— yours</span><span class="fr">— à vous</span></p>
+      <p><span class="it">Misure corporee con fonte e incertezza dichiarate, preferenze di vestibilità e lo storico di come i capi passati ti sono andati davvero.</span><span class="en">Body measurements with declared source and uncertainty, fit preferences, and the history of how past garments actually fitted you.</span><span class="fr">Mensurations avec source et incertitude déclarées, préférences de coupe et historique de la façon dont les vêtements passés vous sont réellement allés.</span></p>
+      <a class="schema" href="schemas/v0.1/fit-profile.schema.json">schemas/v0.1/fit-profile.schema.json</a>
+    </div>
+    <div class="doc">
+      <h3>Cut Profile</h3>
+      <p class="chi"><span class="it">— di chi vende</span><span class="en">— the seller's</span><span class="fr">— au vendeur</span></p>
+      <p><span class="it">Come il capo è <b>tagliato</b>, non come il brand chiama la taglia: misure del capo finito per taglia, agio previsto, elasticità, provenienza del dato.</span><span class="en">How the garment is <b>cut</b>, not what the brand calls the size: finished measurements per size, intended ease, stretch, data provenance.</span><span class="fr">Comment le vêtement est <b>coupé</b>, et non comment la marque nomme la taille : mesures du vêtement fini par taille, aisance prévue, élasticité, provenance des données.</span></p>
+      <a class="schema" href="schemas/v0.1/cut-profile.schema.json">schemas/v0.1/cut-profile.schema.json</a>
+    </div>
+    <div class="doc">
+      <h3>Match Report</h3>
+      <p class="chi"><span class="it">— ciò che viaggia</span><span class="en">— what travels</span><span class="fr">— ce qui circule</span></p>
+      <p><span class="it">Una taglia, le alternative, il ragionamento zona per zona e una confidenza onesta — decomposta, cappata quando i dati sono pochi, mai millantata.</span><span class="en">A size, the alternatives, zone-by-zone reasoning and an honest confidence — decomposed, capped when data is thin, never overstated.</span><span class="fr">Une taille, les alternatives, le raisonnement zone par zone et une confiance honnête — décomposée, plafonnée quand les données manquent, jamais surestimée.</span></p>
+      <a class="schema" href="schemas/v0.1/match-report.schema.json">schemas/v0.1/match-report.schema.json</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ scenari / what becomes possible ============ -->
+<section class="sezione">
+  <p class="kicker"><span class="it">Scenari</span><span class="en">In practice</span><span class="fr">En pratique</span></p>
+  <h2><span class="it">Cosa diventa possibile quando un capo pubblica il proprio taglio</span><span class="en">What becomes possible when a garment publishes its cut</span><span class="fr">Ce qui devient possible quand un vêtement publie sa coupe</span></h2>
+  <div class="problema">
+    <div class="voce">
+      <b><span class="it">In negozio</span><span class="en">In store</span><span class="fr">En boutique</span></b>
+      <p><span class="it">Il camerino in tasca: sull'etichetta un QR code punta al Cut Profile. Lo inquadri e il confronto avviene sul tuo telefono — sai se ti veste prima di provarlo, e al negozio non esce nulla. Nemmeno la taglia.</span><span class="en">The fitting room in your pocket: a QR code on the label points to the Cut Profile. Scan it and the match runs on your phone — you know whether it fits before trying it on, and nothing leaves for the shop. Not even the size.</span><span class="fr">La cabine d'essayage dans la poche : un QR code sur l'étiquette pointe vers le Cut Profile. Scannez-le et la comparaison se fait sur votre téléphone — vous savez s'il vous va avant de l'essayer, et rien ne sort vers la boutique. Pas même la taille.</span></p>
+    </div>
+    <div class="voce">
+      <b><span class="it">Online</span><span class="en">Online</span><span class="fr">En ligne</span></b>
+      <p><span class="it">Lo stesso gesto dove il camerino non esiste: sull'ecommerce il capo non si può provare, ma il suo taglio è pubblicato e il tuo profilo risponde — con la confidenza esposta e le ragioni per zona, non con una promessa.</span><span class="en">The same gesture where no fitting room exists: online the garment can't be tried on, but its cut is published and your profile answers — with confidence exposed and per-zone reasoning, not a promise.</span><span class="fr">Le même geste là où la cabine n'existe pas : en ligne le vêtement ne s'essaie pas, mais sa coupe est publiée et votre profil répond — avec la confiance exposée et le raisonnement par zone, pas une promesse.</span></p>
+    </div>
+    <div class="voce">
+      <b><span class="it">«Veste come»</span><span class="en">"Fits like"</span><span class="fr">« Taille comme »</span></b>
+      <p><span class="it">Due capi che pubblicano il taglio si confrontano tra loro: un retailer può dirti che questa giacca è tagliata come quella che hai tenuto. Un confronto capo-contro-capo, che non tocca mai le tue misure.</span><span class="en">Two garments that publish their cut can be compared with each other: a retailer can tell you this jacket is cut like the one you kept. A garment-to-garment comparison that never touches your measurements.</span><span class="fr">Deux vêtements qui publient leur coupe se comparent entre eux : un détaillant peut vous dire que cette veste est coupée comme celle que vous avez gardée. Une comparaison vêtement-contre-vêtement, qui ne touche jamais vos mensurations.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ la firma: cosa esce dal vault / signature: what leaves the vault ============ -->
+<section class="sezione">
+  <p class="kicker"><span class="it">Privacy by design</span><span class="en">Privacy by design</span><span class="fr">Privacy by design</span></p>
+  <h2><span class="it">Quattro livelli di disclosure. Tu scegli quanto esce.</span><span class="en">Four disclosure levels. You choose what leaves.</span><span class="fr">Quatre niveaux de divulgation. Vous choisissez ce qui sort.</span></h2>
+  <p class="intro">
+    <span class="it">Nello scenario in negozio non esce niente: il calcolo avviene interamente dal tuo lato. Quando invece serve che qualcosa esca — un ecommerce, un reso, il tuo sarto — la risposta è graduata: dal profilo completo fino a una taglia e nient'altro.</span>
+    <span class="en">In the in-store scenario nothing leaves: the computation happens entirely on your side. When something does need to leave — an online shop, a return, your tailor — the answer is graduated: from the full profile down to a size and nothing else.</span>
+    <span class="fr">Dans le scénario en boutique, rien ne sort : le calcul se fait entièrement de votre côté. Quand quelque chose doit sortir — une boutique en ligne, un retour, votre tailleur — la réponse est graduée : du profil complet jusqu'à une taille et rien d'autre.</span>
+  </p>
+  <div class="vault">
+    <div class="livello">
+      <div class="nome">full</div>
+      <div class="campi">
+        <span class="campo"><span class="it">misure corporee</span><span class="en">body measurements</span><span class="fr">mensurations</span></span>
+        <span class="campo"><span class="it">preferenze</span><span class="en">preferences</span><span class="fr">préférences</span></span>
+        <span class="campo"><span class="it">storico</span><span class="en">history</span><span class="fr">historique</span></span>
+        <span class="campo"><span class="it">ragioni per zona</span><span class="en">per-zone reasoning</span><span class="fr">raisonnement par zone</span></span>
+        <span class="campo taglia">41</span>
+      </div>
+    </div>
+    <div class="livello">
+      <div class="nome">scoped</div>
+      <div class="campi">
+        <span class="campo via"><span class="it">misure corporee</span><span class="en">body measurements</span><span class="fr">mensurations</span></span>
+        <span class="campo"><span class="it">solo le zone richieste</span><span class="en">requested zones only</span><span class="fr">zones demandées uniquement</span></span>
+        <span class="campo"><span class="it">ragioni per zona</span><span class="en">per-zone reasoning</span><span class="fr">raisonnement par zone</span></span>
+        <span class="campo taglia">41</span>
+      </div>
+    </div>
+    <div class="livello">
+      <div class="nome">explained</div>
+      <div class="campi">
+        <span class="campo via"><span class="it">misure corporee</span><span class="en">body measurements</span><span class="fr">mensurations</span></span>
+        <span class="campo via"><span class="it">agio in cm</span><span class="en">ease in cm</span><span class="fr">aisance en cm</span></span>
+        <span class="campo"><span class="it">ragioni per zona, senza numeri</span><span class="en">per-zone reasoning, no numbers</span><span class="fr">raisonnement par zone, sans chiffres</span></span>
+        <span class="campo taglia">41</span>
+      </div>
+    </div>
+    <div class="livello">
+      <div class="nome">result_only</div>
+      <div class="campi">
+        <span class="campo taglia">41</span>
+      </div>
+    </div>
+    <p class="vault-nota">
+      <span class="it"><b>La perdita aritmetica</b> è il perché dei livelli bassi: pubblicare insieme l'agio in centimetri e le misure del capo rivelerebbe le misure del corpo per sottrazione. Sotto <span class="mono">scoped</span>, i valori di agio vengono rimossi alla serializzazione.</span>
+      <span class="en"><b>The arithmetic leak</b> is why the lower levels exist: publishing ease in centimetres next to the garment's measurements would reveal body measurements by subtraction. Below <span class="mono">scoped</span>, ease values are stripped at serialisation.</span>
+      <span class="fr"><b>La fuite arithmétique</b> justifie les niveaux bas : publier l'aisance en centimètres à côté des mesures du vêtement révélerait les mensurations par soustraction. En dessous de <span class="mono">scoped</span>, les valeurs d'aisance sont retirées à la sérialisation.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ============ cosa non è / what it is not ============ -->
+<section class="sezione">
+  <p class="kicker"><span class="it">Perimetro</span><span class="en">Scope</span><span class="fr">Périmètre</span></p>
+  <h2><span class="it">Cosa non è, dichiarato prima che lo chiediate</span><span class="en">What it is not, stated before you ask</span><span class="fr">Ce que ce n'est pas, déclaré avant qu'on le demande</span></h2>
+  <div class="non-e">
+    <p><span class="it"><b>Non un fornitore di size recommendation.</b> L'argomento è proprietà e portabilità; diventare un altro silo lo distruggerebbe.</span><span class="en"><b>Not a size-recommendation vendor.</b> The argument is ownership and portability; becoming another silo would destroy it.</span><span class="fr"><b>Pas un fournisseur de recommandation de taille.</b> L'argument est la propriété et la portabilité ; devenir un silo de plus le détruirait.</span></p>
+    <p><span class="it"><b>Non un sistema di identità.</b> Il profilo vive in un vault scelto dalla persona; autenticazione e custodia sono rimandate ai wallet esistenti.</span><span class="en"><b>Not an identity system.</b> The profile lives in a vault the person chooses; authentication and custody are deferred to existing wallets.</span><span class="fr"><b>Pas un système d'identité.</b> Le profil vit dans un vault choisi par la personne ; authentification et garde sont déléguées aux wallets existants.</span></p>
+    <p><span class="it"><b>Non una tecnologia di scansione.</b> Il modello accetta misure da qualunque fonte — e ne dichiara la qualità invece di fingerla uniforme.</span><span class="en"><b>Not a scanning technology.</b> The model accepts measurements from any source — and declares their quality instead of pretending it uniform.</span><span class="fr"><b>Pas une technologie de scan.</b> Le modèle accepte des mesures de toute source — et en déclare la qualité au lieu de la feindre uniforme.</span></p>
+    <p><span class="it"><b>Non un aggregatore di tabelle taglie.</b> Le tabelle dicono come un brand <em>chiama</em> una taglia, non come il capo è tagliato.</span><span class="en"><b>Not a size-chart aggregator.</b> Charts say what a brand <em>calls</em> a size, not how the garment is cut.</span><span class="fr"><b>Pas un agrégateur de guides des tailles.</b> Les guides disent comment une marque <em>nomme</em> une taille, pas comment le vêtement est coupé.</span></p>
+    <p><span class="it"><b>Non un protocollo.</b> È un modello dati: funziona su una normale API HTTP, e l'algoritmo non è normativo — normativa è la forma della risposta.</span><span class="en"><b>Not a protocol.</b> It is a data model: it works over a plain HTTP API, and the algorithm is not normative — the shape of the answer is.</span><span class="fr"><b>Pas un protocole.</b> C'est un modèle de données : il fonctionne sur une simple API HTTP, et l'algorithme n'est pas normatif — la forme de la réponse l'est.</span></p>
+  </div>
+</section>
+
+<!-- ============ stato e partecipazione / status and getting involved ============ -->
+<section class="sezione">
+  <p class="kicker"><span class="it">Stato</span><span class="en">Status</span><span class="fr">État</span></p>
+  <h2><span class="it">v0.1 draft, in pubblico</span><span class="en">v0.1 draft, in the open</span><span class="fr">v0.1 draft, au grand jour</span></h2>
+  <div class="stato">
+    <p><span class="badge-draft">v0.1 draft</span>
+      <span class="it">Niente è stabile prima della 1.0. Ma un impegno c'è già: gli identificatori degli schemi restano risolvibili, e le rotture incrementano la versione invece di mutare uno schema pubblicato.</span>
+      <span class="en">Nothing is stable before 1.0. One commitment already holds: schema identifiers stay resolvable, and breaking changes bump the version instead of mutating a published schema.</span>
+      <span class="fr">Rien n'est stable avant la 1.0. Un engagement tient déjà : les identifiants des schémas restent résolubles, et les ruptures incrémentent la version au lieu de modifier un schéma publié.</span>
+    </p>
+    <p>
+      <span class="it">Specifica in CC BY 4.0, implementazione di riferimento in Apache 2.0 — zero dipendenze a runtime, così l'invariante di privacy si verifica leggendo il codice in un pomeriggio. Il contributo più prezioso? Un corpo e un capo su cui la raccomandazione è palesemente sbagliata, sotto forma di test che fallisce.</span>
+      <span class="en">Specification under CC BY 4.0, reference implementation under Apache 2.0 — zero runtime dependencies, so the privacy invariant can be verified by reading the code in an afternoon. The most valuable contribution? A body and a garment where the answer is obviously wrong, as a failing test.</span>
+      <span class="fr">Spécification sous CC BY 4.0, implémentation de référence sous Apache 2.0 — zéro dépendance à l'exécution, pour que l'invariant de vie privée se vérifie en lisant le code en un après-midi. La contribution la plus précieuse ? Un corps et un vêtement où la recommandation est manifestement fausse, sous forme de test qui échoue.</span>
+    </p>
+    <div class="cta" style="margin-top:18px">
+      <a class="piena" href="https://github.com/agiofit/agiofit"><span class="it">Il repository</span><span class="en">The repository</span><span class="fr">Le dépôt</span></a>
+      <a class="vuota" href="guide/"><span class="it">La guida interattiva</span><span class="en">The interactive guide</span><span class="fr">Le guide interactif</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Antonio Ferraioli · Agio Fit · <span class="it">un progetto personale di <a href="https://github.com/antferr">antferr</a></span><span class="en">a personal project by <a href="https://github.com/antferr">antferr</a></span><span class="fr">un projet personnel de <a href="https://github.com/antferr">antferr</a></span></span>
+  <span class="mono-piccolo">spec: CC BY 4.0 · code: Apache-2.0 · <a href="https://github.com/agiofit">github.com/agiofit</a></span>
+</footer>
+
+</div>
+
+<script>
+function setLang(l){
+  document.body.className = 'lang-' + l;
+  document.getElementById('html-root').setAttribute('lang', l);
+  ['en','it','fr'].forEach(function(x){
+    document.getElementById('btn-' + x).setAttribute('aria-pressed', l === x);
+  });
+}
+</script>
+
+</body>
+</html>
