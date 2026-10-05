@@ -116,6 +116,7 @@ def build_page(source: str, page: str, lang: str) -> str:
     if lang != "en":
         h = h.replace('href="/guide/"', 'href="/%s/guide/"' % lang)
         h = h.replace('href="/"', 'href="/%s/"' % lang)
+        h = h.replace('href="/#schemas"', 'href="/%s/#schemas"' % lang)
 
     # 5. the switcher: links, not JavaScript
     h = re.sub(
