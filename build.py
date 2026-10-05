@@ -166,6 +166,29 @@ def main() -> int:
             print("\n  Nothing written: language spans are still in the output\n")
             return 1
 
+    urls = [f"{SITE}/{out_path(p, l)}" for p in PAGES for l in LANGS] + [f"{SITE}/builder/"]
+    schemas = ["fit-profile", "cut-profile", "match-report"]
+    sitemap_urls = urls + [f"{SITE}/schemas/v0.1/{s}.schema.json" for s in schemas]
+
+    # every sitemap URL needs its file; the pages this run writes count as present
+    planned = {ROOT / out_path(page, lang) / "index.html" for page, lang, _ in plan}
+    missing = []
+    for u in sitemap_urls:
+        if not u.startswith(SITE + "/"):
+            missing.append(f"{u}  (does not start with {SITE}/)")
+            continue
+        rel = u[len(SITE) + 1:]
+        if rel == "" or rel.endswith("/"):
+            rel += "index.html"
+        if ROOT / rel not in planned and not (ROOT / rel).is_file():
+            missing.append(f"{u}  (no file {rel})")
+    if missing:
+        print()
+        for m in missing:
+            print(f"  {m}")
+        print("\n  Nothing written: sitemap URLs without a file\n")
+        return 1
+
     if not write:
         print("\nDry run: nothing was touched.")
         print("To write for real:  python build.py --write\n")
@@ -176,12 +199,7 @@ def main() -> int:
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(html, encoding="utf-8", newline="")
 
-    urls = [f"{SITE}/{out_path(p, l)}" for p in PAGES for l in LANGS] + [f"{SITE}/builder/"]
-    schemas = ["fit-profile", "cut-profile", "match-report"]
-    rows = "\n".join(f"  <url><loc>{u}</loc></url>" for u in urls)
-    rows += "\n" + "\n".join(
-        f"  <url><loc>{SITE}/schemas/v0.1/{s}.schema.json</loc></url>" for s in schemas
-    )
+    rows = "\n".join(f"  <url><loc>{u}</loc></url>" for u in sitemap_urls)
     (ROOT / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
