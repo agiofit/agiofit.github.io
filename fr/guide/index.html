@@ -131,10 +131,10 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:30px;margin-bottom:6px
 .doc h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin-bottom:2px}
 .doc .file{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--accent-ink);margin-bottom:10px}
 .doc p{font-size:14px;color:var(--ink-70);flex:1}
-.doc button{margin-top:14px;align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:12px;
+.doc button,.sim-json button{margin-top:14px;align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:12px;
   background:none;border:1px solid var(--ink);border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--ink)}
-.doc button:hover{background:var(--ink);color:var(--paper)}
-.doc button:focus-visible,.controlli select:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.doc button:hover,.sim-json button:hover{background:var(--ink);color:var(--paper)}
+.doc button:focus-visible,.sim-json button:focus-visible,.controlli select:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 .json-box{display:none;margin-top:14px;background:#202B39;color:#DCE6F0;border-radius:8px;padding:14px;
   font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.55;overflow-x:auto;white-space:pre}
 .json-box .k{color:#8FC7FF}.json-box .s{color:#F0D089}.json-box .n{color:#9FE3B4}.json-box .c{color:#7C8B9C;font-style:italic}
@@ -152,6 +152,7 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:30px;margin-bottom:6px
 .campo select{width:100%;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;
   border:1px solid #C9C3B4;border-radius:8px;background:#FDFCF8;color:var(--ink)}
 .sim-corpo{padding:24px}
+.sim-json{padding:0 24px 24px}
 .risultato-vuoto{color:var(--ink-70);font-size:15px;font-style:italic}
 .esito-riga{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:6px}
 .taglia{font-family:'Fraunces',serif;font-weight:700;font-size:56px;line-height:1}
@@ -172,6 +173,8 @@ table.zone td{border-bottom:1px solid #ECE8DC;padding:8px}
 .badge.ok{background:#E4F0E8;color:var(--ok)}
 .badge.attenzione{background:#FBF0DA;color:var(--warn)}
 .badge.critico{background:#F7E3DF;color:var(--accent-ink)}
+.badge.ignoto{background:rgba(30,36,48,.06);color:var(--ink-70)}
+table.zone td small{display:block;font-size:12.5px;color:var(--ink-70);margin-top:4px}
 .caveats{margin-top:16px}
 .caveats li{margin-left:20px;font-size:14px;color:var(--ink-70);margin-bottom:4px}
 .mono{font-family:'IBM Plex Mono',monospace;font-size:.92em}
@@ -332,28 +335,36 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
       Votre profil : mensurations (chacune avec <span class="mono">source</span> et <span class="mono">observed_at</span> obligatoires, <span class="mono">tolerance</span> fortement recommandée), préférences de coupe et — le signal le plus fort — l’<b>historique</b> de la façon dont les vêtements passés vous sont réellement allés.</p>
       <button data-json="json-profilo" aria-expanded="false"></button>
       <div class="json-box" id="json-profilo">{
-  <span class="k">"body_measurements"</span>: {
-    <span class="k">"chest_circumference"</span>: {
-      <span class="k">"value"</span>: <span class="n">100</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span>,
-      <span class="k">"source"</span>: <span class="s">"tape_measured"</span>,
-      <span class="k">"observed_at"</span>: <span class="s">"2026-06-01"</span>,
-      <span class="k">"tolerance"</span>: <span class="n">1.0</span>
-    },
-    <span class="k">"arm_length"</span>: {
-      <span class="k">"value"</span>: <span class="n">63</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span>,
-      <span class="k">"source"</span>: <span class="s">"self_reported"</span>,  <span class="c">// pèse moins</span>
-      <span class="k">"observed_at"</span>: <span class="s">"2026-01-10"</span>,
-      <span class="k">"tolerance"</span>: <span class="n">2.0</span>
+  <span class="k">"body"</span>: {
+    <span class="k">"measurements"</span>: {
+      <span class="k">"chest_circumference"</span>: {
+        <span class="k">"value"</span>: <span class="n">100</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span>,
+        <span class="k">"source"</span>: <span class="s">"tape_measured"</span>,
+        <span class="k">"observed_at"</span>: <span class="s">"2026-03-14T18:00:00Z"</span>,
+        <span class="k">"tolerance"</span>: <span class="n">1.0</span>
+      },
+      <span class="k">"arm_length"</span>: {
+        <span class="k">"value"</span>: <span class="n">63</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span>,
+        <span class="k">"source"</span>: <span class="s">"self_reported"</span>,  <span class="c">// pèse moins</span>
+        <span class="k">"observed_at"</span>: <span class="s">"2026-03-14T18:00:00Z"</span>,
+        <span class="k">"tolerance"</span>: <span class="n">2.0</span>
+      }
     }
   },
   <span class="k">"history"</span>: [{
-    <span class="k">"brand"</span>: <span class="s">"Sartoria Esempio"</span>,
-    <span class="k">"size_label"</span>: <span class="s">"41"</span>,
+    <span class="k">"garment_ref"</span>: {
+      <span class="k">"brand"</span>: <span class="s">"Sartoria Esempio"</span>,
+      <span class="k">"category"</span>: <span class="s">"shirts"</span>,
+      <span class="k">"size_label"</span>: <span class="s">"41"</span>
+    },
     <span class="k">"outcome"</span>: <span class="s">"kept"</span>,
+    <span class="k">"zone_feedback"</span>: [
+      { <span class="k">"zone"</span>: <span class="s">"waist"</span>, <span class="k">"verdict"</span>: <span class="s">"roomy"</span> }
+    ],
     <span class="k">"kept_despite"</span>: [<span class="s">"waist"</span>]  <span class="c">// compromis accepté</span>
   }]
 }</div>
-      <p class="file">Extrait simplifié : une entrée d'historique complète exige aussi <span class="mono">occurred_at</span>, <span class="mono">garment_ref</span> et <span class="mono">source</span>.</p>
+      <p class="file">Extrait simplifié : une entrée d'historique complète exige aussi <span class="mono">occurred_at</span> et <span class="mono">source</span>.</p>
     </div>
     <div class="doc">
       <h3>Cut Profile</h3>
@@ -386,18 +397,19 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
       La réponse. Sa forme est la partie normative du standard : <b>confiance exposée</b>, explication par zone, avertissements explicites. Le niveau de divulgation décide du détail qu’elle contient.</p>
       <button data-json="json-racc" aria-expanded="false"></button>
       <div class="json-box" id="json-racc">{
-  <span class="k">"recommended_size"</span>: <span class="s">"41"</span>,
-  <span class="k">"confidence"</span>: <span class="n">0.76</span>,
+  <span class="k">"recommended_size"</span>: <span class="s">"<!-- ref:mature/explained/recommended_size -->41<!-- /ref:mature/explained/recommended_size -->"</span>,
+  <span class="k">"confidence"</span>: <span class="n"><!-- ref:mature/explained/confidence -->0.82<!-- /ref:mature/explained/confidence --></span>,
   <span class="k">"disclosure_level"</span>: <span class="s">"explained"</span>,
+  <span class="k">"alternatives"</span>: [
+    { <span class="k">"size_label"</span>: <span class="s">"<!-- ref:mature/explained/alternatives/0/size_label -->42<!-- /ref:mature/explained/alternatives/0/size_label -->"</span>, <span class="k">"score"</span>: <span class="n"><!-- ref:mature/explained/alternatives/0/score -->0.95<!-- /ref:mature/explained/alternatives/0/score --></span> },
+    ...
+  ],
   <span class="k">"explanation"</span>: [{
-    <span class="k">"zone"</span>: <span class="s">"shoulders"</span>,
-    <span class="k">"assessment"</span>: <span class="s">"as_cut"</span>
+    <span class="k">"zone"</span>: <span class="s">"<!-- ref:mature/explained/explanation/zone=shoulders/zone -->shoulders<!-- /ref:mature/explained/explanation/zone=shoulders/zone -->"</span>,
+    <span class="k">"assessment"</span>: <span class="s">"<!-- ref:mature/explained/explanation/zone=shoulders/assessment -->as_cut<!-- /ref:mature/explained/explanation/zone=shoulders/assessment -->"</span>
     <span class="c">// aucun chiffre à ce niveau :
     // supprimés à la sérialisation</span>
-  }],
-  <span class="k">"caveats"</span>: [
-    <span class="s">"arm_length est auto-déclarée"</span>
-  ]
+  }]
 }</div>
     </div>
   </div>
@@ -411,7 +423,7 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
   <h2>Le matching, en direct</h2>
   <p class="intro">
     
-    La même logique que l’implémentation de référence (<span class="mono">python -m agiofit.cli</span>), reconstruite ici en JavaScript : choisissez un profil et un niveau de divulgation, et regardez ce qui sort — et surtout <b>ce qui ne sort pas</b>. Le vêtement et les profils sont les exemples réels du dépôt : la Classic Oxford de Sartoria Esempio (marque fictive), tailles 39–42.
+    Ci-dessous, les réponses réelles de l’implémentation de référence (<span class="mono">python -m agiofit.cli</span>), générées pour les deux profils d’exemple à chaque niveau de divulgation. Choisissez un profil et un niveau, et regardez ce qui sort, et surtout <b>ce qui ne sort pas</b>. Le vêtement et les profils sont les exemples réels du dépôt : la Classic Oxford de Sartoria Esempio (marque fictive), tailles 39–42.
   </p>
 
   <div class="simulatore">
@@ -420,15 +432,15 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
         <div class="campo">
           <label for="sel-profilo">Profil</label>
           <select id="sel-profilo">
-            <option value="maturo"></option>
-            <option value="cold"></option>
+            <option value="mature"></option>
+            <option value="cold-start"></option>
           </select>
         </div>
         <div class="campo">
           <label for="sel-livello">Niveau de divulgation</label>
           <select id="sel-livello">
             <option value="result_only"></option>
-            <option value="explained" selected></option>
+            <option value="explained"></option>
             <option value="scoped"></option>
             <option value="full"></option>
           </select>
@@ -437,6 +449,10 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
     </div>
     <div class="sim-corpo" id="sim-corpo" aria-live="polite">
       <p class="risultato-vuoto">Le simulateur nécessite JavaScript.</p>
+    </div>
+    <div class="sim-json">
+      <button id="btn-sim-json" aria-expanded="false" aria-controls="sim-json-box"></button>
+      <div class="json-box" id="sim-json-box"></div>
     </div>
   </div>
 </section>
@@ -480,19 +496,19 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
   </p>
   <div class="terminale">
     <div class="term-barra" aria-hidden="true"><span></span><span></span><span></span></div>
-    <pre><span class="cmt"># installation et vérification (13 tests, tous doivent passer)</span>
+    <pre><span class="cmt"># installation et vérification (<!-- ref:tests -->44<!-- /ref:tests --> tests, tous doivent passer)</span>
 <span class="prompt">$</span> cd agiofit/reference
 <span class="prompt">$</span> pip install -e ".[dev]"
 <span class="prompt">$</span> pytest
-<span class="out">13 passed</span>
+<span class="out"><!-- ref:tests -->44<!-- /ref:tests --> passed</span>
 
-<span class="cmt"># profil mature, niveau par défaut (explained)</span>
-<span class="prompt">$</span> python -m agiofit.cli ../examples/profile-mature.json ../examples/cut-shirt.json
-<span class="out">{ "recommended_size": "41", "confidence": 0.76, ... }</span>
+<span class="cmt"># profil mature : sans niveau, c’est celui de la personne qui s’applique (result_only), ici on demande explained</span>
+<span class="prompt">$</span> python -m agiofit.cli ../examples/profile-mature.json ../examples/cut-shirt.json explained
+<span class="out">{ "recommended_size": "<!-- ref:mature/explained/recommended_size -->41<!-- /ref:mature/explained/recommended_size -->", "confidence": <!-- ref:mature/explained/confidence -->0.82<!-- /ref:mature/explained/confidence -->, ... }</span>
 
 <span class="cmt"># cold start, résultat seul</span>
 <span class="prompt">$</span> python -m agiofit.cli ../examples/profile-cold-start.json ../examples/cut-shirt.json result_only
-<span class="out">{ "recommended_size": "41", "confidence": 0.25, ... }</span></pre>
+<span class="out">{ "recommended_size": "<!-- ref:cold-start/result_only/recommended_size -->41<!-- /ref:cold-start/result_only/recommended_size -->", "confidence": <!-- ref:cold-start/result_only/confidence -->0.25<!-- /ref:cold-start/result_only/confidence -->, ... }</span></pre>
   </div>
 </section>
 
@@ -506,7 +522,7 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
     <div class="decisione"><div class="spilla" aria-hidden="true">a</div><div>
       <h4>kept_despite</h4>
       <p>
-      Le seul champ qui enregistre un compromis <b>accepté</b>. Sans lui, le système apprend que vous refusez les épaules serrées ; avec lui, il apprend que vous acceptez une taille ample <b>pour avoir les épaules justes</b>.</p>
+      Le seul champ qui enregistre un compromis <b>accepté</b>. Sans lui, le système apprend que vous refusez les épaules serrées ; avec lui, il apprend que vous acceptez une taille ample <b>pour avoir les épaules justes</b>. Dans l’implémentation de référence, un défaut déjà accepté compte pour moitié quand on choisit la taille, et le jugement sur la zone reste ce qu’il est.</p>
     </div></div>
     <div class="decisione"><div class="spilla" aria-hidden="true">b</div><div>
       <h4>measurement_method obligatoire, sans défaut</h4>
@@ -516,7 +532,7 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
     <div class="decisione"><div class="spilla" aria-hidden="true">c</div><div>
       <h4>offset_scale par zone</h4>
       <p>
-      Une marque qui « taille petit » taille petit <b>au buste</b>. Appliquer le même décalage en centimètres au col — où 1 cm est une taille entière — transforme une correction utile en une réponse fausse. L’historique s’applique par zone : 1.0 sur la poitrine, 0.2 sur le col.</p>
+      Une marque qui « taille petit » taille petit <b>au buste</b>. Appliquer le même décalage en centimètres au col — où 1 cm est une taille entière — transforme une correction utile en une réponse fausse. L’historique s’applique par zone : 1.0 sur la poitrine, 0.2 sur le col. Et la correction ne va qu’aux zones que l’historique désigne comme fausses : un retour pour des épaules serrées n’élargit pas la poitrine.</p>
     </div></div>
     <div class="decisione"><div class="spilla" aria-hidden="true">d</div><div>
       <h4>Cold start avec confiance déclarée</h4>
@@ -528,7 +544,7 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 
 <footer>
   
-  Agio Fit v0.1 · interface de démonstration · l’algorithme reproduit ici est une version simplifiée, non normative
+  Agio Fit v0.1 · interface de démonstration · les réponses affichées sont générées par l’implémentation de référence (agiofit@<!-- ref:commit -->991f0c7<!-- /ref:commit -->) ; l’algorithme n’est pas normatif, la forme de la réponse l’est
   <br>
   <a class="credito" href="https://agiofit.org">agiofit.org</a> · <a class="credito" href="https://github.com/agiofit">github.com/agiofit</a> · un projet personnel de <a class="credito" href="https://github.com/antferr">antferr</a>
   <br>
@@ -536,6 +552,448 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 </footer>
 
 </div>
+<!-- reference-reports:start -->
+<script type="application/json" id="reference-reports">
+{
+  "commit": "991f0c7",
+  "tests": 44,
+  "default_level": {
+    "mature": "result_only",
+    "cold-start": "result_only"
+  },
+  "reports": {
+    "mature": {
+      "result_only": {
+        "schema_version": "0.1.0",
+        "cut_profile_id": "sartoria-esempio:OXF-CLASSIC:2026",
+        "disclosure_level": "result_only",
+        "recommended_size": "41",
+        "confidence": 0.82,
+        "correctable": true,
+        "based_on": {
+          "body_signals": 7,
+          "preference_signals": 4,
+          "history_signals": 3,
+          "brand_specific_history_signals": 3,
+          "learned_offset_applied": true
+        },
+        "caveats": [],
+        "improve_by": [
+          "Add a measurement for thigh circumference.",
+          "Re-measure with a tape: arm_length, inseam."
+        ]
+      },
+      "explained": {
+        "schema_version": "0.1.0",
+        "cut_profile_id": "sartoria-esempio:OXF-CLASSIC:2026",
+        "disclosure_level": "explained",
+        "recommended_size": "41",
+        "confidence": 0.82,
+        "correctable": true,
+        "based_on": {
+          "body_signals": 7,
+          "preference_signals": 4,
+          "history_signals": 3,
+          "brand_specific_history_signals": 3,
+          "learned_offset_applied": true
+        },
+        "caveats": [],
+        "improve_by": [
+          "Add a measurement for thigh circumference.",
+          "Re-measure with a tape: arm_length, inseam."
+        ],
+        "alternatives": [
+          {
+            "size_label": "42",
+            "score": 0.95
+          },
+          {
+            "size_label": "40",
+            "score": 0.86
+          },
+          {
+            "size_label": "39",
+            "score": 0.65
+          }
+        ],
+        "explanation": [
+          {
+            "zone": "chest",
+            "assessment": "as_cut",
+            "critical": false
+          },
+          {
+            "zone": "waist",
+            "assessment": "as_cut",
+            "critical": false
+          },
+          {
+            "zone": "neck",
+            "assessment": "as_cut",
+            "critical": true
+          },
+          {
+            "zone": "shoulders",
+            "assessment": "as_cut",
+            "critical": true
+          },
+          {
+            "zone": "sleeve_length",
+            "assessment": "as_cut",
+            "critical": false
+          }
+        ]
+      },
+      "scoped": {
+        "schema_version": "0.1.0",
+        "cut_profile_id": "sartoria-esempio:OXF-CLASSIC:2026",
+        "disclosure_level": "scoped",
+        "recommended_size": "41",
+        "confidence": 0.82,
+        "correctable": true,
+        "based_on": {
+          "body_signals": 7,
+          "preference_signals": 4,
+          "history_signals": 3,
+          "brand_specific_history_signals": 3,
+          "learned_offset_applied": true
+        },
+        "caveats": [],
+        "improve_by": [
+          "Add a measurement for thigh circumference.",
+          "Re-measure with a tape: arm_length, inseam."
+        ],
+        "alternatives": [
+          {
+            "size_label": "42",
+            "score": 0.95
+          },
+          {
+            "size_label": "40",
+            "score": 0.86
+          },
+          {
+            "size_label": "39",
+            "score": 0.65
+          }
+        ],
+        "explanation": [
+          {
+            "zone": "chest",
+            "assessment": "as_cut",
+            "critical": false,
+            "ease_cm": 16.0,
+            "intended_ease_cm": [
+              12.0,
+              20.0
+            ]
+          },
+          {
+            "zone": "waist",
+            "assessment": "as_cut",
+            "critical": false,
+            "ease_cm": 20.0,
+            "intended_ease_cm": [
+              12.0,
+              26.0
+            ]
+          },
+          {
+            "zone": "neck",
+            "assessment": "as_cut",
+            "critical": true,
+            "ease_cm": 2.0,
+            "intended_ease_cm": [
+              1.0,
+              2.5
+            ]
+          },
+          {
+            "zone": "shoulders",
+            "assessment": "as_cut",
+            "critical": true,
+            "ease_cm": 0.5,
+            "intended_ease_cm": [
+              0.5,
+              2.5
+            ]
+          },
+          {
+            "zone": "sleeve_length",
+            "assessment": "as_cut",
+            "critical": false,
+            "ease_cm": 2.0,
+            "intended_ease_cm": [
+              -1.0,
+              2.5
+            ]
+          }
+        ]
+      },
+      "full": {
+        "schema_version": "0.1.0",
+        "cut_profile_id": "sartoria-esempio:OXF-CLASSIC:2026",
+        "disclosure_level": "full",
+        "recommended_size": "41",
+        "confidence": 0.82,
+        "correctable": true,
+        "based_on": {
+          "body_signals": 7,
+          "preference_signals": 4,
+          "history_signals": 3,
+          "brand_specific_history_signals": 3,
+          "learned_offset_applied": true
+        },
+        "caveats": [],
+        "improve_by": [
+          "Add a measurement for thigh circumference.",
+          "Re-measure with a tape: arm_length, inseam."
+        ],
+        "alternatives": [
+          {
+            "size_label": "42",
+            "score": 0.95
+          },
+          {
+            "size_label": "40",
+            "score": 0.86
+          },
+          {
+            "size_label": "39",
+            "score": 0.65
+          }
+        ],
+        "explanation": [
+          {
+            "zone": "chest",
+            "assessment": "as_cut",
+            "critical": false,
+            "ease_cm": 16.0,
+            "intended_ease_cm": [
+              12.0,
+              20.0
+            ]
+          },
+          {
+            "zone": "waist",
+            "assessment": "as_cut",
+            "critical": false,
+            "ease_cm": 20.0,
+            "intended_ease_cm": [
+              12.0,
+              26.0
+            ]
+          },
+          {
+            "zone": "neck",
+            "assessment": "as_cut",
+            "critical": true,
+            "ease_cm": 2.0,
+            "intended_ease_cm": [
+              1.0,
+              2.5
+            ]
+          },
+          {
+            "zone": "shoulders",
+            "assessment": "as_cut",
+            "critical": true,
+            "ease_cm": 0.5,
+            "intended_ease_cm": [
+              0.5,
+              2.5
+            ]
+          },
+          {
+            "zone": "sleeve_length",
+            "assessment": "as_cut",
+            "critical": false,
+            "ease_cm": 2.0,
+            "intended_ease_cm": [
+              -1.0,
+              2.5
+            ]
+          }
+        ]
+      }
+    },
+    "cold-start": {
+      "result_only": {
+        "schema_version": "0.1.0",
+        "cut_profile_id": "sartoria-esempio:OXF-CLASSIC:2026",
+        "disclosure_level": "result_only",
+        "recommended_size": "41",
+        "confidence": 0.25,
+        "correctable": true,
+        "based_on": {
+          "body_signals": 0,
+          "preference_signals": 1,
+          "history_signals": 1,
+          "brand_specific_history_signals": 1,
+          "learned_offset_applied": false
+        },
+        "caveats": [
+          "No zone could be compared: the profile has no measurements this garment can be matched against.",
+          "Answer derived from past purchases alone."
+        ],
+        "improve_by": [
+          "Add a measurement for arm length.",
+          "Add a measurement for chest circumference.",
+          "Add a measurement for hip circumference."
+        ]
+      },
+      "explained": {
+        "schema_version": "0.1.0",
+        "cut_profile_id": "sartoria-esempio:OXF-CLASSIC:2026",
+        "disclosure_level": "explained",
+        "recommended_size": "41",
+        "confidence": 0.25,
+        "correctable": true,
+        "based_on": {
+          "body_signals": 0,
+          "preference_signals": 1,
+          "history_signals": 1,
+          "brand_specific_history_signals": 1,
+          "learned_offset_applied": false
+        },
+        "caveats": [
+          "No zone could be compared: the profile has no measurements this garment can be matched against.",
+          "Answer derived from past purchases alone."
+        ],
+        "improve_by": [
+          "Add a measurement for arm length.",
+          "Add a measurement for chest circumference.",
+          "Add a measurement for hip circumference."
+        ],
+        "alternatives": [],
+        "explanation": [
+          {
+            "zone": "overall",
+            "assessment": "unknown",
+            "critical": false,
+            "note": "Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used."
+          }
+        ]
+      },
+      "scoped": {
+        "schema_version": "0.1.0",
+        "cut_profile_id": "sartoria-esempio:OXF-CLASSIC:2026",
+        "disclosure_level": "scoped",
+        "recommended_size": "41",
+        "confidence": 0.25,
+        "correctable": true,
+        "based_on": {
+          "body_signals": 0,
+          "preference_signals": 1,
+          "history_signals": 1,
+          "brand_specific_history_signals": 1,
+          "learned_offset_applied": false
+        },
+        "caveats": [
+          "No zone could be compared: the profile has no measurements this garment can be matched against.",
+          "Answer derived from past purchases alone."
+        ],
+        "improve_by": [
+          "Add a measurement for arm length.",
+          "Add a measurement for chest circumference.",
+          "Add a measurement for hip circumference."
+        ],
+        "alternatives": [],
+        "explanation": [
+          {
+            "zone": "overall",
+            "assessment": "unknown",
+            "critical": false,
+            "note": "Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used."
+          }
+        ]
+      },
+      "full": {
+        "schema_version": "0.1.0",
+        "cut_profile_id": "sartoria-esempio:OXF-CLASSIC:2026",
+        "disclosure_level": "full",
+        "recommended_size": "41",
+        "confidence": 0.25,
+        "correctable": true,
+        "based_on": {
+          "body_signals": 0,
+          "preference_signals": 1,
+          "history_signals": 1,
+          "brand_specific_history_signals": 1,
+          "learned_offset_applied": false
+        },
+        "caveats": [
+          "No zone could be compared: the profile has no measurements this garment can be matched against.",
+          "Answer derived from past purchases alone."
+        ],
+        "improve_by": [
+          "Add a measurement for arm length.",
+          "Add a measurement for chest circumference.",
+          "Add a measurement for hip circumference."
+        ],
+        "alternatives": [],
+        "explanation": [
+          {
+            "zone": "overall",
+            "assessment": "unknown",
+            "critical": false,
+            "note": "Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used."
+          }
+        ]
+      }
+    }
+  },
+  "reports_text": {
+    "mature": {
+      "result_only": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"result_only\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.82,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 7,\n    \"preference_signals\": 4,\n    \"history_signals\": 3,\n    \"brand_specific_history_signals\": 3,\n    \"learned_offset_applied\": true\n  },\n  \"caveats\": [],\n  \"improve_by\": [\n    \"Add a measurement for thigh circumference.\",\n    \"Re-measure with a tape: arm_length, inseam.\"\n  ]\n}",
+      "explained": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"explained\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.82,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 7,\n    \"preference_signals\": 4,\n    \"history_signals\": 3,\n    \"brand_specific_history_signals\": 3,\n    \"learned_offset_applied\": true\n  },\n  \"caveats\": [],\n  \"improve_by\": [\n    \"Add a measurement for thigh circumference.\",\n    \"Re-measure with a tape: arm_length, inseam.\"\n  ],\n  \"alternatives\": [\n    {\n      \"size_label\": \"42\",\n      \"score\": 0.95\n    },\n    {\n      \"size_label\": \"40\",\n      \"score\": 0.86\n    },\n    {\n      \"size_label\": \"39\",\n      \"score\": 0.65\n    }\n  ],\n  \"explanation\": [\n    {\n      \"zone\": \"chest\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false\n    },\n    {\n      \"zone\": \"waist\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false\n    },\n    {\n      \"zone\": \"neck\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true\n    },\n    {\n      \"zone\": \"shoulders\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true\n    },\n    {\n      \"zone\": \"sleeve_length\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false\n    }\n  ]\n}",
+      "scoped": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"scoped\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.82,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 7,\n    \"preference_signals\": 4,\n    \"history_signals\": 3,\n    \"brand_specific_history_signals\": 3,\n    \"learned_offset_applied\": true\n  },\n  \"caveats\": [],\n  \"improve_by\": [\n    \"Add a measurement for thigh circumference.\",\n    \"Re-measure with a tape: arm_length, inseam.\"\n  ],\n  \"alternatives\": [\n    {\n      \"size_label\": \"42\",\n      \"score\": 0.95\n    },\n    {\n      \"size_label\": \"40\",\n      \"score\": 0.86\n    },\n    {\n      \"size_label\": \"39\",\n      \"score\": 0.65\n    }\n  ],\n  \"explanation\": [\n    {\n      \"zone\": \"chest\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 16.0,\n      \"intended_ease_cm\": [\n        12.0,\n        20.0\n      ]\n    },\n    {\n      \"zone\": \"waist\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 20.0,\n      \"intended_ease_cm\": [\n        12.0,\n        26.0\n      ]\n    },\n    {\n      \"zone\": \"neck\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true,\n      \"ease_cm\": 2.0,\n      \"intended_ease_cm\": [\n        1.0,\n        2.5\n      ]\n    },\n    {\n      \"zone\": \"shoulders\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true,\n      \"ease_cm\": 0.5,\n      \"intended_ease_cm\": [\n        0.5,\n        2.5\n      ]\n    },\n    {\n      \"zone\": \"sleeve_length\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 2.0,\n      \"intended_ease_cm\": [\n        -1.0,\n        2.5\n      ]\n    }\n  ]\n}",
+      "full": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"full\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.82,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 7,\n    \"preference_signals\": 4,\n    \"history_signals\": 3,\n    \"brand_specific_history_signals\": 3,\n    \"learned_offset_applied\": true\n  },\n  \"caveats\": [],\n  \"improve_by\": [\n    \"Add a measurement for thigh circumference.\",\n    \"Re-measure with a tape: arm_length, inseam.\"\n  ],\n  \"alternatives\": [\n    {\n      \"size_label\": \"42\",\n      \"score\": 0.95\n    },\n    {\n      \"size_label\": \"40\",\n      \"score\": 0.86\n    },\n    {\n      \"size_label\": \"39\",\n      \"score\": 0.65\n    }\n  ],\n  \"explanation\": [\n    {\n      \"zone\": \"chest\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 16.0,\n      \"intended_ease_cm\": [\n        12.0,\n        20.0\n      ]\n    },\n    {\n      \"zone\": \"waist\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 20.0,\n      \"intended_ease_cm\": [\n        12.0,\n        26.0\n      ]\n    },\n    {\n      \"zone\": \"neck\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true,\n      \"ease_cm\": 2.0,\n      \"intended_ease_cm\": [\n        1.0,\n        2.5\n      ]\n    },\n    {\n      \"zone\": \"shoulders\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true,\n      \"ease_cm\": 0.5,\n      \"intended_ease_cm\": [\n        0.5,\n        2.5\n      ]\n    },\n    {\n      \"zone\": \"sleeve_length\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 2.0,\n      \"intended_ease_cm\": [\n        -1.0,\n        2.5\n      ]\n    }\n  ]\n}"
+    },
+    "cold-start": {
+      "result_only": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"result_only\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.25,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 0,\n    \"preference_signals\": 1,\n    \"history_signals\": 1,\n    \"brand_specific_history_signals\": 1,\n    \"learned_offset_applied\": false\n  },\n  \"caveats\": [\n    \"No zone could be compared: the profile has no measurements this garment can be matched against.\",\n    \"Answer derived from past purchases alone.\"\n  ],\n  \"improve_by\": [\n    \"Add a measurement for arm length.\",\n    \"Add a measurement for chest circumference.\",\n    \"Add a measurement for hip circumference.\"\n  ]\n}",
+      "explained": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"explained\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.25,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 0,\n    \"preference_signals\": 1,\n    \"history_signals\": 1,\n    \"brand_specific_history_signals\": 1,\n    \"learned_offset_applied\": false\n  },\n  \"caveats\": [\n    \"No zone could be compared: the profile has no measurements this garment can be matched against.\",\n    \"Answer derived from past purchases alone.\"\n  ],\n  \"improve_by\": [\n    \"Add a measurement for arm length.\",\n    \"Add a measurement for chest circumference.\",\n    \"Add a measurement for hip circumference.\"\n  ],\n  \"alternatives\": [],\n  \"explanation\": [\n    {\n      \"zone\": \"overall\",\n      \"assessment\": \"unknown\",\n      \"critical\": false,\n      \"note\": \"Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used.\"\n    }\n  ]\n}",
+      "scoped": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"scoped\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.25,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 0,\n    \"preference_signals\": 1,\n    \"history_signals\": 1,\n    \"brand_specific_history_signals\": 1,\n    \"learned_offset_applied\": false\n  },\n  \"caveats\": [\n    \"No zone could be compared: the profile has no measurements this garment can be matched against.\",\n    \"Answer derived from past purchases alone.\"\n  ],\n  \"improve_by\": [\n    \"Add a measurement for arm length.\",\n    \"Add a measurement for chest circumference.\",\n    \"Add a measurement for hip circumference.\"\n  ],\n  \"alternatives\": [],\n  \"explanation\": [\n    {\n      \"zone\": \"overall\",\n      \"assessment\": \"unknown\",\n      \"critical\": false,\n      \"note\": \"Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used.\"\n    }\n  ]\n}",
+      "full": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"full\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.25,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 0,\n    \"preference_signals\": 1,\n    \"history_signals\": 1,\n    \"brand_specific_history_signals\": 1,\n    \"learned_offset_applied\": false\n  },\n  \"caveats\": [\n    \"No zone could be compared: the profile has no measurements this garment can be matched against.\",\n    \"Answer derived from past purchases alone.\"\n  ],\n  \"improve_by\": [\n    \"Add a measurement for arm length.\",\n    \"Add a measurement for chest circumference.\",\n    \"Add a measurement for hip circumference.\"\n  ],\n  \"alternatives\": [],\n  \"explanation\": [\n    {\n      \"zone\": \"overall\",\n      \"assessment\": \"unknown\",\n      \"critical\": false,\n      \"note\": \"Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used.\"\n    }\n  ]\n}"
+    }
+  },
+  "translations": {
+    "Add a measurement for arm length.": {
+      "it": "Aggiungi la lunghezza del braccio.",
+      "fr": "Ajoutez la longueur de bras."
+    },
+    "Add a measurement for chest circumference.": {
+      "it": "Aggiungi la circonferenza del torace.",
+      "fr": "Ajoutez le tour de poitrine."
+    },
+    "Add a measurement for hip circumference.": {
+      "it": "Aggiungi la circonferenza dei fianchi.",
+      "fr": "Ajoutez le tour de hanches."
+    },
+    "Add a measurement for thigh circumference.": {
+      "it": "Aggiungi la circonferenza della coscia.",
+      "fr": "Ajoutez le tour de cuisse."
+    },
+    "Answer derived from past purchases alone.": {
+      "it": "Risposta ricavata solo dagli acquisti passati.",
+      "fr": "Réponse tirée des seuls achats passés."
+    },
+    "Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used.": {
+      "it": "Ricavata da 1 acquisto passato di Sartoria Esempio in questa categoria, senza misure.",
+      "fr": "Déduite d'un achat passé chez Sartoria Esempio dans cette catégorie, sans mesures."
+    },
+    "No zone could be compared: the profile has no measurements this garment can be matched against.": {
+      "it": "Nessuna zona confrontabile: il profilo non ha misure da confrontare con questo capo.",
+      "fr": "Aucune zone comparable : le profil n'a pas de mesures à comparer avec ce vêtement."
+    },
+    "Re-measure with a tape: arm_length, inseam.": {
+      "it": "Rimisura col metro: arm_length, inseam.",
+      "fr": "Reprenez au mètre ruban : arm_length, inseam."
+    }
+  }
+}
+</script>
+<!-- reference-reports:end -->
 <script>
 // ---------- lingua corrente / current language ----------
 var LANG = 'fr';
@@ -543,106 +1001,100 @@ var LANG = 'fr';
 // ---------- dizionario delle stringhe dinamiche / dynamic string dictionary ----------
 var T = {
   it: {
-    opt_maturo:'Maturo — misure + storico', opt_cold:'Cold start — solo 1 acquisto tenuto',
-    opt_result:'result_only — solo la taglia', opt_explained:'explained — giudizi, senza numeri',
-    opt_scoped:'scoped — con l\u2019agio in cm', opt_full:'full — tutto (solo per te)',
+    opt_mature:'Maturo: misure + storico', opt_cold:'Cold start: solo 1 acquisto tenuto',
+    opt_result:'result_only: taglia e confidenza', opt_explained:'explained: giudizi, senza numeri',
+    opt_scoped:'scoped: con l’agio in cm', opt_full:'full: il livello del tuo vault',
+    predefinito:' (predefinito del profilo)',
     btn_show:'Vedi esempio ▾', btn_hide:'Nascondi esempio ▴',
-    taglia:'taglia consigliata', conf:'confidenza', basata:'Basata su: ',
-    based_hist:'solo storico acquisti dello stesso brand',
-    based_zones:function(n){return n+' zone confrontate + storico stesso brand';},
-    nota_result:'<b>result_only</b> — al negozio arriva solo questo. Nessuna zona, nessun numero: per venderti una camicia non serve il tuo torace, serve una taglia.',
-    nota_explained:'<b>explained</b> — le colonne numeriche sono state rimosse in serializzazione: con le misure del capo (pubbliche) e l\u2019agio in cm, una sottrazione ricostruirebbe le tue misure corporee.',
-    nota_scoped:'<b>scoped</b> — l\u2019agio in centimetri è visibile. Da concedere solo a chi ti fidi: vedi la sezione sulla perdita aritmetica.',
-    nota_full:'<b>full</b> — include anche le misure corporee. Questo livello non esce dal tuo vault.',
-    nota_cold:'<b>cold start</b> — zero misure corporee, un solo capo tenuto: il sistema risponde comunque, dichiarando quanto poco ne sa.',
-    nota_coincidono:'Con questo profilo i livelli coincidono: senza zone confrontabili non c\u2019\u00e8 spiegazione da divulgare \u2014 esce gi\u00e0 il minimo.',
-    th:['Zona','Giudizio','Agio','Previsto','Corpo','Capo'],
-    giudizio:{ok:'Buono',attenzione:'Attenzione',critico:'Critico'},
-    stretto:' · stretto', abbondante:' · abbondante',
-    fonte_metro:'metro', fonte_auto:'autodich.',
-    nota_critica:'zona critica per la categoria «camicia»: pesa il doppio nel punteggio.',
-    cav_deboli:function(z){return 'Misure autodichiarate: '+z+' — rimisurarle col metro alza la confidenza più di qualsiasi modifica all\u2019algoritmo.';},
-    cav_kd:'Storico: sulla 41 la vita larga è un compromesso accettato (kept_despite), non un difetto da correggere.',
-    cav_cold1:'Confidenza limitata a 0.40 per costruzione: è un punto di partenza, non una misura.',
-    cav_cold2:function(b){return 'Inferenza cross-brand rifiutata: lo storico vale solo per «'+b+'».';},
-    cav_vuoto:'Nessuna misura e nessuno storico: il profilo e il capo non condividono nulla.',
+    json_show:'Mostra il JSON ▾', json_hide:'Nascondi il JSON ▴',
+    taglia:'taglia consigliata', conf:'confidenza', basata:'Basata su: ', alternative:'Alternative: ',
+    based:function(b){
+      return conta(b.body_signals,'misura','misure')+', '+conta(b.preference_signals,'preferenza','preferenze')+', '
+        +conta(b.history_signals,'acquisto passato','acquisti passati')+' ('+b.brand_specific_history_signals+' dello stesso brand)';
+    },
+    nota_result_only:'<b>result_only</b>: al negozio arrivano taglia e confidenza, nessuna zona e nessuna misura. Ma arrivano anche i conteggi di <span class="mono">based_on</span> e i suggerimenti di <span class="mono">improve_by</span>, che dicono quante misure e quanto storico ha il profilo: è un limite noto della versione attuale, descritto nel threat model e in revisione.',
+    nota_explained:'<b>explained</b>: le colonne numeriche sono state rimosse in serializzazione: con le misure del capo (pubbliche) e l’agio in cm, una sottrazione ricostruirebbe le tue misure corporee.',
+    nota_scoped:'<b>scoped</b>: l’agio in centimetri è visibile. Da concedere solo a chi ti fidi: vedi la sezione sulla perdita aritmetica.',
+    nota_full:'<b>full</b>: il livello pensato per il tuo vault. Nell’implementazione di riferimento il Match Report a questo livello porta gli stessi campi di <span class="mono">scoped</span>, perché lo schema della risposta non ha un posto per il profilo.',
+    th:['Zona','Giudizio','Agio','Previsto'],
+    giudizio:{as_cut:'Come da taglio',snug:'Aderente',roomy:'Abbondante',too_tight:'Troppo stretto',too_loose:'Troppo largo',unknown:'Non valutabile'},
+    nota_critica:'zona critica per questo capo: pesa il triplo nel punteggio.',
     migliorare:'Per migliorare',
-    sug1:'Aggiungi torace e spalle misurati col metro: sono le zone critiche di una camicia.',
-    sug2:'Registra come ti sono andati i capi passati: è il segnale più forte disponibile.',
-    zone:{shoulders:'Spalle',neck:'Collo',chest:'Torace',waist:'Vita',sleeve:'Manica'}
+    zone:{chest:'Torace',waist:'Vita',hip:'Fianchi',thigh:'Coscia',neck:'Collo',shoulders:'Spalle',sleeve_length:'Manica',inseam:'Interno gamba',overall:'Complessiva'}
   },
   en: {
-    opt_maturo:'Mature — measurements + history', opt_cold:'Cold start — just 1 kept purchase',
-    opt_result:'result_only — the size, nothing else', opt_explained:'explained — assessments, no numbers',
-    opt_scoped:'scoped — with ease in cm', opt_full:'full — everything (your eyes only)',
+    opt_mature:'Mature: measurements + history', opt_cold:'Cold start: just 1 kept purchase',
+    opt_result:'result_only: size and confidence', opt_explained:'explained: assessments, no numbers',
+    opt_scoped:'scoped: with ease in cm', opt_full:'full: your vault’s level',
+    predefinito:' (the profile’s default)',
     btn_show:'Show example ▾', btn_hide:'Hide example ▴',
-    taglia:'recommended size', conf:'confidence', basata:'Based on: ',
-    based_hist:'same-brand purchase history only',
-    based_zones:function(n){return n+' zones compared + same-brand history';},
-    nota_result:'<b>result_only</b> — this is all the shop receives. No zones, no numbers: to sell you a shirt they don\u2019t need your chest, they need a size.',
-    nota_explained:'<b>explained</b> — the numeric columns were stripped at serialisation: with the garment\u2019s (public) measurements and the ease in cm, one subtraction would reconstruct your body measurements.',
-    nota_scoped:'<b>scoped</b> — the ease in centimetres is visible. Grant it only to services you trust: see the arithmetic-leak section.',
-    nota_full:'<b>full</b> — includes the body measurements too. This level never leaves your vault.',
-    nota_cold:'<b>cold start</b> — zero body measurements, a single kept garment: the system still answers, declaring how little it knows.',
-    nota_coincidono:'With this profile the levels coincide: with no comparable zones there is no explanation to disclose \u2014 the minimum already leaves.',
-    th:['Zone','Assessment','Ease','Intended','Body','Garment'],
-    giudizio:{ok:'Good',attenzione:'Watch',critico:'Critical'},
-    stretto:' · tight', abbondante:' · loose',
-    fonte_metro:'tape', fonte_auto:'self-rep.',
-    nota_critica:'critical zone for the "shirt" category: counts double in the score.',
-    cav_deboli:function(z){return 'Self-reported measurements: '+z+' — re-measuring them with a tape raises confidence more than any change to the algorithm.';},
-    cav_kd:'History: on size 41 the loose waist is an accepted trade-off (kept_despite), not a defect to correct.',
-    cav_cold1:'Confidence capped at 0.40 by construction: it is a starting point, not a measurement.',
-    cav_cold2:function(b){return 'Cross-brand inference refused: the history only counts for "'+b+'".';},
-    cav_vuoto:'No measurements and no history: the profile and the garment share nothing.',
+    json_show:'Show the JSON ▾', json_hide:'Hide the JSON ▴',
+    taglia:'recommended size', conf:'confidence', basata:'Based on: ', alternative:'Alternatives: ',
+    based:function(b){
+      return conta(b.body_signals,'measurement','measurements')+', '+conta(b.preference_signals,'preference','preferences')+', '
+        +conta(b.history_signals,'past purchase','past purchases')+' ('+b.brand_specific_history_signals+' from the same brand)';
+    },
+    nota_result_only:'<b>result_only</b>: the shop receives the size and the confidence, no zones and no measurements. But it also receives the <span class="mono">based_on</span> counts and the <span class="mono">improve_by</span> suggestions, which tell how many measurements and how much history the profile holds: a known limit of the current version, described in the threat model and under review.',
+    nota_explained:'<b>explained</b>: the numeric columns were stripped at serialisation: with the garment’s (public) measurements and the ease in cm, one subtraction would reconstruct your body measurements.',
+    nota_scoped:'<b>scoped</b>: the ease in centimetres is visible. Grant it only to services you trust: see the arithmetic-leak section.',
+    nota_full:'<b>full</b>: the level meant for your vault. In the reference implementation the Match Report at this level carries the same fields as <span class="mono">scoped</span>, because the answer’s schema has no place for the profile.',
+    th:['Zone','Assessment','Ease','Intended'],
+    giudizio:{as_cut:'As cut',snug:'Snug',roomy:'Roomy',too_tight:'Too tight',too_loose:'Too loose',unknown:'Not assessable'},
+    nota_critica:'critical zone for this garment: counts triple in the score.',
     migliorare:'To improve',
-    sug1:'Add tape-measured chest and shoulders: they are a shirt\u2019s critical zones.',
-    sug2:'Record how past garments actually fitted — it is the strongest signal available.',
-    zone:{shoulders:'Shoulders',neck:'Neck',chest:'Chest',waist:'Waist',sleeve:'Sleeve'}
+    zone:{chest:'Chest',waist:'Waist',hip:'Hip',thigh:'Thigh',neck:'Neck',shoulders:'Shoulders',sleeve_length:'Sleeve',inseam:'Inseam',overall:'Overall'}
   },
   fr: {
-    opt_maturo:'Mature — mensurations + historique', opt_cold:'Cold start — 1 seul achat gardé',
-    opt_result:'result_only — la taille, rien d\u2019autre', opt_explained:'explained — jugements, sans chiffres',
-    opt_scoped:'scoped — avec l\u2019aisance en cm', opt_full:'full — tout (pour vos yeux seuls)',
-    btn_show:'Voir l\u2019exemple ▾', btn_hide:'Masquer l\u2019exemple ▴',
-    taglia:'taille conseillée', conf:'confiance', basata:'Fondée sur : ',
-    based_hist:'le seul historique d\u2019achats de la même marque',
-    based_zones:function(n){return n+' zones comparées + historique de la même marque';},
-    nota_result:'<b>result_only</b> — la boutique ne reçoit que ceci. Aucune zone, aucun chiffre : pour vous vendre une chemise, il ne lui faut pas votre tour de poitrine, il lui faut une taille.',
-    nota_explained:'<b>explained</b> — les colonnes chiffrées ont été supprimées à la sérialisation : avec les mesures (publiques) du vêtement et l\u2019aisance en cm, une soustraction reconstruirait vos mensurations.',
-    nota_scoped:'<b>scoped</b> — l\u2019aisance en centimètres est visible. À n\u2019accorder qu\u2019aux services de confiance : voir la section sur la fuite arithmétique.',
-    nota_full:'<b>full</b> — inclut aussi les mensurations. Ce niveau ne quitte jamais votre coffre-fort.',
-    nota_cold:'<b>cold start</b> — zéro mensuration, un seul vêtement gardé : le système répond quand même, en déclarant le peu qu\u2019il sait.',
-    nota_coincidono:'Avec ce profil, les niveaux co\u00efncident : sans zones comparables, il n\u2019y a aucune explication \u00e0 divulguer \u2014 le minimum sort d\u00e9j\u00e0.',
-    th:['Zone','Jugement','Aisance','Prévue','Corps','Vêtement'],
-    giudizio:{ok:'Bon',attenzione:'Attention',critico:'Critique'},
-    stretto:' · serré', abbondante:' · ample',
-    fonte_metro:'mètre', fonte_auto:'auto-décl.',
-    nota_critica:'zone critique pour la catégorie « chemise » : compte double dans le score.',
-    cav_deboli:function(z){return 'Mesures auto-déclarées : '+z+' — les reprendre au mètre ruban augmente la confiance plus que toute modification de l\u2019algorithme.';},
-    cav_kd:'Historique : sur la 41, l\u2019ampleur au tour de taille est un compromis accepté (kept_despite), pas un défaut à corriger.',
-    cav_cold1:'Confiance plafonnée à 0.40 par construction : c\u2019est un point de départ, pas une mesure.',
-    cav_cold2:function(b){return 'Inférence entre marques refusée : l\u2019historique ne vaut que pour « '+b+' ».';},
-    cav_vuoto:'Aucune mesure et aucun historique : le profil et le vêtement ne partagent rien.',
+    opt_mature:'Mature : mensurations + historique', opt_cold:'Cold start : 1 seul achat gardé',
+    opt_result:'result_only : taille et confiance', opt_explained:'explained : jugements, sans chiffres',
+    opt_scoped:'scoped : avec l’aisance en cm', opt_full:'full : le niveau de votre coffre-fort',
+    predefinito:' (par défaut du profil)',
+    btn_show:'Voir l’exemple ▾', btn_hide:'Masquer l’exemple ▴',
+    json_show:'Afficher le JSON ▾', json_hide:'Masquer le JSON ▴',
+    taglia:'taille conseillée', conf:'confiance', basata:'Fondée sur : ', alternative:'Alternatives : ',
+    based:function(b){
+      return conta(b.body_signals,'mesure','mesures')+', '+conta(b.preference_signals,'préférence','préférences')+', '
+        +conta(b.history_signals,'achat passé','achats passés')+' ('+b.brand_specific_history_signals+' de la même marque)';
+    },
+    nota_result_only:'<b>result_only</b> : la boutique reçoit la taille et la confiance, aucune zone et aucune mesure. Mais elle reçoit aussi les comptes de <span class="mono">based_on</span> et les suggestions d’<span class="mono">improve_by</span>, qui disent combien de mesures et quel historique contient le profil : c’est une limite connue de la version actuelle, décrite dans le threat model et en cours de révision.',
+    nota_explained:'<b>explained</b> : les colonnes chiffrées ont été supprimées à la sérialisation : avec les mesures (publiques) du vêtement et l’aisance en cm, une soustraction reconstruirait vos mensurations.',
+    nota_scoped:'<b>scoped</b> : l’aisance en centimètres est visible. À n’accorder qu’aux services de confiance : voir la section sur la fuite arithmétique.',
+    nota_full:'<b>full</b> : le niveau pensé pour votre coffre-fort. Dans l’implémentation de référence, le Match Report à ce niveau porte les mêmes champs que <span class="mono">scoped</span>, parce que le schéma de la réponse n’a pas de place pour le profil.',
+    th:['Zone','Jugement','Aisance','Prévue'],
+    giudizio:{as_cut:'Conforme à la coupe',snug:'Ajusté',roomy:'Ample',too_tight:'Trop serré',too_loose:'Trop large',unknown:'Non évaluable'},
+    nota_critica:'zone critique pour ce vêtement : compte triple dans le score.',
     migliorare:'Pour progresser',
-    sug1:'Ajoutez poitrine et épaules mesurées au mètre : ce sont les zones critiques d\u2019une chemise.',
-    sug2:'Notez comment vos vêtements passés vous sont allés — c\u2019est le signal le plus fort disponible.',
-    zone:{shoulders:'Épaules',neck:'Col',chest:'Poitrine',waist:'Tour de taille',sleeve:'Manche'}
+    zone:{chest:'Poitrine',waist:'Tour de taille',hip:'Hanches',thigh:'Cuisse',neck:'Col',shoulders:'Épaules',sleeve_length:'Manche',inseam:'Entrejambe',overall:'Ensemble'}
   }
 };
+
+// un numero e il suo nome, al singolare o al plurale / a number and its noun, singular or plural
+function conta(n, uno, molti){
+  var singolare = LANG==='fr' ? n<=1 : n===1;
+  return n+' '+(singolare ? uno : molti);
+}
+
+// ---------- i report veri della reference, scritti da demo_reports.py ----------
+// ---------- the reference's actual reports, written by demo_reports.py ----------
+var DATI = JSON.parse(document.getElementById('reference-reports').textContent);
 
 function aggiornaOpzioni(){
   var t = T[LANG];
   var sp = document.getElementById('sel-profilo').options;
-  sp[0].text = t.opt_maturo; sp[1].text = t.opt_cold;
-  var sl = document.getElementById('sel-livello').options;
-  sl[0].text = t.opt_result; sl[1].text = t.opt_explained; sl[2].text = t.opt_scoped; sl[3].text = t.opt_full;
+  sp[0].text = t.opt_mature; sp[1].text = t.opt_cold;
+  var predefinito = DATI.default_level[document.getElementById('sel-profilo').value];
+  var testi = {result_only:t.opt_result, explained:t.opt_explained, scoped:t.opt_scoped, full:t.opt_full};
+  Array.prototype.forEach.call(document.getElementById('sel-livello').options, function(o){
+    o.text = testi[o.value] + (o.value===predefinito ? t.predefinito : '');
+  });
 }
 function aggiornaBottoniJson(){
   document.querySelectorAll('.doc button[data-json]').forEach(function(btn){
     var aperto = document.getElementById(btn.dataset.json).classList.contains('aperto');
     btn.textContent = aperto ? T[LANG].btn_hide : T[LANG].btn_show;
   });
+  var aperto = document.getElementById('sim-json-box').classList.contains('aperto');
+  document.getElementById('btn-sim-json').textContent = aperto ? T[LANG].json_hide : T[LANG].json_show;
 }
 
 // ---------- toggle esempi JSON / JSON example toggles ----------
@@ -654,164 +1106,82 @@ document.querySelectorAll('.doc button[data-json]').forEach(function(btn){
     btn.textContent = aperto ? T[LANG].btn_hide : T[LANG].btn_show;
   });
 });
+document.getElementById('btn-sim-json').addEventListener('click', function(){
+  var aperto = document.getElementById('sim-json-box').classList.toggle('aperto');
+  this.setAttribute('aria-expanded', aperto);
+  aggiornaBottoniJson();
+});
 
-// ---------- dati d'esempio (coerenti col repo) / example data (consistent with the repo) ----------
-// Camicia Sartoria Esempio "Classic Oxford" — misure reali da examples/cut-shirt.json
-// Sartoria Esempio "Classic Oxford" shirt — real numbers from examples/cut-shirt.json
-var CAPO = {
-  category:'shirts', method:'flat_laid', brand:'Sartoria Esempio',
-  zones: [
-    {zone:'shoulders', doubles:false, linear:true,  scale:0.25, critical:true,  ease:[0,2],     tol:0.8},
-    {zone:'neck',      doubles:false, linear:false, scale:0.20, critical:true,  ease:[1,2.5],   tol:0.8},
-    {zone:'chest',     doubles:true,  linear:false, scale:1.0,  critical:false, ease:[12,20],   tol:2.5},
-    {zone:'waist',     doubles:true,  linear:false, scale:1.0,  critical:false, ease:[12,26],   tol:3.0},
-    {zone:'sleeve',    doubles:false, linear:true,  scale:0.25, critical:false, ease:[-1,2.5],  tol:1.0}
-  ],
-  sizes: [
-    {label:'39', m:{shoulders:44.5, neck:40, chest:54, waist:50, sleeve:63}},
-    {label:'40', m:{shoulders:45.5, neck:41, chest:56, waist:52, sleeve:64}},
-    {label:'41', m:{shoulders:46.5, neck:42, chest:58, waist:54, sleeve:65}},
-    {label:'42', m:{shoulders:47.5, neck:43, chest:60, waist:56, sleeve:66}}
-  ]
-};
-
-// Profili reali da examples/profile-mature.json e profile-cold-start.json
-// (q = confidence dichiarata della misura / declared measurement confidence)
-var PROFILI = {
-  maturo: {
-    body: {
-      shoulders:{v:46,  src:'tape_measured', q:0.8},
-      neck:     {v:40,  src:'tape_measured', q:0.9},
-      chest:    {v:100, src:'tape_measured', q:0.9},
-      waist:    {v:88,  src:'tape_measured', q:0.85},
-      hip:      {v:99,  src:'tape_measured', q:0.85},
-      sleeve:   {v:63,  src:'self_reported', q:0.6}
-    },
-    history: [
-      {brand:'Sartoria Esempio', size:'40', outcome:'returned_too_small', kept_despite:[]},
-      {brand:'Sartoria Esempio', size:'41', outcome:'kept', kept_despite:['waist']},
-      {brand:'Sartoria Esempio', size:'40', outcome:'exchanged_for_larger', kept_despite:[]}
-    ]
-  },
-  cold: {
-    body: {},
-    history: [{brand:'Sartoria Esempio', size:'41', outcome:'kept', kept_despite:[]}]
-  }
-};
-
-// ---------- matching semplificato (non normativo) / simplified matching (non-normative) ----------
-function historyOffset(profile){
-  var same = profile.history.filter(function(h){return h.brand===CAPO.brand;});
-  return { cm: 0, present: same.length>0, kept: same.filter(function(h){return h.outcome==='kept';}).length };
+// ---------- mostrare un report / showing a report ----------
+// la reference scrive le sue frasi in inglese; la pagina le mostra tradotte
+// the reference writes its sentences in English; the page shows them translated
+function tr(s){
+  if(LANG==='en') return s;
+  var t = DATI.translations[s];
+  return t && t[LANG] ? t[LANG] : s;
 }
-
-function scoreSize(profile, sizeObj, hist){
-  var lines=[], tot=0, wsum=0;
-  CAPO.zones.forEach(function(z){
-    var b = profile.body[z.zone]; if(!b) return;
-    var g = sizeObj.m[z.zone];
-    var garmentDim = z.doubles ? g*2 : g;              // flat laid = mezza circonferenza / half circumference
-    var ease = garmentDim - b.v + hist.cm*z.scale;     // offset storico scalato per zona / per-zone scaled history offset
-    var mid=(z.ease[0]+z.ease[1])/2, half=(z.ease[1]-z.ease[0])/2;
-    var dev=Math.abs(ease-mid), score, assess;
-    if(dev<=half){score=1; assess='ok';}
-    else if(dev<=half+z.tol){score=1-(dev-half)/z.tol*0.6; assess='attenzione';}
-    else {score=Math.max(0,0.4-(dev-half-z.tol)*0.1); assess='critico';}
-    var w = z.critical?2:1;
-    tot+=score*w; wsum+=w;
-    lines.push({zone:z, ease:ease, assess:assess, tight:ease<mid, garment:garmentDim, body:b});
-  });
-  return {score: wsum? tot/wsum : 0, lines:lines};
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
+function cm(x){ return String(x).replace('-', '−'); }
+var BADGE = {as_cut:'ok', snug:'attenzione', roomy:'attenzione', too_tight:'critico', too_loose:'critico', unknown:'ignoto'};
 
-function recommend(profile){
-  var t = T[LANG];
-  var hist = historyOffset(profile);
-  var zonesCovered = CAPO.zones.filter(function(z){return profile.body[z.zone];}).length;
-
-  // --- percorso cold start / cold-start path ---
-  if(zonesCovered===0){
-    if(!hist.present) return {size:null, conf:0, lines:[], cold:true, caveats:[t.cav_vuoto]};
-    var conf = Math.min(0.40, 0.15 + 0.10*hist.kept);
-    return {size:'41', conf:conf, lines:[], cold:true, basedOn:t.based_hist,
-      caveats:[t.cav_cold1, t.cav_cold2(CAPO.brand)],
-      suggerimenti:[t.sug1, t.sug2]};
-  }
-
-  // --- percorso normale / normal path ---
-  var best=null;
-  CAPO.sizes.forEach(function(s){
-    var r = scoreSize(profile, s, hist);
-    if(!best || r.score>best.score) best={label:s.label, score:r.score, lines:r.lines};
-  });
-  var srcs = Object.keys(profile.body).map(function(k){return profile.body[k].q;});
-  var srcQ = srcs.reduce(function(a,b){return a+b;},0)/srcs.length;
-  var conf = 0.30*(zonesCovered/CAPO.zones.length) + 0.25*srcQ + (hist.present?0.12:0) + 0.14*best.score;
-  conf = Math.round(Math.min(0.95,conf)*100)/100;
-
-  var caveats=[];
-  var weak = Object.keys(profile.body).filter(function(k){return profile.body[k].src!=='tape_measured';})
-             .map(function(k){return t.zone[k].toLowerCase();});
-  if(weak.length) caveats.push(t.cav_deboli(weak.join(', ')));
-  var kd = profile.history.filter(function(h){return h.kept_despite && h.kept_despite.length;});
-  if(kd.length) caveats.push(t.cav_kd);
-  return {size:best.label, conf:conf, lines:best.lines, cold:false, basedOn:t.based_zones(zonesCovered), caveats:caveats};
-}
-
-// ---------- serializzazione per livello / per-level serialisation ----------
 function render(){
   var t = T[LANG];
-  var profilo = PROFILI[document.getElementById('sel-profilo').value];
+  var profilo = document.getElementById('sel-profilo').value;
   var level = document.getElementById('sel-livello').value;
-  var r = recommend(profilo);
-  var corpo = document.getElementById('sim-corpo');
-  var pct = Math.round(r.conf*100);
+  var r = DATI.reports[profilo][level];
+  var pct = Math.round(r.confidence*100);
 
   var html = '<div class="esito-riga">'
-    + '<div class="taglia">'+(r.size||'—')+'<small> '+t.taglia+'</small></div>'
-    + '<div class="conf-blocco"><div class="conf-eti"><span>'+t.conf+'</span><span>'+r.conf.toFixed(2)+'</span></div>'
+    + '<div class="taglia">'+esc(r.recommended_size||'—')+'<small> '+t.taglia+'</small></div>'
+    + '<div class="conf-blocco"><div class="conf-eti"><span>'+t.conf+'</span><span>'+r.confidence.toFixed(2)+'</span></div>'
     + '<div class="conf-metro"><div class="metro" style="height:26px"><div class="tacche"></div></div>'
     + '<div class="gesso-marker" style="left:calc('+pct+'% - 2px)"></div></div></div></div>';
 
-  if(r.basedOn) html += '<p style="font-size:13.5px;color:var(--ink-70)">'+t.basata+r.basedOn+'.</p>';
+  html += '<p style="font-size:13.5px;color:var(--ink-70)">'+t.basata+t.based(r.based_on)+'.</p>';
+  if(r.alternatives && r.alternatives.length){
+    html += '<p style="font-size:13.5px;color:var(--ink-70)">'+t.alternative+r.alternatives.map(function(a){
+      return esc(a.size_label)+' ('+a.score.toFixed(2)+')'+(a.note ? ', '+esc(tr(a.note)) : '');
+    }).join(' · ')+'</p>';
+  }
+  html += '<div class="livello-nota">'+t['nota_'+level]+'</div>';
 
-  if(level==='result_only'){
-    html += '<div class="livello-nota">'+t.nota_result+'</div>';
-  } else if(r.lines.length){
-    var conNumeri = (level==='scoped'||level==='full');
-    if(level==='explained') html += '<div class="livello-nota">'+t.nota_explained+'</div>';
-    if(level==='scoped')    html += '<div class="livello-nota">'+t.nota_scoped+'</div>';
-    if(level==='full')      html += '<div class="livello-nota">'+t.nota_full+'</div>';
+  if(r.explanation && r.explanation.length){
+    var conNumeri = r.explanation.some(function(l){return 'ease_cm' in l;});
+    var critiche = r.explanation.some(function(l){return l.critical;});
     html += '<table class="zone"><thead><tr><th scope="col">'+t.th[0]+'</th><th scope="col">'+t.th[1]+'</th>'
          + (conNumeri?'<th scope="col">'+t.th[2]+'</th><th scope="col">'+t.th[3]+'</th>':'')
-         + (level==='full'?'<th scope="col">'+t.th[4]+'</th><th scope="col">'+t.th[5]+'</th>':'')
          + '</tr></thead><tbody>';
-    r.lines.forEach(function(l){
-      var giudizio = t.giudizio[l.assess] + (l.assess!=='ok' ? (l.tight?t.stretto:t.abbondante) : '');
-      html += '<tr><td>'+t.zone[l.zone.zone]+(l.zone.critical?' <span class="mono" style="color:var(--accent-ink)">*</span>':'')+'</td>'
-           + '<td><span class="badge '+l.assess+'">'+giudizio+'</span></td>'
-           + (conNumeri?'<td class="mono">'+(l.ease>=0?'+':'')+l.ease.toFixed(1)+' cm</td><td class="mono">'+l.zone.ease[0]+'–'+l.zone.ease[1]+' cm</td>':'')
-           + (level==='full'?'<td class="mono">'+l.body.v.toFixed(1)+' cm <span style="color:var(--ink-70)">('+(l.body.src==='tape_measured'?t.fonte_metro:t.fonte_auto)+')</span></td><td class="mono">'+l.garment.toFixed(1)+' cm</td>':'')
-           + '</tr>';
+    r.explanation.forEach(function(l){
+      html += '<tr><td>'+esc(t.zone[l.zone]||l.zone)+(l.critical?' <span class="mono" style="color:var(--accent-ink)">*</span>':'')+'</td>'
+           + '<td><span class="badge '+(BADGE[l.assessment]||'ignoto')+'">'+esc(t.giudizio[l.assessment]||l.assessment)+'</span>'
+           + (l.note?'<small>'+esc(tr(l.note))+'</small>':'')+'</td>';
+      if(conNumeri){
+        html += '<td class="mono">'+('ease_cm' in l ? (l.ease_cm>=0?'+':'−')+Math.abs(l.ease_cm).toFixed(1)+' cm' : '')+'</td>'
+             + '<td class="mono">'+(l.intended_ease_cm ? cm(l.intended_ease_cm[0])+'–'+cm(l.intended_ease_cm[1])+' cm' : '')+'</td>';
+      }
+      html += '</tr>';
     });
-    html += '</tbody></table><p style="font-size:12px;color:var(--ink-70);margin-top:6px"><span class="mono" style="color:var(--accent-ink)">*</span> '+t.nota_critica+'</p>';
-  } else if(r.cold && r.size){
-    html += '<div class="livello-nota">'+t.nota_cold+'</div>';
-    if(level!=='result_only') html += '<p style="font-size:13.5px;color:var(--ink-70)">'+t.nota_coincidono+'</p>';
+    html += '</tbody></table>';
+    if(critiche) html += '<p style="font-size:12px;color:var(--ink-70);margin-top:6px"><span class="mono" style="color:var(--accent-ink)">*</span> '+t.nota_critica+'</p>';
   }
 
-  if(r.caveats && r.caveats.length){
-    html += '<div class="caveats"><ul>'+r.caveats.map(function(c){return '<li>'+c+'</li>';}).join('')+'</ul></div>';
+  if(r.caveats.length){
+    html += '<div class="caveats"><ul>'+r.caveats.map(function(c){return '<li>'+esc(tr(c))+'</li>';}).join('')+'</ul></div>';
   }
-  if(r.suggerimenti){
+  if(r.improve_by.length){
     html += '<div class="caveats"><p style="font-size:13px;font-weight:600;font-family:\'IBM Plex Mono\',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-70);margin:14px 0 4px">'+t.migliorare+'</p><ul>'
-         + r.suggerimenti.map(function(c){return '<li>'+c+'</li>';}).join('')+'</ul></div>';
+         + r.improve_by.map(function(c){return '<li>'+esc(tr(c))+'</li>';}).join('')+'</ul></div>';
   }
-  corpo.innerHTML = html;
+  document.getElementById('sim-corpo').innerHTML = html;
+  // il report esatto, in inglese: è il dato che viaggia / the exact report, in English: it is what travels
+  document.getElementById('sim-json-box').textContent = DATI.reports_text[profilo][level];
 }
 
 document.getElementById('sel-livello').addEventListener('change', render);
-document.getElementById('sel-profilo').addEventListener('change', render);
+document.getElementById('sel-profilo').addEventListener('change', function(){ aggiornaOpzioni(); render(); });
+document.getElementById('sel-livello').value = DATI.default_level[document.getElementById('sel-profilo').value];
 aggiornaOpzioni();
 aggiornaBottoniJson();
 render();
