@@ -7,15 +7,18 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/agiofitavatar32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/assets/agiofitavatar192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<title>Agio Fit — how to use it / come si usa / mode d'emploi</title>
-<meta name="description" content="An interactive walkthrough of the Agio Fit data model: a shirt, a fit profile, and what a shop actually receives at each disclosure level.">
+<title>Agio Fit — come si usa</title>
+<meta name="description" content="Una guida interattiva al modello dati di Agio Fit: una camicia, un profilo di vestibilità e cosa riceve davvero un negozio a ogni livello di disclosure.">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Agio Fit">
 <meta property="og:url" content="https://agiofit.org/it/guide/">
-<meta property="og:title" content="Agio Fit — the interactive guide">
-<meta property="og:description" content="Change how much of the profile leaves, and watch what is left of the answer.">
+<meta property="og:title" content="Agio Fit — la guida interattiva">
+<meta property="og:description" content="Cambia quanto del profilo esce, e guarda cosa resta della risposta.">
 <meta property="og:image" content="https://agiofit.org/assets/social-preview-light.png">
-<meta property="og:image:alt" content="The Agio Fit logo, a terracotta ring around a night-blue disc, beside the words: an open, portable fit profile owned by the person, not the platform.">
+<meta property="og:image:alt" content="Il logo Agio Fit, un anello color terracotta attorno a un disco blu notte, accanto alla scritta in inglese: an open, portable fit profile owned by the person, not the platform.">
+<meta property="og:locale" content="it_IT">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:locale:alternate" content="fr_FR">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -295,9 +298,9 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
       <polyline class="lead" points="196.5,130 218,130"/>
       <polyline class="lead" points="152,157 218,208"/>
       <!-- etichette / labels -->
-      <text x="224" y="52"><tspan class="en">the garment</tspan><tspan class="it">il capo</tspan><tspan class="fr">le vêtement</tspan></text>
-      <text x="224" y="134" class="termine"><tspan class="en">the agio (ease)</tspan><tspan class="it">l'agio</tspan><tspan class="fr">l'agio — aisance</tspan></text>
-      <text x="224" y="212"><tspan class="en">the body</tspan><tspan class="it">il corpo</tspan><tspan class="fr">le corps</tspan></text>
+      <text x="224" y="52">il capo</text>
+      <text x="224" y="134" class="termine">l'agio</text>
+      <text x="224" y="212">il corpo</text>
     </svg>
     <figcaption>
       
@@ -325,8 +328,8 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
     <div class="doc">
       <h3>Fit Profile</h3>
       <p class="file">fit-profile.schema.json</p>
-      <p>Il tuo profilo: misure corporee (ognuna con <span class="mono">source e <span class="mono">observed_at</span> obbligatori, <span class="mono">tolerance</span> fortemente raccomandata), preferenze di vestibilità e — il segnale più forte — lo <b>storico</b> di come i capi passati ti sono andati davvero.</span>
-       and <span class="mono">observed_at</span>, <span class="mono">tolerance</span> strongly recommended), fit preferences and — the strongest signal — the <b>history</b> of how past garments actually fitted you.</span> et <span class="mono">observed_at</span> obligatoires, <span class="mono">tolerance</span> fortement recommandée), préférences de coupe et — le signal le plus fort — l’<b>historique</b> de la façon dont les vêtements passés vous sont réellement allés.</span></p>
+      <p>Il tuo profilo: misure corporee (ognuna con <span class="mono">source</span> e <span class="mono">observed_at</span> obbligatori, <span class="mono">tolerance</span> fortemente raccomandata), preferenze di vestibilità e — il segnale più forte — lo <b>storico</b> di come i capi passati ti sono andati davvero.
+      </p>
       <button data-json="json-profilo" aria-expanded="false"></button>
       <div class="json-box" id="json-profilo">{
   <span class="k">"body_measurements"</span>: {
@@ -350,13 +353,13 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
     <span class="k">"kept_despite"</span>: [<span class="s">"waist"</span>]  <span class="c">// compromesso accettato</span>
   }]
 }</div>
-      <p class="file">Estratto semplificato: una voce di storico completa richiede anche <span class="mono">occurred_at, <span class="mono">garment_ref</span> e <span class="mono">source</span>.</span>, <span class="mono">garment_ref</span> and <span class="mono">source</span>.</span>, <span class="mono">garment_ref</span> et <span class="mono">source</span>.</span></p>
+      <p class="file">Estratto semplificato: una voce di storico completa richiede anche <span class="mono">occurred_at</span>, <span class="mono">garment_ref</span> e <span class="mono">source</span>.</p>
     </div>
     <div class="doc">
       <h3>Cut Profile</h3>
       <p class="file">cut-profile.schema.json</p>
-      <p>Come il capo è <b>tagliato</b>, non come il brand chiama la taglia: misure per taglia, agio previsto (<span class="mono">intended_ease), elasticità. Il campo <span class="mono">measurement_method</span> è obbligatorio e senza default.</span>
-      ), stretch. The <span class="mono">measurement_method</span> field is mandatory, with no default.</span>), élasticité. Le champ <span class="mono">measurement_method</span> est obligatoire, sans valeur par défaut.</span></p>
+      <p>Come il capo è <b>tagliato</b>, non come il brand chiama la taglia: misure per taglia, agio previsto (<span class="mono">intended_ease</span>), elasticità. Il campo <span class="mono">measurement_method</span> è obbligatorio e senza default.
+      </p>
       <button data-json="json-capo" aria-expanded="false"></button>
       <div class="json-box" id="json-capo">{
   <span class="k">"brand"</span>: <span class="s">"Sartoria Esempio"</span>,
@@ -407,8 +410,8 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
   <p class="kicker">02 · Provalo</p>
   <h2>Il matching, dal vivo</h2>
   <p class="intro">
-    Stessa logica dell'implementazione di riferimento (<span class="mono">python -m agiofit.cli), ricostruita qui in JavaScript: scegli un profilo e un livello di disclosure, e guarda cosa esce — e soprattutto <b>cosa non esce</b>. Il capo e i profili sono gli esempi reali del repo: la Classic Oxford di Sartoria Esempio (marchio fittizio), taglie 39–42.</span>
-    ), rebuilt here in JavaScript: pick a profile and a disclosure level, and watch what comes out — and above all <b>what doesn't</b>. Garment and profiles are the repo's real examples: Sartoria Esempio's Classic Oxford (a fictional brand), sizes 39–42.</span>), reconstruite ici en JavaScript : choisissez un profil et un niveau de divulgation, et regardez ce qui sort — et surtout <b>ce qui ne sort pas</b>. Le vêtement et les profils sont les exemples réels du dépôt : la Classic Oxford de Sartoria Esempio (marque fictive), tailles 39–42.</span>
+    Stessa logica dell'implementazione di riferimento (<span class="mono">python -m agiofit.cli</span>), ricostruita qui in JavaScript: scegli un profilo e un livello di disclosure, e guarda cosa esce — e soprattutto <b>cosa non esce</b>. Il capo e i profili sono gli esempi reali del repo: la Classic Oxford di Sartoria Esempio (marchio fittizio), taglie 39–42.
+    
   </p>
 
   <div class="simulatore">
@@ -460,8 +463,8 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
     <p>Le misure del capo sono pubbliche (stanno nel Cut Profile). Se la raccomandazione pubblicasse anche l'agio in centimetri, chiunque saprebbe fare:
     </p>
     <p class="formula">corpo&nbsp;=&nbsp;<b>capo</b>&nbsp;−&nbsp;<b>agio</b>&nbsp;&nbsp;→&nbsp;&nbsp;116&nbsp;cm&nbsp;−&nbsp;16&nbsp;cm&nbsp;=&nbsp;<b>100&nbsp;cm di torace</b></p>
-    <p>Una sottrazione ricostruisce la misura corporea. Per questo ai livelli bassi l'agio esiste nel calcolo ma <strong>non sopravvive alla serializzazione</strong> — provalo nel simulatore passando da <span class="mono" style="color:#E9BC3F">scoped a <span class="mono" style="color:#E9BC3F">explained</span>.</span>
-     to <span class="mono" style="color:#E9BC3F">explained</span>.</span> à <span class="mono" style="color:#E9BC3F">explained</span>.</span></p>
+    <p>Una sottrazione ricostruisce la misura corporea. Per questo ai livelli bassi l'agio esiste nel calcolo ma <strong>non sopravvive alla serializzazione</strong> — provalo nel simulatore passando da <span class="mono" style="color:#E9BC3F">scoped</span> a <span class="mono" style="color:#E9BC3F">explained</span>.
+    </p>
   </div>
 </section>
 
@@ -472,8 +475,8 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
   <p class="kicker">04 · Sul tuo computer</p>
   <h2>Uso da terminale</h2>
   <p class="intro">
-    L'implementazione di riferimento è Python puro, zero dipendenze. Dopo aver clonato <span class="mono">github.com/agiofit/agiofit:</span>
-    :</span> :</span>
+    L'implementazione di riferimento è Python puro, zero dipendenze. Dopo aver clonato <span class="mono">github.com/agiofit/agiofit</span>:
+    
   </p>
   <div class="terminale">
     <div class="term-barra" aria-hidden="true"><span></span><span></span><span></span></div>
