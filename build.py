@@ -6,10 +6,16 @@
 
 Sources live in _src/ (a leading underscore keeps GitHub Pages from publishing them).
 Each source carries <span class="en">…</span><span class="it">…</span><span class="fr">…</span>
-exactly as the site does today. For each language this script keeps that language's spans,
-unwraps them, drops the other two, sets <html lang>, writes canonical and hreflang, and turns
-the JavaScript language switcher into three plain links. Nothing is translated here: the source
-stays the single place where the three languages live.
+(and <tspan> inside SVG) exactly as the site does today. For each language this script keeps
+that language's elements, unwraps them, drops the other two with everything they contain,
+sets <html lang>, writes canonical, hreflang and og:locale, and turns the JavaScript language
+switcher into three plain links. The head carries its Italian and French text in data-it and
+data-fr attributes on <title> and on the text <meta> tags; this script picks the page's language
+and removes the attributes. Nothing is translated here: the source stays the single place where
+the three languages live.
+
+Before writing, every page is checked: no element of another language left, span and tspan
+balanced, every head text translated. If one check fails, nothing is written.
 
     _src/index.html        ->  /index.html        /it/index.html        /fr/index.html
     _src/guide/index.html  ->  /guide/index.html  /it/guide/index.html  /fr/guide/index.html
@@ -25,7 +31,20 @@ SITE = "https://agiofit.org"
 
 LANGS = ["en", "it", "fr"]
 NAMES = {"en": "English", "it": "Italiano", "fr": "Français"}
-OG = {"en": "en", "it": "it", "fr": "fr"}
+OG = {"en": "en_GB", "it": "it_IT", "fr": "fr_FR"}
+
+# head tags whose text changes with the language: the English text is in the tag,
+# the other two in data-it and data-fr
+HEAD_FIELDS = {
+    "title": r"<title\b[^>]*>",
+    "description": r'<meta name="description"[^>]*>',
+    "og:title": r'<meta property="og:title"[^>]*>',
+    "og:description": r'<meta property="og:description"[^>]*>',
+    "og:image:alt": r'<meta property="og:image:alt"[^>]*>',
+}
+
+# opening or closing span/tspan; the attributes are kept to read the class
+LANG_TAG = re.compile(r"<(/?)(span|tspan)\b([^>]*)>")
 
 # source file -> path of the English output, relative to the site root
 PAGES = {
@@ -40,15 +59,97 @@ def out_path(page: str, lang: str) -> str:
     return base if lang == "en" else f"{lang}/{base}"
 
 
+def line_of(html: str, pos: int) -> int:
+    return html.count("\n", 0, pos) + 1
+
+
 def strip_languages(html: str, lang: str) -> str:
-    """Keep this language's spans, unwrapped; remove the other two entirely."""
-    for other in LANGS:
-        if other != lang:
-            html = re.sub(
-                r'<span class="%s">.*?</span>' % other, "", html, flags=re.S
-            )
-    html = re.sub(r'<span class="%s">(.*?)</span>' % lang, r"\1", html, flags=re.S)
+    """Keep this language's span/tspan elements, unwrapped; remove the other two entirely.
+
+    A small parser, not a regular expression: a language element can hold other spans
+    (<span class="mono">), so it ends at its own closing tag, not at the first one.
+    """
+    out = []
+    pos = 0
+    stack = []        # (tag, kind) of the open elements; kind is keep, drop or other
+    drop_at = None    # stack depth of the element being dropped, if any
+    for m in LANG_TAG.finditer(html):
+        closing, tag, attrs = m.groups()
+        if drop_at is None:
+            out.append(html[pos:m.start()])
+        pos = m.end()
+        if closing:
+            if not stack or stack[-1][0] != tag:
+                raise ValueError(f"</{tag}> without its opening tag, line {line_of(html, m.start())}")
+            _, kind = stack.pop()
+            if drop_at is not None:
+                if len(stack) == drop_at:
+                    drop_at = None
+            elif kind == "other":
+                out.append(m.group(0))
+            continue
+        c = re.search(r'\bclass="(en|it|fr)"', attrs)
+        kind = "other" if not c else ("keep" if c.group(1) == lang else "drop")
+        stack.append((tag, kind))
+        if drop_at is not None:
+            continue
+        if kind == "drop":
+            drop_at = len(stack) - 1
+        elif kind == "other":
+            out.append(m.group(0))
+    if stack:
+        raise ValueError(f"<{stack[-1][0]}> never closed")
+    out.append(html[pos:])
+    return "".join(out)
+
+
+def translate_head(html: str, lang: str) -> str:
+    """Put the page's language into the head text fields, then drop data-it and data-fr."""
+    for field, pattern in HEAD_FIELDS.items():
+        m = re.search(pattern, html)
+        if not m:
+            raise ValueError(f"{field} is missing from the head")
+        tag = m.group(0)
+        new_tag = re.sub(r'\s+data-(it|fr)="[^"]*"', "", tag)
+        if lang != "en":
+            t = re.search(r'\sdata-%s="([^"]*)"' % lang, tag)
+            if not t or not t.group(1).strip():
+                raise ValueError(f"{field} has no {lang} text")
+            if field == "title":
+                end = html.index("</title>", m.end())
+                html = html[:m.start()] + new_tag + t.group(1) + html[end:]
+                continue
+            new_tag = re.sub(r'(\scontent=")[^"]*(")',
+                             lambda c: c.group(1) + t.group(1) + c.group(2), new_tag, count=1)
+        html = html[:m.start()] + new_tag + html[m.end():]
     return html
+
+
+def og_locales(lang: str) -> str:
+    rows = [f'<meta property="og:locale" content="{OG[lang]}">']
+    rows += [f'<meta property="og:locale:alternate" content="{OG[l]}">' for l in LANGS if l != lang]
+    return "\n".join(rows)
+
+
+def check_page(html: str, lang: str) -> list:
+    """What a generated page must satisfy before it is written. Returns the problems found."""
+    problems = []
+    for m in re.finditer(r'<([a-zA-Z][\w-]*)\b[^>]*\sclass="(en|it|fr)"', html):
+        problems.append(f'<{m.group(1)} class="{m.group(2)}"> left, line {line_of(html, m.start())}')
+    stack = []
+    for m in LANG_TAG.finditer(html):
+        closing, tag, _ = m.groups()
+        if not closing:
+            stack.append(tag)
+        elif not stack or stack[-1] != tag:
+            problems.append(f"</{tag}> without its opening tag, line {line_of(html, m.start())}")
+        else:
+            stack.pop()
+    if stack:
+        problems.append(f"{len(stack)} span/tspan never closed")
+    if re.search(r"\sdata-(it|fr)=", html):
+        problems.append("data-it or data-fr left in the page")
+    return problems
 
 
 def drop_function(html: str, name: str) -> str:
@@ -95,8 +196,9 @@ def head_links(page: str, lang: str) -> str:
 def build_page(source: str, page: str, lang: str) -> str:
     h = source
 
-    # 1. one language only
+    # 1. one language only, in the body and in the head
     h = strip_languages(h, lang)
+    h = translate_head(h, lang)
 
     # 2. the document declares which language it is, and the body no longer switches
     h = re.sub(r'<html([^>]*)\slang="[a-z-]+"', r'<html\1 lang="%s"' % lang, h, count=1)
@@ -106,7 +208,9 @@ def build_page(source: str, page: str, lang: str) -> str:
     # 3. canonical + hreflang, replacing whatever canonical was there
     h = re.sub(r'\s*<link rel="canonical"[^>]*>', "", h)
     h = h.replace("</head>", head_links(page, lang) + "\n</head>", 1)
-    h = re.sub(r'(<meta property="og:locale" content=")[^"]*(")', r"\g<1>%s\g<2>" % OG[lang], h)
+    h = re.sub(r'\s*<meta property="og:locale(:alternate)?"[^>]*>', "", h)
+    h = re.sub(r'(<meta property="og:image:alt"[^>]*>)',
+               lambda m: m.group(1) + "\n" + og_locales(lang), h, count=1)
     h = re.sub(r'(<meta property="og:url" content=")[^"]*(")',
                r"\g<1>%s/%s\g<2>" % (SITE, out_path(page, lang)), h)
 
@@ -155,17 +259,25 @@ def main() -> int:
             if not re.search(r'<span class="%s">' % lang, text):
                 print(f"\n  Nothing written: {page} has no {lang} text\n")
                 return 1
-            plan.append((page, lang, build_page(text, page, lang)))
+            try:
+                plan.append((page, lang, build_page(text, page, lang)))
+            except ValueError as e:
+                print(f"\n  Nothing written: {page} ({lang}): {e}\n")
+                return 1
 
     print()
+    failed = False
     for page, lang, html in plan:
         target = ROOT / out_path(page, lang) / "index.html"
         rel = str(target.relative_to(ROOT)).replace("\\", "/")
-        leftover = len(re.findall(r'<span class="(en|it|fr)">', html))
-        print(f"  /{rel:26} {lang}  {len(html):>6} bytes  leftover spans: {leftover}")
-        if leftover:
-            print("\n  Nothing written: language spans are still in the output\n")
-            return 1
+        problems = check_page(html, lang)
+        print(f"  /{rel:26} {lang}  {len(html):>6} bytes  problems: {len(problems)}")
+        for p in problems:
+            print(f"      {p}")
+        failed = failed or bool(problems)
+    if failed:
+        print("\n  Nothing written: the pages above did not pass the checks\n")
+        return 1
 
     urls = [f"{SITE}/{out_path(p, l)}" for p in PAGES for l in LANGS] + [f"{SITE}/builder/"]
     schemas = ["fit-profile", "cut-profile", "match-report"]

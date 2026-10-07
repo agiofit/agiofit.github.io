@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/agiofitavatar32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/assets/agiofitavatar192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<title>Agio Fit — how to use it / come si usa / mode d'emploi</title>
+<title>Agio Fit — how to use it</title>
 <meta name="description" content="An interactive walkthrough of the Agio Fit data model: a shirt, a fit profile, and what a shop actually receives at each disclosure level.">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Agio Fit">
@@ -16,6 +16,9 @@
 <meta property="og:description" content="Change how much of the profile leaves, and watch what is left of the answer.">
 <meta property="og:image" content="https://agiofit.org/assets/social-preview-light.png">
 <meta property="og:image:alt" content="The Agio Fit logo, a terracotta ring around a night-blue disc, beside the words: an open, portable fit profile owned by the person, not the platform.">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="it_IT">
+<meta property="og:locale:alternate" content="fr_FR">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -295,9 +298,9 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
       <polyline class="lead" points="196.5,130 218,130"/>
       <polyline class="lead" points="152,157 218,208"/>
       <!-- etichette / labels -->
-      <text x="224" y="52"><tspan class="en">the garment</tspan><tspan class="it">il capo</tspan><tspan class="fr">le vêtement</tspan></text>
-      <text x="224" y="134" class="termine"><tspan class="en">the agio (ease)</tspan><tspan class="it">l'agio</tspan><tspan class="fr">l'agio — aisance</tspan></text>
-      <text x="224" y="212"><tspan class="en">the body</tspan><tspan class="it">il corpo</tspan><tspan class="fr">le corps</tspan></text>
+      <text x="224" y="52">the garment</text>
+      <text x="224" y="134" class="termine">the agio (ease)</text>
+      <text x="224" y="212">the body</text>
     </svg>
     <figcaption>
       The logo is the concept: the space between body and garment <em>is</em> the agio.
@@ -325,8 +328,8 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
     <div class="doc">
       <h3>Fit Profile</h3>
       <p class="file">fit-profile.schema.json</p>
-      <p> e <span class="mono">observed_at</span> obbligatori, <span class="mono">tolerance</span> fortemente raccomandata), preferenze di vestibilità e — il segnale più forte — lo <b>storico</b> di come i capi passati ti sono andati davvero.</span>
-      Your profile: body measurements (each with mandatory <span class="mono">source and <span class="mono">observed_at</span>, <span class="mono">tolerance</span> strongly recommended), fit preferences and — the strongest signal — the <b>history</b> of how past garments actually fitted you.</span> et <span class="mono">observed_at</span> obligatoires, <span class="mono">tolerance</span> fortement recommandée), préférences de coupe et — le signal le plus fort — l’<b>historique</b> de la façon dont les vêtements passés vous sont réellement allés.</span></p>
+      <p>
+      Your profile: body measurements (each with mandatory <span class="mono">source</span> and <span class="mono">observed_at</span>, <span class="mono">tolerance</span> strongly recommended), fit preferences and — the strongest signal — the <b>history</b> of how past garments actually fitted you.</p>
       <button data-json="json-profilo" aria-expanded="false"></button>
       <div class="json-box" id="json-profilo">{
   <span class="k">"body_measurements"</span>: {
@@ -350,13 +353,13 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
     <span class="k">"kept_despite"</span>: [<span class="s">"waist"</span>]  <span class="c">// accepted trade-off</span>
   }]
 }</div>
-      <p class="file">, <span class="mono">garment_ref</span> e <span class="mono">source</span>.</span>Simplified excerpt: a full history entry also requires <span class="mono">occurred_at, <span class="mono">garment_ref</span> and <span class="mono">source</span>.</span>, <span class="mono">garment_ref</span> et <span class="mono">source</span>.</span></p>
+      <p class="file">Simplified excerpt: a full history entry also requires <span class="mono">occurred_at</span>, <span class="mono">garment_ref</span> and <span class="mono">source</span>.</p>
     </div>
     <div class="doc">
       <h3>Cut Profile</h3>
       <p class="file">cut-profile.schema.json</p>
-      <p>), elasticità. Il campo <span class="mono">measurement_method</span> è obbligatorio e senza default.</span>
-      How the garment is <b>cut</b>, not what the brand calls the size: per-size measurements, intended ease (<span class="mono">intended_ease), stretch. The <span class="mono">measurement_method</span> field is mandatory, with no default.</span>), élasticité. Le champ <span class="mono">measurement_method</span> est obligatoire, sans valeur par défaut.</span></p>
+      <p>
+      How the garment is <b>cut</b>, not what the brand calls the size: per-size measurements, intended ease (<span class="mono">intended_ease</span>), stretch. The <span class="mono">measurement_method</span> field is mandatory, with no default.</p>
       <button data-json="json-capo" aria-expanded="false"></button>
       <div class="json-box" id="json-capo">{
   <span class="k">"brand"</span>: <span class="s">"Sartoria Esempio"</span>,
@@ -407,8 +410,8 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
   <p class="kicker">02 · Try it</p>
   <h2>The matching, live</h2>
   <p class="intro">
-    ), ricostruita qui in JavaScript: scegli un profilo e un livello di disclosure, e guarda cosa esce — e soprattutto <b>cosa non esce</b>. Il capo e i profili sono gli esempi reali del repo: la Classic Oxford di Sartoria Esempio (marchio fittizio), taglie 39–42.</span>
-    The same logic as the reference implementation (<span class="mono">python -m agiofit.cli), rebuilt here in JavaScript: pick a profile and a disclosure level, and watch what comes out — and above all <b>what doesn't</b>. Garment and profiles are the repo's real examples: Sartoria Esempio's Classic Oxford (a fictional brand), sizes 39–42.</span>), reconstruite ici en JavaScript : choisissez un profil et un niveau de divulgation, et regardez ce qui sort — et surtout <b>ce qui ne sort pas</b>. Le vêtement et les profils sont les exemples réels du dépôt : la Classic Oxford de Sartoria Esempio (marque fictive), tailles 39–42.</span>
+    
+    The same logic as the reference implementation (<span class="mono">python -m agiofit.cli</span>), rebuilt here in JavaScript: pick a profile and a disclosure level, and watch what comes out — and above all <b>what doesn't</b>. Garment and profiles are the repo's real examples: Sartoria Esempio's Classic Oxford (a fictional brand), sizes 39–42.
   </p>
 
   <div class="simulatore">
@@ -460,8 +463,8 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
     <p>
     The garment's measurements are public (they live in the Cut Profile). If the recommendation also published the ease in centimetres, anyone could do:</p>
     <p class="formula">body&nbsp;=&nbsp;<b>garment</b>&nbsp;−&nbsp;<b>ease</b>&nbsp;&nbsp;→&nbsp;&nbsp;116&nbsp;cm&nbsp;−&nbsp;16&nbsp;cm&nbsp;=&nbsp;<b>a 100&nbsp;cm chest</b></p>
-    <p> a <span class="mono" style="color:#E9BC3F">explained</span>.</span>
-    One subtraction reconstructs the body measurement. That's why at the lower levels the ease exists in the computation but <strong>does not survive serialisation</strong> — try it in the simulator by switching from <span class="mono" style="color:#E9BC3F">scoped to <span class="mono" style="color:#E9BC3F">explained</span>.</span> à <span class="mono" style="color:#E9BC3F">explained</span>.</span></p>
+    <p>
+    One subtraction reconstructs the body measurement. That's why at the lower levels the ease exists in the computation but <strong>does not survive serialisation</strong> — try it in the simulator by switching from <span class="mono" style="color:#E9BC3F">scoped</span> to <span class="mono" style="color:#E9BC3F">explained</span>.</p>
   </div>
 </section>
 
@@ -472,8 +475,8 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
   <p class="kicker">04 · On your machine</p>
   <h2>Using it from the terminal</h2>
   <p class="intro">
-    :</span>
-    The reference implementation is pure Python, zero dependencies. After cloning <span class="mono">github.com/agiofit/agiofit:</span> :</span>
+    
+    The reference implementation is pure Python, zero dependencies. After cloning <span class="mono">github.com/agiofit/agiofit</span>:
   </p>
   <div class="terminale">
     <div class="term-barra" aria-hidden="true"><span></span><span></span><span></span></div>
