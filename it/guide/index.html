@@ -496,11 +496,11 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
   </p>
   <div class="terminale">
     <div class="term-barra" aria-hidden="true"><span></span><span></span><span></span></div>
-    <pre><span class="cmt"># installazione e verifica (<!-- ref:tests -->44<!-- /ref:tests --> test, devono passare tutti)</span>
+    <pre><span class="cmt"># installazione e verifica (<!-- ref:tests -->47<!-- /ref:tests --> test, devono passare tutti)</span>
 <span class="prompt">$</span> cd agiofit/reference
 <span class="prompt">$</span> pip install -e ".[dev]"
 <span class="prompt">$</span> pytest
-<span class="out"><!-- ref:tests -->44<!-- /ref:tests --> passed</span>
+<span class="out"><!-- ref:tests -->47<!-- /ref:tests --> passed</span>
 
 <span class="cmt"># profilo maturo: senza livello vale quello della persona (result_only), qui si chiede explained</span>
 <span class="prompt">$</span> python -m agiofit.cli ../examples/profile-mature.json ../examples/cut-shirt.json explained
@@ -543,7 +543,7 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 </section>
 
 <footer>
-  Agio Fit v0.1 · interfaccia dimostrativa · le risposte mostrate sono generate dall'implementazione di riferimento (agiofit@<!-- ref:commit -->991f0c7<!-- /ref:commit -->); l'algoritmo non è normativo, la forma della risposta sì
+  Agio Fit v0.1 · interfaccia dimostrativa · le risposte mostrate sono generate dall'implementazione di riferimento (agiofit@<!-- ref:commit -->9984925<!-- /ref:commit -->); l'algoritmo non è normativo, la forma della risposta sì
   
   <br>
   <a class="credito" href="https://agiofit.org">agiofit.org</a> · <a class="credito" href="https://github.com/agiofit">github.com/agiofit</a> · un progetto personale di <a class="credito" href="https://github.com/antferr">antferr</a>
@@ -555,8 +555,8 @@ a.credito:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
 <!-- reference-reports:start -->
 <script type="application/json" id="reference-reports">
 {
-  "commit": "991f0c7",
-  "tests": 44,
+  "commit": "9984925",
+  "tests": 47,
   "default_level": {
     "mature": "result_only",
     "cold-start": "result_only"
