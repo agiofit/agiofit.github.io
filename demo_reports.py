@@ -12,6 +12,8 @@ from, the number of tests, each profile's default level and the Italian and Fren
 the reference's sentences.
 The numbers the page quotes from the reference sit between <!-- ref:NAME --> markers and
 are rewritten from the same reports.
+Each profile is read as of its own updated_at. The reference counts how old a measurement is
+from the day of the calculation, and the demo must not change with the calendar.
 
 Nothing is computed in the page: the demo only shows these reports. After a change to the
 reference, run this script, then python build.py.
@@ -22,6 +24,7 @@ import json
 import re
 import subprocess
 import sys
+from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -213,11 +216,13 @@ def run(clone: Path, write: bool) -> int:
     reports, defaults = {}, {}
     for key, path in PROFILES.items():
         profile = json.loads((clone / path).read_text(encoding="utf-8"))
+        # The day the profile was last updated, not today: see the docstring.
+        as_of = datetime.fromisoformat(profile["updated_at"].replace("Z", "+00:00"))
         # the reference's own rule: the profile's default_level, else result_only
         defaults[key] = (profile.get("disclosure_defaults") or {}).get("default_level") or "result_only"
         reports[key] = {}
         for level in LEVELS:
-            r = match.recommend(profile, garment, level).to_json()
+            r = match.recommend(profile, garment, level, now=as_of).to_json()
             r.pop("computed_at", None)    # changes at every run
             reports[key][level] = r
 
