@@ -132,7 +132,8 @@ details.advanced.locked>summary::before{color:var(--ink-70)}
 details.advanced .inner{padding:0 20px 24px}
 .why,.locked-msg{font-size:14.5px;color:var(--ink-70);margin:0 0 20px;max-width:62ch}
 #ease{margin-top:26px}
-#ease>label{display:block;margin-bottom:12px}
+#ease>label{display:block;margin-bottom:10px}
+#ease .row{display:flex;gap:8px}
 
 button{cursor:pointer}
 .btn{display:inline-block;font-family:inherit;font-weight:600;font-size:15px;
@@ -179,98 +180,199 @@ footer p:last-child{margin-bottom:0}
   <div class="head">
     <p class="kicker">Cut Profile</p>
     <h1>Cut Profile builder</h1>
-    <p class="lede" id="t-lede"></p>
-    <p class="sub" id="t-spec"></p>
+    <p class="lede" id="t-lede">Lay a garment flat, take five measurements, and get a file that describes how it is cut.</p>
+    <p class="sub" id="t-spec">The form is the easy way in. The data model is the point: read the <a href="https://github.com/agiofit/agiofit/tree/main/spec">specification</a>.</p>
   </div>
 
   <div class="status">
     <dl>
-      <dt id="s-writes-t"></dt><dd id="s-writes"></dd>
-      <dt id="s-schema-t"></dt><dd id="s-schema"></dd>
-      <dt id="s-status-t"></dt><dd id="s-status"></dd>
-      <dt id="s-data-t"></dt><dd id="s-data"></dd>
+      <dt id="s-writes-t">Writes</dt><dd id="s-writes">Cut Profile, one garment</dd>
+      <dt id="s-schema-t">Checked against</dt><dd id="s-schema">cut-profile.schema.json v0.1.0</dd>
+      <dt id="s-status-t">Status</dt><dd id="s-status">draft — the model may still change</dd>
+      <dt id="s-data-t">Your data</dt><dd id="s-data">stays in this browser, nothing is sent</dd>
     </dl>
   </div>
 
   <section class="block">
-    <div class="bh"><span class="n">Step 1</span><h2 id="t-garment"></h2></div>
+    <div class="bh"><span class="n">Step 1</span><h2 id="t-garment">The garment</h2></div>
     <div class="body">
-      <p class="hint" id="t-garment-hint"></p>
+      <p class="hint" id="t-garment-hint">Only shirts for now. The rest of the vocabulary exists, but each category needs its measuring instructions written properly, so they arrive when someone asks for them. Tell us which you want.</p>
       <div class="grid">
-        <div class="field"><label for="category" id="l-category"></label><select id="category"></select></div>
-        <div class="field"><label for="size_system" id="l-size-system"></label><select id="size_system"></select></div>
-        <div class="field"><label for="brand" id="l-brand"></label><input id="brand" autocomplete="off"></div>
-        <div class="field"><label for="style_name" id="l-style"></label><input id="style_name" autocomplete="off"></div>
+        <div class="field"><label for="category" id="l-category">Category</label><select id="category"></select></div>
+        <div class="field"><label for="size_system" id="l-size-system">Size system</label><select id="size_system"></select></div>
+        <div class="field"><label for="brand" id="l-brand">Brand</label><input id="brand" autocomplete="off"></div>
+        <div class="field"><label for="style_name" id="l-style">Model name</label><input id="style_name" autocomplete="off"></div>
         <div class="field wide">
-          <label for="composition" id="l-composition"></label>
+          <label for="composition" id="l-composition">Fabric composition</label>
           <input id="composition" autocomplete="off" placeholder="97% cotton, 3% elastane">
-          <p class="note" id="n-composition"></p>
+          <p class="note" id="n-composition">Copy the care label as it is written.</p>
         </div>
       </div>
     </div>
   </section>
 
   <section class="block">
-    <div class="bh"><span class="n">Step 2</span><h2 id="t-flat"></h2></div>
+    <div class="bh"><span class="n">Step 2</span><h2 id="t-flat">Lay it flat</h2></div>
     <div class="body">
-      <p class="hint" id="t-flat-hint"></p>
+      <p class="hint" id="t-flat-hint">The garment is laid flat, fastened, and not stretched. Widths are taken perpendicular to the centre line. Leave out anything you cannot measure rather than estimating it: a gap is useful, a guess is not.</p>
       <div class="grid">
         <div class="field">
-          <label for="unit" id="l-unit"></label>
+          <label for="unit" id="l-unit">Your tape reads in</label>
           <select id="unit"><option value="cm">cm</option><option value="in">in</option></select>
-          <p class="note" id="t-unit-hint"></p>
+          <p class="note" id="t-unit-hint">This is about the tape in your hand, not about the garment. A shirt labelled in one country can be measured with any tape: if yours is marked in centimetres, choose centimetres, whatever the size label says.</p>
         </div>
       </div>
     </div>
   </section>
 
   <section class="block">
-    <div class="bh"><span class="n">Step 3</span><h2 id="t-measure"></h2></div>
+    <div class="bh"><span class="n">Step 3</span><h2 id="t-measure">The measurements</h2></div>
     <div class="body">
-      <p class="hint" id="t-measure-hint"></p>
-      <div id="sizes"></div>
-      <button class="btn ghost" id="add-size" type="button"></button>
+      <p class="hint" id="t-measure-hint">One garment, one size. If you own the same model in another size, add it: a Cut Profile describes a model, not a single item.</p>
+      <div id="sizes">
+        <!-- The measuring instructions below are taken word for word from
+             spec/02-cut-profile.md, section "Measurement names".
+             "Add another size" clones this block. -->
+        <div class="sizeblock" data-size="1">
+          <div class="top">
+            <div class="field">
+              <label for="size-label-1">Size label</label>
+              <input id="size-label-1" class="size-label" autocomplete="off">
+              <p class="note">Exactly as written on the garment label.</p>
+            </div>
+            <button class="drop" type="button" hidden>Remove this size</button>
+          </div>
+          <!-- "cannot be altered" marks the critical zones of shirts: shoulders and neck.
+               They are deliberately NOT written into the file: critical_zones overrides a
+               consumer's own defaults, and someone who measured a shirt has not decided
+               to override anything. -->
+          <div class="pom">
+            <div class="key">neck_circumference<span class="tag">cannot be altered</span></div>
+            <div class="how">Collar fastened and laid flat, measured along the collar from the centre of the button to the centre of the buttonhole. This is the whole circumference, not half of it, despite the garment being flat.<em> Leave this one out and every answer about this garment will count for less, and say so.</em></div>
+            <div class="val"><input class="num measure-value" inputmode="decimal" autocomplete="off" data-key="neck_circumference" aria-label="neck_circumference"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <div class="pom">
+            <div class="key">shoulder_width<span class="tag">cannot be altered</span></div>
+            <div class="how">From shoulder seam to shoulder seam across the back. A raglan or kimono garment has no shoulder seams and should leave this out rather than estimate.<em> Leave this one out and every answer about this garment will count for less, and say so.</em></div>
+            <div class="val"><input class="num measure-value" inputmode="decimal" autocomplete="off" data-key="shoulder_width" aria-label="shoulder_width"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <div class="pom">
+            <div class="key">chest_width</div>
+            <div class="how">Across, from armhole seam to armhole seam, about 2 cm below the armhole.</div>
+            <div class="val"><input class="num measure-value" inputmode="decimal" autocomplete="off" data-key="chest_width" aria-label="chest_width"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <div class="pom">
+            <div class="key">waist_width</div>
+            <div class="how">Across, at the narrowest point. Where the garment does not narrow, halfway between armhole and hem.</div>
+            <div class="val"><input class="num measure-value" inputmode="decimal" autocomplete="off" data-key="waist_width" aria-label="waist_width"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <div class="pom">
+            <div class="key">sleeve_length</div>
+            <div class="how">From the shoulder seam to the edge of the cuff, following the sleeve. On a raglan, from the base of the collar.</div>
+            <div class="val"><input class="num measure-value" inputmode="decimal" autocomplete="off" data-key="sleeve_length" aria-label="sleeve_length"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+        </div>
+      </div>
+      <button class="btn ghost" id="add-size" type="button">Add another size</button>
     </div>
   </section>
 
   <section class="block">
-    <div class="bh"><span class="n">Step 4</span><h2 id="t-who"></h2></div>
+    <div class="bh"><span class="n">Step 4</span><h2 id="t-who">Who measured it</h2></div>
     <div class="body">
-      <p class="hint" id="t-who-hint"></p>
+      <p class="hint" id="t-who-hint">This says where the numbers came from. It does not say they are right.</p>
       <div class="grid">
-        <div class="field"><label for="published_by" id="l-published-by"></label><select id="published_by"></select></div>
+        <div class="field"><label for="published_by" id="l-published-by">Measured by</label><select id="published_by">
+          <option value="measured_by_owner">The owner, with a tape</option>
+          <option value="marketplace_seller">A second-hand seller</option>
+          <option value="brand">The brand</option>
+          <option value="manufacturer">The manufacturer</option>
+          <option value="retailer">The retailer</option>
+          <option value="community">The community</option>
+        </select></div>
       </div>
       <details class="advanced" id="adv">
-        <summary id="t-adv"></summary>
+        <summary id="t-adv">What the garment was meant to do</summary>
         <div class="inner">
-          <p class="why" id="t-adv-why"></p>
-          <p class="locked-msg" id="t-adv-locked" hidden></p>
+          <p class="why" id="t-adv-why">These four fields ask what the garment was designed to do, not what the tape says. Only whoever drew or produced it can answer them.</p>
+          <p class="locked-msg" id="t-adv-locked" hidden>Choose the brand or the manufacturer above to fill these in. As the owner of a garment you can measure it exactly, but you cannot know what ease its designer intended, and an invented value is worse than an absent one.</p>
           <div class="grid">
-            <div class="field"><label for="cut" id="l-cut"></label><select id="cut"></select></div>
+            <div class="field"><label for="cut" id="l-cut">Cut</label><select id="cut">
+              <option value="">not stated</option>
+              <option value="very_fitted">very fitted</option>
+              <option value="fitted">fitted</option>
+              <option value="regular">regular</option>
+              <option value="relaxed">relaxed</option>
+              <option value="oversized">oversized</option>
+            </select></div>
             <div class="field">
-              <label for="production_tolerance" id="l-prodtol"></label>
+              <label for="production_tolerance" id="l-prodtol">Production tolerance</label>
               <input id="production_tolerance" class="num" inputmode="decimal" autocomplete="off">
-              <p class="note" id="n-prodtol"></p>
+              <p class="note" id="n-prodtol">In the units you chose above.</p>
             </div>
             <div class="field wide">
-              <label for="critical_zones" id="l-crit"></label>
+              <label for="critical_zones" id="l-crit">Critical zones</label>
               <input id="critical_zones" autocomplete="off" placeholder="shoulders, neck">
-              <p class="note" id="n-crit"></p>
+              <p class="note" id="n-crit">Comma separated. This replaces the reader's own defaults for this category.</p>
             </div>
           </div>
-          <div id="ease"></div>
+          <div id="ease">
+            <label>Intended ease, per zone</label>
+            <div class="grid">
+              <div class="field">
+                <label>neck</label>
+                <div class="row">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="neck">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="neck">
+                </div>
+              </div>
+              <div class="field">
+                <label>shoulders</label>
+                <div class="row">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="shoulders">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="shoulders">
+                </div>
+              </div>
+              <div class="field">
+                <label>chest</label>
+                <div class="row">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="chest">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="chest">
+                </div>
+              </div>
+              <div class="field">
+                <label>waist</label>
+                <div class="row">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="waist">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="waist">
+                </div>
+              </div>
+              <div class="field">
+                <label>sleeve_length</label>
+                <div class="row">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="sleeve_length">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="sleeve_length">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </details>
     </div>
   </section>
 
   <section class="block">
-    <div class="bh"><span class="n">Step 5</span><h2 id="t-make"></h2></div>
+    <div class="bh"><span class="n">Step 5</span><h2 id="t-make">Make the file</h2></div>
     <div class="body">
-      <p class="hint" id="t-make-hint"></p>
+      <p class="hint" id="t-make-hint">The file is checked against the published schema before you can download it.</p>
       <div class="actions">
-        <button class="btn" id="build" type="button"></button>
-        <button class="btn ghost" id="download" type="button" disabled></button>
+        <button class="btn" id="build" type="button">Check and show the file</button>
+        <button class="btn ghost" id="download" type="button" disabled>Download</button>
       </div>
       <div id="result"></div>
       <pre id="out" hidden></pre>
@@ -278,9 +380,9 @@ footer p:last-child{margin-bottom:0}
   </section>
 
   <footer>
-    <p id="t-foot-1"></p>
-    <p id="t-foot-2"></p>
-    <p id="t-foot-3"></p>
+    <p id="t-foot-1">The file is yours. Publish it where you like, send it to whoever you like, or keep it. Nothing is uploaded here and no Cut Profile is stored on agiofit.org.</p>
+    <p id="t-foot-2">This tool never asks for body measurements, and we do not want to receive any. A Cut Profile is about a garment.</p>
+    <p id="t-foot-3">There is no matching here yet. This page writes the garment side of the model; the part that compares it against a person is a separate piece of work.</p>
   </footer>
 </div>
 
@@ -292,264 +394,109 @@ footer p:last-child{margin-bottom:0}
 "use strict";
 
 /* ---------------------------------------------------------------- categories
-   Categories are data, not markup: adding one is one entry here, plus its
-   measurement prose in the static HTML the script clones from. `critical` is
-   used to mark the instructions on the page. It is deliberately NOT written
-   into the file: the field overrides a consumer's own defaults, and someone
-   who measured a shirt has not decided to override anything.               */
+   What changes with the category and is not text on the page:
+   - label: the option shown in "Category";
+   - size_systems: the options of "Size system";
+   - size_examples: the placeholder of every size label, per size system;
+   - plausible_cm: per measurement, the range in centimetres outside which
+     the "looks unusual" hint appears. A hint, never a block.
+   The measurements of a category, their instructions, its zones and its
+   critical zones are not here: they live in the category's size block in the
+   HTML, which is their only source. A second category brings its own block,
+   next to the shirts'.                                                     */
 const CATEGORIES = {
   shirts: {
     label: "Shirt",
-    critical: ["shoulders", "neck"],
     size_systems: ["IT", "EU", "FR", "UK", "US", "JP", "alpha", "brand_specific"],
     size_examples: {
       IT: "40, 41, 42", EU: "40, 41, 42", FR: "40, 41, 42", JP: "39, 40, 41",
       UK: "15.5, 16, 16.5", US: "15.5, 16, 16.5",
       alpha: "S, M, L, XL", brand_specific: "whatever the brand prints"
     },
-    measurements: [
-      { key: "neck_circumference", zone: "neck",          cm: [28, 55] },
-      { key: "shoulder_width",     zone: "shoulders",     cm: [30, 65] },
-      { key: "chest_width",        zone: "chest",         cm: [35, 85] },
-      { key: "waist_width",        zone: "waist",         cm: [30, 85] },
-      { key: "sleeve_length",      zone: "sleeve_length", cm: [35, 95] }
-    ]
+    plausible_cm: {
+      neck_circumference: [28, 55],
+      shoulder_width:     [30, 65],
+      chest_width:        [35, 85],
+      waist_width:        [30, 85],
+      sleeve_length:      [35, 95]
+    }
   }
 };
 
 /* ------------------------------------------------------------------- strings
-   No English string is written inside a statement below. Measurement prose
-   lives in MEASURE and is taken verbatim from spec/02-cut-profile.md, section
-   "Measurement names". When translation comes, it is a page per language.  */
+   Only the messages that appear after an action. Everything a reader sees
+   before acting is written in the HTML.                                    */
 const UI = {
-  lede: "Lay a garment flat, take five measurements, and get a file that describes how it is cut.",
-  spec: 'The form is the easy way in. The data model is the point: read the <a href="https://github.com/agiofit/agiofit/tree/main/spec">specification</a>.',
-
-  sWrites: "Writes", sWritesV: "Cut Profile, one garment",
-  sSchema: "Checked against", sSchemaV: "cut-profile.schema.json v0.1.0",
-  sStatus: "Status", sStatusV: "draft \u2014 the model may still change",
-  sData: "Your data", sDataV: "stays in this browser, nothing is sent",
-
-  garment: "The garment",
-  garmentHint: "Only shirts for now. The rest of the vocabulary exists, but each category needs its measuring instructions written properly, so they arrive when someone asks for them. Tell us which you want.",
-  category: "Category",
-  sizeSystem: "Size system",
-  brand: "Brand",
-  styleName: "Model name",
-  composition: "Fabric composition",
-  compositionNote: "Copy the care label as it is written.",
-  unit: "Your tape reads in",
-  unitHint: "This is about the tape in your hand, not about the garment. A shirt labelled in one country can be measured with any tape: if yours is marked in centimetres, choose centimetres, whatever the size label says.",
-  implausible: "That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.",
-
-  flat: "Lay it flat",
-  flatHint: "The garment is laid flat, fastened, and not stretched. Widths are taken perpendicular to the centre line. Leave out anything you cannot measure rather than estimating it: a gap is useful, a guess is not.",
-
-  measure: "The measurements",
-  measureHint: "One garment, one size. If you own the same model in another size, add it: a Cut Profile describes a model, not a single item.",
-  sizeLabel: "Size label",
-  sizeLabelHint: "Exactly as written on the garment label.",
-  addSize: "Add another size",
-  dropSize: "Remove this size",
-  criticalTag: "cannot be altered",
-  criticalNote: "Leave this one out and every answer about this garment will count for less, and say so.",
-
-  who: "Who measured it",
-  whoHint: "This says where the numbers came from. It does not say they are right.",
-  publishedBy: "Measured by",
-  publishedByOptions: {
-    measured_by_owner: "The owner, with a tape",
-    marketplace_seller: "A second-hand seller",
-    brand: "The brand",
-    manufacturer: "The manufacturer",
-    retailer: "The retailer",
-    community: "The community"
-  },
-
-  advanced: "What the garment was meant to do",
-  advancedWhy: "These four fields ask what the garment was designed to do, not what the tape says. Only whoever drew or produced it can answer them.",
-  advancedLocked: "Choose the brand or the manufacturer above to fill these in. As the owner of a garment you can measure it exactly, but you cannot know what ease its designer intended, and an invented value is worse than an absent one.",
-  cut: "Cut",
-  cutNone: "not stated",
-  prodTol: "Production tolerance",
-  prodTolNote: "In the units you chose above.",
-  crit: "Critical zones",
-  critNote: "Comma separated. This replaces the reader's own defaults for this category.",
-  easeTitle: "Intended ease, per zone",
-  easeMin: "min",
-  easeMax: "max",
-
-  make: "Make the file",
-  makeHint: "The file is checked against the published schema before you can download it.",
-  build: "Check and show the file",
-  download: "Download",
   valid: "Valid against cut-profile.schema.json v0.1.",
   invalid: "Not valid yet:",
   needOne: "Fill in at least one measurement.",
   needSize: "Every size needs a label.",
-  schemaFail: "Could not load the schema to check against. Nothing was built.",
-
-  foot1: "The file is yours. Publish it where you like, send it to whoever you like, or keep it. Nothing is uploaded here and no Cut Profile is stored on agiofit.org.",
-  foot2: "This tool never asks for body measurements, and we do not want to receive any. A Cut Profile is about a garment.",
-  foot3: "There is no matching here yet. This page writes the garment side of the model; the part that compares it against a person is a separate piece of work."
+  schemaFail: "Could not load the schema to check against. Nothing was built."
 };
 
-/* Measurement prose, verbatim from spec/02-cut-profile.md. */
-const MEASURE = {
-  neck_circumference: "Collar fastened and laid flat, measured along the collar from the centre of the button to the centre of the buttonhole. This is the whole circumference, not half of it, despite the garment being flat.",
-  shoulder_width: "From shoulder seam to shoulder seam across the back. A raglan or kimono garment has no shoulder seams and should leave this out rather than estimate.",
-  chest_width: "Across, from armhole seam to armhole seam, about 2 cm below the armhole.",
-  waist_width: "Across, at the narrowest point. Where the garment does not narrow, halfway between armhole and hem.",
-  sleeve_length: "From the shoulder seam to the edge of the cuff, following the sleeve. On a raglan, from the base of the collar."
-};
-
-const CUTS = ["very_fitted", "fitted", "regular", "relaxed", "oversized"];
 const SCHEMA_URL = "../schemas/v0.1/cut-profile.schema.json";
 
 const $ = (id) => document.getElementById(id);
-const text = (id, s) => { const n = $(id); if (n) n.textContent = s; };
 
-/* ------------------------------------------------------------------ chrome */
-function paintStatic() {
-  text("t-lede", UI.lede);
-  $("t-spec").innerHTML = UI.spec;
-  text("s-writes-t", UI.sWrites); text("s-writes", UI.sWritesV);
-  text("s-schema-t", UI.sSchema); text("s-schema", UI.sSchemaV);
-  text("s-status-t", UI.sStatus); text("s-status", UI.sStatusV);
-  text("s-data-t", UI.sData);     text("s-data", UI.sDataV);
-  text("t-garment", UI.garment);   text("t-garment-hint", UI.garmentHint);
-  text("l-category", UI.category); text("l-size-system", UI.sizeSystem);
-  text("l-brand", UI.brand);       text("l-style", UI.styleName);
-  text("l-unit", UI.unit); text("t-unit-hint", UI.unitHint);
-  text("l-composition", UI.composition); text("n-composition", UI.compositionNote);
-  text("t-flat", UI.flat);         text("t-flat-hint", UI.flatHint);
-  text("t-measure", UI.measure);   text("t-measure-hint", UI.measureHint);
-  text("add-size", UI.addSize);
-  text("t-who", UI.who);           text("t-who-hint", UI.whoHint);
-  text("l-published-by", UI.publishedBy);
-  text("t-adv", UI.advanced);      text("t-adv-why", UI.advancedWhy);
-  text("t-adv-locked", UI.advancedLocked);
-  text("l-cut", UI.cut);
-  text("l-prodtol", UI.prodTol);   text("n-prodtol", UI.prodTolNote);
-  text("l-crit", UI.crit);         text("n-crit", UI.critNote);
-  text("t-make", UI.make);         text("t-make-hint", UI.makeHint);
-  text("build", UI.build);         text("download", UI.download);
-  text("t-foot-1", UI.foot1);      text("t-foot-2", UI.foot2); text("t-foot-3", UI.foot3);
-
-  for (const [key, c] of Object.entries(CATEGORIES)) {
-    $("category").append(new Option(c.label, key));
-  }
-  for (const [k, v] of Object.entries(UI.publishedByOptions)) {
-    $("published_by").append(new Option(v, k));
-  }
-  $("cut").append(new Option(UI.cutNone, ""));
-  for (const c of CUTS) $("cut").append(new Option(c.replace("_", " "), c));
-}
-
+/* ---------------------------------------------------------------- category */
+/* Today there is one category, and its size block is the one in the HTML. When a
+   second arrives, choosing it must also show its own block of sizes: an entry in
+   CATEGORIES alone would leave the shirt's rows under another category. */
 function paintCategory() {
   const c = CATEGORIES[$("category").value];
   const sel = $("size_system");
   sel.textContent = "";
   for (const s of c.size_systems) sel.append(new Option(s, s));
-  $("sizes").textContent = "";
-  addSize();
-  paintEase(c);
+  paintPlaceholders();
+}
+
+function paintPlaceholders() {
+  const c = CATEGORIES[$("category").value];
+  for (const el of document.querySelectorAll(".size-label")) {
+    el.placeholder = c.size_examples[$("size_system").value] || "";
+  }
+}
+
+function paintUnit() {
+  for (const u of document.querySelectorAll(".pom .u")) u.textContent = $("unit").value;
+  for (const input of document.querySelectorAll(".measure-value")) warnIfImplausible(input);
 }
 
 /* ------------------------------------------------------------------- sizes */
-let sizeSeq = 0;
+/* The first size is written in the HTML; every other one is a clone of it.
+   Numbers are never reused: after a removal, a new size takes a new one. */
+let sizeSeq = 1;
 
 function addSize() {
-  const c = CATEGORIES[$("category").value];
   const id = ++sizeSeq;
-  const block = document.createElement("div");
-  block.className = "sizeblock";
+  const block = $("sizes").querySelector(".sizeblock").cloneNode(true);
   block.dataset.size = id;
-
-  const top = document.createElement("div");
-  top.className = "top";
-  const f = document.createElement("div");
-  f.className = "field";
-  const lab = document.createElement("label");
-  lab.setAttribute("for", "size-label-" + id);
-  lab.textContent = UI.sizeLabel;
-  const inp = document.createElement("input");
-  inp.id = "size-label-" + id;
-  inp.className = "size-label";
-  inp.autocomplete = "off";
-  inp.placeholder = c.size_examples[$("size_system").value] || "";
-  const lnote = document.createElement("p");
-  lnote.className = "note";
-  lnote.textContent = UI.sizeLabelHint;
-  f.append(lab, inp, lnote);
-  top.append(f);
-  if (id > 1) {
-    const drop = document.createElement("button");
-    drop.type = "button";
-    drop.className = "drop";
-    drop.textContent = UI.dropSize;
-    drop.addEventListener("click", () => { block.remove(); clearResult(); });
-    top.append(drop);
-  }
-  block.append(top);
-
-  for (const m of c.measurements) {
-    const row = document.createElement("div");
-    row.className = "pom";
-    const isCrit = c.critical.includes(m.zone);
-
-    const key = document.createElement("div");
-    key.className = "key";
-    key.textContent = m.key;
-    if (isCrit) {
-      const tag = document.createElement("span");
-      tag.className = "tag";
-      tag.textContent = UI.criticalTag;
-      key.append(tag);
-    }
-
-    const how = document.createElement("div");
-    how.className = "how";
-    how.textContent = MEASURE[m.key];
-    if (isCrit) {
-      const em = document.createElement("em");
-      em.textContent = " " + UI.criticalNote;
-      how.append(em);
-    }
-
-    const val = document.createElement("div");
-    val.className = "val";
-    const v = document.createElement("input");
-    v.className = "num measure-value";
-    v.inputMode = "decimal";
-    v.autocomplete = "off";
-    v.dataset.key = m.key;
-    v.setAttribute("aria-label", m.key);
-    const u = document.createElement("span");
-    u.className = "u";
-    u.textContent = $("unit").value;
-    val.append(v, u);
-
-    const warn = document.createElement("p");
-    warn.className = "warn";
-    warn.hidden = true;
-    warn.textContent = UI.implausible;
-    v.addEventListener("input", () => { warn.hidden = plausible(m, v); });
-
-    row.append(key, how, val, warn);
-    block.append(row);
-  }
+  const label = block.querySelector(".size-label");
+  label.id = "size-label-" + id;
+  label.value = "";
+  block.querySelector(".top label").htmlFor = label.id;
+  for (const v of block.querySelectorAll(".measure-value")) v.value = "";
+  for (const w of block.querySelectorAll(".warn")) w.hidden = true;
+  const drop = block.querySelector(".drop");
+  drop.hidden = false;
+  drop.addEventListener("click", () => { block.remove(); clearResult(); });
   $("sizes").append(block);
+  paintPlaceholders();
   clearResult();
 }
 
 /* A hint, never a block. The garment may genuinely be unusual; the tape may be in the
    other unit. Saying so is useful, refusing to write the file is not. */
-function plausible(m, input) {
+function plausible(range, input) {
   const v = num(input);
-  if (v === null || !m.cm) return true;
+  if (v === null || !range) return true;
   const cm = $("unit").value === "in" ? v * 2.54 : v;
-  return cm >= m.cm[0] && cm <= m.cm[1];
+  return cm >= range[0] && cm <= range[1];
+}
+
+function warnIfImplausible(input) {
+  const range = CATEGORIES[$("category").value].plausible_cm[input.dataset.key];
+  input.closest(".pom").querySelector(".warn").hidden = plausible(range, input);
 }
 
 /* The conditional section belongs to a population, and the document already says which one:
@@ -565,38 +512,6 @@ function paintAdvanced() {
   $("t-adv-why").hidden = !allowed;
   for (const el of box.querySelectorAll("input, select")) el.disabled = !allowed;
   if (!allowed) box.open = false;
-}
-
-function paintEase(c) {
-  const host = $("ease");
-  host.textContent = "";
-  const h = document.createElement("label");
-  h.textContent = UI.easeTitle;
-  h.style.display = "block";
-  h.style.marginBottom = "10px";
-  host.append(h);
-  const grid = document.createElement("div");
-  grid.className = "grid";
-  for (const m of c.measurements) {
-    const f = document.createElement("div");
-    f.className = "field";
-    const l = document.createElement("label");
-    l.textContent = m.zone;
-    const row = document.createElement("div");
-    row.className = "row";
-    row.style.display = "flex";
-    row.style.gap = "8px";
-    const lo = document.createElement("input");
-    lo.className = "num ease-min"; lo.inputMode = "decimal"; lo.placeholder = UI.easeMin;
-    lo.dataset.zone = m.zone;
-    const hi = document.createElement("input");
-    hi.className = "num ease-max"; hi.inputMode = "decimal"; hi.placeholder = UI.easeMax;
-    hi.dataset.zone = m.zone;
-    row.append(lo, hi);
-    f.append(l, row);
-    grid.append(f);
-  }
-  host.append(grid);
 }
 
 /* ------------------------------------------------------------------- build */
@@ -745,22 +660,18 @@ function clearResult() {
 }
 
 /* -------------------------------------------------------------------- wire */
-paintStatic();
+for (const [key, c] of Object.entries(CATEGORIES)) {
+  $("category").append(new Option(c.label, key));
+}
 paintCategory();
+paintUnit();
 paintAdvanced();
 
 $("category").addEventListener("change", paintCategory);
-$("size_system").addEventListener("change", () => {
-  const c = CATEGORIES[$("category").value];
-  for (const el of document.querySelectorAll(".size-label")) {
-    el.placeholder = c.size_examples[$("size_system").value] || "";
-  }
-});
-$("unit").addEventListener("change", () => {
-  for (const u of document.querySelectorAll(".pom .u")) u.textContent = $("unit").value;
-  for (const input of document.querySelectorAll(".measure-value")) {
-    input.dispatchEvent(new Event("input"));
-  }
+$("size_system").addEventListener("change", paintPlaceholders);
+$("unit").addEventListener("change", paintUnit);
+$("sizes").addEventListener("input", (e) => {
+  if (e.target.matches(".measure-value")) warnIfImplausible(e.target);
 });
 $("add-size").addEventListener("click", addSize);
 $("published_by").addEventListener("change", paintAdvanced);
