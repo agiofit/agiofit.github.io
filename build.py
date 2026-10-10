@@ -15,15 +15,19 @@ and removes the attributes. Nothing is translated here: the source stays the sin
 the three languages live.
 
 Before writing, every page is checked: no element of another language left, span and tspan
-balanced, every head text translated. If one check fails, nothing is written.
+balanced, every head text translated. The builder's "Measured by" and "Cut" options are
+checked against the schema the builder validates with. If one check fails, nothing is written.
 
     _src/index.html        ->  /index.html        /it/index.html        /fr/index.html
     _src/guide/index.html  ->  /guide/index.html  /it/guide/index.html  /fr/guide/index.html
 """
 
+import json
 import re
 import sys
+from html.parser import HTMLParser
 from pathlib import Path
+from urllib.parse import urljoin
 
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "_src"
@@ -242,6 +246,77 @@ def build_page(source: str, page: str, lang: str) -> str:
     return h
 
 
+class SelectOptions(HTMLParser):
+    """The option values of the <select> elements with the given ids."""
+
+    def __init__(self, ids):
+        super().__init__(convert_charrefs=True)
+        self.values = {i: None for i in ids}
+        self.open = None
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        if tag == "select" and a.get("id") in self.values:
+            self.open = a["id"]
+            self.values[self.open] = []
+        elif tag == "option" and self.open:
+            self.values[self.open].append(a.get("value"))
+
+    def handle_endtag(self, tag):
+        if tag == "select":
+            self.open = None
+
+
+def check_builder() -> tuple:
+    """The builder's "Measured by" and "Cut" options against the schema it validates with.
+
+    A value the schema does not accept makes a file nobody can download; a value it accepts
+    but the builder does not offer leaves someone out. Returns (problems, summary).
+    """
+    page = ROOT / "builder" / "index.html"
+    if not page.is_file():
+        return ["builder/index.html is missing"], ""
+    html = page.read_text(encoding="utf-8")
+
+    m = re.search(r"""\bSCHEMA_URL\s*=\s*["']([^"']+)["']""", html)
+    if not m:
+        return ["SCHEMA_URL not found in builder/index.html"], ""
+    url = urljoin("/builder/", m.group(1))
+    if not url.startswith("/"):
+        return [f"SCHEMA_URL is not on this site: {m.group(1)}"], ""
+    schema_path = ROOT / url.lstrip("/")
+    if not schema_path.is_file():
+        return [f"SCHEMA_URL points at {url}, which is missing"], ""
+    try:
+        props = json.loads(schema_path.read_text(encoding="utf-8"))["properties"]
+        enums = {
+            "published_by": props["provenance"]["properties"]["published_by"]["enum"],
+            "cut": props["cut"]["enum"],
+        }
+    except (ValueError, KeyError, TypeError) as e:
+        return [f"{url} has no enum where expected ({e})"], ""
+
+    parser = SelectOptions(enums)
+    parser.feed(html)
+    problems = []
+    for sid, allowed in enums.items():
+        found = parser.values[sid]
+        if found is None:
+            problems.append(f'<select id="{sid}"> not found in builder/index.html')
+            continue
+        if sid == "cut":
+            found = [v for v in found if v != ""]    # "not stated" writes nothing
+        extra = [v for v in found if v not in allowed]
+        missing = [v for v in allowed if v not in found]
+        if extra:
+            problems.append(f"#{sid}: not in the schema: {', '.join(map(str, extra))}")
+        if missing:
+            problems.append(f"#{sid}: missing from the builder: {', '.join(missing)}")
+    summary = (f"builder/index.html: #published_by ({len(enums['published_by'])}) and "
+               f"#cut ({len(enums['cut'])}) match {url.lstrip('/')}")
+    return problems, summary
+
+
 def main() -> int:
     write = "--write" in sys.argv
     if not SRC.is_dir():
@@ -301,6 +376,15 @@ def main() -> int:
             print(f"  {m}")
         print("\n  Nothing written: sitemap URLs without a file\n")
         return 1
+
+    problems, summary = check_builder()
+    if problems:
+        print()
+        for p in problems:
+            print(f"  {p}")
+        print("\n  Nothing written: the builder's options do not match its schema\n")
+        return 1
+    print(f"\n  {summary}")
 
     if not write:
         print("\nDry run: nothing was touched.")
