@@ -488,7 +488,7 @@ function addSize() {
     drop.type = "button";
     drop.className = "drop";
     drop.textContent = UI.dropSize;
-    drop.addEventListener("click", () => block.remove());
+    drop.addEventListener("click", () => { block.remove(); clearResult(); });
     top.append(drop);
   }
   block.append(top);
@@ -540,6 +540,7 @@ function addSize() {
     block.append(row);
   }
   $("sizes").append(block);
+  clearResult();
 }
 
 /* A hint, never a block. The garment may genuinely be unusual; the tape may be in the
@@ -731,6 +732,18 @@ function show(doc, problems) {
   current = doc;
 }
 
+/* A checked file describes the form as it was when checked. Any change to the
+   form discards it, and a check still waiting for the schema is not shown. */
+let checkSeq = 0;
+
+function clearResult() {
+  checkSeq++;
+  $("result").textContent = "";
+  $("out").hidden = true;
+  $("download").disabled = true;
+  current = null;
+}
+
 /* -------------------------------------------------------------------- wire */
 paintStatic();
 paintCategory();
@@ -756,11 +769,19 @@ $("build").addEventListener("click", () => {
   const doc = collect();
   const problems = localProblems(doc);
   if (problems.length) { show(doc, problems); return; }
+  const seq = checkSeq;
   loadValidator().then(() => {
+    if (seq !== checkSeq) return;
     if (validator(doc)) { show(doc, []); return; }
     show(doc, validator.errors.map(e => (e.instancePath || "/") + " " + e.message));
-  }).catch(() => show(doc, [UI.schemaFail]));
+  }).catch(() => { if (seq === checkSeq) show(doc, [UI.schemaFail]); });
 });
+
+for (const type of ["input", "change"]) {
+  document.addEventListener(type, (e) => {
+    if (e.target.matches("input, select")) clearResult();
+  });
+}
 
 $("download").addEventListener("click", () => {
   if (!current) return;
