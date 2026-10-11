@@ -9,7 +9,7 @@
 <link rel="icon" href="/assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#F5F0E8;          /* brand ivory */
@@ -20,6 +20,10 @@
   --accent-ink:#A9532F;           /* darker terracotta, for small text */
   --tape:#E9BC3F;          /* tailor's tape */
   --tape-ink:#8A6A14;
+  --tape-text:#5C460E;     /* text on the tape yellow */
+  --highlight:#FBF6E7;     /* active row, warnings */
+  --code:#202B39;          /* JSON output */
+  --code-ink:#DCE6F0;
   --ok:#3E7A52;
   --danger:#9A2B24;
   --surface:#FFFFFF;
@@ -40,43 +44,73 @@ body{
 a{color:var(--accent-ink)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-/* barra condivisa */
-.sitenav{border-bottom:1px solid var(--rule);background:rgba(245,240,232,.9);
+/* the site bar, shared by every page */
+.sitenav{border-bottom:1px solid var(--rule);background:rgba(245,240,232,.92);
   backdrop-filter:saturate(140%) blur(6px);position:sticky;top:0;z-index:20}
-.sitenav-inner{max-width:960px;margin:0 auto;padding:0 24px;height:58px;display:flex;align-items:center;gap:24px}
+.sitenav-inner{max-width:1120px;margin:0 auto;padding:0 24px;height:58px;
+  display:flex;align-items:center;gap:24px}
 .sitenav-mark{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--ink);
-  text-decoration:none;margin-right:auto;letter-spacing:-.01em;
-  display:flex;align-items:center;gap:9px}
-.sitenav-mark img{display:block;border-radius:999px}
-.sitenav a.sitenav-link{font-size:14.5px;color:var(--ink);text-decoration:none;opacity:.7}
+  text-decoration:none;margin-right:auto;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+.sitenav-mark svg{display:block}
+.sitenav a.sitenav-link{font-size:14.5px;color:var(--ink);text-decoration:none;opacity:.7;padding:6px 0}
 .sitenav a.sitenav-link:hover{opacity:1}
 .sitenav a.sitenav-link[aria-current]{opacity:1;font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
+.sitenav-lang{position:relative;display:flex;align-items:center;gap:2px;padding-left:18px;border-left:1px solid var(--rule);
+  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.06em}
+.sitenav-lang a,.sitenav-lang .off{padding:5px 8px;border-radius:999px;text-decoration:none;color:var(--ink-70)}
+.sitenav-lang a:hover{color:var(--ink)}
+.sitenav-lang a[aria-current]{background:rgba(30,36,48,.07);color:var(--ink);font-weight:500}
+.sitenav-lang .off{color:#8A93A1;cursor:default}
 .sitenav-ver{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;
-  background:var(--tape);color:var(--tape-ink);border:1px solid var(--tape-ink);
-  border-radius:6px;padding:2px 9px}
-@media(max-width:640px){.sitenav-inner{gap:14px;overflow-x:auto}.sitenav-ver{display:none}}
+  background:var(--tape);color:var(--tape-text);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.sitenav-gh{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:5px 14px;
+  border-radius:999px;border:1.5px solid var(--ink);font-size:13.5px;font-weight:600;
+  color:var(--ink);text-decoration:none;white-space:nowrap}
+.sitenav-gh:hover{background:var(--ink);color:var(--paper)}
+.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* one line at every width: below 840 px the bar scrolls sideways instead of wrapping */
+@media(max-width:840px){.sitenav-inner{gap:16px;overflow-x:auto}.sitenav-inner>*{flex-shrink:0}}
+@media(max-width:640px){.sitenav-ver{display:none}}
 
-/* impaginato identico al sito: contenuto sulla carta, niente schede attorno alle sezioni */
-.page{max-width:960px;margin:0 auto;padding:0 24px 96px}
-.head{padding-top:44px;max-width:60ch}
+/* laid out like the rest of the site: content on the paper, no cards around the sections */
+.page{max-width:1120px;margin:0 auto;padding:0 24px 96px}
+/* header: text on the left, status on the right, one above the other when there is no room */
+.head{padding-top:44px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:28px 48px}
+.head .intro{flex:1.2 1 440px;min-width:0}
 .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--accent-ink);margin:0 0 10px}
-h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(34px,6vw,52px);line-height:1.05;
-  letter-spacing:-.01em;margin:0}
+h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(38px,5.4vw,60px);line-height:1.04;
+  letter-spacing:-.015em;margin:0}
 h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(24px,3.4vw,32px);line-height:1.15;margin:0}
-.lede{margin-top:20px;font-size:17.5px;color:var(--ink-70);max-width:56ch}
+.lede{margin-top:20px;font-size:17.5px;color:var(--ink-70);max-width:52ch}
 .sub{margin-top:12px;font-size:15px;color:var(--ink-70);max-width:60ch}
+.steps{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 18px}
+.steps a{font-size:14.5px;color:var(--accent-ink);text-decoration:none}
+.steps a:hover{text-decoration:underline}
+.steps .sn{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink-70);margin-right:5px}
 
-/* il riquadro di stato, nella forma di .stato del sito */
-.status{margin-top:26px;background:var(--surface);border:1px solid var(--rule);
-  border-radius:var(--radius);box-shadow:var(--shadow);padding:4px 20px;max-width:620px}
-.status dl{margin:0;display:grid;grid-template-columns:auto 1fr}
-.status dt,.status dd{margin:0;padding:11px 0;border-bottom:1px solid var(--rule);font-size:14.5px}
-.status dt{color:var(--ink-70);padding-right:26px;white-space:nowrap}
-.status dd{font-family:'IBM Plex Mono',monospace;font-size:12.5px}
-.status dl>:nth-last-child(1),.status dl>:nth-last-child(2){border-bottom:none}
+/* the status box, shaped like .stato on the home page */
+.status{flex:1 1 340px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:var(--radius);box-shadow:var(--shadow);padding:4px 20px}
+.status dl{margin:0}
+.status dl>div{display:flex;flex-wrap:wrap;gap:2px 22px;padding:11px 0;border-bottom:1px solid var(--rule)}
+.status dl>div:last-child{border-bottom:none}
+.status dt,.status dd{margin:0;font-size:14.5px}
+.status dt{flex:0 0 130px;color:var(--ink-70);white-space:nowrap}
+.status dd{flex:1 1 160px;font-family:'IBM Plex Mono',monospace;font-size:12.5px}
 
-.block{margin-top:72px}
+/* tailor's tape divider, as on the home page */
+.metro{margin:44px 0 0;user-select:none}
+.metro .tacche{height:16px;background:
+  repeating-linear-gradient(90deg, var(--tape-ink) 0 1px, transparent 1px 7px),
+  var(--tape);
+  border-radius:3px 3px 0 0;border:1px solid var(--tape-ink);border-bottom:0}
+.metro .numeri{display:flex;justify-content:space-between;border:1px solid var(--tape-ink);border-top:0;
+  background:var(--tape);border-radius:0 0 3px 3px;
+  padding:0 6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--tape-text);letter-spacing:1px}
+
+.block{margin-top:72px;scroll-margin-top:80px}
 .bh{display:flex;flex-direction:column}
 .bh .n{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px}
@@ -97,7 +131,7 @@ input:disabled,select:disabled{background:rgba(30,36,48,.04);color:#8A93A1}
 input.num{font-family:'IBM Plex Mono',monospace;text-align:right}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
 
-/* la taglia e' un documento: qui il bianco ci sta, come .doc */
+/* a size is a document: white belongs here, as in .doc */
 .sizeblock{background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
   box-shadow:var(--shadow);margin:0 0 18px;overflow:hidden}
 .sizeblock .top{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;padding:18px}
@@ -116,7 +150,7 @@ input.num{font-family:'IBM Plex Mono',monospace;text-align:right}
 .pom .how em{font-style:normal;color:var(--ink)}
 .pom .val{display:flex;align-items:center;gap:8px}
 .pom .val .u{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-70)}
-.pom .warn{grid-column:1/-1;font-size:13.5px;color:var(--tape-ink);background:#FBF6E7;
+.pom .warn{grid-column:1/-1;font-size:13.5px;color:var(--tape-ink);background:var(--highlight);
   border:1px solid #EADFB4;border-radius:8px;padding:9px 12px;margin:12px 0 0;max-width:62ch}
 @media(max-width:720px){.pom{grid-template-columns:1fr;gap:8px}.pom .key{padding-top:0}
   .pom .how{padding:0}.pom .key .tag{display:inline-block;margin:0 0 0 8px}}
@@ -155,22 +189,34 @@ pre{font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.55;
   background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
   box-shadow:var(--shadow);padding:18px;overflow:auto;max-height:440px;margin:18px 0 0}
 
-footer{margin-top:72px;padding-top:26px;border-top:1px solid var(--rule);max-width:64ch}
-footer p{font-size:14.5px;color:var(--ink-70);margin:0 0 12px}
+footer{margin-top:72px;padding-top:26px;border-top:1px solid var(--rule)}
+footer p{font-size:14.5px;color:var(--ink-70);margin:0 0 12px;max-width:64ch}
 footer p:last-child{margin-bottom:0}
+/* the legal line, as on the home page */
+footer .legal{margin-top:26px;border-top:1px solid var(--rule);padding-top:22px;
+  font-size:13px;color:var(--ink-70);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer .legal .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
+@media(max-width:640px){footer .legal{flex-direction:column;gap:8px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
 
-<nav class="sitenav">
+<nav class="sitenav" aria-label="Site">
   <div class="sitenav-inner">
-    <a class="sitenav-mark" href="/"><img src="/assets/agiofitavatar32.png" alt="" width="22" height="22">Agio Fit</a>
+    <a class="sitenav-mark" href="/"><svg width="22" height="22" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="84" fill="none" stroke="#c96f4a" stroke-width="15"/><circle cx="120" cy="120" r="42" fill="#1e2430"/></svg>Agio Fit</a>
     <a class="sitenav-link" href="/">Overview</a>
     <a class="sitenav-link" href="/guide/">Guide</a>
     <a class="sitenav-link" aria-current="page" href="/builder/">Builder</a>
     <a class="sitenav-link" href="/#schemas">Schemas</a>
+    <div class="sitenav-lang" role="group" aria-label="Language">
+      <a href="/builder/" hreflang="en" aria-current="true">EN</a>
+      <span class="off" aria-hidden="true" title="The builder is in English for now">IT</span>
+      <span class="off" aria-hidden="true" title="The builder is in English for now">FR</span>
+      <span class="visually-hidden">The builder is in English for now.</span>
+    </div>
     <span class="sitenav-ver">v0.1 draft</span>
+    <a class="sitenav-gh" href="https://github.com/agiofit/agiofit" title="Specification and reference implementation">GitHub <span aria-hidden="true">&#8599;</span></a>
   </div>
 </nav>
 
@@ -178,22 +224,36 @@ footer p:last-child{margin-bottom:0}
 
 <div class="page">
   <div class="head">
-    <p class="kicker">Cut Profile</p>
-    <h1>Cut Profile builder</h1>
-    <p class="lede" id="t-lede">Lay a garment flat, take five measurements, and get a file that describes how it is cut.</p>
-    <p class="sub" id="t-spec">The form is the easy way in. The data model is the point: read the <a href="https://github.com/agiofit/agiofit/tree/main/spec">specification</a>.</p>
+    <div class="intro">
+      <p class="kicker">Cut Profile</p>
+      <h1>Cut Profile builder</h1>
+      <p class="lede" id="t-lede">Lay a garment flat, take five measurements, and get a file that describes how it is cut.</p>
+      <p class="sub" id="t-spec">The form is the easy way in. The data model is the point: read the <a href="https://github.com/agiofit/agiofit/tree/main/spec">specification</a>.</p>
+      <nav class="steps" aria-label="Steps">
+        <a href="#step-1"><span class="sn">1</span>The garment</a>
+        <a href="#step-2"><span class="sn">2</span>Lay it flat</a>
+        <a href="#step-3"><span class="sn">3</span>The measurements</a>
+        <a href="#step-4"><span class="sn">4</span>Who measured it</a>
+        <a href="#step-5"><span class="sn">5</span>Make the file</a>
+      </nav>
+    </div>
+
+    <div class="status">
+      <dl>
+        <div><dt id="s-writes-t">Writes</dt><dd id="s-writes">Cut Profile, one garment</dd></div>
+        <div><dt id="s-schema-t">Checked against</dt><dd id="s-schema">cut-profile.schema.json v0.1.0</dd></div>
+        <div><dt id="s-status-t">Status</dt><dd id="s-status">draft — the model may still change</dd></div>
+        <div><dt id="s-data-t">Your data</dt><dd id="s-data">stays in this browser, nothing is sent</dd></div>
+      </dl>
+    </div>
   </div>
 
-  <div class="status">
-    <dl>
-      <dt id="s-writes-t">Writes</dt><dd id="s-writes">Cut Profile, one garment</dd>
-      <dt id="s-schema-t">Checked against</dt><dd id="s-schema">cut-profile.schema.json v0.1.0</dd>
-      <dt id="s-status-t">Status</dt><dd id="s-status">draft — the model may still change</dd>
-      <dt id="s-data-t">Your data</dt><dd id="s-data">stays in this browser, nothing is sent</dd>
-    </dl>
+  <div class="metro" aria-hidden="true">
+    <div class="tacche"></div>
+    <div class="numeri"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span></div>
   </div>
 
-  <section class="block">
+  <section class="block" id="step-1">
     <div class="bh"><span class="n">Step 1</span><h2 id="t-garment">The garment</h2></div>
     <div class="body">
       <p class="hint" id="t-garment-hint">Only shirts for now. The rest of the vocabulary exists, but each category needs its measuring instructions written properly, so they arrive when someone asks for them. Tell us which you want.</p>
@@ -211,7 +271,7 @@ footer p:last-child{margin-bottom:0}
     </div>
   </section>
 
-  <section class="block">
+  <section class="block" id="step-2">
     <div class="bh"><span class="n">Step 2</span><h2 id="t-flat">Lay it flat</h2></div>
     <div class="body">
       <p class="hint" id="t-flat-hint">The garment is laid flat, fastened, and not stretched. Widths are taken perpendicular to the centre line. Leave out anything you cannot measure rather than estimating it: a gap is useful, a guess is not.</p>
@@ -225,7 +285,7 @@ footer p:last-child{margin-bottom:0}
     </div>
   </section>
 
-  <section class="block">
+  <section class="block" id="step-3">
     <div class="bh"><span class="n">Step 3</span><h2 id="t-measure">The measurements</h2></div>
     <div class="body">
       <p class="hint" id="t-measure-hint">One garment, one size. If you own the same model in another size, add it: a Cut Profile describes a model, not a single item.</p>
@@ -282,7 +342,7 @@ footer p:last-child{margin-bottom:0}
     </div>
   </section>
 
-  <section class="block">
+  <section class="block" id="step-4">
     <div class="bh"><span class="n">Step 4</span><h2 id="t-who">Who measured it</h2></div>
     <div class="body">
       <p class="hint" id="t-who-hint">This says where the numbers came from. It does not say they are right.</p>
@@ -366,7 +426,7 @@ footer p:last-child{margin-bottom:0}
     </div>
   </section>
 
-  <section class="block">
+  <section class="block" id="step-5">
     <div class="bh"><span class="n">Step 5</span><h2 id="t-make">Make the file</h2></div>
     <div class="body">
       <p class="hint" id="t-make-hint">The file is checked against the published schema before you can download it.</p>
@@ -383,6 +443,10 @@ footer p:last-child{margin-bottom:0}
     <p id="t-foot-1">The file is yours. Publish it where you like, send it to whoever you like, or keep it. Nothing is uploaded here and no Cut Profile is stored on agiofit.org.</p>
     <p id="t-foot-2">This tool never asks for body measurements, and we do not want to receive any. A Cut Profile is about a garment.</p>
     <p id="t-foot-3">There is no matching here yet. This page writes the garment side of the model; the part that compares it against a person is a separate piece of work.</p>
+    <div class="legal">
+      <span>© 2026 Antonio Ferraioli · Agio Fit · a personal project by <a href="https://github.com/antferr">antferr</a></span>
+      <span class="mono-piccolo">spec: CC BY 4.0 · code: Apache-2.0 · <a href="https://github.com/agiofit">github.com/agiofit</a></span>
+    </div>
   </footer>
 </div>
 
