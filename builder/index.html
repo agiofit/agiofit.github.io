@@ -120,7 +120,7 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(24px,3.4vw,32px)
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px;max-width:620px}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field.wide{grid-column:1/-1}
-label{font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:600;letter-spacing:.06em;
+label{font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:500;letter-spacing:.06em;
   text-transform:uppercase;color:var(--ink-70)}
 .note{font-size:13.5px;color:var(--ink-70);margin:0}
 input,select{width:100%;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;
@@ -140,24 +140,66 @@ input.num{font-family:'IBM Plex Mono',monospace;text-align:right}
   border:1.5px solid var(--rule);border-radius:999px;padding:7px 16px;cursor:pointer}
 .drop:hover{border-color:var(--accent-ink);color:var(--accent-ink)}
 
-.pom{display:grid;grid-template-columns:168px 1fr 128px;border-top:1px solid var(--rule);
-  padding:16px 18px;align-items:start}
-.pom .key{font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding-top:10px}
-.pom .key .tag{display:block;margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;
-  letter-spacing:.06em;background:var(--tape);color:var(--tape-ink);
-  border:1px solid var(--tape-ink);border-radius:6px;padding:1px 8px;width:max-content;text-transform:none}
+.pom{display:grid;grid-template-columns:190px 1fr 116px;border-top:1px solid var(--rule);
+  padding:16px 20px;align-items:start}
+.pom:focus-within{background:var(--highlight)}
+.pom .key{font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding-top:10px;
+  display:grid;grid-template-columns:18px auto;column-gap:8px;align-items:center;justify-content:start}
+/* the number of the measurement, the same as in the drawing */
+.pom .key .no{display:flex;align-items:center;justify-content:center;width:18px;height:18px;
+  border-radius:50%;background:var(--accent-ink);color:var(--surface);font-size:10.5px;font-weight:500}
+.pom .key label{font:inherit;letter-spacing:normal;text-transform:none;color:var(--ink)}
+.pom .key .tag{grid-column:1/-1;justify-self:start;margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:11px;
+  letter-spacing:.06em;background:var(--tape);color:var(--tape-text);
+  border-radius:4px;padding:1px 8px;width:max-content;text-transform:none}
 .pom .how{font-size:14.5px;color:var(--ink-70);line-height:1.5;padding:8px 22px 0 0;max-width:56ch}
 .pom .how em{font-style:normal;color:var(--ink)}
-.pom .val{display:flex;align-items:center;gap:8px}
+.pom .val{display:flex;align-items:center;gap:8px;align-self:center}
+.pom .val input{width:80px}
 .pom .val .u{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-70)}
 .pom .warn{grid-column:1/-1;font-size:13.5px;color:var(--tape-ink);background:var(--highlight);
   border:1px solid #EADFB4;border-radius:8px;padding:9px 12px;margin:12px 0 0;max-width:62ch}
 @media(max-width:720px){.pom{grid-template-columns:1fr;gap:8px}.pom .key{padding-top:0}
-  .pom .how{padding:0}.pom .key .tag{display:inline-block;margin:0 0 0 8px}}
+  .pom .how{padding:0}.pom .val{align-self:start}.pom .key .tag{grid-column:1/-1;margin-top:6px}}
 
-details.advanced{margin-top:28px;border:1px dashed var(--rule);border-radius:var(--radius)}
+/* step 3: the sizes beside the drawing of where the tape goes */
+.measure{display:flex;flex-wrap:wrap;align-items:flex-start;gap:24px}
+.measure #sizes{flex:1.35 1 520px;min-width:0}
+.tapeguide{flex:1 1 340px;position:sticky;top:74px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 16px 18px}
+.tapeguide .tg-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tapeguide h3{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:0}
+.tapeguide .tg-size,.tapeguide .tg-note{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-70)}
+.tapeguide .tg-note{text-align:center;margin:10px 0 0}
+.tapeguide svg{display:block;width:100%;height:auto;margin-top:8px}
+@media(max-width:900px){.tapeguide{order:-1;position:static}}
+
+/* the shirt laid flat: a width is a solid line, the collar a dashed ring */
+.shirt .cloth{fill:var(--surface);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.shirt .collar{fill:var(--surface);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.shirt .collar-in{fill:var(--paper)}
+.shirt .seam{fill:none;stroke:var(--ink-70);stroke-width:1}
+.shirt .button{fill:var(--surface);stroke:var(--ink-70);stroke-width:1}
+.shirt .dim{fill:none;stroke:var(--accent-ink);stroke-width:1.25;stroke-linecap:round}
+.shirt .dim.ext{stroke-width:.9;opacity:.75}
+.shirt .dim.lead{stroke-width:1}
+.shirt .dim.round{stroke-width:1.5;stroke-dasharray:4 3.5}
+.shirt .label-bg{fill:var(--surface)}
+.shirt .label-bg.off{fill:var(--paper)}
+.shirt .badge{fill:var(--accent-ink)}
+.shirt .badge-n{fill:var(--surface);font:500 10.5px 'IBM Plex Mono',monospace}
+.shirt .val{fill:var(--ink);font:500 12.5px 'IBM Plex Mono',monospace}
+.shirt .val .unit{fill:var(--ink-70);font-weight:400}
+.shirt .m.dimmed{opacity:.16}
+.tapeguide .label-bg.off{fill:var(--surface)}
+
+details.advanced{margin-top:28px;border:1px dashed #C9C3B4;border-radius:var(--radius);
+  background:color-mix(in srgb, var(--surface) 55%, transparent)}
 details.advanced>summary{cursor:pointer;padding:16px 20px;font-family:'Fraunces',serif;
   font-size:19px;font-weight:600;list-style:none;display:flex;align-items:center;gap:10px}
+details.advanced>summary .only{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+  font-weight:400;color:var(--ink-70)}
+details.advanced:not(.locked)>summary .only{display:none}
 details.advanced>summary::-webkit-details-marker{display:none}
 details.advanced>summary::before{content:"+";font-family:'IBM Plex Mono',monospace;color:var(--accent)}
 details.advanced[open]>summary::before{content:"\2212"}
@@ -167,7 +209,11 @@ details.advanced .inner{padding:0 20px 24px}
 .why,.locked-msg{font-size:14.5px;color:var(--ink-70);margin:0 0 20px;max-width:62ch}
 #ease{margin-top:26px}
 #ease>label{display:block;margin-bottom:10px}
+#ease .zones{display:flex;flex-wrap:wrap;gap:12px 22px;max-width:640px}
+#ease .zone{flex:1 1 180px;display:flex;flex-direction:column;gap:6px;min-width:0}
+#ease .zone-name{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink)}
 #ease .row{display:flex;gap:8px}
+#ease .row input{min-width:0}
 
 button{cursor:pointer}
 .btn{display:inline-block;font-family:inherit;font-weight:600;font-size:15px;
@@ -181,13 +227,18 @@ button{cursor:pointer}
 
 #result{margin-top:22px}
 .ok,.bad{border-radius:8px;padding:13px 16px;font-size:14.5px;border:1px solid}
-.ok{background:#EFF6F1;border-color:#CADFD2;color:var(--ok)}
+/* a valid file: the message and the JSON are one block, the message on top */
+.ok{background:#EFF6F1;color:var(--ok);border:0;border-radius:var(--radius) var(--radius) 0 0;
+  position:relative;z-index:1}
+/* the tick is decoration: the second declaration hides it from screen readers where supported */
+.ok::before{content:"\2713";content:"\2713" / "";margin-right:8px}
 .bad{background:#FBF0EF;border-color:#E6C9C6;color:var(--danger)}
 .bad ul{margin:9px 0 0;padding-left:20px}
 .bad li{font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+/* the JSON is only shown under a valid message */
 pre{font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.55;
-  background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
-  box-shadow:var(--shadow);padding:18px;overflow:auto;max-height:440px;margin:18px 0 0}
+  background:var(--code);color:var(--code-ink);border:0;border-radius:0 0 var(--radius) var(--radius);
+  box-shadow:var(--shadow);padding:18px;overflow:auto;max-height:440px;margin:0}
 
 footer{margin-top:72px;padding-top:26px;border-top:1px solid var(--rule)}
 footer p{font-size:14.5px;color:var(--ink-70);margin:0 0 12px;max-width:64ch}
@@ -289,6 +340,7 @@ footer .legal .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5
     <div class="bh"><span class="n">Step 3</span><h2 id="t-measure">The measurements</h2></div>
     <div class="body">
       <p class="hint" id="t-measure-hint">One garment, one size. If you own the same model in another size, add it: a Cut Profile describes a model, not a single item.</p>
+      <div class="measure">
       <div id="sizes">
         <!-- The measuring instructions below are taken word for word from
              spec/02-cut-profile.md, section "Measurement names".
@@ -307,36 +359,121 @@ footer .legal .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5
                consumer's own defaults, and someone who measured a shirt has not decided
                to override anything. -->
           <div class="pom">
-            <div class="key">neck_circumference<span class="tag">cannot be altered</span></div>
-            <div class="how">Collar fastened and laid flat, measured along the collar from the centre of the button to the centre of the buttonhole. This is the whole circumference, not half of it, despite the garment being flat.<em> Leave this one out and every answer about this garment will count for less, and say so.</em></div>
-            <div class="val"><input class="num measure-value" inputmode="decimal" autocomplete="off" data-key="neck_circumference" aria-label="neck_circumference"><span class="u">cm</span></div>
+            <div class="key"><span class="no" aria-hidden="true">1</span><label for="m-1-neck_circumference">neck_circumference</label><span class="tag">cannot be altered</span></div>
+            <div class="how" id="how-1-neck_circumference">Collar fastened and laid flat, measured along the collar from the centre of the button to the centre of the buttonhole. This is the whole circumference, not half of it, despite the garment being flat.<em> Leave this one out and every answer about this garment will count for less, and say so.</em></div>
+            <div class="val"><input id="m-1-neck_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="neck_circumference" aria-describedby="how-1-neck_circumference"><span class="u">cm</span></div>
             <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
           </div>
           <div class="pom">
-            <div class="key">shoulder_width<span class="tag">cannot be altered</span></div>
-            <div class="how">From shoulder seam to shoulder seam across the back. A raglan or kimono garment has no shoulder seams and should leave this out rather than estimate.<em> Leave this one out and every answer about this garment will count for less, and say so.</em></div>
-            <div class="val"><input class="num measure-value" inputmode="decimal" autocomplete="off" data-key="shoulder_width" aria-label="shoulder_width"><span class="u">cm</span></div>
+            <div class="key"><span class="no" aria-hidden="true">2</span><label for="m-1-shoulder_width">shoulder_width</label><span class="tag">cannot be altered</span></div>
+            <div class="how" id="how-1-shoulder_width">From shoulder seam to shoulder seam across the back. A raglan or kimono garment has no shoulder seams and should leave this out rather than estimate.<em> Leave this one out and every answer about this garment will count for less, and say so.</em></div>
+            <div class="val"><input id="m-1-shoulder_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="shoulder_width" aria-describedby="how-1-shoulder_width"><span class="u">cm</span></div>
             <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
           </div>
           <div class="pom">
-            <div class="key">chest_width</div>
-            <div class="how">Across, from armhole seam to armhole seam, about 2 cm below the armhole.</div>
-            <div class="val"><input class="num measure-value" inputmode="decimal" autocomplete="off" data-key="chest_width" aria-label="chest_width"><span class="u">cm</span></div>
+            <div class="key"><span class="no" aria-hidden="true">3</span><label for="m-1-chest_width">chest_width</label></div>
+            <div class="how" id="how-1-chest_width">Across, from armhole seam to armhole seam, about 2 cm below the armhole.</div>
+            <div class="val"><input id="m-1-chest_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="chest_width" aria-describedby="how-1-chest_width"><span class="u">cm</span></div>
             <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
           </div>
           <div class="pom">
-            <div class="key">waist_width</div>
-            <div class="how">Across, at the narrowest point. Where the garment does not narrow, halfway between armhole and hem.</div>
-            <div class="val"><input class="num measure-value" inputmode="decimal" autocomplete="off" data-key="waist_width" aria-label="waist_width"><span class="u">cm</span></div>
+            <div class="key"><span class="no" aria-hidden="true">4</span><label for="m-1-waist_width">waist_width</label></div>
+            <div class="how" id="how-1-waist_width">Across, at the narrowest point. Where the garment does not narrow, halfway between armhole and hem.</div>
+            <div class="val"><input id="m-1-waist_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="waist_width" aria-describedby="how-1-waist_width"><span class="u">cm</span></div>
             <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
           </div>
           <div class="pom">
-            <div class="key">sleeve_length</div>
-            <div class="how">From the shoulder seam to the edge of the cuff, following the sleeve. On a raglan, from the base of the collar.</div>
-            <div class="val"><input class="num measure-value" inputmode="decimal" autocomplete="off" data-key="sleeve_length" aria-label="sleeve_length"><span class="u">cm</span></div>
+            <div class="key"><span class="no" aria-hidden="true">5</span><label for="m-1-sleeve_length">sleeve_length</label></div>
+            <div class="how" id="how-1-sleeve_length">From the shoulder seam to the edge of the cuff, following the sleeve. On a raglan, from the base of the collar.</div>
+            <div class="val"><input id="m-1-sleeve_length" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="sleeve_length" aria-describedby="how-1-sleeve_length"><span class="u">cm</span></div>
             <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
           </div>
         </div>
+      </div>
+      <!-- The drawing shows the size being filled in. Its labels start empty and are
+           written by paintTape(); the dash means "not measured". -->
+      <aside class="tapeguide" aria-label="Where the tape goes">
+        <div class="tg-head"><h3>Where the tape goes</h3><span class="tg-size" id="tape-size">size — · 0 of 5</span></div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="shirt" viewBox="0 22 600 418" width="600" height="418" role="img" aria-label="A shirt laid flat with five measuring points: 1 neck circumference, 2 shoulder width, 3 chest width, 4 waist width, 5 sleeve length.">
+          <!-- the garment -->
+          <g class="garment">
+            <path class="cloth" d="M197.7 100 L63.4 352.5 L110.2 377.4 L172.4 200 C178 170 190 135 197.7 100 Z"/>
+            <path class="cloth" d="M402.3 100 L536.6 352.5 L489.8 377.4 L427.6 200 C422 170 410 135 402.3 100 Z"/>
+            <path class="cloth" d="M268 78 L197.7 100 C190 135 178 170 172.4 200 L181.2 300 L177 386 C177 392 180 396 186 397 C230 402 262 428 300 430 C338 428 370 402 414 397 C420 396 423 392 423 386 L418.8 300 L427.6 200 C422 170 410 135 402.3 100 L332 78 Z"/>
+            <path class="collar-in" d="M270 81 Q300 64 330 81 L300 101 Z"/>
+            <path class="collar" d="M266 79 Q300 54 334 79 L330 81 Q300 64 270 81 Z"/>
+            <path class="collar" d="M266 79 L281 124 L300 101 L270 81 Z"/>
+            <path class="collar" d="M334 79 L319 124 L300 101 L330 81 Z"/>
+            <line class="seam" x1="293.5" y1="106" x2="293.5" y2="429"/>
+            <line class="seam" x1="306.5" y1="106" x2="306.5" y2="429"/>
+            <line class="seam" x1="75.6" y1="329.5" x2="118.3" y2="354.4"/>
+            <line class="seam" x1="524.4" y1="329.5" x2="481.7" y2="354.4"/>
+            <circle class="button" cx="300" cy="105" r="2.2"/>
+            <circle class="button" cx="300" cy="142" r="2.6"/>
+            <circle class="button" cx="300" cy="176" r="2.6"/>
+            <circle class="button" cx="300" cy="246" r="2.6"/>
+            <circle class="button" cx="300" cy="336" r="2.6"/>
+            <circle class="button" cx="300" cy="374" r="2.6"/>
+            <circle class="button" cx="91.9" cy="353.5" r="2.2"/>
+            <circle class="button" cx="508.1" cy="353.5" r="2.2"/>
+          </g>
+
+          <!-- 1 neck_circumference: the collar, the whole way round -->
+          <g class="m" data-key="neck_circumference">
+            <path class="dim round" d="M300 105 C 254 102 252 64 300 61 C 348 64 346 102 300 105 Z"/>
+            <line class="dim lead" x1="263" y1="90" x2="242" y2="108"/>
+            <rect class="label-bg" x="206" y="104" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="217" cy="114" r="8"/>
+            <text class="badge-n" x="217" y="114" text-anchor="middle" dominant-baseline="central">1</text>
+            <text class="val" x="229" y="118.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+
+          <!-- 2 shoulder_width: seam to seam, a straight line -->
+          <g class="m" data-key="shoulder_width">
+            <line class="dim ext" x1="197.7" y1="33" x2="197.7" y2="93"/>
+            <line class="dim ext" x1="402.3" y1="33" x2="402.3" y2="93"/>
+            <line class="dim" x1="197.7" y1="40" x2="402.3" y2="40"/>
+            <path class="dim" d="M193.7 44 L201.7 36 M398.3 44 L406.3 36"/>
+            <rect class="label-bg off" x="268" y="30" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="40" r="8"/>
+            <text class="badge-n" x="279" y="40" text-anchor="middle" dominant-baseline="central">2</text>
+            <text class="val" x="291" y="44.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+
+          <!-- 3 chest_width: across, half the way round -->
+          <g class="m" data-key="chest_width">
+            <line class="dim" x1="172.4" y1="209" x2="427.6" y2="209"/>
+            <path class="dim" d="M168.4 213 L176.4 205 M423.6 213 L431.6 205"/>
+            <rect class="label-bg" x="268" y="199" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="209" r="8"/>
+            <text class="badge-n" x="279" y="209" text-anchor="middle" dominant-baseline="central">3</text>
+            <text class="val" x="291" y="213.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+
+          <!-- 4 waist_width: across, half the way round -->
+          <g class="m" data-key="waist_width">
+            <line class="dim" x1="181.2" y1="300" x2="418.8" y2="300"/>
+            <path class="dim" d="M177.2 304 L185.2 296 M414.8 304 L422.8 296"/>
+            <rect class="label-bg" x="268" y="290" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="300" r="8"/>
+            <text class="badge-n" x="279" y="300" text-anchor="middle" dominant-baseline="central">4</text>
+            <text class="val" x="291" y="304.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+
+          <!-- 5 sleeve_length: shoulder seam to the edge of the cuff -->
+          <g class="m" data-key="sleeve_length">
+            <line class="dim ext" x1="405.8" y1="98.1" x2="428.8" y2="85.9"/>
+            <line class="dim ext" x1="540.1" y1="350.6" x2="563.1" y2="338.4"/>
+            <line class="dim" x1="423.5" y1="88.7" x2="557.8" y2="341.2"/>
+            <path class="dim" d="M418.2 87.1 L428.8 90.3 M552.5 339.6 L563.1 342.8"/>
+            <rect class="label-bg off" x="477" y="205" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="488" cy="215" r="8"/>
+            <text class="badge-n" x="488" y="215" text-anchor="middle" dominant-baseline="central">5</text>
+            <text class="val" x="500" y="219.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+        </svg>
+        <p class="tg-note">Chest and waist are half the way round; the collar, the whole way.</p>
+      </aside>
       </div>
       <button class="btn ghost" id="add-size" type="button">Add another size</button>
     </div>
@@ -357,7 +494,7 @@ footer .legal .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5
         </select></div>
       </div>
       <details class="advanced" id="adv">
-        <summary id="t-adv">What the garment was meant to do</summary>
+        <summary id="t-adv">What the garment was meant to do<span class="only">brand or manufacturer only</span></summary>
         <div class="inner">
           <p class="why" id="t-adv-why">These four fields ask what the garment was designed to do, not what the tape says. Only whoever drew or produced it can answer them.</p>
           <p class="locked-msg" id="t-adv-locked" hidden>Choose the brand or the manufacturer above to fill these in. As the owner of a garment you can measure it exactly, but you cannot know what ease its designer intended, and an invented value is worse than an absent one.</p>
@@ -383,40 +520,40 @@ footer .legal .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5
           </div>
           <div id="ease">
             <label>Intended ease, per zone</label>
-            <div class="grid">
-              <div class="field">
-                <label>neck</label>
+            <div class="zones">
+              <div class="zone">
+                <span class="zone-name">neck</span>
                 <div class="row">
-                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="neck">
-                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="neck">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="neck" aria-label="neck minimum">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="neck" aria-label="neck maximum">
                 </div>
               </div>
-              <div class="field">
-                <label>shoulders</label>
+              <div class="zone">
+                <span class="zone-name">shoulders</span>
                 <div class="row">
-                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="shoulders">
-                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="shoulders">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="shoulders" aria-label="shoulders minimum">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="shoulders" aria-label="shoulders maximum">
                 </div>
               </div>
-              <div class="field">
-                <label>chest</label>
+              <div class="zone">
+                <span class="zone-name">chest</span>
                 <div class="row">
-                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="chest">
-                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="chest">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="chest" aria-label="chest minimum">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="chest" aria-label="chest maximum">
                 </div>
               </div>
-              <div class="field">
-                <label>waist</label>
+              <div class="zone">
+                <span class="zone-name">waist</span>
                 <div class="row">
-                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="waist">
-                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="waist">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="waist" aria-label="waist minimum">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="waist" aria-label="waist maximum">
                 </div>
               </div>
-              <div class="field">
-                <label>sleeve_length</label>
+              <div class="zone">
+                <span class="zone-name">sleeve_length</span>
                 <div class="row">
-                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="sleeve_length">
-                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="sleeve_length">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="sleeve_length" aria-label="sleeve_length minimum">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="sleeve_length" aria-label="sleeve_length maximum">
                 </div>
               </div>
             </div>
@@ -532,6 +669,7 @@ function paintPlaceholders() {
 function paintUnit() {
   for (const u of document.querySelectorAll(".pom .u")) u.textContent = $("unit").value;
   for (const input of document.querySelectorAll(".measure-value")) warnIfImplausible(input);
+  paintTape();
 }
 
 /* ------------------------------------------------------------------- sizes */
@@ -547,14 +685,53 @@ function addSize() {
   label.id = "size-label-" + id;
   label.value = "";
   block.querySelector(".top label").htmlFor = label.id;
+  for (const pom of block.querySelectorAll(".pom")) {
+    const input = pom.querySelector(".measure-value");
+    const key = input.dataset.key;
+    input.id = "m-" + id + "-" + key;
+    pom.querySelector(".key label").htmlFor = input.id;
+    pom.querySelector(".how").id = "how-" + id + "-" + key;
+    input.setAttribute("aria-describedby", "how-" + id + "-" + key);
+  }
   for (const v of block.querySelectorAll(".measure-value")) v.value = "";
   for (const w of block.querySelectorAll(".warn")) w.hidden = true;
   const drop = block.querySelector(".drop");
   drop.hidden = false;
-  drop.addEventListener("click", () => { block.remove(); clearResult(); });
+  drop.addEventListener("click", () => { block.remove(); clearResult(); paintTape(); });
   $("sizes").append(block);
   paintPlaceholders();
   clearResult();
+  paintTape();
+}
+
+/* -------------------------------------------------------------- tape guide */
+/* The drawing beside the measurements shows one size: the one holding the focus,
+   else the last one that held it, else the first. It only reads the form. */
+let tapeBlock = null;
+
+function paintTape() {
+  const blocks = [...$("sizes").querySelectorAll(".sizeblock")];
+  if (!blocks.includes(tapeBlock)) tapeBlock = blocks[0];
+  const unit = $("unit").value;
+  const focused = document.activeElement;
+  const active = focused && focused.matches(".measure-value") ? focused.dataset.key : null;
+  let count = 0;
+  for (const g of document.querySelectorAll(".tapeguide .m")) {
+    const input = tapeBlock.querySelector('.measure-value[data-key="' + g.dataset.key + '"]');
+    const v = input ? num(input) : null;
+    if (v !== null) count++;
+    g.querySelector(".num").textContent = v === null ? "—" : String(v);
+    g.querySelector(".unit").textContent = v === null ? "" : unit;
+    /* the label's background grows with its text */
+    const text = g.querySelector(".val");
+    const bg = g.querySelector(".label-bg");
+    const x = parseFloat(text.getAttribute("x")) - parseFloat(bg.getAttribute("x"));
+    bg.setAttribute("width", (x + text.getComputedTextLength() + 8).toFixed(1));
+    g.classList.toggle("dimmed", active !== null && g.dataset.key !== active);
+  }
+  const label = tapeBlock.querySelector(".size-label").value.trim();
+  const total = tapeBlock.querySelectorAll(".measure-value").length;
+  $("tape-size").textContent = "size " + (label || "—") + " · " + count + " of " + total;
 }
 
 /* A hint, never a block. The garment may genuinely be unusual; the tape may be in the
@@ -794,7 +971,15 @@ $("size_system").addEventListener("change", paintPlaceholders);
 $("unit").addEventListener("change", paintUnit);
 $("sizes").addEventListener("input", (e) => {
   if (e.target.matches(".measure-value")) warnIfImplausible(e.target);
+  paintTape();
 });
+$("sizes").addEventListener("focusin", (e) => {
+  tapeBlock = e.target.closest(".sizeblock") || tapeBlock;
+  paintTape();
+});
+$("sizes").addEventListener("focusout", paintTape);
+/* label widths depend on the font: measure again once it has loaded */
+document.fonts.ready.then(paintTape);
 $("add-size").addEventListener("click", addSize);
 $("published_by").addEventListener("change", paintAdvanced);
 
