@@ -761,7 +761,8 @@ $("download").addEventListener("click", () => {
   a.href = URL.createObjectURL(blob);
   a.download = name;
   a.click();
-  URL.revokeObjectURL(a.href);
+  /* Some browsers start the download later, after asking: keep the address alive. */
+  setTimeout(() => URL.revokeObjectURL(a.href), 60000);
 });
 </script>
 </body>
