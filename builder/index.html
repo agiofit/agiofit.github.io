@@ -431,6 +431,14 @@ const UI = {
   invalid: "Not valid yet:",
   needOne: "Fill in at least one measurement.",
   needSize: "Every size needs a label.",
+  notNumber: (size, key, text) => size + " · " + key + ': "' + text + '" is not a number. Write just the number, such as 58 or 46.5.',
+  notPositive: (size, key) => size + " · " + key + ": a measurement must be more than 0.",
+  sizeEmpty: (size) => size + " has no measurements. Fill in at least one, or remove the size.",
+  easeHalf: (zone) => "Intended ease · " + zone + ": fill in both minimum and maximum, or neither.",
+  easeNotNumber: (zone, text) => "Intended ease · " + zone + ': "' + text + '" is not a number.',
+  easeOrder: (zone) => "Intended ease · " + zone + ": the minimum is larger than the maximum.",
+  tolNotNumber: (text) => 'Production tolerance: "' + text + '" is not a number.',
+  tolNegative: "Production tolerance cannot be less than 0.",
   schemaFail: "Could not load the schema to check against. Nothing was built."
 };
 
@@ -515,6 +523,12 @@ function paintAdvanced() {
 }
 
 /* ------------------------------------------------------------------- build */
+/* An empty field means "not measured". num() cannot tell it from text that is
+   not a number, so whatever reads a field asks filled() first. */
+function filled(el) {
+  return (el.value || "").trim() !== "";
+}
+
 function num(el) {
   const raw = (el.value || "").trim().replace(",", ".");
   if (raw === "") return null;
@@ -544,11 +558,12 @@ function collect() {
   for (const block of $("sizes").querySelectorAll(".sizeblock")) {
     const label = block.querySelector(".size-label").value.trim();
     const fm = {};
-    for (const input of block.querySelectorAll(".measure-value")) {
+    const inputs = [...block.querySelectorAll(".measure-value")];
+    for (const input of inputs) {
       const v = num(input);
       if (v !== null) fm[input.dataset.key] = { value: v, unit };
     }
-    if (!label && Object.keys(fm).length === 0) continue;
+    if (!label && !inputs.some(filled)) continue;
     doc.sizes.push({ size_label: label, finished_measurements: fm });
   }
 
@@ -585,8 +600,51 @@ function localProblems(doc) {
   for (const s of doc.sizes) {
     if (!s.size_label) { out.push(UI.needSize); break; }
   }
-  if (doc.sizes.length && doc.sizes.every(s => Object.keys(s.finished_measurements).length === 0)) {
+  if (doc.sizes.length && ![...$("sizes").querySelectorAll(".measure-value")].some(filled)) {
     out.push(UI.needOne);
+  }
+  return out;
+}
+
+/* A field with something in it goes into the file, or the check stops and says
+   why. collect() leaves out what it cannot read; this reads the form itself, in
+   the order of the page. */
+function fieldProblems() {
+  const out = [];
+  const blocks = [...$("sizes").querySelectorAll(".sizeblock")];
+  const written = blocks.map(b => [...b.querySelectorAll(".measure-value")].some(filled));
+
+  blocks.forEach((block, i) => {
+    const label = block.querySelector(".size-label").value.trim();
+    const size = label ? "Size " + label : "Size " + (i + 1) + " (no label)";
+    for (const input of block.querySelectorAll(".measure-value")) {
+      if (!filled(input)) continue;
+      const v = num(input);
+      if (v === null) out.push(UI.notNumber(size, input.dataset.key, input.value.trim()));
+      else if (v <= 0) out.push(UI.notPositive(size, input.dataset.key));
+    }
+    if (label && !written[i] && written.some(Boolean)) out.push(UI.sizeEmpty(size));
+  });
+
+  if (!CAN_DECLARE_INTENT.includes($("published_by").value)) return out;
+
+  const tol = $("production_tolerance");
+  if (filled(tol)) {
+    const v = num(tol);
+    if (v === null) out.push(UI.tolNotNumber(tol.value.trim()));
+    else if (v < 0) out.push(UI.tolNegative);
+  }
+
+  for (const lo of $("ease").querySelectorAll(".ease-min")) {
+    const zone = lo.dataset.zone;
+    const hi = $("ease").querySelector('.ease-max[data-zone="' + zone + '"]');
+    if (!filled(lo) && !filled(hi)) continue;
+    if (filled(lo) !== filled(hi)) out.push(UI.easeHalf(zone));
+    for (const el of [lo, hi]) {
+      if (filled(el) && num(el) === null) out.push(UI.easeNotNumber(zone, el.value.trim()));
+    }
+    const a = num(lo), b = num(hi);
+    if (a !== null && b !== null && a > b) out.push(UI.easeOrder(zone));
   }
   return out;
 }
@@ -678,7 +736,7 @@ $("published_by").addEventListener("change", paintAdvanced);
 
 $("build").addEventListener("click", () => {
   const doc = collect();
-  const problems = localProblems(doc);
+  const problems = localProblems(doc).concat(fieldProblems());
   if (problems.length) { show(doc, problems); return; }
   const seq = checkSeq;
   loadValidator().then(() => {
@@ -703,7 +761,8 @@ $("download").addEventListener("click", () => {
   a.href = URL.createObjectURL(blob);
   a.download = name;
   a.click();
-  URL.revokeObjectURL(a.href);
+  /* Some browsers start the download later, after asking: keep the address alive. */
+  setTimeout(() => URL.revokeObjectURL(a.href), 60000);
 });
 </script>
 </body>
