@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""demo_reports.py - the guide's demo shows the reference implementation's own answers.
+"""demo_reports.py - the guide's demo and the home show the reference implementation's own answers.
 
-    python demo_reports.py [path/to/agiofit]            dry run: says what it would write
-    python demo_reports.py [path/to/agiofit] --write    writes _src/guide/index.html
+    python demo_reports.py [path/to/agiofit]            dry run: says which file would change
+    python demo_reports.py [path/to/agiofit] --write    writes the files that change
 
 The path is a clone of agiofit/agiofit, ../agiofit by default (next to this repository).
 The clone is only read. Its reference implementation is imported and asked for the Match
@@ -10,12 +10,21 @@ Report of each example profile against the example shirt, at every disclosure le
 The reports go into the guide source as a JSON block, together with the commit they came
 from, the number of tests, each profile's default level and the Italian and French text for
 the reference's sentences.
-The numbers the page quotes from the reference sit between <!-- ref:NAME --> markers and
-are rewritten from the same reports.
+The numbers a page quotes from the reference sit between <!-- ref:NAME --> markers and
+are rewritten from the same reports: in the guide source, the names in MARKERS; in the home
+source, the mature profile's size and confidence at each level, the names in HOME_MARKERS.
+Every name in a page's list must be there, and no other. A bar cannot hold a comment inside
+an attribute, so it carries its number as data-ref="NAME" followed at once by
+style="--value:X": X is rewritten from the same report and must be a number between 0 and 1.
+An unknown data-ref, or one without that style right after it, stops the script; so does a
+bar in HOME_BARS that the home does not carry exactly once.
 Each profile is read as of its own updated_at. The reference counts how old a measurement is
 from the day of the calculation, and the demo must not change with the calendar.
 
-Nothing is computed in the page: the demo only shows these reports. After a change to the
+Both files are checked before either is written: if anything is wrong, nothing is written.
+A dry run says which file would change; --write writes only those and reads each one back.
+
+Nothing is computed in the pages: they only show these reports. After a change to the
 reference, run this script, then python build.py.
 """
 
@@ -29,6 +38,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 GUIDE = ROOT / "_src" / "guide" / "index.html"
+HOME = ROOT / "_src" / "index.html"
 
 LEVELS = ["result_only", "explained", "scoped", "full"]
 GARMENT = "examples/cut-shirt.json"
@@ -55,6 +65,15 @@ MARKERS = [
     "cold-start/result_only/confidence",
 ]
 MARKER = re.compile(r"<!-- ref:([\w./=-]+) -->(.*?)<!-- /ref:([\w./=-]+) -->", re.S)
+
+# Every marker the home must carry: the mature profile's size and confidence at each level.
+HOME_MARKERS = [f"mature/{level}/{key}"
+                for level in ("full", "scoped", "explained", "result_only")
+                for key in ("recommended_size", "confidence")]
+# A bar's number: data-ref="NAME", then style="--value:X" right after it.
+BAR = re.compile(r'data-ref="([^"]*)"(\s+style="--value:[^"]*")?')
+# The bars the home must carry, each exactly once: the confidence bar of its header.
+HOME_BARS = ["mature/result_only/confidence"]
 
 # The sentences the reference writes into caveats, improve_by and notes, in the other two
 # languages. A report with a sentence missing here stops the script.
@@ -178,15 +197,19 @@ def shown(value) -> str:
     return html.escape(value) if isinstance(value, str) else json.dumps(value)
 
 
-def update_markers(page: str, data: dict) -> tuple:
+def rel(path: Path) -> str:
+    return path.relative_to(ROOT).as_posix()
+
+
+def update_markers(page: str, data: dict, names: list, where: str) -> tuple:
     found = {}
 
     def repl(m):
         name, closing = m.group(1), m.group(3)
         if name != closing:
-            raise Stop(f"marker ref:{name} is closed by /ref:{closing}")
-        if name not in MARKERS:
-            raise Stop(f"marker ref:{name} is not one this script knows")
+            raise Stop(f"{where}: marker ref:{name} is closed by /ref:{closing}")
+        if name not in names:
+            raise Stop(f"{where}: marker ref:{name} is not one this script knows")
         value = shown(lookup(data, name))
         found[name] = found.get(name, 0) + 1
         return f"<!-- ref:{name} -->{value}<!-- /ref:{name} -->"
@@ -194,11 +217,30 @@ def update_markers(page: str, data: dict) -> tuple:
     page = MARKER.sub(repl, page)
     opened = len(re.findall(r"<!-- ref:", page))
     if opened != sum(found.values()):
-        raise Stop("a <!-- ref: --> marker has no matching closing marker")
-    missing = [n for n in MARKERS if n not in found]
+        raise Stop(f"{where}: a <!-- ref: --> marker has no matching closing marker")
+    missing = [n for n in names if n not in found]
     if missing:
-        raise Stop("markers missing from the page: " + ", ".join(missing))
+        raise Stop(f"{where}: markers missing from the page: " + ", ".join(missing))
     return page, found
+
+
+def update_bars(page: str, data: dict, names: list, where: str) -> tuple:
+    """data-ref="NAME" style="--value:X": X from the same report, a number between 0 and 1."""
+    found = {}
+
+    def repl(m):
+        name = m.group(1)
+        if name not in names:
+            raise Stop(f'{where}: data-ref="{name}" is not a name this script knows')
+        if not m.group(2):
+            raise Stop(f'{where}: data-ref="{name}" is not followed by style="--value:..."')
+        value = lookup(data, name)
+        if isinstance(value, bool) or not isinstance(value, (int, float)) or not 0 <= value <= 1:
+            raise Stop(f'{where}: data-ref="{name}" is {value!r}, not a number between 0 and 1')
+        found[name] = found.get(name, 0) + 1
+        return f'data-ref="{name}" style="--value:{json.dumps(value)}"'
+
+    return BAR.sub(repl, page), found
 
 
 def json_block(data: dict) -> str:
@@ -242,16 +284,28 @@ def run(clone: Path, write: bool) -> int:
         "translations": {s: TRANSLATIONS[s] for s in used},
     }
 
+    # the guide: the JSON block, then its markers
     with open(GUIDE, encoding="utf-8", newline="") as f:
-        page = f.read()
-    if page.count(BLOCK_START) != 1 or page.count(BLOCK_END) != 1:
-        raise Stop(f"{GUIDE.name} must hold {BLOCK_START} and {BLOCK_END} once each")
-    a = page.index(BLOCK_START)
-    b = page.index(BLOCK_END) + len(BLOCK_END)
+        guide = f.read()
+    if guide.count(BLOCK_START) != 1 or guide.count(BLOCK_END) != 1:
+        raise Stop(f"{rel(GUIDE)} must hold {BLOCK_START} and {BLOCK_END} once each")
+    a = guide.index(BLOCK_START)
+    b = guide.index(BLOCK_END) + len(BLOCK_END)
     if b < a:
         raise Stop(f"{BLOCK_END} comes before {BLOCK_START}")
-    new = page[:a] + json_block(data) + page[b:]
-    new, found = update_markers(new, data)
+    new_guide = guide[:a] + json_block(data) + guide[b:]
+    new_guide, guide_found = update_markers(new_guide, data, MARKERS, rel(GUIDE))
+    new_guide, guide_bars = update_bars(new_guide, data, MARKERS, rel(GUIDE))
+
+    # the home: its markers and its bar
+    with open(HOME, encoding="utf-8", newline="") as f:
+        home = f.read()
+    new_home, home_found = update_markers(home, data, HOME_MARKERS, rel(HOME))
+    new_home, home_bars = update_bars(new_home, data, HOME_MARKERS, rel(HOME))
+    for name in HOME_BARS:
+        n = home_bars.get(name, 0)
+        if n != 1:
+            raise Stop(f'{rel(HOME)}: the bar data-ref="{name}" is there {n} times, expected once')
 
     print(f"\n  reference  {clone}  commit {commit}")
     print(f"  tests      {tests}")
@@ -260,22 +314,37 @@ def run(clone: Path, write: bool) -> int:
                         for lvl, r in reports[key].items())
         print(f"  {key:10} default {defaults[key]:11}  {row}")
     print(f"  sentences  {len(used)}, all translated")
-    for name in MARKERS:
-        print(f"  ref:{name:52} x{found[name]}  {shown(lookup(data, name))}")
+    for path, names, found, bars in ((GUIDE, MARKERS, guide_found, guide_bars),
+                                     (HOME, HOME_MARKERS, home_found, home_bars)):
+        print(f"\n  {rel(path)}")
+        for name in names:
+            print(f"  ref:{name:52} x{found[name]}  {shown(lookup(data, name))}")
+        for name, n in bars.items():
+            print(f"  bar:{name:52} x{n}  {json.dumps(lookup(data, name))}")
 
-    if new == page:
-        print("\n  _src/guide/index.html is already up to date.\n")
+    # nothing above wrote anything: every check has passed for both files
+    files = [(GUIDE, guide, new_guide), (HOME, home, new_home)]
+    changed = [(path, new) for path, old, new in files if new != old]
+    print()
+    for path, old, new in files:
+        if new == old:
+            print(f"  {rel(path)} is already up to date.")
+    if not changed:
+        print()
         return 0
+    names = " and ".join(rel(path) for path, _ in changed)
     if not write:
-        print("\nDry run: nothing was touched. _src/guide/index.html would change.")
+        print(f"\nDry run: nothing was touched. {names} would change.")
         print("To write for real:  python demo_reports.py --write\n")
         return 0
-    with open(GUIDE, "w", encoding="utf-8", newline="") as f:
-        f.write(new)
-    with open(GUIDE, encoding="utf-8", newline="") as f:
-        if f.read() != new:
-            raise Stop("the file read back is not what was written")
-    print("\nWritten: _src/guide/index.html. Now run python build.py.\n")
+    for path, new in changed:
+        with open(path, "w", encoding="utf-8", newline="") as f:
+            f.write(new)
+        with open(path, encoding="utf-8", newline="") as f:
+            if f.read() != new:
+                print(f"\n  Nothing more written: {rel(path)} read back differs\n")
+                return 1
+    print(f"\nWritten: {names}. Now run python build.py.\n")
     return 0
 
 
