@@ -150,17 +150,15 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);l
 .doc .file{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--accent-ink);margin-bottom:10px}
 .doc .example .file{margin:10px 0 0}
 .doc p{font-size:14px;color:var(--ink-70)}
-.doc button,.sim-json button{margin-top:14px;align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:12px;
+.doc button{margin-top:14px;align-self:flex-start;font-family:'IBM Plex Mono',monospace;font-size:12px;
   background:none;border:1px solid var(--ink);border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--ink)}
-.doc button:hover,.sim-json button:hover{background:var(--ink);color:var(--paper)}
-.doc button:focus-visible,.sim-json button:focus-visible,.controlli select:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+.doc button:hover{background:var(--ink);color:var(--paper)}
 /* the button carries both labels; the one that does not match aria-expanded is hidden */
 .doc button[aria-expanded="true"] .label-show,.doc button[aria-expanded="false"] .label-hide{display:none}
-.json-box{display:none;margin-top:14px;background:var(--code);color:var(--code-ink);border-radius:8px;padding:14px;
+/* the example's container shows and hides it, with its hidden attribute */
+.json-box{margin-top:14px;background:var(--code);color:var(--code-ink);border-radius:8px;padding:14px;
   font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.55;overflow-x:auto;white-space:pre}
 .json-box .k{color:#8FC7FF}.json-box .s{color:#F0D089}.json-box .n{color:#9FE3B4}.json-box .c{color:#7C8B9C;font-style:italic}
-/* in the cards the container shows and hides the example, with its hidden attribute */
-.example .json-box,.json-box.aperto{display:block}
 /* the multilingual comments inside the examples stay inline */
 .json-box .it,.json-box .en,.json-box .fr{white-space:pre}
 
@@ -224,23 +222,37 @@ a.cta:hover{background:var(--ink-70)}
 .shirt .m.dimmed{opacity:.16}
 
 /* ---------- the demo ---------- */
-.simulatore{margin-top:28px;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-.sim-testa{padding:22px 24px 18px;border-bottom:1px dashed #D8D3C6}
-.controlli{display:grid;grid-template-columns:1fr 1fr auto;gap:14px;align-items:end}
-@media(max-width:700px){.controlli{grid-template-columns:1fr}}
-.campo label{display:block;font-size:12.5px;font-weight:600;margin-bottom:5px;
-  font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-70)}
-.campo select{width:100%;padding:10px 12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;
-  border:1px solid #C9C3B4;border-radius:8px;background:#FDFCF8;color:var(--ink)}
-.sim-corpo{padding:24px}
-.sim-json{padding:0 24px 24px}
-.risultato-vuoto{color:var(--ink-70);font-size:15px;font-style:italic}
-.esito-riga{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:6px}
-.taglia{font-family:'Fraunces',serif;font-weight:700;font-size:56px;line-height:1}
-.taglia small{font-size:16px;font-weight:400;font-family:'IBM Plex Sans',sans-serif;color:var(--ink-70)}
-.conf-blocco{flex:1;min-width:240px}
-.conf-eti{display:flex;justify-content:space-between;font-size:12.5px;
-  font-family:'IBM Plex Mono',monospace;color:var(--ink-70);margin-bottom:4px}
+.demo{margin-top:28px;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+/* the controls: two groups of buttons, one profile and one level always pressed */
+.demo-controls{display:flex;flex-wrap:wrap;gap:18px 40px;padding:22px 24px 20px;border-bottom:1px dashed #D8D3C6}
+.control-label{margin-bottom:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-70)}
+.choices{display:flex;flex-wrap:wrap;gap:8px}
+.choices button{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:1px;min-height:48px;
+  padding:6px 14px;border:1.5px solid #C9C3B4;border-radius:8px;background:var(--surface);color:var(--ink);
+  font:inherit;text-align:left;cursor:pointer}
+.choices button:hover{border-color:var(--ink-70)}
+.choices button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.choice-name{font-family:'IBM Plex Mono',monospace;font-size:12.5px;font-weight:500;line-height:1.4}
+.choice-desc{font-size:12.5px;line-height:1.35;color:var(--ink-70)}
+.choices button[aria-pressed="true"] .choice-desc{color:inherit}
+.default-mark{font-weight:400;opacity:.7}
+/* the result on the left, the exact report on the right; one above the other when there is no room */
+.demo-body{display:flex;flex-wrap:wrap}
+.demo-result{flex:1.15 1 440px;min-width:0;padding:24px}
+.demo-report{flex:1 1 360px;min-width:0;padding:20px 22px 22px;background:var(--code);color:var(--code-ink)}
+.report-title{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase}
+.demo-report pre{margin-top:14px;max-height:520px;overflow:auto;font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.55}
+.demo-report pre:focus-visible{outline:2px solid var(--tape);outline-offset:4px}
+.demo-empty{color:var(--ink-70);font-size:15px;font-style:italic}
+/* the size and the confidence */
+.outcome{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 22px;margin-bottom:12px}
+.size{font-family:'Fraunces',serif;font-weight:700;font-size:56px;line-height:1}
+.size small{font-size:16px;font-weight:400;font-family:'IBM Plex Sans',sans-serif;color:var(--ink-70)}
+.confidence{flex:1 1 240px;min-width:0}
+.confidence-label{display:flex;justify-content:space-between;margin-bottom:4px;
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-70)}
+.confidence-label b{font-weight:500;color:var(--ink)}
 /* the confidence gauge: its own tape, separate from the shared .metro */
 .gauge-wrap{position:relative}
 .gauge{
@@ -259,20 +271,50 @@ a.cta:hover{background:var(--ink-70)}
 }
 .gauge-mark{position:absolute;top:-6px;bottom:-6px;width:4px;background:var(--accent);border-radius:2px;
   box-shadow:0 0 0 2px rgba(255,255,255,.75);transition:left .5s cubic-bezier(.2,.8,.2,1)}
-.livello-nota{margin:16px 0 4px;padding:10px 14px;border-left:3px solid var(--tape);
-  background:var(--highlight);font-size:13.5px;color:#5C4A12;border-radius:0 8px 8px 0}
-table.zone{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
-table.zone th{text-align:left;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--ink-70);border-bottom:2px solid var(--ink);padding:6px 8px}
-table.zone td{border-bottom:1px solid #ECE8DC;padding:8px}
-.badge{display:inline-block;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
-.badge.ok{background:#E4F0E8;color:var(--ok)}
-.badge.attenzione{background:#FBF0DA;color:var(--warn)}
-.badge.critico{background:#F7E3DF;color:var(--accent-ink)}
-.badge.ignoto{background:rgba(30,36,48,.06);color:var(--ink-70)}
-table.zone td small{display:block;font-size:12.5px;color:var(--ink-70);margin-top:4px}
+/* the cold-start cap: a dashed line across the gauge, its label under it */
+.gauge-cap{position:absolute;top:-5px;bottom:-5px;width:0;border-left:1.5px dashed var(--ink)}
+.cap-row{position:relative;height:22px}
+.cap-label{position:absolute;top:5px;transform:translateX(-50%);white-space:nowrap;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-70)}
+.based-on,.alternatives{font-size:13.5px;color:var(--ink-70)}
+.alternatives{margin-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px}
+.alt{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ink);background:rgba(30,36,48,.06);
+  border:1px solid var(--rule);border-radius:6px;padding:2px 8px}
+.alt-note{font-size:12.5px}
+.level-note{margin-top:16px;padding:12px 14px;border-radius:8px;font-size:13.5px;color:var(--ink);
+  background:var(--highlight);border:1px solid color-mix(in srgb, var(--tape) 45%, var(--highlight))}
+/* result_only carries neither explanation nor alternatives: say so where they would be */
+.not-in-report{margin-top:16px;padding:10px 14px;border:1px dashed #C9C3B4;border-radius:8px;
+  background:repeating-linear-gradient(135deg, rgba(30,36,48,.04) 0 8px, transparent 8px 16px);
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--ink-70)}
+/* the zones: labels and names may wrap, nothing may overlap */
+table.zones{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
+table.zones th{text-align:left;vertical-align:bottom;padding:6px 8px;border-bottom:2px solid var(--ink);
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-70)}
+table.zones td{padding:8px;border-bottom:1px solid #ECE8DC;vertical-align:middle}
+table.zones td small{display:block;font-size:12.5px;color:var(--ink-70);margin-top:4px}
+table.zones .badge{display:inline-block;max-width:100%;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+table.zones .badge.ok{background:#E4F0E8;color:var(--ok)}
+table.zones .badge.watch{background:#FBF0DA;color:var(--warn)}
+table.zones .badge.critical{background:#F7E3DF;color:var(--accent-ink)}
+table.zones .badge.unknown{background:rgba(30,36,48,.06);color:var(--ink-70)}
+/* explained: where the scoped report has numbers, this one says they were stripped */
+.stripped{display:inline-block;padding:1px 6px;border-radius:4px;
+  font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--accent-ink);
+  background:repeating-linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent) 0 4px, transparent 4px 8px)}
+.critical-mark{color:var(--accent-ink)}
+.critical-note{margin-top:6px;font-size:12px;color:var(--ink-70)}
 .caveats{margin-top:16px}
 .caveats li{margin-left:20px;font-size:14px;color:var(--ink-70);margin-bottom:4px}
+.improve-title{margin:14px 0 4px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-70)}
+@media(max-width:640px){
+  .demo-controls{padding:18px 16px}
+  .demo-result{padding:20px 16px}
+  table.zones{font-size:13px}
+  table.zones th{padding:6px 4px;font-size:10.5px;letter-spacing:.04em}
+  table.zones td{padding:7px 4px}
+}
 .mono{font-family:'IBM Plex Mono',monospace;font-size:.92em}
 
 /* ---------- disclosure levels ---------- */
@@ -290,7 +332,9 @@ table.zone td small{display:block;font-size:12.5px;color:var(--ink-70);margin-to
 .leak h3{font-family:'Fraunces',serif;font-size:21px;margin-bottom:10px;color:#fff}
 .leak p{font-size:14.5px;color:#B9C4D0;max-width:640px}
 .leak p strong{color:#fff}
-.leak .level-name{color:var(--tape)}
+/* scoped and explained lead to the demo, set to that level */
+.leak a.level-name{color:var(--tape);text-decoration:underline;text-underline-offset:3px}
+.leak a.level-name:focus-visible{outline-color:var(--tape)}
 /* the subtraction as three tiles: garment minus ease makes the body */
 .tiles{display:flex;align-items:stretch;gap:14px;margin:18px 0}
 .tile{flex:1 1 0;min-width:0;background:#2A3646;border-radius:8px;padding:16px}
@@ -674,33 +718,54 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
     Ci-dessous, les réponses réelles de l’implémentation de référence (<span class="mono">python -m agiofit.cli</span>), générées pour les deux profils d’exemple à chaque niveau de divulgation. Choisissez un profil et un niveau, et regardez ce qui sort, et surtout <b>ce qui ne sort pas</b>. Le vêtement et les profils sont les exemples réels du dépôt : la Classic Oxford de Sartoria Esempio (marque fictive), tailles 39–42.
   </p>
 
-  <div class="simulatore">
-    <div class="sim-testa">
-      <div class="controlli">
-        <div class="campo">
-          <label for="sel-profilo">Profil</label>
-          <select id="sel-profilo">
-            <option value="mature"></option>
-            <option value="cold-start"></option>
-          </select>
+  <div class="demo">
+    <!-- the controls: one profile and one level are always pressed -->
+    <div class="demo-controls">
+      <div class="control">
+        <p class="control-label" id="profile-label">Profil</p>
+        <div class="choices" role="group" aria-labelledby="profile-label">
+          <button type="button" aria-pressed="true" data-profile="mature">
+            <span class="choice-name">mature</span>
+            <span class="choice-desc">mensurations + historique</span>
+          </button>
+          <button type="button" aria-pressed="false" data-profile="cold-start">
+            <span class="choice-name">cold start</span>
+            <span class="choice-desc">1 seul achat gardé</span>
+          </button>
         </div>
-        <div class="campo">
-          <label for="sel-livello">Niveau de divulgation</label>
-          <select id="sel-livello">
-            <option value="result_only"></option>
-            <option value="explained"></option>
-            <option value="scoped"></option>
-            <option value="full"></option>
-          </select>
+      </div>
+      <div class="control">
+        <p class="control-label" id="level-label">Niveau de divulgation</p>
+        <!-- the "· default" mark is shown by the script, on the level the data give as the profile's default -->
+        <div class="choices" role="group" aria-labelledby="level-label">
+          <button type="button" aria-pressed="false" data-level="result_only">
+            <span class="choice-name">result_only<span class="default-mark" hidden> · par défaut</span></span>
+            <span class="choice-desc">taille et confiance</span>
+          </button>
+          <button type="button" aria-pressed="false" data-level="explained">
+            <span class="choice-name">explained<span class="default-mark" hidden> · par défaut</span></span>
+            <span class="choice-desc">jugements, sans chiffres</span>
+          </button>
+          <button type="button" aria-pressed="false" data-level="scoped">
+            <span class="choice-name">scoped<span class="default-mark" hidden> · par défaut</span></span>
+            <span class="choice-desc">avec l’aisance en cm</span>
+          </button>
+          <button type="button" aria-pressed="false" data-level="full">
+            <span class="choice-name">full<span class="default-mark" hidden> · par défaut</span></span>
+            <span class="choice-desc">le niveau de votre coffre-fort</span>
+          </button>
         </div>
       </div>
     </div>
-    <div class="sim-corpo" id="sim-corpo" aria-live="polite">
-      <p class="risultato-vuoto">Le simulateur nécessite JavaScript.</p>
-    </div>
-    <div class="sim-json">
-      <button id="btn-sim-json" aria-expanded="false" aria-controls="sim-json-box"></button>
-      <div class="json-box" id="sim-json-box"></div>
+    <!-- left, what the report says; right, the report exactly as it travels -->
+    <div class="demo-body">
+      <div class="demo-result" id="demo-result" aria-live="polite">
+        <p class="demo-empty">Le simulateur nécessite JavaScript.</p>
+      </div>
+      <div class="demo-report">
+        <p class="report-title" id="report-title">Ce qui circule · le rapport exact</p>
+        <pre id="report-json" tabindex="0" role="region" aria-labelledby="report-title"></pre>
+      </div>
     </div>
   </div>
 </section>
@@ -751,7 +816,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
       </div>
     </div>
     <p>
-    Une soustraction reconstruit la mensuration. C’est pourquoi, aux niveaux bas, l’aisance existe dans le calcul mais <strong>ne survit pas à la sérialisation</strong> — essayez-le dans le simulateur en passant de <span class="mono level-name">scoped</span> à <span class="mono level-name">explained</span>.</p>
+    Une soustraction reconstruit la mensuration. C’est pourquoi, aux niveaux bas, l’aisance existe dans le calcul mais <strong>ne survit pas à la sérialisation</strong> — essayez-le dans le simulateur en passant de <a class="mono level-name" href="#try" data-level="scoped">scoped</a> à <a class="mono level-name" href="#try" data-level="explained">explained</a>.</p>
   </div>
 </section>
 
@@ -1266,98 +1331,84 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
 var LANG = 'fr';
 
 // ---------- dynamic string dictionary ----------
+// the demo's own words; the reference's sentences come with the data and go through tr()
 var T = {
   it: {
-    opt_mature:'Maturo: misure + storico', opt_cold:'Cold start: solo 1 acquisto tenuto',
-    opt_result:'result_only: taglia e confidenza', opt_explained:'explained: giudizi, senza numeri',
-    opt_scoped:'scoped: con l’agio in cm', opt_full:'full: il livello del tuo vault',
-    predefinito:' (predefinito del profilo)',
-    btn_show:'Vedi esempio ▾', btn_hide:'Nascondi esempio ▴',
-    json_show:'Mostra il JSON ▾', json_hide:'Nascondi il JSON ▴',
-    taglia:'taglia consigliata', conf:'confidenza', basata:'Basata su: ', alternative:'Alternative: ',
+    size:'taglia consigliata', confidence:'confidenza', based_on:'Basata su: ', alternatives:'Alternative: ',
     based:function(b){
-      return conta(b.body_signals,'misura','misure')+', '+conta(b.preference_signals,'preferenza','preferenze')+', '
-        +conta(b.history_signals,'acquisto passato','acquisti passati')+' ('+b.brand_specific_history_signals+' dello stesso brand)';
+      return count(b.body_signals,'misura','misure')+', '+count(b.preference_signals,'preferenza','preferenze')+', '
+        +count(b.history_signals,'acquisto passato','acquisti passati')+' ('+b.brand_specific_history_signals+' dello stesso brand)';
     },
-    nota_result_only:'<b>result_only</b>: al negozio arrivano taglia e confidenza, nessuna zona e nessuna misura. Ma arrivano anche i conteggi di <span class="mono">based_on</span> e i suggerimenti di <span class="mono">improve_by</span>, che dicono quante misure e quanto storico ha il profilo: è un limite noto della versione attuale, descritto nel threat model e in revisione.',
-    nota_explained:'<b>explained</b>: le colonne numeriche sono state rimosse in serializzazione: con le misure del capo (pubbliche) e l’agio in cm, una sottrazione ricostruirebbe le tue misure corporee.',
-    nota_scoped:'<b>scoped</b>: l’agio in centimetri è visibile. Da concedere solo a chi ti fidi: vedi la sezione sulla perdita aritmetica.',
-    nota_full:'<b>full</b>: il livello pensato per il tuo vault. Nell’implementazione di riferimento il Match Report a questo livello porta gli stessi campi di <span class="mono">scoped</span>, perché lo schema della risposta non ha un posto per il profilo.',
+    note_result_only:'<b>result_only</b>: al negozio arrivano taglia e confidenza, nessuna zona e nessuna misura. Ma arrivano anche i conteggi di <span class="mono">based_on</span> e i suggerimenti di <span class="mono">improve_by</span>, che dicono quante misure e quanto storico ha il profilo: è un limite noto della versione attuale, descritto nel threat model e in revisione.',
+    note_explained:'<b>explained</b>: le colonne numeriche sono state rimosse in serializzazione: con le misure del capo (pubbliche) e l’agio in cm, una sottrazione ricostruirebbe le tue misure corporee.',
+    note_scoped:'<b>scoped</b>: l’agio in centimetri è visibile. Da concedere solo a chi ti fidi: vedi la sezione sulla perdita aritmetica.',
+    note_full:'<b>full</b>: il livello pensato per il tuo vault. Nell’implementazione di riferimento il Match Report a questo livello porta gli stessi campi di <span class="mono">scoped</span>, perché lo schema della risposta non ha un posto per il profilo.',
     th:['Zona','Giudizio','Agio','Previsto'],
-    giudizio:{as_cut:'Come da taglio',snug:'Aderente',roomy:'Abbondante',too_tight:'Troppo stretto',too_loose:'Troppo largo',unknown:'Non valutabile'},
-    nota_critica:'zona critica per questo capo: pesa il triplo nel punteggio.',
-    migliorare:'Per migliorare',
-    zone:{chest:'Torace',waist:'Vita',hip:'Fianchi',thigh:'Coscia',neck:'Collo',shoulders:'Spalle',sleeve_length:'Manica',inseam:'Interno gamba',overall:'Complessiva'}
+    assessment:{as_cut:'Come da taglio',snug:'Aderente',roomy:'Abbondante',too_tight:'Troppo stretto',too_loose:'Troppo largo',unknown:'Non valutabile'},
+    critical_note:'zona critica per questo capo: pesa il triplo nel punteggio.',
+    improve:'Per migliorare',
+    zones:{chest:'Torace',waist:'Vita',hip:'Fianchi',thigh:'Coscia',neck:'Collo',shoulders:'Spalle',sleeve_length:'Manica',inseam:'Interno gamba',overall:'Complessiva'},
+    zones_caption:'Spiegazione per zona',
+    stripped:'rimosso',
+    not_in_result_only:'explanation · alternatives: non ci sono in un report result_only',
+    cold_start_cap:'tetto del cold start: 0.40'
   },
   en: {
-    opt_mature:'Mature: measurements + history', opt_cold:'Cold start: just 1 kept purchase',
-    opt_result:'result_only: size and confidence', opt_explained:'explained: assessments, no numbers',
-    opt_scoped:'scoped: with ease in cm', opt_full:'full: your vault’s level',
-    predefinito:' (the profile’s default)',
-    btn_show:'Show example ▾', btn_hide:'Hide example ▴',
-    json_show:'Show the JSON ▾', json_hide:'Hide the JSON ▴',
-    taglia:'recommended size', conf:'confidence', basata:'Based on: ', alternative:'Alternatives: ',
+    size:'recommended size', confidence:'confidence', based_on:'Based on: ', alternatives:'Alternatives: ',
     based:function(b){
-      return conta(b.body_signals,'measurement','measurements')+', '+conta(b.preference_signals,'preference','preferences')+', '
-        +conta(b.history_signals,'past purchase','past purchases')+' ('+b.brand_specific_history_signals+' from the same brand)';
+      return count(b.body_signals,'measurement','measurements')+', '+count(b.preference_signals,'preference','preferences')+', '
+        +count(b.history_signals,'past purchase','past purchases')+' ('+b.brand_specific_history_signals+' from the same brand)';
     },
-    nota_result_only:'<b>result_only</b>: the shop receives the size and the confidence, no zones and no measurements. But it also receives the <span class="mono">based_on</span> counts and the <span class="mono">improve_by</span> suggestions, which tell how many measurements and how much history the profile holds: a known limit of the current version, described in the threat model and under review.',
-    nota_explained:'<b>explained</b>: the numeric columns were stripped at serialisation: with the garment’s (public) measurements and the ease in cm, one subtraction would reconstruct your body measurements.',
-    nota_scoped:'<b>scoped</b>: the ease in centimetres is visible. Grant it only to services you trust: see the arithmetic-leak section.',
-    nota_full:'<b>full</b>: the level meant for your vault. In the reference implementation the Match Report at this level carries the same fields as <span class="mono">scoped</span>, because the answer’s schema has no place for the profile.',
+    note_result_only:'<b>result_only</b>: the shop receives the size and the confidence, no zones and no measurements. But it also receives the <span class="mono">based_on</span> counts and the <span class="mono">improve_by</span> suggestions, which tell how many measurements and how much history the profile holds: a known limit of the current version, described in the threat model and under review.',
+    note_explained:'<b>explained</b>: the numeric columns were stripped at serialisation: with the garment’s (public) measurements and the ease in cm, one subtraction would reconstruct your body measurements.',
+    note_scoped:'<b>scoped</b>: the ease in centimetres is visible. Grant it only to services you trust: see the arithmetic-leak section.',
+    note_full:'<b>full</b>: the level meant for your vault. In the reference implementation the Match Report at this level carries the same fields as <span class="mono">scoped</span>, because the answer’s schema has no place for the profile.',
     th:['Zone','Assessment','Ease','Intended'],
-    giudizio:{as_cut:'As cut',snug:'Snug',roomy:'Roomy',too_tight:'Too tight',too_loose:'Too loose',unknown:'Not assessable'},
-    nota_critica:'critical zone for this garment: counts triple in the score.',
-    migliorare:'To improve',
-    zone:{chest:'Chest',waist:'Waist',hip:'Hip',thigh:'Thigh',neck:'Neck',shoulders:'Shoulders',sleeve_length:'Sleeve',inseam:'Inseam',overall:'Overall'}
+    assessment:{as_cut:'As cut',snug:'Snug',roomy:'Roomy',too_tight:'Too tight',too_loose:'Too loose',unknown:'Not assessable'},
+    critical_note:'critical zone for this garment: counts triple in the score.',
+    improve:'To improve',
+    zones:{chest:'Chest',waist:'Waist',hip:'Hip',thigh:'Thigh',neck:'Neck',shoulders:'Shoulders',sleeve_length:'Sleeve',inseam:'Inseam',overall:'Overall'},
+    zones_caption:'Per-zone explanation',
+    stripped:'stripped',
+    not_in_result_only:'explanation · alternatives — not in a result_only report',
+    cold_start_cap:'cold-start cap 0.40'
   },
   fr: {
-    opt_mature:'Mature : mensurations + historique', opt_cold:'Cold start : 1 seul achat gardé',
-    opt_result:'result_only : taille et confiance', opt_explained:'explained : jugements, sans chiffres',
-    opt_scoped:'scoped : avec l’aisance en cm', opt_full:'full : le niveau de votre coffre-fort',
-    predefinito:' (par défaut du profil)',
-    btn_show:'Voir l’exemple ▾', btn_hide:'Masquer l’exemple ▴',
-    json_show:'Afficher le JSON ▾', json_hide:'Masquer le JSON ▴',
-    taglia:'taille conseillée', conf:'confiance', basata:'Fondée sur : ', alternative:'Alternatives : ',
+    size:'taille conseillée', confidence:'confiance', based_on:'Fondée sur : ', alternatives:'Alternatives : ',
     based:function(b){
-      return conta(b.body_signals,'mesure','mesures')+', '+conta(b.preference_signals,'préférence','préférences')+', '
-        +conta(b.history_signals,'achat passé','achats passés')+' ('+b.brand_specific_history_signals+' de la même marque)';
+      return count(b.body_signals,'mesure','mesures')+', '+count(b.preference_signals,'préférence','préférences')+', '
+        +count(b.history_signals,'achat passé','achats passés')+' ('+b.brand_specific_history_signals+' de la même marque)';
     },
-    nota_result_only:'<b>result_only</b> : la boutique reçoit la taille et la confiance, aucune zone et aucune mesure. Mais elle reçoit aussi les comptes de <span class="mono">based_on</span> et les suggestions d’<span class="mono">improve_by</span>, qui disent combien de mesures et quel historique contient le profil : c’est une limite connue de la version actuelle, décrite dans le threat model et en cours de révision.',
-    nota_explained:'<b>explained</b> : les colonnes chiffrées ont été supprimées à la sérialisation : avec les mesures (publiques) du vêtement et l’aisance en cm, une soustraction reconstruirait vos mensurations.',
-    nota_scoped:'<b>scoped</b> : l’aisance en centimètres est visible. À n’accorder qu’aux services de confiance : voir la section sur la fuite arithmétique.',
-    nota_full:'<b>full</b> : le niveau pensé pour votre coffre-fort. Dans l’implémentation de référence, le Match Report à ce niveau porte les mêmes champs que <span class="mono">scoped</span>, parce que le schéma de la réponse n’a pas de place pour le profil.',
+    note_result_only:'<b>result_only</b> : la boutique reçoit la taille et la confiance, aucune zone et aucune mesure. Mais elle reçoit aussi les comptes de <span class="mono">based_on</span> et les suggestions d’<span class="mono">improve_by</span>, qui disent combien de mesures et quel historique contient le profil : c’est une limite connue de la version actuelle, décrite dans le threat model et en cours de révision.',
+    note_explained:'<b>explained</b> : les colonnes chiffrées ont été supprimées à la sérialisation : avec les mesures (publiques) du vêtement et l’aisance en cm, une soustraction reconstruirait vos mensurations.',
+    note_scoped:'<b>scoped</b> : l’aisance en centimètres est visible. À n’accorder qu’aux services de confiance : voir la section sur la fuite arithmétique.',
+    note_full:'<b>full</b> : le niveau pensé pour votre coffre-fort. Dans l’implémentation de référence, le Match Report à ce niveau porte les mêmes champs que <span class="mono">scoped</span>, parce que le schéma de la réponse n’a pas de place pour le profil.',
     th:['Zone','Jugement','Aisance','Prévue'],
-    giudizio:{as_cut:'Conforme à la coupe',snug:'Ajusté',roomy:'Ample',too_tight:'Trop serré',too_loose:'Trop large',unknown:'Non évaluable'},
-    nota_critica:'zone critique pour ce vêtement : compte triple dans le score.',
-    migliorare:'Pour progresser',
-    zone:{chest:'Poitrine',waist:'Tour de taille',hip:'Hanches',thigh:'Cuisse',neck:'Col',shoulders:'Épaules',sleeve_length:'Manche',inseam:'Entrejambe',overall:'Ensemble'}
+    assessment:{as_cut:'Conforme à la coupe',snug:'Ajusté',roomy:'Ample',too_tight:'Trop serré',too_loose:'Trop large',unknown:'Non évaluable'},
+    critical_note:'zone critique pour ce vêtement : compte triple dans le score.',
+    improve:'Pour progresser',
+    zones:{chest:'Poitrine',waist:'Tour de taille',hip:'Hanches',thigh:'Cuisse',neck:'Col',shoulders:'Épaules',sleeve_length:'Manche',inseam:'Entrejambe',overall:'Ensemble'},
+    zones_caption:'Explication par zone',
+    stripped:'supprimé',
+    not_in_result_only:'explanation · alternatives : absents d’un rapport result_only',
+    cold_start_cap:'plafond du cold start : 0.40'
   }
 };
 
 // a number and its noun, singular or plural
-function conta(n, uno, molti){
-  var singolare = LANG==='fr' ? n<=1 : n===1;
-  return n+' '+(singolare ? uno : molti);
+function count(n, one, many){
+  var singular = LANG==='fr' ? n<=1 : n===1;
+  return n+' '+(singular ? one : many);
 }
 
 // ---------- the reference's actual reports, written by demo_reports.py ----------
-var DATI = JSON.parse(document.getElementById('reference-reports').textContent);
+var DATA = JSON.parse(document.getElementById('reference-reports').textContent);
 
-function aggiornaOpzioni(){
-  var t = T[LANG];
-  var sp = document.getElementById('sel-profilo').options;
-  sp[0].text = t.opt_mature; sp[1].text = t.opt_cold;
-  var predefinito = DATI.default_level[document.getElementById('sel-profilo').value];
-  var testi = {result_only:t.opt_result, explained:t.opt_explained, scoped:t.opt_scoped, full:t.opt_full};
-  Array.prototype.forEach.call(document.getElementById('sel-livello').options, function(o){
-    o.text = testi[o.value] + (o.value===predefinito ? t.predefinito : '');
-  });
-}
-function aggiornaBottoniJson(){
-  var aperto = document.getElementById('sim-json-box').classList.contains('aperto');
-  document.getElementById('btn-sim-json').textContent = aperto ? T[LANG].json_hide : T[LANG].json_show;
-}
+// the cold-start cap of the reference algorithm, drawn on the confidence gauge
+var COLD_START_CAP = 0.40;
+
+// what the demo shows: it opens on the mature profile at that profile's default level
+var state = {profile:'mature', level:DATA.default_level['mature']};
 
 // ---------- the examples in the three cards ----------
 // the labels are in the HTML: opening or closing only changes aria-expanded and hidden
@@ -1383,84 +1434,132 @@ tapeButtons.forEach(function(btn){
     });
   });
 });
-document.getElementById('btn-sim-json').addEventListener('click', function(){
-  var aperto = document.getElementById('sim-json-box').classList.toggle('aperto');
-  this.setAttribute('aria-expanded', aperto);
-  aggiornaBottoniJson();
+
+// ---------- the demo: a profile and a level ----------
+var profileButtons = document.querySelectorAll('.choices [data-profile]');
+var levelButtons = document.querySelectorAll('.choices [data-level]');
+
+function choose(profile, level){
+  state.profile = profile;
+  state.level = level;
+  profileButtons.forEach(function(b){
+    b.setAttribute('aria-pressed', String(b.getAttribute('data-profile') === profile));
+  });
+  levelButtons.forEach(function(b){
+    var lv = b.getAttribute('data-level');
+    b.setAttribute('aria-pressed', String(lv === level));
+    // the default is the data's, for the profile shown
+    b.querySelector('.default-mark').hidden = lv !== DATA.default_level[profile];
+  });
+  render();
+}
+// one profile and one level are always pressed: pressing the pressed one changes nothing
+profileButtons.forEach(function(b){
+  b.addEventListener('click', function(){
+    if(b.getAttribute('aria-pressed') === 'true') return;
+    choose(b.getAttribute('data-profile'), state.level);
+  });
+});
+levelButtons.forEach(function(b){
+  b.addEventListener('click', function(){
+    if(b.getAttribute('aria-pressed') === 'true') return;
+    choose(state.profile, b.getAttribute('data-level'));
+  });
+});
+// scoped and explained in the arithmetic-leak box: set that level, keep the profile,
+// then let the link take the page to the demo
+document.querySelectorAll('.leak a[data-level]').forEach(function(a){
+  a.addEventListener('click', function(){ choose(state.profile, a.getAttribute('data-level')); });
 });
 
 // ---------- showing a report ----------
 // the reference writes its sentences in English; the page shows them translated
 function tr(s){
   if(LANG==='en') return s;
-  var t = DATI.translations[s];
+  var t = DATA.translations[s];
   return t && t[LANG] ? t[LANG] : s;
 }
 function esc(s){
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 function cm(x){ return String(x).replace('-', '−'); }
-var BADGE = {as_cut:'ok', snug:'attenzione', roomy:'attenzione', too_tight:'critico', too_loose:'critico', unknown:'ignoto'};
+var BADGE = {as_cut:'ok', snug:'watch', roomy:'watch', too_tight:'critical', too_loose:'critical', unknown:'unknown'};
 
+// the report is shown as it is in the data: nothing here is computed
 function render(){
   var t = T[LANG];
-  var profilo = document.getElementById('sel-profilo').value;
-  var level = document.getElementById('sel-livello').value;
-  var r = DATI.reports[profilo][level];
+  var profile = state.profile, level = state.level;
+  var r = DATA.reports[profile][level];
   var pct = Math.round(r.confidence*100);
+  var cap = profile === 'cold-start' ? Math.round(COLD_START_CAP*100) : null;
 
-  var html = '<div class="esito-riga">'
-    + '<div class="taglia">'+esc(r.recommended_size||'—')+'<small> '+t.taglia+'</small></div>'
-    + '<div class="conf-blocco"><div class="conf-eti"><span>'+t.conf+'</span><span>'+r.confidence.toFixed(2)+'</span></div>'
+  var html = '<div class="outcome">'
+    + '<div class="size">'+esc(r.recommended_size||'—')+'<small> '+t.size+'</small></div>'
+    + '<div class="confidence"><div class="confidence-label"><span>'+t.confidence+'</span><b>'+r.confidence.toFixed(2)+'</b></div>'
     + '<div class="gauge-wrap"><div class="gauge"><div class="gauge-ticks"></div></div>'
-    + '<div class="gauge-mark" style="left:calc('+pct+'% - 2px)"></div></div></div></div>';
+    + '<div class="gauge-mark" style="left:calc('+pct+'% - 2px)"></div>'
+    + (cap !== null ? '<div class="gauge-cap" style="left:'+cap+'%"></div>' : '')
+    + '</div>'
+    + (cap !== null ? '<div class="cap-row"><span class="cap-label" style="left:'+cap+'%">'+esc(t.cold_start_cap)+'</span></div>' : '')
+    + '</div></div>';
 
-  html += '<p style="font-size:13.5px;color:var(--ink-70)">'+t.basata+t.based(r.based_on)+'.</p>';
+  html += '<p class="based-on">'+t.based_on+t.based(r.based_on)+'.</p>';
   if(r.alternatives && r.alternatives.length){
-    html += '<p style="font-size:13.5px;color:var(--ink-70)">'+t.alternative+r.alternatives.map(function(a){
-      return esc(a.size_label)+' ('+a.score.toFixed(2)+')'+(a.note ? ', '+esc(tr(a.note)) : '');
-    }).join(' · ')+'</p>';
+    html += '<div class="alternatives"><span>'+t.alternatives+'</span>'+r.alternatives.map(function(a){
+      return '<span class="alt">'+esc(a.size_label)+' · '+a.score.toFixed(2)+'</span>'
+        + (a.note ? '<span class="alt-note">'+esc(tr(a.note))+'</span>' : '');
+    }).join('')+'</div>';
   }
-  html += '<div class="livello-nota">'+t['nota_'+level]+'</div>';
+  html += '<div class="level-note">'+t['note_'+level]+'</div>';
 
-  if(r.explanation && r.explanation.length){
-    var conNumeri = r.explanation.some(function(l){return 'ease_cm' in l;});
-    var critiche = r.explanation.some(function(l){return l.critical;});
-    html += '<table class="zone"><thead><tr><th scope="col">'+t.th[0]+'</th><th scope="col">'+t.th[1]+'</th>'
-         + (conNumeri?'<th scope="col">'+t.th[2]+'</th><th scope="col">'+t.th[3]+'</th>':'')
+  if(level === 'result_only'){
+    // no explanation and no alternatives travel at this level
+    html += '<div class="not-in-report">'+esc(t.not_in_result_only)+'</div>';
+  } else if(r.explanation && r.explanation.length){
+    var numbers = r.explanation.some(function(z){ return 'ease_cm' in z; });
+    // at explained, the zones whose numbers the scoped report of the same profile carries
+    var stripped = level !== 'explained' ? [] : DATA.reports[profile].scoped.explanation
+      .filter(function(z){ return 'ease_cm' in z; }).map(function(z){ return z.zone; });
+    var columns = numbers || stripped.length > 0;
+    var critical = r.explanation.some(function(z){ return z.critical; });
+    html += '<table class="zones"><caption class="visually-hidden">'+esc(t.zones_caption)+'</caption>'
+         + '<thead><tr><th scope="col">'+t.th[0]+'</th><th scope="col">'+t.th[1]+'</th>'
+         + (columns ? '<th scope="col">'+t.th[2]+'</th><th scope="col">'+t.th[3]+'</th>' : '')
          + '</tr></thead><tbody>';
-    r.explanation.forEach(function(l){
-      html += '<tr><td>'+esc(t.zone[l.zone]||l.zone)+(l.critical?' <span class="mono" style="color:var(--accent-ink)">*</span>':'')+'</td>'
-           + '<td><span class="badge '+(BADGE[l.assessment]||'ignoto')+'">'+esc(t.giudizio[l.assessment]||l.assessment)+'</span>'
-           + (l.note?'<small>'+esc(tr(l.note))+'</small>':'')+'</td>';
-      if(conNumeri){
-        html += '<td class="mono">'+('ease_cm' in l ? (l.ease_cm>=0?'+':'−')+Math.abs(l.ease_cm).toFixed(1)+' cm' : '')+'</td>'
-             + '<td class="mono">'+(l.intended_ease_cm ? cm(l.intended_ease_cm[0])+'–'+cm(l.intended_ease_cm[1])+' cm' : '')+'</td>';
+    r.explanation.forEach(function(z){
+      html += '<tr><td>'+esc(t.zones[z.zone]||z.zone)+(z.critical ? ' <span class="critical-mark">*</span>' : '')+'</td>'
+           + '<td><span class="badge '+(BADGE[z.assessment]||'unknown')+'">'+esc(t.assessment[z.assessment]||z.assessment)+'</span>'
+           + (z.note ? '<small>'+esc(tr(z.note))+'</small>' : '')+'</td>';
+      if(columns){
+        if('ease_cm' in z){
+          html += '<td class="mono">'+(z.ease_cm>=0?'+':'−')+Math.abs(z.ease_cm).toFixed(1)+' cm</td>'
+               + '<td class="mono">'+(z.intended_ease_cm ? cm(z.intended_ease_cm[0])+'–'+cm(z.intended_ease_cm[1])+' cm' : '')+'</td>';
+        } else if(stripped.indexOf(z.zone) >= 0){
+          var tag = '<span class="stripped">'+esc(t.stripped)+'</span>';
+          html += '<td>'+tag+'</td><td>'+tag+'</td>';
+        } else {
+          html += '<td></td><td></td>';
+        }
       }
       html += '</tr>';
     });
     html += '</tbody></table>';
-    if(critiche) html += '<p style="font-size:12px;color:var(--ink-70);margin-top:6px"><span class="mono" style="color:var(--accent-ink)">*</span> '+t.nota_critica+'</p>';
+    if(critical) html += '<p class="critical-note"><span class="critical-mark">*</span> '+t.critical_note+'</p>';
   }
 
   if(r.caveats.length){
-    html += '<div class="caveats"><ul>'+r.caveats.map(function(c){return '<li>'+esc(tr(c))+'</li>';}).join('')+'</ul></div>';
+    html += '<div class="caveats"><ul>'+r.caveats.map(function(c){ return '<li>'+esc(tr(c))+'</li>'; }).join('')+'</ul></div>';
   }
   if(r.improve_by.length){
-    html += '<div class="caveats"><p style="font-size:13px;font-weight:600;font-family:\'IBM Plex Mono\',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-70);margin:14px 0 4px">'+t.migliorare+'</p><ul>'
-         + r.improve_by.map(function(c){return '<li>'+esc(tr(c))+'</li>';}).join('')+'</ul></div>';
+    html += '<div class="caveats"><p class="improve-title">'+t.improve+'</p><ul>'
+         + r.improve_by.map(function(c){ return '<li>'+esc(tr(c))+'</li>'; }).join('')+'</ul></div>';
   }
-  document.getElementById('sim-corpo').innerHTML = html;
+  document.getElementById('demo-result').innerHTML = html;
   // the exact report, in English: it is what travels
-  document.getElementById('sim-json-box').textContent = DATI.reports_text[profilo][level];
+  document.getElementById('report-json').textContent = DATA.reports_text[profile][level];
 }
 
-document.getElementById('sel-livello').addEventListener('change', render);
-document.getElementById('sel-profilo').addEventListener('change', function(){ aggiornaOpzioni(); render(); });
-document.getElementById('sel-livello').value = DATI.default_level[document.getElementById('sel-profilo').value];
-aggiornaOpzioni();
-aggiornaBottoniJson();
-render();
+choose(state.profile, state.level);
 </script>
 </body>
 </html>
