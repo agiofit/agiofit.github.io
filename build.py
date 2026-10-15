@@ -9,14 +9,18 @@ Each source carries <span class="en">…</span><span class="it">…</span><span 
 (and <tspan> inside SVG) exactly as the site does today. For each language this script keeps
 that language's elements, unwraps them, drops the other two with everything they contain,
 sets <html lang>, writes canonical, hreflang and og:locale, and turns the JavaScript language
-switcher into three plain links. The head carries its Italian and French text in data-it and
-data-fr attributes on <title> and on the text <meta> tags; this script picks the page's language
-and removes the attributes. Nothing is translated here: the source stays the single place where
-the three languages live.
+switcher into three plain links: on a page with the shared site bar, the EN, IT and FR buttons
+of .sitenav-lang become links to the three versions of the same page; on a page that still has
+the old floating box (.lingua-box), its three buttons become links as before. The head carries
+its Italian and French text in data-it and data-fr attributes on <title> and on the text <meta>
+tags; this script picks the page's language and removes the attributes. Nothing is translated
+here: the source stays the single place where the three languages live.
 
 Before writing, every page is checked: no element of another language left, span and tspan
-balanced, every head text translated. The builder's "Measured by" and "Cut" options are
-checked against the schema the builder validates with. If one check fails, nothing is written.
+balanced, every head text translated, and in the site bar one language group holding three
+links to the right pages, in order, with only the page's own language marked current. The
+builder's "Measured by" and "Cut" options are checked against the schema the builder validates
+with. If one check fails, nothing is written.
 
     _src/index.html        ->  /index.html        /it/index.html        /fr/index.html
     _src/guide/index.html  ->  /guide/index.html  /it/guide/index.html  /fr/guide/index.html
@@ -135,9 +139,36 @@ def og_locales(lang: str) -> str:
     return "\n".join(rows)
 
 
-def check_page(html: str, lang: str) -> list:
-    """What a generated page must satisfy before it is written. Returns the problems found."""
+LANG_GROUP = re.compile(r'<div class="sitenav-lang"[^>]*>(.*?)</div>', re.S)
+
+
+def check_lang_links(html: str, page: str, lang: str) -> list:
+    """The language group of the site bar: one group, three links to the three versions of
+    this page, in the order EN, IT, FR, and only the page's own language marked current."""
+    groups = LANG_GROUP.findall(html)
+    if not groups:
+        return []
+    if len(groups) > 1:
+        return [f"{len(groups)} language groups in the bar, expected 1"]
     problems = []
+    links = re.findall(r"<a\b([^>]*)>(.*?)</a>", groups[0], re.S)
+    want = [("/" + out_path(page, l), l, l.upper()) for l in LANGS]
+    got = []
+    for attrs, text in links:
+        href = re.search(r'\bhref="([^"]*)"', attrs)
+        hreflang = re.search(r'\bhreflang="([^"]*)"', attrs)
+        got.append((href.group(1) if href else None, hreflang.group(1) if hreflang else None, text.strip()))
+    if got != want:
+        problems.append(f"language links are {got}, expected {want}")
+    current = [hl for (attrs, _), (_, hl, _) in zip(links, got) if re.search(r"\baria-current=", attrs)]
+    if current != [lang]:
+        problems.append(f"language marked current: {current}, expected ['{lang}']")
+    return problems
+
+
+def check_page(html: str, page: str, lang: str) -> list:
+    """What a generated page must satisfy before it is written. Returns the problems found."""
+    problems = check_lang_links(html, page, lang)
     for m in re.finditer(r'<([a-zA-Z][\w-]*)\b[^>]*\sclass="(en|it|fr)"', html):
         problems.append(f'<{m.group(1)} class="{m.group(2)}"> left, line {line_of(html, m.start())}')
     stack = []
@@ -177,8 +208,19 @@ def drop_function(html: str, name: str) -> str:
     return html
 
 
+def lang_links(page: str, lang: str) -> str:
+    """The language group of the site bar: EN, IT, FR as links to the same page."""
+    out = []
+    for l in LANGS:
+        current = ' aria-current="true"' if l == lang else ""
+        out.append(f'<a href="/{out_path(page, l)}" hreflang="{l}" lang="{l}" '
+                   f'aria-label="{NAMES[l]}"{current}>{l.upper()}</a>')
+    return "\n      ".join(out)
+
+
 def switcher(page: str, lang: str) -> str:
-    """Three links instead of three buttons: crawlers follow links, not onclick."""
+    """The old floating box: three links instead of three buttons, as crawlers follow links,
+    not onclick. Only the home still has it; this goes with the home's restyle."""
     out = []
     for l in LANGS:
         href = "/" + out_path(page, l)
@@ -226,19 +268,30 @@ def build_page(source: str, page: str, lang: str) -> str:
         h = h.replace('href="/"', 'href="/%s/"' % lang)
         h = h.replace('href="/#schemas"', 'href="/%s/#schemas"' % lang)
 
-    # 5. the switcher: links, not JavaScript
-    h = re.sub(
-        r'<div class="lingua-box"[^>]*>.*?</div>',
-        '<div class="lingua-box" role="group" aria-label="Language / Lingua / Langue">\n    '
-        + switcher(page, lang) + "\n  </div>",
-        h, count=1, flags=re.S,
-    )
+    # 5. the switcher: links, not JavaScript. Written after step 4, so these links are not
+    #    localized: on /it/guide/ the EN link must stay /guide/
+    if LANG_GROUP.search(h):
+        h = LANG_GROUP.sub(
+            lambda m: m.group(0).split(">", 1)[0] + ">\n      " + lang_links(page, lang) + "\n    </div>",
+            h, count=1,
+        )
+    # the old floating box, still on the home until its restyle; this path and the styling
+    # below go with it
+    old_box = '<div class="lingua-box"' in h
+    if old_box:
+        h = re.sub(
+            r'<div class="lingua-box"[^>]*>.*?</div>',
+            '<div class="lingua-box" role="group" aria-label="Language / Lingua / Langue">\n    '
+            + switcher(page, lang) + "\n  </div>",
+            h, count=1, flags=re.S,
+        )
     h = drop_function(h, "setLang")
     h = re.sub(r"var LANG\s*=\s*'[a-z]{2}'", "var LANG = '%s'" % lang, h, count=1)
     h = re.sub(r'body\.lang-(en|it|fr)[^}]*\}', "", h)
 
-    # 6. the switcher is now links, so it needs link styling, not button styling
-    h = h.replace("</style>", """  .lingua-box a{font:inherit;font-size:13px;text-decoration:none;color:var(--ink);
+    # 6. the old box is now links, so it needs link styling, not button styling
+    if old_box:
+        h = h.replace("</style>", """  .lingua-box a{font:inherit;font-size:13px;text-decoration:none;color:var(--ink);
     opacity:.6;padding:6px 12px;border-radius:999px}
   .lingua-box a:hover{opacity:1}
   .lingua-box a[aria-current]{opacity:1;font-weight:600;background:rgba(30,36,48,.06)}
@@ -345,7 +398,7 @@ def main() -> int:
     for page, lang, html in plan:
         target = ROOT / out_path(page, lang) / "index.html"
         rel = str(target.relative_to(ROOT)).replace("\\", "/")
-        problems = check_page(html, lang)
+        problems = check_page(html, page, lang)
         print(f"  /{rel:26} {lang}  {len(html):>6} bytes  problems: {len(problems)}")
         for p in problems:
             print(f"      {p}")
