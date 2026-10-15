@@ -196,59 +196,97 @@ h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-
 h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.15}
 .intro{margin-top:12px;color:var(--ink-70);max-width:64ch}
 
-/* the problem, and what becomes possible: three cards */
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
-.card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
-  padding:18px 18px 16px;box-shadow:var(--shadow)}
+/* cards that wrap: three in the problem, four in practice */
+.cards{display:flex;flex-wrap:wrap;gap:16px;margin-top:26px}
+.card{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;background:var(--surface);
+  border:1px solid var(--rule);border-radius:var(--radius);padding:18px 18px 16px;box-shadow:var(--shadow)}
+.cards.scenarios .card{flex-basis:230px}
 .card h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin-bottom:6px}
-.card p{font-size:14.5px;color:var(--ink-70)}
+.card p{flex:1 1 auto;font-size:14.5px;color:var(--ink-70)}
+/* the second-hand card leads to the builder; the arrow is decoration, hidden from screen readers */
+.card-link{margin-top:12px;align-self:flex-start;font-size:14.5px;font-weight:600;color:var(--accent-ink);text-decoration:none}
+.card-link:hover{text-decoration:underline}
+.card-link::after{content:" \2192";content:" \2192" / ""}
+.builder-note{display:block;margin-top:4px;font-size:12px;color:var(--ink-70)}
+/* the drawings of the four scenarios: ink lines, the tape and the accent as in the shirt */
+.card-icon{display:block;flex:none;margin-bottom:10px}
+.card-icon .ic-line{fill:var(--surface);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.card-icon .ic-thread{fill:none;stroke:var(--ink-70);stroke-width:1}
+.card-icon .ic-tape{fill:var(--tape);stroke:var(--tape-ink);stroke-width:.9}
+.card-icon .ic-ticks{fill:none;stroke:var(--tape-ink);stroke-width:.8}
+.card-icon .ic-hole{fill:none;stroke:var(--ink);stroke-width:1.2}
+.card-icon .ic-ink{fill:var(--ink)}
+.card-icon .ic-accent{stroke:var(--accent);stroke-width:.9}
+.card-icon .ic-speaker{stroke:var(--ink);stroke-width:1.2;stroke-linecap:round}
+.card-icon .ic-size{fill:var(--ink);font:700 11px 'Fraunces',serif}
+.card-icon .ic-track{fill:rgba(30,36,48,.14)}
+.card-icon .ic-fill{fill:var(--accent)}
+.card-icon .ic-ghost{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 2.5;stroke-linejoin:round}
 
-/* the three documents */
-.docs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
-.doc{background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
-  padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+/* the three documents: what you own, what the seller publishes, what travels between them */
+.docs{display:flex;flex-wrap:wrap;align-items:stretch;gap:12px;margin-top:26px}
+.doc{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;background:var(--surface);
+  border:1px solid var(--rule);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.doc-head{display:flex;align-items:center;gap:10px}
+.doc-icon{flex:none;fill:none;stroke:var(--accent-ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .doc h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600}
 .doc .who{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--tape-ink);margin:2px 0 8px}
-.doc p{font-size:14.5px;color:var(--ink-70);flex:1}
+.doc .desc{flex:1 1 auto;font-size:14.5px;color:var(--ink-70)}
+.doc .desc b{color:var(--ink)}
+/* the excerpts: as tall as the longest (seven lines), so the three line up; they wrap rather than scroll */
+.excerpt{margin-top:14px;min-height:calc(7 * 1.55em + 24px);padding:12px 14px;border-radius:8px;
+  background:var(--code);color:var(--code-ink);font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+  line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+.excerpt .k{color:#8FC7FF}.excerpt .s{color:#F0D089}.excerpt .n{color:#9FE3B4}
 .doc a.schema{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--accent-ink);
   margin-top:12px;word-break:break-all;text-decoration:none;border-top:1px dashed var(--rule);padding-top:10px}
 .doc a.schema:hover{text-decoration:underline}
+/* + and → between the documents, drawn here: a sign written as text would stick to the link before it */
+.op{flex:0 0 30px;display:flex;align-items:center;justify-content:center}
+.op::before{content:"+";box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:30px;height:30px;
+  border:1.5px solid var(--ink);border-radius:50%;background:var(--paper);
+  font-family:'IBM Plex Mono',monospace;font-size:16px;line-height:1}
+.op.to::before{content:"\2192";background:var(--ink);color:var(--paper);font-size:15px}
+.docs-note{margin-top:18px;font-size:14.5px;color:var(--ink-70)}
 .mono{font-family:'IBM Plex Mono',monospace;font-size:.92em;background:rgba(30,36,48,.06);padding:1px 5px;border-radius:4px}
 
 /* ---------- what leaves the vault: the disclosure gradient ---------- */
 .vault{margin-top:26px;background:var(--surface);border:1px solid var(--rule);
   border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
-.vault-row{display:grid;grid-template-columns:170px 1fr;border-top:1px solid var(--rule)}
+.vault-row{display:flex;flex-wrap:wrap;border-top:1px solid var(--rule)}
 .vault-row:first-child{border-top:0}
-.vault-level{
+.vault-level{flex:0 0 170px;
   font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.04em;
   padding:16px 14px;background:rgba(30,36,48,.035);color:var(--ink);
   display:flex;align-items:center;gap:8px}
 .vault-level::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:0 0 auto}
-.vault-fields{padding:14px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.vault-fields{flex:1 1 320px;min-width:0;padding:14px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .chip{font-family:'IBM Plex Mono',monospace;font-size:12px;background:rgba(30,36,48,.06);
   border:1px solid var(--rule);border-radius:6px;padding:3px 9px;color:var(--ink-70)}
-.chip.off{opacity:.34;text-decoration:line-through;text-decoration-color:var(--accent-ink)}
+.chip.off{opacity:.38;text-decoration:line-through;text-decoration-color:var(--accent-ink)}
 .chip.size{background:var(--ink);color:var(--paper);border-color:var(--ink);
   font-size:15px;font-weight:500;padding:5px 14px}
+.chip.conf{background:transparent;border-color:var(--ink);color:var(--ink)}
 .vault-note{padding:14px 16px;border-top:1px dashed var(--rule);font-size:13.5px;color:var(--ink-70)}
 .vault-note b{color:var(--accent-ink)}
 
 /* what it is not */
-.scope-list{margin-top:26px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 22px}
-.scope-list p{font-size:15px;padding-left:26px;position:relative;color:var(--ink-70)}
+.scope-list{margin-top:26px;display:flex;flex-wrap:wrap;gap:12px 28px}
+.scope-list p{flex:1 1 420px;min-width:0;font-size:15px;padding-left:26px;position:relative;color:var(--ink-70)}
 .scope-list p::before{content:"✕";position:absolute;left:0;top:1px;color:var(--accent);font-weight:600}
 .scope-list p b{color:var(--ink)}
 
-/* status */
+/* status: a list shaped like the builder's status box, then how to take part */
 .status{margin-top:26px;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
-  box-shadow:var(--shadow);padding:20px 22px}
-.status p{font-size:15px;color:var(--ink-70)}
-.status p + p{margin-top:10px}
+  box-shadow:var(--shadow);padding:6px 22px 22px}
+.status dl>div{display:flex;flex-wrap:wrap;gap:2px 26px;padding:11px 0;border-bottom:1px solid var(--rule)}
+.status dl>div:last-child{border-bottom:none}
+.status dt{flex:0 0 220px;font-size:14.5px;color:var(--ink-70)}
+.status dd{flex:1 1 300px;min-width:0;font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+.status .badge-draft{background:var(--tape);color:var(--tape-text);border-radius:6px;padding:2px 8px;
+  letter-spacing:.06em;white-space:nowrap}
+.status-text{margin-top:16px;max-width:72ch;font-size:15px;color:var(--ink-70)}
 .status .actions{margin-top:18px}
-.status .badge-draft{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.08em;
-  background:var(--tape);color:var(--tape-ink);border:1px solid var(--tape-ink);
-  border-radius:6px;padding:2px 9px;margin-right:8px;white-space:nowrap}
 
 /* ---------- footer: the legal line, as in the guide and the builder ---------- */
 footer{margin-top:80px}
@@ -258,11 +296,10 @@ footer .legal .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5
 footer .legal a{color:var(--accent-ink)}
 @media(max-width:640px){footer .legal{flex-direction:column;gap:8px}}
 
-@media (max-width:760px){
-  .cards,.docs,.scope-list{grid-template-columns:1fr}
-  .vault-row{grid-template-columns:1fr}
-  .vault-level{padding-bottom:4px;background:transparent}
-}
+/* the signs between the documents only where the three fit on one line */
+@media (max-width:1011px){.op{display:none}}
+/* on a phone the level's name takes its own line, the width of the card */
+@media (max-width:640px){.vault-level{flex-basis:100%;background:transparent;padding-bottom:2px}}
 </style>
 <script type="application/ld+json">
 {
@@ -516,42 +553,85 @@ footer .legal a{color:var(--accent-ink)}
     
     
   </p>
+  <!-- the excerpts are cut from the repository's examples; "..." says the real file has more fields -->
   <div class="docs">
     <div class="doc">
-      <h3>Fit Profile</h3>
+      <div class="doc-head">
+        <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="9" rx="2"/><path d="M7 9 V6.5 a3 3 0 0 1 6 0 V9"/></svg>
+        <h3>Fit Profile</h3>
+      </div>
       <p class="who">— tuo</p>
-      <p>Misure corporee con fonte e incertezza dichiarate, preferenze di vestibilità e lo storico di come i capi passati ti sono andati davvero.</p>
+      <p class="desc">Misure corporee con fonte e incertezza dichiarate, preferenze di vestibilità e lo storico di come i capi passati ti sono andati davvero.</p>
+      <pre class="excerpt"><span class="k">"chest_circumference"</span>: {
+  <span class="k">"value"</span>: <span class="n">100</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span>,
+  <span class="k">"source"</span>: <span class="s">"tape_measured"</span>,
+  <span class="k">"tolerance"</span>: <span class="n">1.0</span>,
+  ...
+}</pre>
       <a class="schema" href="/schemas/v0.1/fit-profile.schema.json">schemas/v0.1/fit-profile.schema.json</a>
     </div>
+    <div class="op" aria-hidden="true"></div>
     <div class="doc">
-      <h3>Cut Profile</h3>
+      <div class="doc-head">
+        <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 L16 7 V18 H4 V7 Z"/><circle cx="10" cy="7.2" r="1.4"/><path d="M7 12 H13 M7 15 H11"/></svg>
+        <h3>Cut Profile</h3>
+      </div>
       <p class="who">— di chi vende</p>
-      <p>Come il capo è <b>tagliato</b>, non come il brand chiama la taglia: misure del capo finito per taglia, agio previsto, elasticità, provenienza del dato.</p>
+      <p class="desc">Come il capo è <b>tagliato</b>, non come il brand chiama la taglia: misure del capo finito per taglia, agio previsto, elasticità, provenienza del dato.</p>
+      <pre class="excerpt"><span class="k">"size_label"</span>: <span class="s">"41"</span>,
+<span class="k">"finished_measurements"</span>: {
+  <span class="k">"chest_width"</span>: {
+    <span class="k">"value"</span>: <span class="n">58</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span>
+  },
+  ...
+}</pre>
       <a class="schema" href="/schemas/v0.1/cut-profile.schema.json">schemas/v0.1/cut-profile.schema.json</a>
     </div>
+    <div class="op to" aria-hidden="true"></div>
     <div class="doc">
-      <h3>Match Report</h3>
+      <div class="doc-head">
+        <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2 H12 L16 6 V18 H5 Z"/><path d="M12 2 V6 H16"/><path d="M8 10.5 H13 M8 13.5 H11.5"/></svg>
+        <h3>Match Report</h3>
+      </div>
       <p class="who">— ciò che viaggia</p>
-      <p>Una taglia, le alternative, il ragionamento zona per zona e una confidenza onesta — decomposta, cappata quando i dati sono pochi, mai millantata.</p>
+      <p class="desc">Una taglia, le alternative, il ragionamento zona per zona e una confidenza onesta — decomposta, cappata quando i dati sono pochi, mai millantata.</p>
+      <!-- the mature profile's report at result_only: the numbers come from the reference, through demo_reports.py -->
+      <pre class="excerpt">...
+<span class="k">"disclosure_level"</span>: <span class="s">"result_only"</span>,
+<span class="k">"recommended_size"</span>: <span class="s">"<!-- ref:mature/result_only/recommended_size -->41<!-- /ref:mature/result_only/recommended_size -->"</span>,
+<span class="k">"confidence"</span>: <span class="n"><!-- ref:mature/result_only/confidence -->0.84<!-- /ref:mature/result_only/confidence --></span>,
+<span class="k">"correctable"</span>: <span class="n">true</span>,
+...</pre>
       <a class="schema" href="/schemas/v0.1/match-report.schema.json">schemas/v0.1/match-report.schema.json</a>
     </div>
   </div>
+  <p class="docs-note">Il confronto avviene dove vive il profilo, e viaggia solo il report. Gli estratti vengono dagli esempi del repository; la guida mostra il report esatto a ogni livello.</p>
 </section>
 
 <!-- ============ in practice: what becomes possible ============ -->
 <section class="section" id="practice">
   <p class="kicker">Scenari</p>
   <h2>Cosa diventa possibile quando un capo pubblica il proprio taglio</h2>
-  <div class="cards">
+  <div class="cards scenarios">
     <div class="card">
+      <svg class="card-icon" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><path class="ic-line" d="M17 9 L22 7 Q24 9.5 26 7 L31 9 L39 16 L35 21 L32 18.5 V40 H16 V18.5 L13 21 L9 16 Z"/><rect class="ic-tape" x="11" y="25" width="26" height="5.5" rx="1"/><path class="ic-ticks" d="M14 25 v2.6 M17 25 v1.6 M20 25 v2.6 M23 25 v1.6 M26 25 v2.6 M29 25 v1.6 M32 25 v2.6 M35 25 v1.6"/></svg>
+      <h3>Usato</h3>
+      <p>Chi vende l'usato stende già il capo e scrive i numeri nell'annuncio. Ma «torace 54» è metà del giro, o il giro intero? Il builder trasforma lo stesso gesto in un Cut Profile che dice come è stato misurato. Per ora solo camicie; non si carica niente, qui non si conserva niente.</p>
+      <a class="card-link" href="/builder/" hreflang="en">Misura un capo</a>
+      <span class="builder-note">Il builder per ora è solo in inglese.</span>
+    </div>
+    <div class="card">
+      <svg class="card-icon" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><path class="ic-thread" d="M24 11.5 C 22 5.5 27.5 3 30 5.5"/><path class="ic-line" d="M16 14 L24 7.5 L32 14 V41 H16 Z"/><circle class="ic-hole" cx="24" cy="13.5" r="1.7"/><g class="ic-ink"><rect x="18.5" y="18.5" width="4.5" height="4.5"/><rect x="25" y="18.5" width="4.5" height="4.5"/><rect x="18.5" y="25" width="4.5" height="4.5"/><rect x="25.5" y="25.5" width="1.6" height="1.6"/><rect x="27.9" y="27.9" width="1.6" height="1.6"/><rect x="25.5" y="28.4" width="1.6" height="1.6"/></g><line class="ic-accent" x1="18.5" y1="34" x2="29.5" y2="34"/></svg>
       <h3>In negozio</h3>
       <p>Il camerino in tasca: sull'etichetta un QR code punta al Cut Profile. Lo inquadri e il confronto avviene sul tuo telefono — sai se ti veste prima di provarlo, e al negozio non esce nulla. Nemmeno la taglia.</p>
     </div>
     <div class="card">
+      <svg class="card-icon" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect class="ic-line" x="15" y="5" width="18" height="38" rx="3.5"/><line class="ic-speaker" x1="21.5" y1="8.6" x2="26.5" y2="8.6"/><text class="ic-size" x="24" y="26" text-anchor="middle">41</text><rect class="ic-track" x="18.5" y="30.5" width="11" height="2" rx="1"/><rect class="ic-fill" x="18.5" y="30.5" width="9.2" height="2" rx="1"/></svg>
       <h3>Online</h3>
       <p>Lo stesso gesto dove il camerino non esiste: sull'ecommerce il capo non si può provare, ma il suo taglio è pubblicato e il tuo profilo risponde — con la confidenza esposta e le ragioni per zona, non con una promessa.</p>
     </div>
     <div class="card">
+      <svg class="card-icon" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><path class="ic-line" d="M13 10 L18 8 Q20 10.5 22 8 L27 10 L34 16.5 L30.5 20.5 L28 18.5 V39 H12 V18.5 L9.5 20.5 L6 16.5 Z"/><path class="ic-ghost" d="M22 13 L27 11 Q29 13.5 31 11 L36 13 L43 19.5 L39.5 23.5 L37 21.5 V42 H21 V21.5"/></svg>
       <h3>«Veste come»</h3>
       <p>Due capi che pubblicano il taglio si confrontano tra loro: un retailer può dirti che questa giacca è tagliata come quella che hai tenuto. Un confronto capo-contro-capo, che non tocca mai le tue misure.</p>
     </div>
@@ -567,6 +647,9 @@ footer .legal a{color:var(--accent-ink)}
     
     
   </p>
+  <!-- each row ends with the size and the confidence the reference gives the mature profile at
+       that level, between ref markers kept by demo_reports.py; a struck-out chip first says, for
+       screen readers, that it is not in the report -->
   <div class="vault">
     <div class="vault-row">
       <div class="vault-level">full</div>
@@ -575,31 +658,35 @@ footer .legal a{color:var(--accent-ink)}
         <span class="chip">preferenze</span>
         <span class="chip">storico</span>
         <span class="chip">ragioni per zona</span>
-        <span class="chip size">41</span>
+        <span class="chip size"><!-- ref:mature/full/recommended_size -->41<!-- /ref:mature/full/recommended_size --></span>
+        <span class="chip conf">confidenza <!-- ref:mature/full/confidence -->0.84<!-- /ref:mature/full/confidence --></span>
       </div>
     </div>
     <div class="vault-row">
       <div class="vault-level">scoped</div>
       <div class="vault-fields">
-        <span class="chip off">misure corporee</span>
+        <span class="chip off"><span class="visually-hidden">fuori dal report:</span> misure corporee</span>
         <span class="chip">solo le zone richieste</span>
         <span class="chip">ragioni per zona</span>
-        <span class="chip size">41</span>
+        <span class="chip size"><!-- ref:mature/scoped/recommended_size -->41<!-- /ref:mature/scoped/recommended_size --></span>
+        <span class="chip conf">confidenza <!-- ref:mature/scoped/confidence -->0.84<!-- /ref:mature/scoped/confidence --></span>
       </div>
     </div>
     <div class="vault-row">
       <div class="vault-level">explained</div>
       <div class="vault-fields">
-        <span class="chip off">misure corporee</span>
-        <span class="chip off">agio in cm</span>
+        <span class="chip off"><span class="visually-hidden">fuori dal report:</span> misure corporee</span>
+        <span class="chip off"><span class="visually-hidden">fuori dal report:</span> agio in cm</span>
         <span class="chip">ragioni per zona, senza numeri</span>
-        <span class="chip size">41</span>
+        <span class="chip size"><!-- ref:mature/explained/recommended_size -->41<!-- /ref:mature/explained/recommended_size --></span>
+        <span class="chip conf">confidenza <!-- ref:mature/explained/confidence -->0.84<!-- /ref:mature/explained/confidence --></span>
       </div>
     </div>
     <div class="vault-row">
       <div class="vault-level">result_only</div>
       <div class="vault-fields">
-        <span class="chip size">41</span>
+        <span class="chip size"><!-- ref:mature/result_only/recommended_size -->41<!-- /ref:mature/result_only/recommended_size --></span>
+        <span class="chip conf">confidenza <!-- ref:mature/result_only/confidence -->0.84<!-- /ref:mature/result_only/confidence --></span>
       </div>
     </div>
     <p class="vault-note">
@@ -628,18 +715,17 @@ footer .legal a{color:var(--accent-ink)}
   <p class="kicker">Stato</p>
   <h2>v0.1 draft, in pubblico</h2>
   <div class="status">
-    <p><span class="badge-draft">v0.1 draft</span>
-      Niente è stabile prima della 1.0. Ma un impegno c'è già: gli identificatori degli schemi restano risolvibili, e le rotture incrementano la versione invece di mutare uno schema pubblicato.
-      
-      
-    </p>
-    <p>
-      Specifica in CC BY 4.0, implementazione di riferimento in Apache 2.0 — zero dipendenze a runtime, così l'invariante di privacy si verifica leggendo il codice in un pomeriggio. Il contributo più prezioso? Un corpo e un capo su cui la raccomandazione è palesemente sbagliata, sotto forma di test che fallisce.
-      
-      
-    </p>
+    <dl>
+      <div><dt>Versione</dt><dd><span class="badge-draft">v0.1 draft</span> niente è stabile prima della 1.0</dd></div>
+      <div><dt>Identificatori degli schemi</dt><dd>restano risolvibili; le rotture incrementano la versione</dd></div>
+      <div><dt>Specifica</dt><dd>CC BY 4.0</dd></div>
+      <div><dt>Implementazione di riferimento</dt><dd>Python · Apache 2.0 · zero dipendenze a runtime</dd></div>
+      <div><dt>Archiviato</dt><dd><a href="https://doi.org/10.5281/zenodo.21922898">doi:10.5281/zenodo.21922898</a> · <a href="https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/agiofit/agiofit">Software Heritage</a></dd></div>
+    </dl>
+    <p class="status-text">Zero dipendenze a runtime, così l'invariante di privacy si verifica leggendo il codice in un pomeriggio. Il contributo più prezioso? Un corpo e un capo su cui la raccomandazione è palesemente sbagliata, sotto forma di test che fallisce. Oppure una camicia misurata con il builder: le definizioni di misura non sono ancora provate, e due persone che ottengono numeri diversi per lo stesso capo sono proprio ciò che questa versione ha bisogno di sentire.</p>
     <div class="actions">
-      <a class="btn" href="https://github.com/agiofit/agiofit">Il repository</a>
+      <a class="btn" href="/builder/" hreflang="en">Misura un capo</a>
+      <a class="btn ghost" href="https://github.com/agiofit/agiofit">Il repository</a>
       <a class="btn ghost" href="/it/guide/">La guida interattiva</a>
     </div>
   </div>
