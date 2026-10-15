@@ -92,19 +92,83 @@ a{color:var(--accent-ink)}
 /* one line at every width: below 840 px the bar scrolls sideways instead of wrapping */
 @media(max-width:840px){.sitenav-inner{gap:16px;overflow-x:auto}.sitenav-inner>*{flex-shrink:0}}
 @media(max-width:640px){.sitenav-ver{display:none}}
+.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
 /* laid out like the rest of the site: sections on the paper, white only for cards */
 .page{max-width:1120px;margin:0 auto;padding:0 24px 96px}
 
 /* ---------- header ---------- */
-header{padding-top:44px}
-.hero{display:grid;grid-template-columns:1.35fr .9fr;gap:36px;align-items:center}
+header{padding-top:56px}
+/* text on the left, the garment and what leaves on the right; one above the other when they do not fit */
+.hero{display:flex;flex-wrap:wrap;align-items:center;gap:40px 48px}
+.hero-text{flex:1 1 380px;min-width:0}
+.hero-art{flex:1.25 1 460px;min-width:0}
 .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px}
 .eyebrow a.credit{color:inherit}
-h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(40px,7vw,64px);line-height:1.05;letter-spacing:-.01em}
-h1 .tagline{font-weight:400;font-style:italic;font-size:.52em;display:block;margin-top:10px;color:var(--ink-70)}
-.lede{margin-top:20px;font-size:17.5px;color:var(--ink-70);max-width:56ch}
+h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(44px,6.2vw,72px);line-height:1.02;letter-spacing:-.015em}
+h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-weight:400;
+  line-height:1.15;letter-spacing:0;color:var(--ink-70)}
+.lede{margin-top:22px;font-size:17.5px;color:var(--ink-70);max-width:52ch}
+/* what agio means, under the buttons */
+.agio{margin-top:32px;padding-top:14px;max-width:52ch;border-top:1px dashed #C9C3B4;font-size:13.5px;color:var(--ink-70)}
+.agio .word{font-family:'Fraunces',serif;font-style:italic;font-size:17px;color:var(--ink)}
+.agio .ipa{font-family:'IBM Plex Mono',monospace;font-size:12px}
+
+/* the example shirt, laid flat */
+.hero-figure{margin:0}
+.figure-title{margin-bottom:4px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent-ink)}
+.hero-figure svg{display:block;width:100%;height:auto}
+.figure-caption{margin-top:2px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-70)}
+
+/* the shirt laid flat, as in the guide and the builder: a width is a solid line, the collar a
+   dashed ring. Here the drawing sits on the paper, so the labels off the garment keep the paper colour */
+.shirt .cloth{fill:var(--surface);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.shirt .collar{fill:var(--surface);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.shirt .collar-in{fill:var(--paper)}
+.shirt .seam{fill:none;stroke:var(--ink-70);stroke-width:1}
+.shirt .button{fill:var(--surface);stroke:var(--ink-70);stroke-width:1}
+.shirt .dim{fill:none;stroke:var(--accent-ink);stroke-width:1.25;stroke-linecap:round}
+.shirt .dim.ext{stroke-width:.9;opacity:.75}
+.shirt .dim.lead{stroke-width:1}
+.shirt .dim.round{stroke-width:1.5;stroke-dasharray:4 3.5}
+.shirt .label-bg{fill:var(--surface)}
+.shirt .label-bg.off{fill:var(--paper)}
+.shirt .badge{fill:var(--accent-ink)}
+.shirt .badge-n{fill:var(--surface);font:500 10.5px 'IBM Plex Mono',monospace}
+.shirt .val{fill:var(--ink);font:500 12.5px 'IBM Plex Mono',monospace}
+.shirt .val .unit{fill:var(--ink-70);font-weight:400}
+
+/* the two cards under the shirt: the garment's Cut Profile, and what leaves the vault */
+.hero-cards{margin-top:18px;display:flex;flex-wrap:wrap;align-items:stretch;gap:16px}
+.hero-card{min-width:0;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);box-shadow:var(--shadow)}
+.cut-card{flex:1.2 1 260px;padding:14px 16px 8px}
+.cut-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 10px;margin-bottom:6px}
+.cut-title{font-family:'Fraunces',serif;font-size:16px;font-weight:600}
+.cut-note{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--tape-ink)}
+.cut-card dl>div{display:flex;align-items:center;gap:10px;padding:5px 0;border-top:1px dashed var(--rule);
+  font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+.cut-card dt{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px}
+.cut-card dd{font-weight:500;white-space:nowrap}
+.cut-card .no{flex:0 0 18px;height:18px;border-radius:50%;background:var(--accent-ink);color:var(--surface);
+  font-size:10.5px;line-height:18px;text-align:center}
+.cut-card .unit{color:var(--ink-70);font-weight:400}
+.leaves-card{flex:1 1 210px;padding:14px 16px;display:flex;flex-direction:column}
+.leaves-title{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.leaves-size{margin-top:8px;display:flex;align-items:baseline;gap:10px}
+.leaves-size .value{font-family:'Fraunces',serif;font-size:48px;font-weight:700;line-height:1}
+.leaves-size .key,.leaves-conf{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-70)}
+.leaves-conf{margin-top:12px;display:flex;justify-content:space-between}
+.leaves-conf .value{color:var(--ink);font-weight:500}
+/* the confidence as a bar: its length is the number beside it, written by demo_reports.py */
+.conf-bar{margin-top:4px;height:6px;border-radius:3px;background:rgba(30,36,48,.09);overflow:hidden}
+.conf-bar .fill{height:100%;width:calc(var(--value) * 100%);background:var(--ink)}
+.leaves-off{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.leaves-off .chip{font-size:11.5px;padding:2px 8px}
+.leaves-off .chip.off{opacity:.45}
+.leaves-level{margin-top:auto;padding-top:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-70)}
 
 /* the buttons, as in the builder */
 .actions{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
@@ -115,12 +179,8 @@ h1 .tagline{font-weight:400;font-style:italic;font-size:.52em;display:block;marg
 .btn.ghost{background:transparent;color:var(--ink)}
 .btn.ghost:hover{background:rgba(30,36,48,.05);border-color:var(--ink)}
 
-/* the mark, clean: the annotated version lives in the guide */
-.hero-logo{display:flex;justify-content:center}
-.hero-logo svg{width:min(240px,60vw);height:auto;filter:drop-shadow(0 8px 22px rgba(30,42,56,.12))}
-
 /* ---------- tailor's tape divider, as in the guide and the builder ---------- */
-.metro{margin:44px 0 0;user-select:none}
+.metro{margin:48px 0 0;user-select:none}
 .metro .tacche{height:16px;background:
   repeating-linear-gradient(90deg, var(--tape-ink) 0 1px, transparent 1px 7px),
   var(--tape);
@@ -199,8 +259,6 @@ footer .legal a{color:var(--accent-ink)}
 @media(max-width:640px){footer .legal{flex-direction:column;gap:8px}}
 
 @media (max-width:760px){
-  .hero{grid-template-columns:1fr}
-  .hero-logo{order:-1}
   .cards,.docs,.scope-list{grid-template-columns:1fr}
   .vault-row{grid-template-columns:1fr}
   .vault-level{padding-bottom:4px;background:transparent}
@@ -280,7 +338,7 @@ footer .legal a{color:var(--accent-ink)}
   <div class="hero">
     <div class="hero-text">
       <p class="eyebrow">
-        v0.1 draft · standard ouvert · un projet personnel de <a class="credit"href="https://github.com/antferr">antferr</a>
+        v0.1 draft · standard ouvert · un projet personnel de <a class="credit" href="https://github.com/antferr">antferr</a>
       </p>
       <h1>Agio&nbsp;Fit
         <span class="tagline">votre profil de bien-aller vous appartient. Partout.</span>
@@ -292,16 +350,132 @@ footer .legal a{color:var(--accent-ink)}
       </p>
       <div class="actions">
         <a class="btn" href="/fr/guide/">Comment ça marche</a>
-        <a class="btn ghost" href="https://github.com/agiofit/agiofit">Spécification &amp; code</a>
+        <a class="btn ghost" href="/builder/" hreflang="en">Mesurez un vêtement</a>
       </div>
+      <p class="agio"><span class="word">agio</span> <span class="ipa">/ˈadʒo/</span> : en couture, l'aisance ménagée entre le corps et le vêtement. Le logo le dessine comme l'espace entre l'anneau et le disque.</p>
     </div>
 
-    <!-- the mark, clean: the annotated version lives in the guide -->
-    <div class="hero-logo" aria-hidden="false">
-      <svg viewBox="0 0 240 240" role="img" aria-label="Agio Fit — logo">
-        <circle cx="120" cy="120" r="84" fill="none" stroke="#c96f4a" stroke-width="15"/>
-        <circle cx="120" cy="120" r="42" fill="#1e2430"/>
-      </svg>
+    <div class="hero-art">
+      <figure class="hero-figure">
+        <p class="figure-title">Chemise d'exemple · taille 41 · à plat</p>
+        <p class="visually-hidden" id="hero-shirt-desc">Une chemise posée à plat avec cinq points de mesure : 1 tour de col, 42 cm ; 2 largeur d'épaules, 46,5 cm ; 3 largeur de poitrine, 58 cm ; 4 largeur de taille, 54 cm ; 5 longueur de manche, 65 cm.</p>
+        <!--
+          The shirt laid flat, one drawing for the whole site, as in the guide: geometry as it is,
+          values of size 41 in examples/cut-shirt.json, written once. A width is a solid line
+          across the garment (half the way round), the collar a dashed ring (the whole way round).
+        -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="shirt" viewBox="0 22 600 418" width="600" height="418" role="img" aria-labelledby="hero-shirt-desc">
+          <!-- the garment -->
+          <g class="garment">
+            <path class="cloth" d="M197.7 100 L63.4 352.5 L110.2 377.4 L172.4 200 C178 170 190 135 197.7 100 Z"/>
+            <path class="cloth" d="M402.3 100 L536.6 352.5 L489.8 377.4 L427.6 200 C422 170 410 135 402.3 100 Z"/>
+            <path class="cloth" d="M268 78 L197.7 100 C190 135 178 170 172.4 200 L181.2 300 L177 386 C177 392 180 396 186 397 C230 402 262 428 300 430 C338 428 370 402 414 397 C420 396 423 392 423 386 L418.8 300 L427.6 200 C422 170 410 135 402.3 100 L332 78 Z"/>
+            <path class="collar-in" d="M270 81 Q300 64 330 81 L300 101 Z"/>
+            <path class="collar" d="M266 79 Q300 54 334 79 L330 81 Q300 64 270 81 Z"/>
+            <path class="collar" d="M266 79 L281 124 L300 101 L270 81 Z"/>
+            <path class="collar" d="M334 79 L319 124 L300 101 L330 81 Z"/>
+            <line class="seam" x1="293.5" y1="106" x2="293.5" y2="429"/>
+            <line class="seam" x1="306.5" y1="106" x2="306.5" y2="429"/>
+            <line class="seam" x1="75.6" y1="329.5" x2="118.3" y2="354.4"/>
+            <line class="seam" x1="524.4" y1="329.5" x2="481.7" y2="354.4"/>
+            <circle class="button" cx="300" cy="105" r="2.2"/>
+            <circle class="button" cx="300" cy="142" r="2.6"/>
+            <circle class="button" cx="300" cy="176" r="2.6"/>
+            <circle class="button" cx="300" cy="246" r="2.6"/>
+            <circle class="button" cx="300" cy="336" r="2.6"/>
+            <circle class="button" cx="300" cy="374" r="2.6"/>
+            <circle class="button" cx="91.9" cy="353.5" r="2.2"/>
+            <circle class="button" cx="508.1" cy="353.5" r="2.2"/>
+          </g>
+
+          <!-- 1 neck_circumference: the collar, the whole way round -->
+          <g class="m" data-key="neck_circumference">
+            <path class="dim round" d="M300 105 C 254 102 252 64 300 61 C 348 64 346 102 300 105 Z"/>
+            <line class="dim lead" x1="263" y1="90" x2="242" y2="108"/>
+            <rect class="label-bg" x="206" y="104" width="64" height="20" rx="3"/>
+            <circle class="badge" cx="217" cy="114" r="8"/>
+            <text class="badge-n" x="217" y="114" text-anchor="middle" dominant-baseline="central">1</text>
+            <text class="val" x="229" y="118.3"><tspan class="num">42</tspan><tspan class="unit" dx="4">cm</tspan></text>
+          </g>
+
+          <!-- 2 shoulder_width: seam to seam, a straight line -->
+          <g class="m" data-key="shoulder_width">
+            <line class="dim ext" x1="197.7" y1="33" x2="197.7" y2="93"/>
+            <line class="dim ext" x1="402.3" y1="33" x2="402.3" y2="93"/>
+            <line class="dim" x1="197.7" y1="40" x2="402.3" y2="40"/>
+            <path class="dim" d="M193.7 44 L201.7 36 M398.3 44 L406.3 36"/>
+            <rect class="label-bg off" x="268" y="30" width="82" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="40" r="8"/>
+            <text class="badge-n" x="279" y="40" text-anchor="middle" dominant-baseline="central">2</text>
+            <text class="val" x="291" y="44.3"><tspan class="num">46.5</tspan><tspan class="unit" dx="4">cm</tspan></text>
+          </g>
+
+          <!-- 3 chest_width: across, half the way round -->
+          <g class="m" data-key="chest_width">
+            <line class="dim" x1="172.4" y1="209" x2="427.6" y2="209"/>
+            <path class="dim" d="M168.4 213 L176.4 205 M423.6 213 L431.6 205"/>
+            <rect class="label-bg" x="268" y="199" width="68" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="209" r="8"/>
+            <text class="badge-n" x="279" y="209" text-anchor="middle" dominant-baseline="central">3</text>
+            <text class="val" x="291" y="213.3"><tspan class="num">58</tspan><tspan class="unit" dx="4">cm</tspan></text>
+          </g>
+
+          <!-- 4 waist_width: across, half the way round -->
+          <g class="m" data-key="waist_width">
+            <line class="dim" x1="181.2" y1="300" x2="418.8" y2="300"/>
+            <path class="dim" d="M177.2 304 L185.2 296 M414.8 304 L422.8 296"/>
+            <rect class="label-bg" x="268" y="290" width="68" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="300" r="8"/>
+            <text class="badge-n" x="279" y="300" text-anchor="middle" dominant-baseline="central">4</text>
+            <text class="val" x="291" y="304.3"><tspan class="num">54</tspan><tspan class="unit" dx="4">cm</tspan></text>
+          </g>
+
+          <!-- 5 sleeve_length: shoulder seam to the edge of the cuff -->
+          <g class="m" data-key="sleeve_length">
+            <line class="dim ext" x1="405.8" y1="98.1" x2="428.8" y2="85.9"/>
+            <line class="dim ext" x1="540.1" y1="350.6" x2="563.1" y2="338.4"/>
+            <line class="dim" x1="423.5" y1="88.7" x2="557.8" y2="341.2"/>
+            <path class="dim" d="M418.2 87.1 L428.8 90.3 M552.5 339.6 L563.1 342.8"/>
+            <rect class="label-bg off" x="477" y="205" width="68" height="20" rx="3"/>
+            <circle class="badge" cx="488" cy="215" r="8"/>
+            <text class="badge-n" x="488" y="215" text-anchor="middle" dominant-baseline="central">5</text>
+            <text class="val" x="500" y="219.3"><tspan class="num">65</tspan><tspan class="unit" dx="4">cm</tspan></text>
+          </g>
+        </svg>
+        <figcaption class="figure-caption">À plat, boutonnée, sans la tendre. Poitrine et taille font la moitié du tour ; le col, le tour complet.</figcaption>
+      </figure>
+
+      <div class="hero-cards">
+        <!-- the same five numbers as the drawing, in its order -->
+        <div class="hero-card cut-card">
+          <div class="cut-head">
+            <p class="cut-title">Cut Profile</p>
+            <p class="cut-note">public · au vendeur</p>
+          </div>
+          <dl>
+            <div><dt><span class="no" aria-hidden="true">1</span> neck_circumference</dt><dd>42 <span class="unit">cm</span></dd></div>
+            <div><dt><span class="no" aria-hidden="true">2</span> shoulder_width</dt><dd>46.5 <span class="unit">cm</span></dd></div>
+            <div><dt><span class="no" aria-hidden="true">3</span> chest_width</dt><dd>58 <span class="unit">cm</span></dd></div>
+            <div><dt><span class="no" aria-hidden="true">4</span> waist_width</dt><dd>54 <span class="unit">cm</span></dd></div>
+            <div><dt><span class="no" aria-hidden="true">5</span> sleeve_length</dt><dd>65 <span class="unit">cm</span></dd></div>
+          </dl>
+        </div>
+
+        <!-- the mature profile's report at result_only, as the reference gives it: the numbers
+             between the ref markers, and the bar's value, are written by demo_reports.py -->
+        <div class="hero-card leaves-card">
+          <p class="leaves-title">Ce qui sort de votre vault</p>
+          <p class="leaves-size"><span class="value"><!-- ref:mature/result_only/recommended_size -->41<!-- /ref:mature/result_only/recommended_size --></span> <span class="key">recommended_size</span></p>
+          <p class="leaves-conf"><span>confidence</span> <span class="value"><!-- ref:mature/result_only/confidence -->0.84<!-- /ref:mature/result_only/confidence --></span></p>
+          <div class="conf-bar" aria-hidden="true"><div class="fill" data-ref="mature/result_only/confidence" style="--value:0.84"></div></div>
+          <p class="leaves-off">
+            <span class="visually-hidden">hors du rapport :</span>
+            <span class="chip off">mensurations</span>
+            <span class="chip off">aisance en cm</span>
+          </p>
+          <p class="leaves-level">disclosure_level: result_only</p>
+        </div>
+      </div>
     </div>
   </div>
 
