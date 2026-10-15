@@ -16,7 +16,8 @@ source, the mature profile's size and confidence at each level, the names in HOM
 Every name in a page's list must be there, and no other. A bar cannot hold a comment inside
 an attribute, so it carries its number as data-ref="NAME" followed at once by
 style="--value:X": X is rewritten from the same report and must be a number between 0 and 1.
-An unknown data-ref, or one without that style right after it, stops the script.
+An unknown data-ref, or one without that style right after it, stops the script; so does a
+bar in HOME_BARS that the home does not carry exactly once.
 Each profile is read as of its own updated_at. The reference counts how old a measurement is
 from the day of the calculation, and the demo must not change with the calendar.
 
@@ -71,6 +72,8 @@ HOME_MARKERS = [f"mature/{level}/{key}"
                 for key in ("recommended_size", "confidence")]
 # A bar's number: data-ref="NAME", then style="--value:X" right after it.
 BAR = re.compile(r'data-ref="([^"]*)"(\s+style="--value:[^"]*")?')
+# The bars the home must carry, each exactly once: the confidence bar of its header.
+HOME_BARS = ["mature/result_only/confidence"]
 
 # The sentences the reference writes into caveats, improve_by and notes, in the other two
 # languages. A report with a sentence missing here stops the script.
@@ -299,6 +302,10 @@ def run(clone: Path, write: bool) -> int:
         home = f.read()
     new_home, home_found = update_markers(home, data, HOME_MARKERS, rel(HOME))
     new_home, home_bars = update_bars(new_home, data, HOME_MARKERS, rel(HOME))
+    for name in HOME_BARS:
+        n = home_bars.get(name, 0)
+        if n != 1:
+            raise Stop(f'{rel(HOME)}: the bar data-ref="{name}" is there {n} times, expected once')
 
     print(f"\n  reference  {clone}  commit {commit}")
     print(f"  tests      {tests}")

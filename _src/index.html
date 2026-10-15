@@ -181,12 +181,12 @@ h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-
 .btn.ghost:hover{background:rgba(30,36,48,.05);border-color:var(--ink)}
 
 /* ---------- tailor's tape divider, as in the guide and the builder ---------- */
-.metro{margin:48px 0 0;user-select:none}
-.metro .tacche{height:16px;background:
+.ruler{margin:48px 0 0;user-select:none}
+.ruler .ruler-ticks{height:16px;background:
   repeating-linear-gradient(90deg, var(--tape-ink) 0 1px, transparent 1px 7px),
   var(--tape);
   border-radius:3px 3px 0 0;border:1px solid var(--tape-ink);border-bottom:0}
-.metro .numeri{display:flex;justify-content:space-between;border:1px solid var(--tape-ink);border-top:0;
+.ruler .ruler-numbers{display:flex;justify-content:space-between;border:1px solid var(--tape-ink);border-top:0;
   background:var(--tape);border-radius:0 0 3px 3px;
   padding:0 6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--tape-ink);letter-spacing:1px}
 
@@ -293,7 +293,7 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);l
 footer{margin-top:80px}
 footer .legal{border-top:1px solid var(--rule);padding-top:22px;
   font-size:13px;color:var(--ink-70);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer .legal .mono-piccolo{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
+footer .legal .mono-small{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
 footer .legal a{color:var(--accent-ink)}
 @media(max-width:640px){footer .legal{flex-direction:column;gap:8px}}
 
@@ -512,9 +512,9 @@ footer .legal a{color:var(--accent-ink)}
     </div>
   </div>
 
-  <div class="metro" aria-hidden="true">
-    <div class="tacche"></div>
-    <div class="numeri"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span></div>
+  <div class="ruler" aria-hidden="true">
+    <div class="ruler-ticks"></div>
+    <div class="ruler-numbers"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span></div>
   </div>
 </header>
 
@@ -732,7 +732,7 @@ footer .legal a{color:var(--accent-ink)}
 <footer>
   <div class="legal">
     <span>© 2026 Antonio Ferraioli · Agio Fit · <span class="it">un progetto personale di <a href="https://github.com/antferr">antferr</a></span><span class="en">a personal project by <a href="https://github.com/antferr">antferr</a></span><span class="fr">un projet personnel de <a href="https://github.com/antferr">antferr</a></span></span>
-    <span class="mono-piccolo">spec: CC BY 4.0 · code: Apache-2.0 · <a href="https://github.com/agiofit">github.com/agiofit</a></span>
+    <span class="mono-small">spec: CC BY 4.0 · code: Apache-2.0 · <a href="https://github.com/agiofit">github.com/agiofit</a></span>
   </div>
 </footer>
 
