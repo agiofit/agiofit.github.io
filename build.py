@@ -19,7 +19,8 @@ Before writing, every page is checked: no element of another language left, span
 balanced, every head text translated, no call to setLang left, and in the site bar one
 language group holding three links to the right pages, in order, with only the page's own
 language marked current. The builder's "Measured by" and "Cut" options are checked against
-the schema the builder validates with. If one check fails, nothing is written.
+the schema the builder validates with. If one check fails, nothing is written. Each file
+written is read back at once; if one does not hold what was meant, nothing more is written.
 
     _src/index.html        ->  /index.html        /it/index.html        /fr/index.html
     _src/guide/index.html  ->  /guide/index.html  /it/guide/index.html  /fr/guide/index.html
@@ -272,6 +273,14 @@ def build_page(source: str, page: str, lang: str) -> str:
     return h
 
 
+def write_and_read_back(target: Path, text: str) -> bool:
+    """Write a file, then read it back: it only counts as written if it holds what was meant."""
+    with open(target, "w", encoding="utf-8", newline="") as f:
+        f.write(text)
+    with open(target, encoding="utf-8", newline="") as f:
+        return f.read() == text
+
+
 class SelectOptions(HTMLParser):
     """The option values of the <select> elements with the given ids."""
 
@@ -417,16 +426,21 @@ def main() -> int:
         print("To write for real:  python build.py --write\n")
         return 0
 
-    for page, lang, html in plan:
-        target = ROOT / out_path(page, lang) / "index.html"
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(html, encoding="utf-8", newline="")
-
     rows = "\n".join(f"  <url><loc>{u}</loc></url>" for u in sitemap_urls)
-    (ROOT / "sitemap.xml").write_text(
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        + rows + "\n</urlset>\n", encoding="utf-8", newline="")
+    sitemap = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+               + rows + "\n</urlset>\n")
+    writes = [(ROOT / out_path(page, lang) / "index.html", html) for page, lang, html in plan]
+    writes.append((ROOT / "sitemap.xml", sitemap))
+
+    # each file is read back before the next one is written: at the first one that does not
+    # hold what was meant, nothing more is written
+    for target, text in writes:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if not write_and_read_back(target, text):
+            rel = str(target.relative_to(ROOT)).replace("\\", "/")
+            print(f"\n  Nothing more written: {rel} read back differs\n")
+            return 1
 
     print("\nWritten, sitemap included.\n")
     return 0
