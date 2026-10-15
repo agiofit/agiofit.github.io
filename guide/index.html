@@ -164,6 +164,65 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);l
 /* the multilingual comments inside the examples stay inline */
 .json-box .it,.json-box .en,.json-box .fr{white-space:pre}
 
+/* ---------- where the tape goes ---------- */
+.tape{margin-top:56px}
+.tape h3{font-family:'Fraunces',serif;font-size:24px;font-weight:600;line-height:1.25}
+.tape-intro{margin-top:10px;color:var(--ink-70);max-width:64ch}
+/* drawing and buttons side by side; the drawing goes on top when they do not fit */
+.tape-body{display:flex;flex-wrap:wrap;align-items:flex-start;gap:28px 40px;margin-top:24px}
+.tape-figure{flex:1.1 1 420px;min-width:0;margin:0}
+.tape-figure svg{display:block;width:100%;height:auto}
+.tape-caption{margin-top:10px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-70)}
+.tape-keys{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.tape-keys button{display:grid;grid-template-columns:20px 1fr;column-gap:12px;align-items:start;width:100%;
+  text-align:left;font:inherit;color:inherit;cursor:pointer;
+  background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:12px 14px}
+.tape-keys button:hover{border-color:#C9C3B4}
+.tape-keys button[aria-pressed="true"]{background:var(--highlight);border-color:var(--accent)}
+.tape-keys .no{grid-column:1;grid-row:1 / 3;display:flex;align-items:center;justify-content:center;
+  width:20px;height:20px;margin-top:1px;border-radius:50%;background:var(--accent-ink);color:var(--surface);
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:500}
+.tape-keys .key{grid-column:2;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;color:var(--ink)}
+.tape-keys .def{grid-column:2;margin-top:2px;font-size:14px;line-height:1.5;color:var(--ink-70)}
+/* what the suffix of a name says */
+.suffixes{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:24px}
+.suffixes div{display:flex;align-items:baseline;gap:8px}
+.suffixes dt{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink)}
+.suffixes dd{font-size:14px;color:var(--ink-70)}
+.translation-note{margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-70)}
+.translation-note a{color:var(--accent-ink)}
+/* the definitions are not proven yet: say so, and point at the builder */
+.proven{margin-top:24px;display:flex;flex-wrap:wrap;align-items:center;gap:14px 28px;
+  background:var(--highlight);border:1px solid color-mix(in srgb, var(--tape) 45%, var(--highlight));
+  border-radius:var(--radius);padding:16px 18px}
+.proven-text{flex:1 1 420px;min-width:0;font-size:14.5px;color:var(--ink-70)}
+.proven-text b{color:var(--ink)}
+.proven-cta{flex:none;display:flex;flex-direction:column;align-items:center;gap:6px}
+a.cta{display:inline-flex;align-items:center;min-height:44px;padding:0 22px;border-radius:999px;
+  background:var(--ink);color:var(--paper);font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap}
+a.cta:hover{background:var(--ink-70)}
+.builder-note{font-size:12px;color:var(--ink-70)}
+
+/* the shirt laid flat, as in the builder: a width is a solid line, the collar a dashed ring.
+   Here the drawing sits on the paper, so the labels off the garment keep the paper colour */
+.shirt .cloth{fill:var(--surface);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.shirt .collar{fill:var(--surface);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.shirt .collar-in{fill:var(--paper)}
+.shirt .seam{fill:none;stroke:var(--ink-70);stroke-width:1}
+.shirt .button{fill:var(--surface);stroke:var(--ink-70);stroke-width:1}
+.shirt .dim{fill:none;stroke:var(--accent-ink);stroke-width:1.25;stroke-linecap:round}
+.shirt .dim.ext{stroke-width:.9;opacity:.75}
+.shirt .dim.lead{stroke-width:1}
+.shirt .dim.round{stroke-width:1.5;stroke-dasharray:4 3.5}
+.shirt .label-bg{fill:var(--surface)}
+.shirt .label-bg.off{fill:var(--paper)}
+.shirt .badge{fill:var(--accent-ink)}
+.shirt .badge-n{fill:var(--surface);font:500 10.5px 'IBM Plex Mono',monospace}
+.shirt .val{fill:var(--ink);font:500 12.5px 'IBM Plex Mono',monospace}
+.shirt .val .unit{fill:var(--ink-70);font-weight:400}
+.shirt .m{transition:opacity .2s}
+.shirt .m.dimmed{opacity:.16}
+
 /* ---------- the demo ---------- */
 .simulatore{margin-top:28px;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
 .sim-testa{padding:22px 24px 18px;border-bottom:1px dashed #D8D3C6}
@@ -459,6 +518,148 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
     // stripped at serialisation</span>
   }]
 }</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- where the tape goes: the shirt laid flat and the five measurement names a shirt uses -->
+  <div class="tape">
+    <h3>Where the tape goes</h3>
+    <p class="tape-intro">A name only earns a place in the standard list if the specification can say where to put the tape, precisely enough that two people measuring the same garment arrive at the same number. The specification defines sixteen; a shirt uses five. Pick one to see it on the garment.</p>
+    <div class="tape-body">
+      <figure class="tape-figure">
+        <p class="visually-hidden" id="shirt-desc">A shirt laid flat with five measuring points: 1 neck circumference, 42 cm; 2 shoulder width, 46.5 cm; 3 chest width, 58 cm; 4 waist width, 54 cm; 5 sleeve length, 65 cm.</p>
+        <!--
+          The shirt laid flat, one drawing for the whole site: geometry as it is, values of
+          size 41 in examples/cut-shirt.json. A width is a solid line across the garment (half
+          the way round), the collar a dashed ring (the whole way round). Each measurement is a
+          <g class="m" data-key="...">; the buttons beside it dim the others.
+        -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="shirt" viewBox="0 22 600 418" width="600" height="418" role="img" aria-labelledby="shirt-desc">
+          <!-- the garment -->
+          <g class="garment">
+            <path class="cloth" d="M197.7 100 L63.4 352.5 L110.2 377.4 L172.4 200 C178 170 190 135 197.7 100 Z"/>
+            <path class="cloth" d="M402.3 100 L536.6 352.5 L489.8 377.4 L427.6 200 C422 170 410 135 402.3 100 Z"/>
+            <path class="cloth" d="M268 78 L197.7 100 C190 135 178 170 172.4 200 L181.2 300 L177 386 C177 392 180 396 186 397 C230 402 262 428 300 430 C338 428 370 402 414 397 C420 396 423 392 423 386 L418.8 300 L427.6 200 C422 170 410 135 402.3 100 L332 78 Z"/>
+            <path class="collar-in" d="M270 81 Q300 64 330 81 L300 101 Z"/>
+            <path class="collar" d="M266 79 Q300 54 334 79 L330 81 Q300 64 270 81 Z"/>
+            <path class="collar" d="M266 79 L281 124 L300 101 L270 81 Z"/>
+            <path class="collar" d="M334 79 L319 124 L300 101 L330 81 Z"/>
+            <line class="seam" x1="293.5" y1="106" x2="293.5" y2="429"/>
+            <line class="seam" x1="306.5" y1="106" x2="306.5" y2="429"/>
+            <line class="seam" x1="75.6" y1="329.5" x2="118.3" y2="354.4"/>
+            <line class="seam" x1="524.4" y1="329.5" x2="481.7" y2="354.4"/>
+            <circle class="button" cx="300" cy="105" r="2.2"/>
+            <circle class="button" cx="300" cy="142" r="2.6"/>
+            <circle class="button" cx="300" cy="176" r="2.6"/>
+            <circle class="button" cx="300" cy="246" r="2.6"/>
+            <circle class="button" cx="300" cy="336" r="2.6"/>
+            <circle class="button" cx="300" cy="374" r="2.6"/>
+            <circle class="button" cx="91.9" cy="353.5" r="2.2"/>
+            <circle class="button" cx="508.1" cy="353.5" r="2.2"/>
+          </g>
+
+          <!-- 1 neck_circumference: the collar, the whole way round -->
+          <g class="m" data-key="neck_circumference">
+            <path class="dim round" d="M300 105 C 254 102 252 64 300 61 C 348 64 346 102 300 105 Z"/>
+            <line class="dim lead" x1="263" y1="90" x2="242" y2="108"/>
+            <rect class="label-bg" x="206" y="104" width="64" height="20" rx="3"/>
+            <circle class="badge" cx="217" cy="114" r="8"/>
+            <text class="badge-n" x="217" y="114" text-anchor="middle" dominant-baseline="central">1</text>
+            <text class="val" x="229" y="118.3"><tspan class="num">42</tspan><tspan class="unit" dx="4">cm</tspan></text>
+          </g>
+
+          <!-- 2 shoulder_width: seam to seam, a straight line -->
+          <g class="m" data-key="shoulder_width">
+            <line class="dim ext" x1="197.7" y1="33" x2="197.7" y2="93"/>
+            <line class="dim ext" x1="402.3" y1="33" x2="402.3" y2="93"/>
+            <line class="dim" x1="197.7" y1="40" x2="402.3" y2="40"/>
+            <path class="dim" d="M193.7 44 L201.7 36 M398.3 44 L406.3 36"/>
+            <rect class="label-bg off" x="268" y="30" width="82" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="40" r="8"/>
+            <text class="badge-n" x="279" y="40" text-anchor="middle" dominant-baseline="central">2</text>
+            <text class="val" x="291" y="44.3"><tspan class="num">46.5</tspan><tspan class="unit" dx="4">cm</tspan></text>
+          </g>
+
+          <!-- 3 chest_width: across, half the way round -->
+          <g class="m" data-key="chest_width">
+            <line class="dim" x1="172.4" y1="209" x2="427.6" y2="209"/>
+            <path class="dim" d="M168.4 213 L176.4 205 M423.6 213 L431.6 205"/>
+            <rect class="label-bg" x="268" y="199" width="68" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="209" r="8"/>
+            <text class="badge-n" x="279" y="209" text-anchor="middle" dominant-baseline="central">3</text>
+            <text class="val" x="291" y="213.3"><tspan class="num">58</tspan><tspan class="unit" dx="4">cm</tspan></text>
+          </g>
+
+          <!-- 4 waist_width: across, half the way round -->
+          <g class="m" data-key="waist_width">
+            <line class="dim" x1="181.2" y1="300" x2="418.8" y2="300"/>
+            <path class="dim" d="M177.2 304 L185.2 296 M414.8 304 L422.8 296"/>
+            <rect class="label-bg" x="268" y="290" width="68" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="300" r="8"/>
+            <text class="badge-n" x="279" y="300" text-anchor="middle" dominant-baseline="central">4</text>
+            <text class="val" x="291" y="304.3"><tspan class="num">54</tspan><tspan class="unit" dx="4">cm</tspan></text>
+          </g>
+
+          <!-- 5 sleeve_length: shoulder seam to the edge of the cuff -->
+          <g class="m" data-key="sleeve_length">
+            <line class="dim ext" x1="405.8" y1="98.1" x2="428.8" y2="85.9"/>
+            <line class="dim ext" x1="540.1" y1="350.6" x2="563.1" y2="338.4"/>
+            <line class="dim" x1="423.5" y1="88.7" x2="557.8" y2="341.2"/>
+            <path class="dim" d="M418.2 87.1 L428.8 90.3 M552.5 339.6 L563.1 342.8"/>
+            <rect class="label-bg off" x="477" y="205" width="68" height="20" rx="3"/>
+            <circle class="badge" cx="488" cy="215" r="8"/>
+            <text class="badge-n" x="488" y="215" text-anchor="middle" dominant-baseline="central">5</text>
+            <text class="val" x="500" y="219.3"><tspan class="num">65</tspan><tspan class="unit" dx="4">cm</tspan></text>
+          </g>
+        </svg>
+        <figcaption class="tape-caption">The example shirt, size 41. Laid flat, fastened, not stretched.</figcaption>
+      </figure>
+
+      <!-- one button per measurement, in the order of the drawing -->
+      <div class="tape-keys">
+        <button type="button" aria-pressed="false" data-key="neck_circumference">
+          <span class="no">1</span>
+          <span class="key">neck_circumference</span>
+          <span class="def">Collar fastened and laid flat, measured along the collar from the centre of the button to the centre of the buttonhole. This is the whole circumference, not half of it, despite the garment being flat.</span>
+        </button>
+        <button type="button" aria-pressed="false" data-key="shoulder_width">
+          <span class="no">2</span>
+          <span class="key">shoulder_width</span>
+          <span class="def">From shoulder seam to shoulder seam across the back. This is a straight line and not half of anything, so it is the one exception to what <span class="mono">_width</span> means here; the name is kept because the trade uses it. A raglan or kimono garment has no shoulder seams and should leave this out rather than estimate.</span>
+        </button>
+        <button type="button" aria-pressed="false" data-key="chest_width">
+          <span class="no">3</span>
+          <span class="key">chest_width</span>
+          <span class="def">Across, from armhole seam to armhole seam, about 2 cm below the armhole.</span>
+        </button>
+        <button type="button" aria-pressed="false" data-key="waist_width">
+          <span class="no">4</span>
+          <span class="key">waist_width</span>
+          <span class="def">Across, at the narrowest point. Where the garment does not narrow, halfway between armhole and hem.</span>
+        </button>
+        <button type="button" aria-pressed="false" data-key="sleeve_length">
+          <span class="no">5</span>
+          <span class="key">sleeve_length</span>
+          <span class="def">From the shoulder seam to the edge of the cuff, following the sleeve. On a raglan, from the base of the collar, which should be said in a note.</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- what the suffix of a name says -->
+    <dl class="suffixes">
+      <div><dt>_width</dt><dd>measured flat and across: half the circumference</dd></div>
+      <div><dt>_circumference</dt><dd>the whole way round</dd></div>
+      <div><dt>_length</dt><dd>runs along the garment</dd></div>
+    </dl>
+    <!-- Italian and French only: the English definitions are the specification's own words -->
+    
+
+    <div class="proven">
+      <p class="proven-text"><b>These definitions are not yet proven.</b> They were written from how the trade publishes its own measurements and from internal consistency, not from a table with a tape on it. They have not been checked against sewing or pattern-making practice. Two people measuring the same garment and getting different numbers is the failure that matters here, and reporting one is the most useful contribution this version can receive.</p>
+      <div class="proven-cta">
+        <a class="cta" href="/builder/" hreflang="en">Measure a garment</a>
+        
       </div>
     </div>
   </div>
@@ -1165,6 +1366,21 @@ document.querySelectorAll('.doc button[aria-controls]').forEach(function(btn){
     var open = btn.getAttribute('aria-expanded') !== 'true';
     btn.setAttribute('aria-expanded', open);
     document.getElementById(btn.getAttribute('aria-controls')).hidden = !open;
+  });
+});
+
+// ---------- where the tape goes: one measurement at a time on the drawing ----------
+// pressing a button keeps its measurement full and dims the others; pressing it again
+// releases it and the whole drawing comes back
+var tapeButtons = document.querySelectorAll('.tape-keys button');
+tapeButtons.forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var press = btn.getAttribute('aria-pressed') !== 'true';
+    var key = btn.getAttribute('data-key');
+    tapeButtons.forEach(function(b){ b.setAttribute('aria-pressed', String(b === btn && press)); });
+    document.querySelectorAll('.shirt .m').forEach(function(g){
+      g.classList.toggle('dimmed', press && g.getAttribute('data-key') !== key);
+    });
   });
 });
 document.getElementById('btn-sim-json').addEventListener('click', function(){
