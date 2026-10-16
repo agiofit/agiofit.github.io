@@ -830,11 +830,11 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
   </p>
   <div class="terminal">
     <div class="term-bar" aria-hidden="true"><span></span><span></span><span></span></div>
-    <pre><span class="cmt"># installation et vérification (<!-- ref:tests -->66<!-- /ref:tests --> tests, tous doivent passer)</span>
+    <pre><span class="cmt"># installation et vérification (<!-- ref:tests -->79<!-- /ref:tests --> tests, tous doivent passer)</span>
 <span class="prompt">$</span> cd agiofit/reference
 <span class="prompt">$</span> pip install -e ".[dev]"
 <span class="prompt">$</span> pytest
-<span class="out"><!-- ref:tests -->66<!-- /ref:tests --> passed</span>
+<span class="out"><!-- ref:tests -->79<!-- /ref:tests --> passed</span>
 
 <span class="cmt"># profil mature : sans niveau, c’est celui de la personne qui s’applique (result_only), ici on demande explained</span>
 <span class="prompt">$</span> python -m agiofit.cli ../examples/profile-mature.json ../examples/cut-shirt.json explained
@@ -876,7 +876,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
 
 <footer>
   <p class="demo-note">
-  Agio Fit v0.1 · interface de démonstration · les réponses affichées sont générées par l’implémentation de référence (agiofit@<!-- ref:commit -->10afa12<!-- /ref:commit -->) ; l’algorithme n’est pas normatif, la forme de la réponse l’est</p>
+  Agio Fit v0.1 · interface de démonstration · les réponses affichées sont générées par l’implémentation de référence (agiofit@<!-- ref:commit -->3cdad2c<!-- /ref:commit -->) ; l’algorithme n’est pas normatif, la forme de la réponse l’est</p>
   <div class="legal">
     <span>© 2026 Antonio Ferraioli · Agio Fit · un projet personnel de <a href="https://github.com/antferr">antferr</a></span>
     <span class="mono-small">spec: CC BY 4.0 · code: Apache-2.0 · <a href="https://github.com/agiofit">github.com/agiofit</a></span>
@@ -887,8 +887,8 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
 <!-- reference-reports:start -->
 <script type="application/json" id="reference-reports">
 {
-  "commit": "10afa12",
-  "tests": 66,
+  "commit": "3cdad2c",
+  "tests": 79,
   "default_level": {
     "mature": "result_only",
     "cold-start": "result_only"
@@ -903,8 +903,8 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
         "confidence": 0.84,
         "correctable": true,
         "based_on": {
-          "body_signals": 7,
-          "preference_signals": 4,
+          "body_signals": 5,
+          "preference_signals": 2,
           "history_signals": 3,
           "brand_specific_history_signals": 3,
           "learned_offset_applied": true
@@ -923,8 +923,8 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
         "confidence": 0.84,
         "correctable": true,
         "based_on": {
-          "body_signals": 7,
-          "preference_signals": 4,
+          "body_signals": 5,
+          "preference_signals": 2,
           "history_signals": 3,
           "brand_specific_history_signals": 3,
           "learned_offset_applied": true
@@ -984,8 +984,8 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
         "confidence": 0.84,
         "correctable": true,
         "based_on": {
-          "body_signals": 7,
-          "preference_signals": 4,
+          "body_signals": 5,
+          "preference_signals": 2,
           "history_signals": 3,
           "brand_specific_history_signals": 3,
           "learned_offset_applied": true
@@ -1070,8 +1070,8 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
         "confidence": 0.84,
         "correctable": true,
         "based_on": {
-          "body_signals": 7,
-          "preference_signals": 4,
+          "body_signals": 5,
+          "preference_signals": 2,
           "history_signals": 3,
           "brand_specific_history_signals": 3,
           "learned_offset_applied": true
@@ -1159,7 +1159,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
         "correctable": true,
         "based_on": {
           "body_signals": 0,
-          "preference_signals": 1,
+          "preference_signals": 0,
           "history_signals": 1,
           "brand_specific_history_signals": 1,
           "learned_offset_applied": false
@@ -1183,7 +1183,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
         "correctable": true,
         "based_on": {
           "body_signals": 0,
-          "preference_signals": 1,
+          "preference_signals": 0,
           "history_signals": 1,
           "brand_specific_history_signals": 1,
           "learned_offset_applied": false
@@ -1216,7 +1216,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
         "correctable": true,
         "based_on": {
           "body_signals": 0,
-          "preference_signals": 1,
+          "preference_signals": 0,
           "history_signals": 1,
           "brand_specific_history_signals": 1,
           "learned_offset_applied": false
@@ -1249,7 +1249,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
         "correctable": true,
         "based_on": {
           "body_signals": 0,
-          "preference_signals": 1,
+          "preference_signals": 0,
           "history_signals": 1,
           "brand_specific_history_signals": 1,
           "learned_offset_applied": false
@@ -1277,16 +1277,16 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
   },
   "reports_text": {
     "mature": {
-      "result_only": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"result_only\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.84,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 7,\n    \"preference_signals\": 4,\n    \"history_signals\": 3,\n    \"brand_specific_history_signals\": 3,\n    \"learned_offset_applied\": true\n  },\n  \"caveats\": [],\n  \"improve_by\": [\n    \"Add a measurement for thigh circumference.\",\n    \"Re-measure with a tape: arm_length, inseam.\"\n  ]\n}",
-      "explained": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"explained\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.84,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 7,\n    \"preference_signals\": 4,\n    \"history_signals\": 3,\n    \"brand_specific_history_signals\": 3,\n    \"learned_offset_applied\": true\n  },\n  \"caveats\": [],\n  \"improve_by\": [\n    \"Add a measurement for thigh circumference.\",\n    \"Re-measure with a tape: arm_length, inseam.\"\n  ],\n  \"alternatives\": [\n    {\n      \"size_label\": \"42\",\n      \"score\": 0.95\n    },\n    {\n      \"size_label\": \"40\",\n      \"score\": 0.86\n    },\n    {\n      \"size_label\": \"39\",\n      \"score\": 0.65\n    }\n  ],\n  \"explanation\": [\n    {\n      \"zone\": \"chest\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false\n    },\n    {\n      \"zone\": \"waist\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false\n    },\n    {\n      \"zone\": \"neck\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true\n    },\n    {\n      \"zone\": \"shoulders\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true\n    },\n    {\n      \"zone\": \"sleeve_length\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false\n    }\n  ]\n}",
-      "scoped": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"scoped\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.84,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 7,\n    \"preference_signals\": 4,\n    \"history_signals\": 3,\n    \"brand_specific_history_signals\": 3,\n    \"learned_offset_applied\": true\n  },\n  \"caveats\": [],\n  \"improve_by\": [\n    \"Add a measurement for thigh circumference.\",\n    \"Re-measure with a tape: arm_length, inseam.\"\n  ],\n  \"alternatives\": [\n    {\n      \"size_label\": \"42\",\n      \"score\": 0.95\n    },\n    {\n      \"size_label\": \"40\",\n      \"score\": 0.86\n    },\n    {\n      \"size_label\": \"39\",\n      \"score\": 0.65\n    }\n  ],\n  \"explanation\": [\n    {\n      \"zone\": \"chest\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 16.0,\n      \"intended_ease_cm\": [\n        12.0,\n        20.0\n      ]\n    },\n    {\n      \"zone\": \"waist\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 20.0,\n      \"intended_ease_cm\": [\n        12.0,\n        26.0\n      ]\n    },\n    {\n      \"zone\": \"neck\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true,\n      \"ease_cm\": 2.0,\n      \"intended_ease_cm\": [\n        1.0,\n        2.5\n      ]\n    },\n    {\n      \"zone\": \"shoulders\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true,\n      \"ease_cm\": 0.5,\n      \"intended_ease_cm\": [\n        0.5,\n        2.5\n      ]\n    },\n    {\n      \"zone\": \"sleeve_length\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 2.0,\n      \"intended_ease_cm\": [\n        -1.0,\n        2.5\n      ]\n    }\n  ]\n}",
-      "full": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"full\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.84,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 7,\n    \"preference_signals\": 4,\n    \"history_signals\": 3,\n    \"brand_specific_history_signals\": 3,\n    \"learned_offset_applied\": true\n  },\n  \"caveats\": [],\n  \"improve_by\": [\n    \"Add a measurement for thigh circumference.\",\n    \"Re-measure with a tape: arm_length, inseam.\"\n  ],\n  \"alternatives\": [\n    {\n      \"size_label\": \"42\",\n      \"score\": 0.95\n    },\n    {\n      \"size_label\": \"40\",\n      \"score\": 0.86\n    },\n    {\n      \"size_label\": \"39\",\n      \"score\": 0.65\n    }\n  ],\n  \"explanation\": [\n    {\n      \"zone\": \"chest\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 16.0,\n      \"intended_ease_cm\": [\n        12.0,\n        20.0\n      ]\n    },\n    {\n      \"zone\": \"waist\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 20.0,\n      \"intended_ease_cm\": [\n        12.0,\n        26.0\n      ]\n    },\n    {\n      \"zone\": \"neck\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true,\n      \"ease_cm\": 2.0,\n      \"intended_ease_cm\": [\n        1.0,\n        2.5\n      ]\n    },\n    {\n      \"zone\": \"shoulders\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true,\n      \"ease_cm\": 0.5,\n      \"intended_ease_cm\": [\n        0.5,\n        2.5\n      ]\n    },\n    {\n      \"zone\": \"sleeve_length\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 2.0,\n      \"intended_ease_cm\": [\n        -1.0,\n        2.5\n      ]\n    }\n  ]\n}"
+      "result_only": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"result_only\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.84,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 5,\n    \"preference_signals\": 2,\n    \"history_signals\": 3,\n    \"brand_specific_history_signals\": 3,\n    \"learned_offset_applied\": true\n  },\n  \"caveats\": [],\n  \"improve_by\": [\n    \"Add a measurement for thigh circumference.\",\n    \"Re-measure with a tape: arm_length, inseam.\"\n  ]\n}",
+      "explained": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"explained\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.84,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 5,\n    \"preference_signals\": 2,\n    \"history_signals\": 3,\n    \"brand_specific_history_signals\": 3,\n    \"learned_offset_applied\": true\n  },\n  \"caveats\": [],\n  \"improve_by\": [\n    \"Add a measurement for thigh circumference.\",\n    \"Re-measure with a tape: arm_length, inseam.\"\n  ],\n  \"alternatives\": [\n    {\n      \"size_label\": \"42\",\n      \"score\": 0.95\n    },\n    {\n      \"size_label\": \"40\",\n      \"score\": 0.86\n    },\n    {\n      \"size_label\": \"39\",\n      \"score\": 0.65\n    }\n  ],\n  \"explanation\": [\n    {\n      \"zone\": \"chest\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false\n    },\n    {\n      \"zone\": \"waist\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false\n    },\n    {\n      \"zone\": \"neck\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true\n    },\n    {\n      \"zone\": \"shoulders\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true\n    },\n    {\n      \"zone\": \"sleeve_length\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false\n    }\n  ]\n}",
+      "scoped": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"scoped\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.84,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 5,\n    \"preference_signals\": 2,\n    \"history_signals\": 3,\n    \"brand_specific_history_signals\": 3,\n    \"learned_offset_applied\": true\n  },\n  \"caveats\": [],\n  \"improve_by\": [\n    \"Add a measurement for thigh circumference.\",\n    \"Re-measure with a tape: arm_length, inseam.\"\n  ],\n  \"alternatives\": [\n    {\n      \"size_label\": \"42\",\n      \"score\": 0.95\n    },\n    {\n      \"size_label\": \"40\",\n      \"score\": 0.86\n    },\n    {\n      \"size_label\": \"39\",\n      \"score\": 0.65\n    }\n  ],\n  \"explanation\": [\n    {\n      \"zone\": \"chest\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 16.0,\n      \"intended_ease_cm\": [\n        12.0,\n        20.0\n      ]\n    },\n    {\n      \"zone\": \"waist\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 20.0,\n      \"intended_ease_cm\": [\n        12.0,\n        26.0\n      ]\n    },\n    {\n      \"zone\": \"neck\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true,\n      \"ease_cm\": 2.0,\n      \"intended_ease_cm\": [\n        1.0,\n        2.5\n      ]\n    },\n    {\n      \"zone\": \"shoulders\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true,\n      \"ease_cm\": 0.5,\n      \"intended_ease_cm\": [\n        0.5,\n        2.5\n      ]\n    },\n    {\n      \"zone\": \"sleeve_length\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 2.0,\n      \"intended_ease_cm\": [\n        -1.0,\n        2.5\n      ]\n    }\n  ]\n}",
+      "full": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"full\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.84,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 5,\n    \"preference_signals\": 2,\n    \"history_signals\": 3,\n    \"brand_specific_history_signals\": 3,\n    \"learned_offset_applied\": true\n  },\n  \"caveats\": [],\n  \"improve_by\": [\n    \"Add a measurement for thigh circumference.\",\n    \"Re-measure with a tape: arm_length, inseam.\"\n  ],\n  \"alternatives\": [\n    {\n      \"size_label\": \"42\",\n      \"score\": 0.95\n    },\n    {\n      \"size_label\": \"40\",\n      \"score\": 0.86\n    },\n    {\n      \"size_label\": \"39\",\n      \"score\": 0.65\n    }\n  ],\n  \"explanation\": [\n    {\n      \"zone\": \"chest\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 16.0,\n      \"intended_ease_cm\": [\n        12.0,\n        20.0\n      ]\n    },\n    {\n      \"zone\": \"waist\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 20.0,\n      \"intended_ease_cm\": [\n        12.0,\n        26.0\n      ]\n    },\n    {\n      \"zone\": \"neck\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true,\n      \"ease_cm\": 2.0,\n      \"intended_ease_cm\": [\n        1.0,\n        2.5\n      ]\n    },\n    {\n      \"zone\": \"shoulders\",\n      \"assessment\": \"as_cut\",\n      \"critical\": true,\n      \"ease_cm\": 0.5,\n      \"intended_ease_cm\": [\n        0.5,\n        2.5\n      ]\n    },\n    {\n      \"zone\": \"sleeve_length\",\n      \"assessment\": \"as_cut\",\n      \"critical\": false,\n      \"ease_cm\": 2.0,\n      \"intended_ease_cm\": [\n        -1.0,\n        2.5\n      ]\n    }\n  ]\n}"
     },
     "cold-start": {
-      "result_only": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"result_only\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.25,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 0,\n    \"preference_signals\": 1,\n    \"history_signals\": 1,\n    \"brand_specific_history_signals\": 1,\n    \"learned_offset_applied\": false\n  },\n  \"caveats\": [\n    \"No zone could be compared: the profile has no measurements this garment can be matched against.\",\n    \"Answer derived from past purchases alone.\"\n  ],\n  \"improve_by\": [\n    \"Add a measurement for arm length.\",\n    \"Add a measurement for chest circumference.\",\n    \"Add a measurement for hip circumference.\"\n  ]\n}",
-      "explained": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"explained\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.25,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 0,\n    \"preference_signals\": 1,\n    \"history_signals\": 1,\n    \"brand_specific_history_signals\": 1,\n    \"learned_offset_applied\": false\n  },\n  \"caveats\": [\n    \"No zone could be compared: the profile has no measurements this garment can be matched against.\",\n    \"Answer derived from past purchases alone.\"\n  ],\n  \"improve_by\": [\n    \"Add a measurement for arm length.\",\n    \"Add a measurement for chest circumference.\",\n    \"Add a measurement for hip circumference.\"\n  ],\n  \"alternatives\": [],\n  \"explanation\": [\n    {\n      \"zone\": \"overall\",\n      \"assessment\": \"unknown\",\n      \"critical\": false,\n      \"note\": \"Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used.\"\n    }\n  ]\n}",
-      "scoped": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"scoped\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.25,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 0,\n    \"preference_signals\": 1,\n    \"history_signals\": 1,\n    \"brand_specific_history_signals\": 1,\n    \"learned_offset_applied\": false\n  },\n  \"caveats\": [\n    \"No zone could be compared: the profile has no measurements this garment can be matched against.\",\n    \"Answer derived from past purchases alone.\"\n  ],\n  \"improve_by\": [\n    \"Add a measurement for arm length.\",\n    \"Add a measurement for chest circumference.\",\n    \"Add a measurement for hip circumference.\"\n  ],\n  \"alternatives\": [],\n  \"explanation\": [\n    {\n      \"zone\": \"overall\",\n      \"assessment\": \"unknown\",\n      \"critical\": false,\n      \"note\": \"Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used.\"\n    }\n  ]\n}",
-      "full": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"full\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.25,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 0,\n    \"preference_signals\": 1,\n    \"history_signals\": 1,\n    \"brand_specific_history_signals\": 1,\n    \"learned_offset_applied\": false\n  },\n  \"caveats\": [\n    \"No zone could be compared: the profile has no measurements this garment can be matched against.\",\n    \"Answer derived from past purchases alone.\"\n  ],\n  \"improve_by\": [\n    \"Add a measurement for arm length.\",\n    \"Add a measurement for chest circumference.\",\n    \"Add a measurement for hip circumference.\"\n  ],\n  \"alternatives\": [],\n  \"explanation\": [\n    {\n      \"zone\": \"overall\",\n      \"assessment\": \"unknown\",\n      \"critical\": false,\n      \"note\": \"Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used.\"\n    }\n  ]\n}"
+      "result_only": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"result_only\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.25,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 0,\n    \"preference_signals\": 0,\n    \"history_signals\": 1,\n    \"brand_specific_history_signals\": 1,\n    \"learned_offset_applied\": false\n  },\n  \"caveats\": [\n    \"No zone could be compared: the profile has no measurements this garment can be matched against.\",\n    \"Answer derived from past purchases alone.\"\n  ],\n  \"improve_by\": [\n    \"Add a measurement for arm length.\",\n    \"Add a measurement for chest circumference.\",\n    \"Add a measurement for hip circumference.\"\n  ]\n}",
+      "explained": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"explained\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.25,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 0,\n    \"preference_signals\": 0,\n    \"history_signals\": 1,\n    \"brand_specific_history_signals\": 1,\n    \"learned_offset_applied\": false\n  },\n  \"caveats\": [\n    \"No zone could be compared: the profile has no measurements this garment can be matched against.\",\n    \"Answer derived from past purchases alone.\"\n  ],\n  \"improve_by\": [\n    \"Add a measurement for arm length.\",\n    \"Add a measurement for chest circumference.\",\n    \"Add a measurement for hip circumference.\"\n  ],\n  \"alternatives\": [],\n  \"explanation\": [\n    {\n      \"zone\": \"overall\",\n      \"assessment\": \"unknown\",\n      \"critical\": false,\n      \"note\": \"Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used.\"\n    }\n  ]\n}",
+      "scoped": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"scoped\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.25,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 0,\n    \"preference_signals\": 0,\n    \"history_signals\": 1,\n    \"brand_specific_history_signals\": 1,\n    \"learned_offset_applied\": false\n  },\n  \"caveats\": [\n    \"No zone could be compared: the profile has no measurements this garment can be matched against.\",\n    \"Answer derived from past purchases alone.\"\n  ],\n  \"improve_by\": [\n    \"Add a measurement for arm length.\",\n    \"Add a measurement for chest circumference.\",\n    \"Add a measurement for hip circumference.\"\n  ],\n  \"alternatives\": [],\n  \"explanation\": [\n    {\n      \"zone\": \"overall\",\n      \"assessment\": \"unknown\",\n      \"critical\": false,\n      \"note\": \"Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used.\"\n    }\n  ]\n}",
+      "full": "{\n  \"schema_version\": \"0.1.0\",\n  \"cut_profile_id\": \"sartoria-esempio:OXF-CLASSIC:2026\",\n  \"disclosure_level\": \"full\",\n  \"recommended_size\": \"41\",\n  \"confidence\": 0.25,\n  \"correctable\": true,\n  \"based_on\": {\n    \"body_signals\": 0,\n    \"preference_signals\": 0,\n    \"history_signals\": 1,\n    \"brand_specific_history_signals\": 1,\n    \"learned_offset_applied\": false\n  },\n  \"caveats\": [\n    \"No zone could be compared: the profile has no measurements this garment can be matched against.\",\n    \"Answer derived from past purchases alone.\"\n  ],\n  \"improve_by\": [\n    \"Add a measurement for arm length.\",\n    \"Add a measurement for chest circumference.\",\n    \"Add a measurement for hip circumference.\"\n  ],\n  \"alternatives\": [],\n  \"explanation\": [\n    {\n      \"zone\": \"overall\",\n      \"assessment\": \"unknown\",\n      \"critical\": false,\n      \"note\": \"Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used.\"\n    }\n  ]\n}"
     }
   },
   "translations": {
@@ -1339,7 +1339,7 @@ var T = {
       return count(b.body_signals,'misura','misure')+', '+count(b.preference_signals,'preferenza','preferenze')+', '
         +count(b.history_signals,'acquisto passato','acquisti passati')+' ('+b.brand_specific_history_signals+' dello stesso brand)';
     },
-    note_result_only:'<b>result_only</b>: al negozio arrivano taglia e confidenza, nessuna zona e nessuna misura. Ma arrivano anche i conteggi di <span class="mono">based_on</span> e i suggerimenti di <span class="mono">improve_by</span>, che dicono quante misure e quanto storico ha il profilo: è un limite noto della versione attuale, descritto nel threat model e in revisione.',
+    note_result_only:'<b>result_only</b>: al negozio arrivano taglia e confidenza, nessuna zona e nessuna misura. Ma arrivano anche i conteggi di <span class="mono">based_on</span>, che dicono su quante misure e quanti acquisti passati poggia la risposta, e i suggerimenti di <span class="mono">improve_by</span>, che dicono quali misure mancano o sono deboli: è un limite noto della versione attuale, descritto nel threat model e in revisione.',
     note_explained:'<b>explained</b>: le colonne numeriche sono state rimosse in serializzazione: con le misure del capo (pubbliche) e l’agio in cm, una sottrazione ricostruirebbe le tue misure corporee.',
     note_scoped:'<b>scoped</b>: l’agio in centimetri è visibile. Da concedere solo a chi ti fidi: vedi la sezione sulla perdita aritmetica.',
     note_full:'<b>full</b>: il livello pensato per il tuo vault. Nell’implementazione di riferimento il Match Report a questo livello porta gli stessi campi di <span class="mono">scoped</span>, perché lo schema della risposta non ha un posto per il profilo.',
@@ -1359,7 +1359,7 @@ var T = {
       return count(b.body_signals,'measurement','measurements')+', '+count(b.preference_signals,'preference','preferences')+', '
         +count(b.history_signals,'past purchase','past purchases')+' ('+b.brand_specific_history_signals+' from the same brand)';
     },
-    note_result_only:'<b>result_only</b>: the shop receives the size and the confidence, no zones and no measurements. But it also receives the <span class="mono">based_on</span> counts and the <span class="mono">improve_by</span> suggestions, which tell how many measurements and how much history the profile holds: a known limit of the current version, described in the threat model and under review.',
+    note_result_only:'<b>result_only</b>: the shop receives the size and the confidence, no zones and no measurements. But it also receives the <span class="mono">based_on</span> counts, which tell how many measurements and past purchases the answer rests on, and the <span class="mono">improve_by</span> suggestions, which tell which measurements are missing or weak: a known limit of the current version, described in the threat model and under review.',
     note_explained:'<b>explained</b>: the numeric columns were stripped at serialisation: with the garment’s (public) measurements and the ease in cm, one subtraction would reconstruct your body measurements.',
     note_scoped:'<b>scoped</b>: the ease in centimetres is visible. Grant it only to services you trust: see the arithmetic-leak section.',
     note_full:'<b>full</b>: the level meant for your vault. In the reference implementation the Match Report at this level carries the same fields as <span class="mono">scoped</span>, because the answer’s schema has no place for the profile.',
@@ -1379,7 +1379,7 @@ var T = {
       return count(b.body_signals,'mesure','mesures')+', '+count(b.preference_signals,'préférence','préférences')+', '
         +count(b.history_signals,'achat passé','achats passés')+' ('+b.brand_specific_history_signals+' de la même marque)';
     },
-    note_result_only:'<b>result_only</b> : la boutique reçoit la taille et la confiance, aucune zone et aucune mesure. Mais elle reçoit aussi les comptes de <span class="mono">based_on</span> et les suggestions d’<span class="mono">improve_by</span>, qui disent combien de mesures et quel historique contient le profil : c’est une limite connue de la version actuelle, décrite dans le threat model et en cours de révision.',
+    note_result_only:'<b>result_only</b> : la boutique reçoit la taille et la confiance, aucune zone et aucune mesure. Mais elle reçoit aussi les comptes de <span class="mono">based_on</span>, qui disent sur combien de mesures et d’achats passés repose la réponse, et les suggestions d’<span class="mono">improve_by</span>, qui disent quelles mesures manquent ou sont fragiles : c’est une limite connue de la version actuelle, décrite dans le threat model et en cours de révision.',
     note_explained:'<b>explained</b> : les colonnes chiffrées ont été supprimées à la sérialisation : avec les mesures (publiques) du vêtement et l’aisance en cm, une soustraction reconstruirait vos mensurations.',
     note_scoped:'<b>scoped</b> : l’aisance en centimètres est visible. À n’accorder qu’aux services de confiance : voir la section sur la fuite arithmétique.',
     note_full:'<b>full</b> : le niveau pensé pour votre coffre-fort. Dans l’implémentation de référence, le Match Report à ce niveau porte les mêmes champs que <span class="mono">scoped</span>, parce que le schéma de la réponse n’a pas de place pour le profil.',
