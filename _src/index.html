@@ -639,9 +639,9 @@ footer .legal a{color:var(--accent-ink)}
   <p class="kicker"><span class="it">Privacy by design</span><span class="en">Privacy by design</span><span class="fr">Privacy by design</span></p>
   <h2><span class="it">Quattro livelli di disclosure. Tu scegli quanto esce.</span><span class="en">Four disclosure levels. You choose what leaves.</span><span class="fr">Quatre niveaux de divulgation. Vous choisissez ce qui sort.</span></h2>
   <p class="intro">
-    <span class="it">Nello scenario in negozio non esce niente: il calcolo avviene interamente dal tuo lato. Quando invece serve che qualcosa esca — un ecommerce, un reso, il tuo sarto — la risposta è graduata: dal profilo completo fino alla taglia e a quanto è sicura.</span>
-    <span class="en">In the in-store scenario nothing leaves: the computation happens entirely on your side. When something does need to leave — an online shop, a return, your tailor — the answer is graduated: from the full profile down to a size and how sure it is.</span>
-    <span class="fr">Dans le scénario en boutique, rien ne sort : le calcul se fait entièrement de votre côté. Quand quelque chose doit sortir — une boutique en ligne, un retour, votre tailleur — la réponse est graduée : du profil complet jusqu'à une taille et son degré de certitude.</span>
+    <span class="it">Nello scenario in negozio non esce niente: il calcolo avviene interamente dal tuo lato. Quando invece serve che qualcosa esca — un ecommerce, un reso, il tuo sarto — la risposta è graduata: dal ragionamento zona per zona, con i suoi numeri, fino alla sola taglia e a quanto è sicura. Il profilo non esce a nessun livello.</span>
+    <span class="en">In the in-store scenario nothing leaves: the computation happens entirely on your side. When something does need to leave — an online shop, a return, your tailor — the answer is graduated: from the reasoning zone by zone, with its numbers, down to just a size and how sure it is. The profile leaves at no level.</span>
+    <span class="fr">Dans le scénario en boutique, rien ne sort : le calcul se fait entièrement de votre côté. Quand quelque chose doit sortir — une boutique en ligne, un retour, votre tailleur — la réponse est graduée : du raisonnement zone par zone, avec ses chiffres, jusqu'à une simple taille et son degré de certitude. Le profil ne sort à aucun niveau.</span>
   </p>
   <!-- each row ends with the size and the confidence the reference gives the mature profile at
        that level, between ref markers kept by demo_reports.py; a struck-out chip first says, for
@@ -650,9 +650,9 @@ footer .legal a{color:var(--accent-ink)}
     <div class="vault-row">
       <div class="vault-level">full</div>
       <div class="vault-fields">
-        <span class="chip"><span class="it">misure corporee</span><span class="en">body measurements</span><span class="fr">mensurations</span></span>
-        <span class="chip"><span class="it">preferenze</span><span class="en">preferences</span><span class="fr">préférences</span></span>
-        <span class="chip"><span class="it">storico</span><span class="en">history</span><span class="fr">historique</span></span>
+        <span class="chip off"><span class="visually-hidden"><span class="en">not in the report:</span><span class="it">fuori dal report:</span><span class="fr">hors du rapport :</span></span> <span class="it">profilo</span><span class="en">profile</span><span class="fr">profil</span></span>
+        <span class="chip"><span class="it">agio previsto</span><span class="en">intended ease</span><span class="fr">aisance prévue</span></span>
+        <span class="chip"><span class="it">agio in cm</span><span class="en">ease in cm</span><span class="fr">aisance en cm</span></span>
         <span class="chip"><span class="it">ragioni per zona</span><span class="en">per-zone reasoning</span><span class="fr">raisonnement par zone</span></span>
         <span class="chip size"><!-- ref:mature/full/recommended_size -->41<!-- /ref:mature/full/recommended_size --></span>
         <span class="chip conf"><span class="en">confidence</span><span class="it">confidenza</span><span class="fr">confiance</span> <!-- ref:mature/full/confidence -->0.84<!-- /ref:mature/full/confidence --></span>
@@ -661,8 +661,8 @@ footer .legal a{color:var(--accent-ink)}
     <div class="vault-row">
       <div class="vault-level">scoped</div>
       <div class="vault-fields">
-        <span class="chip off"><span class="visually-hidden"><span class="en">not in the report:</span><span class="it">fuori dal report:</span><span class="fr">hors du rapport :</span></span> <span class="it">misure corporee</span><span class="en">body measurements</span><span class="fr">mensurations</span></span>
-        <span class="chip"><span class="it">solo le zone richieste</span><span class="en">requested zones only</span><span class="fr">zones demandées uniquement</span></span>
+        <span class="chip off"><span class="visually-hidden"><span class="en">not in the report:</span><span class="it">fuori dal report:</span><span class="fr">hors du rapport :</span></span> <span class="it">agio previsto</span><span class="en">intended ease</span><span class="fr">aisance prévue</span></span>
+        <span class="chip"><span class="it">agio in cm</span><span class="en">ease in cm</span><span class="fr">aisance en cm</span></span>
         <span class="chip"><span class="it">ragioni per zona</span><span class="en">per-zone reasoning</span><span class="fr">raisonnement par zone</span></span>
         <span class="chip size"><!-- ref:mature/scoped/recommended_size -->41<!-- /ref:mature/scoped/recommended_size --></span>
         <span class="chip conf"><span class="en">confidence</span><span class="it">confidenza</span><span class="fr">confiance</span> <!-- ref:mature/scoped/confidence -->0.84<!-- /ref:mature/scoped/confidence --></span>
@@ -686,9 +686,9 @@ footer .legal a{color:var(--accent-ink)}
       </div>
     </div>
     <p class="vault-note">
-      <span class="it"><b>La perdita aritmetica</b> è il perché dei livelli bassi: pubblicare insieme l'agio in centimetri e le misure del capo rivelerebbe le misure del corpo per sottrazione. Sotto <span class="mono">scoped</span>, i valori di agio vengono rimossi alla serializzazione.</span>
-      <span class="en"><b>The arithmetic leak</b> is why the lower levels exist: publishing ease in centimetres next to the garment's measurements would reveal body measurements by subtraction. Below <span class="mono">scoped</span>, ease values are stripped at serialisation.</span>
-      <span class="fr"><b>La fuite arithmétique</b> justifie les niveaux bas : publier l'aisance en centimètres à côté des mesures du vêtement révélerait les mensurations par soustraction. En dessous de <span class="mono">scoped</span>, les valeurs d'aisance sont retirées à la sérialisation.</span>
+      <span class="it"><b>La perdita aritmetica</b> è il perché dei livelli bassi: pubblicare insieme l'agio in centimetri e le misure del capo rivelerebbe le misure del corpo per sottrazione. Sotto <span class="mono">scoped</span>, i valori di agio vengono rimossi alla serializzazione. Sotto <span class="mono">full</span> viene rimosso anche l'agio previsto, che le tue preferenze e la tua storia possono aver spostato.</span>
+      <span class="en"><b>The arithmetic leak</b> is why the lower levels exist: publishing ease in centimetres next to the garment's measurements would reveal body measurements by subtraction. Below <span class="mono">scoped</span>, ease values are stripped at serialisation. Below <span class="mono">full</span>, the intended ease is stripped too: your preferences and your history may have moved it.</span>
+      <span class="fr"><b>La fuite arithmétique</b> justifie les niveaux bas : publier l'aisance en centimètres à côté des mesures du vêtement révélerait les mensurations par soustraction. En dessous de <span class="mono">scoped</span>, les valeurs d'aisance sont retirées à la sérialisation. En dessous de <span class="mono">full</span>, l'aisance prévue est retirée aussi : vos préférences et votre historique ont pu la déplacer.</span>
     </p>
   </div>
 </section>

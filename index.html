@@ -644,7 +644,7 @@ footer .legal a{color:var(--accent-ink)}
   <h2>Four disclosure levels. You choose what leaves.</h2>
   <p class="intro">
     
-    In the in-store scenario nothing leaves: the computation happens entirely on your side. When something does need to leave — an online shop, a return, your tailor — the answer is graduated: from the full profile down to a size and how sure it is.
+    In the in-store scenario nothing leaves: the computation happens entirely on your side. When something does need to leave — an online shop, a return, your tailor — the answer is graduated: from the reasoning zone by zone, with its numbers, down to just a size and how sure it is. The profile leaves at no level.
     
   </p>
   <!-- each row ends with the size and the confidence the reference gives the mature profile at
@@ -654,9 +654,9 @@ footer .legal a{color:var(--accent-ink)}
     <div class="vault-row">
       <div class="vault-level">full</div>
       <div class="vault-fields">
-        <span class="chip">body measurements</span>
-        <span class="chip">preferences</span>
-        <span class="chip">history</span>
+        <span class="chip off"><span class="visually-hidden">not in the report:</span> profile</span>
+        <span class="chip">intended ease</span>
+        <span class="chip">ease in cm</span>
         <span class="chip">per-zone reasoning</span>
         <span class="chip size"><!-- ref:mature/full/recommended_size -->41<!-- /ref:mature/full/recommended_size --></span>
         <span class="chip conf">confidence <!-- ref:mature/full/confidence -->0.84<!-- /ref:mature/full/confidence --></span>
@@ -665,8 +665,8 @@ footer .legal a{color:var(--accent-ink)}
     <div class="vault-row">
       <div class="vault-level">scoped</div>
       <div class="vault-fields">
-        <span class="chip off"><span class="visually-hidden">not in the report:</span> body measurements</span>
-        <span class="chip">requested zones only</span>
+        <span class="chip off"><span class="visually-hidden">not in the report:</span> intended ease</span>
+        <span class="chip">ease in cm</span>
         <span class="chip">per-zone reasoning</span>
         <span class="chip size"><!-- ref:mature/scoped/recommended_size -->41<!-- /ref:mature/scoped/recommended_size --></span>
         <span class="chip conf">confidence <!-- ref:mature/scoped/confidence -->0.84<!-- /ref:mature/scoped/confidence --></span>
@@ -691,7 +691,7 @@ footer .legal a{color:var(--accent-ink)}
     </div>
     <p class="vault-note">
       
-      <b>The arithmetic leak</b> is why the lower levels exist: publishing ease in centimetres next to the garment's measurements would reveal body measurements by subtraction. Below <span class="mono">scoped</span>, ease values are stripped at serialisation.
+      <b>The arithmetic leak</b> is why the lower levels exist: publishing ease in centimetres next to the garment's measurements would reveal body measurements by subtraction. Below <span class="mono">scoped</span>, ease values are stripped at serialisation. Below <span class="mono">full</span>, the intended ease is stripped too: your preferences and your history may have moved it.
       
     </p>
   </div>

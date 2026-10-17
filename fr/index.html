@@ -645,7 +645,7 @@ footer .legal a{color:var(--accent-ink)}
   <p class="intro">
     
     
-    Dans le scénario en boutique, rien ne sort : le calcul se fait entièrement de votre côté. Quand quelque chose doit sortir — une boutique en ligne, un retour, votre tailleur — la réponse est graduée : du profil complet jusqu'à une taille et son degré de certitude.
+    Dans le scénario en boutique, rien ne sort : le calcul se fait entièrement de votre côté. Quand quelque chose doit sortir — une boutique en ligne, un retour, votre tailleur — la réponse est graduée : du raisonnement zone par zone, avec ses chiffres, jusqu'à une simple taille et son degré de certitude. Le profil ne sort à aucun niveau.
   </p>
   <!-- each row ends with the size and the confidence the reference gives the mature profile at
        that level, between ref markers kept by demo_reports.py; a struck-out chip first says, for
@@ -654,9 +654,9 @@ footer .legal a{color:var(--accent-ink)}
     <div class="vault-row">
       <div class="vault-level">full</div>
       <div class="vault-fields">
-        <span class="chip">mensurations</span>
-        <span class="chip">préférences</span>
-        <span class="chip">historique</span>
+        <span class="chip off"><span class="visually-hidden">hors du rapport :</span> profil</span>
+        <span class="chip">aisance prévue</span>
+        <span class="chip">aisance en cm</span>
         <span class="chip">raisonnement par zone</span>
         <span class="chip size"><!-- ref:mature/full/recommended_size -->41<!-- /ref:mature/full/recommended_size --></span>
         <span class="chip conf">confiance <!-- ref:mature/full/confidence -->0.84<!-- /ref:mature/full/confidence --></span>
@@ -665,8 +665,8 @@ footer .legal a{color:var(--accent-ink)}
     <div class="vault-row">
       <div class="vault-level">scoped</div>
       <div class="vault-fields">
-        <span class="chip off"><span class="visually-hidden">hors du rapport :</span> mensurations</span>
-        <span class="chip">zones demandées uniquement</span>
+        <span class="chip off"><span class="visually-hidden">hors du rapport :</span> aisance prévue</span>
+        <span class="chip">aisance en cm</span>
         <span class="chip">raisonnement par zone</span>
         <span class="chip size"><!-- ref:mature/scoped/recommended_size -->41<!-- /ref:mature/scoped/recommended_size --></span>
         <span class="chip conf">confiance <!-- ref:mature/scoped/confidence -->0.84<!-- /ref:mature/scoped/confidence --></span>
@@ -692,7 +692,7 @@ footer .legal a{color:var(--accent-ink)}
     <p class="vault-note">
       
       
-      <b>La fuite arithmétique</b> justifie les niveaux bas : publier l'aisance en centimètres à côté des mesures du vêtement révélerait les mensurations par soustraction. En dessous de <span class="mono">scoped</span>, les valeurs d'aisance sont retirées à la sérialisation.
+      <b>La fuite arithmétique</b> justifie les niveaux bas : publier l'aisance en centimètres à côté des mesures du vêtement révélerait les mensurations par soustraction. En dessous de <span class="mono">scoped</span>, les valeurs d'aisance sont retirées à la sérialisation. En dessous de <span class="mono">full</span>, l'aisance prévue est retirée aussi : vos préférences et votre historique ont pu la déplacer.
     </p>
   </div>
 </section>

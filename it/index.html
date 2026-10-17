@@ -643,7 +643,7 @@ footer .legal a{color:var(--accent-ink)}
   <p class="kicker">Privacy by design</p>
   <h2>Quattro livelli di disclosure. Tu scegli quanto esce.</h2>
   <p class="intro">
-    Nello scenario in negozio non esce niente: il calcolo avviene interamente dal tuo lato. Quando invece serve che qualcosa esca — un ecommerce, un reso, il tuo sarto — la risposta è graduata: dal profilo completo fino alla taglia e a quanto è sicura.
+    Nello scenario in negozio non esce niente: il calcolo avviene interamente dal tuo lato. Quando invece serve che qualcosa esca — un ecommerce, un reso, il tuo sarto — la risposta è graduata: dal ragionamento zona per zona, con i suoi numeri, fino alla sola taglia e a quanto è sicura. Il profilo non esce a nessun livello.
     
     
   </p>
@@ -654,9 +654,9 @@ footer .legal a{color:var(--accent-ink)}
     <div class="vault-row">
       <div class="vault-level">full</div>
       <div class="vault-fields">
-        <span class="chip">misure corporee</span>
-        <span class="chip">preferenze</span>
-        <span class="chip">storico</span>
+        <span class="chip off"><span class="visually-hidden">fuori dal report:</span> profilo</span>
+        <span class="chip">agio previsto</span>
+        <span class="chip">agio in cm</span>
         <span class="chip">ragioni per zona</span>
         <span class="chip size"><!-- ref:mature/full/recommended_size -->41<!-- /ref:mature/full/recommended_size --></span>
         <span class="chip conf">confidenza <!-- ref:mature/full/confidence -->0.84<!-- /ref:mature/full/confidence --></span>
@@ -665,8 +665,8 @@ footer .legal a{color:var(--accent-ink)}
     <div class="vault-row">
       <div class="vault-level">scoped</div>
       <div class="vault-fields">
-        <span class="chip off"><span class="visually-hidden">fuori dal report:</span> misure corporee</span>
-        <span class="chip">solo le zone richieste</span>
+        <span class="chip off"><span class="visually-hidden">fuori dal report:</span> agio previsto</span>
+        <span class="chip">agio in cm</span>
         <span class="chip">ragioni per zona</span>
         <span class="chip size"><!-- ref:mature/scoped/recommended_size -->41<!-- /ref:mature/scoped/recommended_size --></span>
         <span class="chip conf">confidenza <!-- ref:mature/scoped/confidence -->0.84<!-- /ref:mature/scoped/confidence --></span>
@@ -690,7 +690,7 @@ footer .legal a{color:var(--accent-ink)}
       </div>
     </div>
     <p class="vault-note">
-      <b>La perdita aritmetica</b> è il perché dei livelli bassi: pubblicare insieme l'agio in centimetri e le misure del capo rivelerebbe le misure del corpo per sottrazione. Sotto <span class="mono">scoped</span>, i valori di agio vengono rimossi alla serializzazione.
+      <b>La perdita aritmetica</b> è il perché dei livelli bassi: pubblicare insieme l'agio in centimetri e le misure del capo rivelerebbe le misure del corpo per sottrazione. Sotto <span class="mono">scoped</span>, i valori di agio vengono rimossi alla serializzazione. Sotto <span class="mono">full</span> viene rimosso anche l'agio previsto, che le tue preferenze e la tua storia possono aver spostato.
       
       
     </p>

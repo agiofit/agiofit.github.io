@@ -86,25 +86,21 @@ TRANSLATIONS = {
         "it": "Risposta ricavata solo dagli acquisti passati.",
         "fr": "Réponse tirée des seuls achats passés.",
     },
-    "Add a measurement for thigh circumference.": {
-        "it": "Aggiungi la circonferenza della coscia.",
-        "fr": "Ajoutez le tour de cuisse.",
+    "Add a measurement for neck circumference.": {
+        "it": "Aggiungi la circonferenza del collo.",
+        "fr": "Ajoutez le tour de cou.",
+    },
+    "Add a measurement for shoulder width.": {
+        "it": "Aggiungi la larghezza delle spalle.",
+        "fr": "Ajoutez la largeur d'épaules.",
     },
     "Add a measurement for arm length.": {
         "it": "Aggiungi la lunghezza del braccio.",
         "fr": "Ajoutez la longueur de bras.",
     },
-    "Add a measurement for chest circumference.": {
-        "it": "Aggiungi la circonferenza del torace.",
-        "fr": "Ajoutez le tour de poitrine.",
-    },
-    "Add a measurement for hip circumference.": {
-        "it": "Aggiungi la circonferenza dei fianchi.",
-        "fr": "Ajoutez le tour de hanches.",
-    },
-    "Re-measure with a tape: arm_length, inseam.": {
-        "it": "Rimisura col metro: arm_length, inseam.",
-        "fr": "Reprenez au mètre ruban : arm_length, inseam.",
+    "Re-measure with a tape: arm_length.": {
+        "it": "Rimisura col metro: arm_length.",
+        "fr": "Reprenez au mètre ruban : arm_length.",
     },
     "Derived from 1 past Sartoria Esempio purchase(s) in this category, no measurements used.": {
         "it": "Ricavata da 1 acquisto passato di Sartoria Esempio in questa categoria, senza misure.",
