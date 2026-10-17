@@ -182,8 +182,9 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);l
   font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:500}
 .tape-keys .key{grid-column:2;font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;color:var(--ink)}
 .tape-keys .def{grid-column:2;margin-top:2px;font-size:14px;line-height:1.5;color:var(--ink-70)}
-/* what the suffix of a name says */
-.suffixes{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:24px}
+/* what the suffix of a name says, after the sentence that says what the list is */
+.suffixes-intro{margin-top:24px;font-size:14px;color:var(--ink-70);max-width:64ch}
+.suffixes{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:8px}
 .suffixes div{display:flex;align-items:baseline;gap:8px}
 .suffixes dt{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink)}
 .suffixes dd{font-size:14px;color:var(--ink-70)}
@@ -691,7 +692,9 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
       </div>
     </div>
 
-    <!-- what the suffix of a name says -->
+    <!-- what the suffix of a name says: the specification's list, after the sentence that
+         introduces it there; without it the three lines read as out of context -->
+    <p class="suffixes-intro">La fin de chaque nom dit ce que l’on fait avec le mètre ruban, et si le chiffre est la moitié d’une circonférence :</p>
     <dl class="suffixes">
       <div><dt>_width</dt><dd>mesurée à plat et en largeur : la moitié de la circonférence</dd></div>
       <div><dt>_circumference</dt><dd>le tour complet</dd></div>
