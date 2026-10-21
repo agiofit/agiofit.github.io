@@ -22,9 +22,9 @@
 <meta property="og:locale:alternate" content="it_IT">
 <meta property="og:locale:alternate" content="fr_FR">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <style>
 :root{
   --paper:#F5F0E8;          /* brand ivory */
@@ -47,7 +47,7 @@
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
 body{
-  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  font-family:'IBM Plex Sans','IBM Plex Sans Fallback',system-ui,sans-serif;
   color:var(--ink);
   background:
     linear-gradient(var(--rule) 1px, transparent 1px),
@@ -70,20 +70,20 @@ a{color:var(--accent-ink)}
   backdrop-filter:saturate(140%) blur(6px);position:sticky;top:0;z-index:20}
 .sitenav-inner{max-width:1120px;margin:0 auto;padding:0 24px;height:58px;
   display:flex;align-items:center;gap:24px}
-.sitenav-mark{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--ink);
+.sitenav-mark{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:18px;color:var(--ink);
   text-decoration:none;margin-right:auto;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
 .sitenav-mark svg{display:block}
 .sitenav a.sitenav-link{font-size:14.5px;color:var(--ink);text-decoration:none;opacity:.7;padding:6px 0}
 .sitenav a.sitenav-link:hover{opacity:1}
 .sitenav a.sitenav-link[aria-current]{opacity:1;font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
 .sitenav-lang{position:relative;display:flex;align-items:center;gap:2px;padding-left:18px;border-left:1px solid var(--rule);
-  font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.06em}
+  font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.06em}
 /* the buttons exist only in the source; build.py turns them into links */
 .sitenav-lang button{font:inherit;letter-spacing:inherit;border:0;background:none;cursor:pointer}
 .sitenav-lang a,.sitenav-lang button{padding:5px 8px;border-radius:999px;text-decoration:none;color:var(--ink-70)}
 .sitenav-lang a:hover,.sitenav-lang button:hover{color:var(--ink)}
 .sitenav-lang a[aria-current],.sitenav-lang button[aria-pressed="true"]{background:rgba(30,36,48,.07);color:var(--ink);font-weight:500}
-.sitenav-ver{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;
+.sitenav-ver{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.08em;
   background:var(--tape);color:var(--tape-text);border-radius:999px;padding:3px 10px;white-space:nowrap}
 .sitenav-gh{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:5px 14px;
   border-radius:999px;border:1.5px solid var(--ink);font-size:13.5px;font-weight:600;
@@ -104,24 +104,24 @@ header{padding-top:56px}
 .hero{display:flex;flex-wrap:wrap;align-items:center;gap:40px 48px}
 .hero-text{flex:1 1 380px;min-width:0}
 .hero-art{flex:1.25 1 460px;min-width:0}
-.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;
+.eyebrow{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px}
 .eyebrow a.credit{color:inherit}
-h1{font-family:'Fraunces',serif;font-weight:700;font-size:clamp(44px,6.2vw,72px);line-height:1.02;letter-spacing:-.015em}
+h1{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:700;font-size:clamp(44px,6.2vw,72px);line-height:1.02;letter-spacing:-.015em}
 h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-weight:400;
   line-height:1.15;letter-spacing:0;color:var(--ink-70)}
 .lede{margin-top:22px;font-size:17.5px;color:var(--ink-70);max-width:52ch}
 /* what agio means, under the buttons */
 .agio{margin-top:32px;padding-top:14px;max-width:52ch;border-top:1px dashed #C9C3B4;font-size:13.5px;color:var(--ink-70)}
-.agio .word{font-family:'Fraunces',serif;font-style:italic;font-size:17px;color:var(--ink)}
-.agio .ipa{font-family:'IBM Plex Mono',monospace;font-size:12px}
+.agio .word{font-family:'Fraunces','Fraunces Fallback',serif;font-style:italic;font-size:17px;color:var(--ink)}
+.agio .ipa{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px}
 
 /* the example shirt, laid flat */
 .hero-figure{margin:0}
-.figure-title{margin-bottom:4px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;
+.figure-title{margin-bottom:4px;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--accent-ink)}
 .hero-figure svg{display:block;width:100%;height:auto}
-.figure-caption{margin-top:2px;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-70)}
+.figure-caption{margin-top:2px;text-align:center;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;color:var(--ink-70)}
 
 /* the shirt laid flat, as in the guide and the builder: a width is a solid line, the collar a
    dashed ring. Here the drawing sits on the paper, so the labels off the garment keep the paper colour */
@@ -137,8 +137,8 @@ h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-
 .shirt .label-bg{fill:var(--surface)}
 .shirt .label-bg.off{fill:var(--paper)}
 .shirt .badge{fill:var(--accent-ink)}
-.shirt .badge-n{fill:var(--surface);font:500 10.5px 'IBM Plex Mono',monospace}
-.shirt .val{fill:var(--ink);font:500 12.5px 'IBM Plex Mono',monospace}
+.shirt .badge-n{fill:var(--surface);font:500 10.5px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace}
+.shirt .val{fill:var(--ink);font:500 12.5px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace}
 .shirt .val .unit{fill:var(--ink-70);font-weight:400}
 
 /* the two cards under the shirt: the garment's Cut Profile, and what leaves the vault */
@@ -146,20 +146,20 @@ h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-
 .hero-card{min-width:0;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);box-shadow:var(--shadow)}
 .cut-card{flex:1.2 1 260px;padding:14px 16px 8px}
 .cut-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 10px;margin-bottom:6px}
-.cut-title{font-family:'Fraunces',serif;font-size:16px;font-weight:600}
-.cut-note{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--tape-ink)}
+.cut-title{font-family:'Fraunces','Fraunces Fallback',serif;font-size:16px;font-weight:600}
+.cut-note{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;color:var(--tape-ink)}
 .cut-card dl>div{display:flex;align-items:center;gap:10px;padding:5px 0;border-top:1px dashed var(--rule);
-  font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+  font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px}
 .cut-card dt{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px}
 .cut-card dd{font-weight:500;white-space:nowrap}
 .cut-card .no{flex:0 0 18px;height:18px;border-radius:50%;background:var(--accent-ink);color:var(--surface);
   font-size:10.5px;line-height:18px;text-align:center}
 .cut-card .unit{color:var(--ink-70);font-weight:400}
 .leaves-card{flex:1 1 210px;padding:14px 16px;display:flex;flex-direction:column}
-.leaves-title{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.leaves-title{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
 .leaves-size{margin-top:8px;display:flex;align-items:baseline;gap:10px}
-.leaves-size .value{font-family:'Fraunces',serif;font-size:48px;font-weight:700;line-height:1}
-.leaves-size .key,.leaves-conf{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-70)}
+.leaves-size .value{font-family:'Fraunces','Fraunces Fallback',serif;font-size:48px;font-weight:700;line-height:1}
+.leaves-size .key,.leaves-conf{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;color:var(--ink-70)}
 .leaves-conf{margin-top:12px;display:flex;justify-content:space-between}
 .leaves-conf .value{color:var(--ink);font-weight:500}
 /* the confidence as a bar: its length is the number beside it, written by demo_reports.py */
@@ -168,7 +168,7 @@ h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-
 .leaves-off{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
 .leaves-off .chip{font-size:11.5px;padding:2px 8px}
 .leaves-off .chip.off{opacity:.45}
-.leaves-level{margin-top:auto;padding-top:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-70)}
+.leaves-level{margin-top:auto;padding-top:10px;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;color:var(--ink-70)}
 
 /* the buttons, as in the builder */
 .actions{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
@@ -187,13 +187,13 @@ h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-
   border-radius:3px 3px 0 0;border:1px solid var(--tape-ink);border-bottom:0}
 .ruler .ruler-numbers{display:flex;justify-content:space-between;border:1px solid var(--tape-ink);border-top:0;
   background:var(--tape);border-radius:0 0 3px 3px;
-  padding:0 6px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--tape-text);letter-spacing:1px}
+  padding:0 6px;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:10px;color:var(--tape-text);letter-spacing:1px}
 
 /* ---------- sections ---------- */
 .section{margin-top:72px;scroll-margin-top:80px}
-.kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;
+.kicker{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px}
-h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.15}
+h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.15}
 .intro{margin-top:12px;color:var(--ink-70);max-width:64ch}
 
 /* cards that wrap: three in the problem, four in practice */
@@ -201,7 +201,7 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);l
 .card{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;background:var(--surface);
   border:1px solid var(--rule);border-radius:var(--radius);padding:18px 18px 16px;box-shadow:var(--shadow)}
 .cards.scenarios .card{flex-basis:230px}
-.card h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin-bottom:6px}
+.card h3{font-family:'Fraunces','Fraunces Fallback',serif;font-size:19px;font-weight:600;margin-bottom:6px}
 .card p{flex:1 1 auto;font-size:14.5px;color:var(--ink-70)}
 /* the second-hand card leads to the builder; the arrow is decoration, hidden from screen readers */
 .card-link{margin-top:12px;align-self:flex-start;font-size:14.5px;font-weight:600;color:var(--accent-ink);text-decoration:none}
@@ -218,7 +218,7 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);l
 .card-icon .ic-ink{fill:var(--ink)}
 .card-icon .ic-accent{stroke:var(--accent);stroke-width:.9}
 .card-icon .ic-speaker{stroke:var(--ink);stroke-width:1.2;stroke-linecap:round}
-.card-icon .ic-size{fill:var(--ink);font:700 11px 'Fraunces',serif}
+.card-icon .ic-size{fill:var(--ink);font:700 11px 'Fraunces','Fraunces Fallback',serif}
 .card-icon .ic-track{fill:rgba(30,36,48,.14)}
 .card-icon .ic-fill{fill:var(--accent)}
 .card-icon .ic-ghost{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 2.5;stroke-linejoin:round}
@@ -229,26 +229,26 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);l
   border:1px solid var(--rule);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
 .doc-head{display:flex;align-items:center;gap:10px}
 .doc-icon{flex:none;fill:none;stroke:var(--accent-ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.doc h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600}
-.doc .who{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--tape-ink);margin:2px 0 8px}
+.doc h3{font-family:'Fraunces','Fraunces Fallback',serif;font-size:19px;font-weight:600}
+.doc .who{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.06em;color:var(--tape-ink);margin:2px 0 8px}
 .doc .desc{flex:1 1 auto;font-size:14.5px;color:var(--ink-70)}
 .doc .desc b{color:var(--ink)}
 /* the excerpts: as tall as the longest (seven lines), so the three line up; they wrap rather than scroll */
 .excerpt{margin-top:14px;min-height:calc(7 * 1.55em + 24px);padding:12px 14px;border-radius:8px;
-  background:var(--code);color:var(--code-ink);font-family:'IBM Plex Mono',monospace;font-size:11.5px;
+  background:var(--code);color:var(--code-ink);font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;
   line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
 .excerpt .k{color:#8FC7FF}.excerpt .s{color:#F0D089}.excerpt .n{color:#9FE3B4}
-.doc a.schema{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--accent-ink);
+.doc a.schema{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;color:var(--accent-ink);
   margin-top:12px;word-break:break-all;text-decoration:none;border-top:1px dashed var(--rule);padding-top:10px}
 .doc a.schema:hover{text-decoration:underline}
 /* + and → between the documents, drawn here: a sign written as text would stick to the link before it */
 .op{flex:0 0 30px;display:flex;align-items:center;justify-content:center}
 .op::before{content:"+";box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:30px;height:30px;
   border:1.5px solid var(--ink);border-radius:50%;background:var(--paper);
-  font-family:'IBM Plex Mono',monospace;font-size:16px;line-height:1}
+  font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:16px;line-height:1}
 .op.to::before{content:"\2192";background:var(--ink);color:var(--paper);font-size:15px}
 .docs-note{margin-top:18px;font-size:14.5px;color:var(--ink-70)}
-.mono{font-family:'IBM Plex Mono',monospace;font-size:.92em;background:rgba(30,36,48,.06);padding:1px 5px;border-radius:4px}
+.mono{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:.92em;background:rgba(30,36,48,.06);padding:1px 5px;border-radius:4px}
 
 /* ---------- what leaves the vault: the disclosure gradient ---------- */
 .vault{margin-top:26px;background:var(--surface);border:1px solid var(--rule);
@@ -256,12 +256,12 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);l
 .vault-row{display:flex;flex-wrap:wrap;border-top:1px solid var(--rule)}
 .vault-row:first-child{border-top:0}
 .vault-level{flex:0 0 170px;
-  font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.04em;
+  font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;letter-spacing:.04em;
   padding:16px 14px;background:rgba(30,36,48,.035);color:var(--ink);
   display:flex;align-items:center;gap:8px}
 .vault-level::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:0 0 auto}
 .vault-fields{flex:1 1 320px;min-width:0;padding:14px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.chip{font-family:'IBM Plex Mono',monospace;font-size:12px;background:rgba(30,36,48,.06);
+.chip{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;background:rgba(30,36,48,.06);
   border:1px solid var(--rule);border-radius:6px;padding:3px 9px;color:var(--ink-70)}
 .chip.off{opacity:.38;text-decoration:line-through;text-decoration-color:var(--accent-ink)}
 .chip.size{background:var(--ink);color:var(--paper);border-color:var(--ink);
@@ -282,7 +282,7 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);l
 .status dl>div{display:flex;flex-wrap:wrap;gap:2px 26px;padding:11px 0;border-bottom:1px solid var(--rule)}
 .status dl>div:last-child{border-bottom:none}
 .status dt{flex:0 0 220px;font-size:14.5px;color:var(--ink-70)}
-.status dd{flex:1 1 300px;min-width:0;font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+.status dd{flex:1 1 300px;min-width:0;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px}
 .status .badge-draft{background:var(--tape);color:var(--tape-text);border-radius:6px;padding:2px 8px;
   letter-spacing:.06em;white-space:nowrap}
 .status-text{margin-top:16px;max-width:72ch;font-size:15px;color:var(--ink-70)}
@@ -292,7 +292,7 @@ h2{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(26px,4vw,36px);l
 footer{margin-top:80px}
 footer .legal{border-top:1px solid var(--rule);padding-top:22px;
   font-size:13px;color:var(--ink-70);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer .legal .mono-small{font-family:'IBM Plex Mono',monospace;font-size:11.5px}
+footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px}
 footer .legal a{color:var(--accent-ink)}
 @media(max-width:640px){footer .legal{flex-direction:column;gap:8px}}
 
