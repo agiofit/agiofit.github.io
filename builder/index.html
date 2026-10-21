@@ -303,7 +303,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
         <div><dt id="s-writes-t">Writes</dt><dd id="s-writes">Cut Profile, one garment</dd></div>
         <div><dt id="s-schema-t">Checked against</dt><dd id="s-schema">cut-profile.schema.json v0.1.0</dd></div>
         <div><dt id="s-status-t">Status</dt><dd id="s-status">draft — the model may still change</dd></div>
-        <div><dt id="s-data-t">Your data</dt><dd id="s-data">stays in this browser, nothing is sent</dd></div>
+        <div><dt id="s-data-t">Your data</dt><dd id="s-data">stays in this browser, nothing is sent. A draft is kept here until you download the file.</dd></div>
       </dl>
     </div>
   </div>
@@ -677,7 +677,11 @@ const UI = {
   readBackFail: (paths) => "This page could not read the file back as it was (" + paths.join(", ") + "). The form has been cleared; nothing was changed in your file.",
   opened: (name, id) => "Opened " + name + ". You are correcting it: when you download, it keeps the id " + id + ".",
   makeNew: "Make it a new file instead",
-  madeNew: "This will be a new file, with an id of its own."
+  madeNew: "This will be a new file, with an id of its own.",
+  draftBack: (date) => "Your draft" + (date ? " from " + date : "") + " is back.",
+  draftBackKept: (date, id) => UI.draftBack(date) + " You were correcting a file: when you download, it keeps the id " + id + ".",
+  draftClear: "Clear the form",
+  draftCleared: "The form is empty and the draft is gone."
 };
 
 const SCHEMA_URL = "../schemas/v0.1/cut-profile.schema.json";
@@ -1030,7 +1034,9 @@ function show(doc, problems) {
 }
 
 /* A checked file describes the form as it was when checked. Any change to the
-   form discards it, and a check still waiting for the schema is not shown. */
+   form discards it, and a check still waiting for the schema is not shown.
+   Every change to the form passes through here, which is why the draft is
+   saved from here too. */
 let checkSeq = 0;
 
 function clearResult() {
@@ -1039,6 +1045,7 @@ function clearResult() {
   $("out").hidden = true;
   $("download").disabled = true;
   current = null;
+  askSave();
 }
 
 /* -------------------------------------------------------------------- open */
@@ -1204,6 +1211,15 @@ function openMessage(kind, text, lines) {
   return d;
 }
 
+function linkButton(text, onClick) {
+  const b = document.createElement("button");
+  b.className = "linkbtn";
+  b.type = "button";
+  b.textContent = text;
+  b.addEventListener("click", onClick);
+  return b;
+}
+
 /* A file is opened only if the form can hold all of it. The list in cannotHold()
    stops the cases it foresees; reading the filled form back catches the rest, so
    a download never carries less than what was opened. */
@@ -1227,16 +1243,125 @@ async function openFile(file) {
     return;
   }
   const d = openMessage("ok", UI.opened(name, keptId) + " ");
-  const again = document.createElement("button");
-  again.className = "linkbtn";
-  again.type = "button";
-  again.textContent = UI.makeNew;
-  again.addEventListener("click", () => {
+  d.append(linkButton(UI.makeNew, () => {
     keptId = null;
     clearResult();
     openMessage("", UI.madeNew);
+  }));
+}
+
+/* ------------------------------------------------------------------- draft */
+/* A draft of the form is kept in this browser until the file is downloaded or
+   the form is cleared. It is the form as written, not a Cut Profile: "5o"
+   stays "5o". It never leaves the browser, and where storage is unavailable
+   the page works the same, only without a draft. */
+const DRAFT_KEY = "agiofit.builder.draft";
+const DRAFT_FIELDS = ["brand", "style_name", "composition", "production_tolerance", "critical_zones"];
+const DRAFT_MENUS = ["category", "size_system", "unit", "published_by", "cut"];
+let draftTimer = null;
+let restoring = false;
+
+function storage(use) {
+  try { return use(localStorage); } catch (e) { return null; }
+}
+
+function easeMax(lo) {
+  return $("ease").querySelector('.ease-max[data-zone="' + lo.dataset.zone + '"]');
+}
+
+function dropDraft() {
+  clearTimeout(draftTimer);
+  draftTimer = null;
+  storage(s => s.removeItem(DRAFT_KEY));
+}
+
+function saveDraft() {
+  clearTimeout(draftTimer);
+  draftTimer = null;
+  /* a page nobody has written in leaves nothing behind */
+  if (!formHasWriting() && !keptId) { storage(s => s.removeItem(DRAFT_KEY)); return; }
+  const draft = {
+    v: 1,
+    saved_at: new Date().toISOString(),
+    kept_id: keptId,
+    fields: Object.fromEntries(DRAFT_FIELDS.map(id => [id, $(id).value])),
+    menus: Object.fromEntries(DRAFT_MENUS.map(id => [id, $(id).value])),
+    ease: Object.fromEntries([...$("ease").querySelectorAll(".ease-min")]
+      .map(lo => [lo.dataset.zone, [lo.value, easeMax(lo).value]])),
+    sizes: [...$("sizes").querySelectorAll(".sizeblock")].map(block => ({
+      label: block.querySelector(".size-label").value,
+      m: Object.fromEntries([...block.querySelectorAll(".measure-value")]
+        .map(input => [input.dataset.key, input.value]))
+    })),
+    adv_open: $("adv").open
+  };
+  storage(s => s.setItem(DRAFT_KEY, JSON.stringify(draft)));
+}
+
+/* Not at every key: a little after the last one. */
+function askSave() {
+  if (restoring) return;
+  clearTimeout(draftTimer);
+  draftTimer = setTimeout(saveDraft, 300);
+}
+
+function setMenu(id, value) {
+  if ([...$(id).options].some(o => o.value === value)) $(id).value = value;
+}
+
+/* A draft this page cannot read is dropped without a word. Values that no longer
+   fit the form (an unknown menu value, a measurement it has no field for) are left out. */
+function restoreDraft() {
+  const raw = storage(s => s.getItem(DRAFT_KEY));
+  if (raw === null) return;
+  let d = null;
+  try { d = JSON.parse(raw); } catch (e) { d = null; }
+  if (!isObject(d) || d.v !== 1 || !isObject(d.fields) || !isObject(d.menus) || !isObject(d.ease)
+      || !Array.isArray(d.sizes) || !d.sizes.length) {
+    dropDraft();
+    return;
+  }
+
+  restoring = true;
+  resetForm();
+  setMenu("category", d.menus.category);
+  paintCategory();
+  for (const id of DRAFT_MENUS.slice(1)) setMenu(id, d.menus[id]);
+  for (const id of DRAFT_FIELDS) {
+    if (typeof d.fields[id] === "string") $(id).value = d.fields[id];
+  }
+  for (let i = 1; i < d.sizes.length; i++) addSize();
+  const blocks = $("sizes").querySelectorAll(".sizeblock");
+  d.sizes.forEach((s, i) => {
+    if (!isObject(s)) return;
+    if (typeof s.label === "string") blocks[i].querySelector(".size-label").value = s.label;
+    for (const input of blocks[i].querySelectorAll(".measure-value")) {
+      const v = isObject(s.m) ? s.m[input.dataset.key] : undefined;
+      if (typeof v === "string") input.value = v;
+    }
   });
-  d.append(again);
+  for (const lo of $("ease").querySelectorAll(".ease-min")) {
+    const pair = d.ease[lo.dataset.zone];
+    if (!Array.isArray(pair)) continue;
+    if (typeof pair[0] === "string") lo.value = pair[0];
+    if (typeof pair[1] === "string") easeMax(lo).value = pair[1];
+  }
+  paintAdvanced();
+  $("adv").open = d.adv_open === true && CAN_DECLARE_INTENT.includes($("published_by").value);
+  keptId = typeof d.kept_id === "string" && d.kept_id !== "" ? d.kept_id : null;
+  tapeBlock = blocks[0];
+  paintUnit();
+  paintPlaceholders();
+  restoring = false;
+
+  const when = typeof d.saved_at === "string" ? new Date(d.saved_at) : null;
+  const date = when && !isNaN(when) ? when.toLocaleString() : "";
+  const box = openMessage("ok", (keptId ? UI.draftBackKept(date, keptId) : UI.draftBack(date)) + " ");
+  box.append(linkButton(UI.draftClear, () => {
+    resetForm();
+    dropDraft();
+    openMessage("", UI.draftCleared);
+  }));
 }
 
 /* -------------------------------------------------------------------- wire */
@@ -1246,6 +1371,7 @@ for (const [key, c] of Object.entries(CATEGORIES)) {
 paintCategory();
 paintUnit();
 paintAdvanced();
+restoreDraft();
 
 $("category").addEventListener("change", paintCategory);
 $("size_system").addEventListener("change", paintPlaceholders);
@@ -1263,6 +1389,8 @@ $("sizes").addEventListener("focusout", paintTape);
 document.fonts.ready.then(paintTape);
 $("add-size").addEventListener("click", addSize);
 $("published_by").addEventListener("change", paintAdvanced);
+/* a reload right after the last key must not lose it */
+addEventListener("pagehide", () => { if (draftTimer) saveDraft(); });
 $("open").addEventListener("click", () => $("open-file").click());
 $("open-file").addEventListener("change", () => {
   const file = $("open-file").files[0];
@@ -1297,6 +1425,8 @@ $("download").addEventListener("click", () => {
   a.href = URL.createObjectURL(blob);
   a.download = name;
   a.click();
+  /* from here the copy to keep is the file, which can be opened again */
+  dropDraft();
   /* Some browsers start the download later, after asking: keep the address alive. */
   setTimeout(() => URL.revokeObjectURL(a.href), 60000);
 });
