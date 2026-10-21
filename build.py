@@ -19,7 +19,8 @@ Before writing, every page is checked: no element of another language left, span
 balanced, every head text translated, no call to setLang left, and in the site bar one
 language group holding three links to the right pages, in order, with only the page's own
 language marked current. The builder's "Measured by" and "Cut" options are checked against
-the schema the builder validates with. If one check fails, nothing is written. Each file
+the schema the builder validates with, and every agiofit.org link in llms.txt against the
+sitemap list. If one check fails, nothing is written. Each file
 written is read back at once; if one does not hold what was meant, nothing more is written.
 
     _src/index.html        ->  /index.html        /it/index.html        /fr/index.html
@@ -352,6 +353,29 @@ def check_builder() -> tuple:
     return problems, summary
 
 
+# a site link in llms.txt ends at whitespace or at the ")" that closes a Markdown link
+LLMS_LINK = re.compile(re.escape(SITE) + r"[^\s)]*")
+
+
+def check_llms(sitemap_urls: list) -> tuple:
+    """Every agiofit.org link in llms.txt against the sitemap list.
+
+    llms.txt is written by hand, not by this script; a link to a URL the sitemap does not
+    list points nowhere. Links to other hosts are not checked: this script makes no network
+    requests. Returns (problems, links).
+    """
+    page = ROOT / "llms.txt"
+    if not page.is_file():
+        return ["llms.txt is missing"], []
+    links = []
+    for m in LLMS_LINK.finditer(page.read_text(encoding="utf-8")):
+        u = m.group(0).split("#", 1)[0]
+        if u not in links:
+            links.append(u)
+    problems = [f"{u}  (not in the sitemap list)" for u in links if u not in sitemap_urls]
+    return problems, links
+
+
 def main() -> int:
     write = "--write" in sys.argv
     if not SRC.is_dir():
@@ -420,6 +444,17 @@ def main() -> int:
         print("\n  Nothing written: the builder's options do not match its schema\n")
         return 1
     print(f"\n  {summary}")
+
+    problems, links = check_llms(sitemap_urls)
+    if problems:
+        print()
+        for p in problems:
+            print(f"  {p}")
+        print("\n  Nothing written: llms.txt is missing or links outside the sitemap list\n")
+        return 1
+    print(f"  llms.txt: {len(links)} site links, all in the sitemap list")
+    for u in links:
+        print(f"      {u}")
 
     if not write:
         print("\nDry run: nothing was touched.")

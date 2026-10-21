@@ -1,0 +1,44 @@
+# Agio Fit
+
+> Agio Fit is an open data model (v0.1 draft) for a portable fit profile owned by the person, not the platform. Three JSON documents: the Fit Profile (the person's body measurements, preferences and fit history), the Cut Profile (how a garment is cut, published by the seller) and the Match Report (the only document that travels between the two). By default a shop receives a size and how sure the answer is, never the person's measurements.
+
+Key ideas, stated as the specification states them:
+
+- The profile lives in a vault the person chooses. The match runs where the profile lives; only the Match Report leaves, at a disclosure level the person controls (full, scoped, explained, result_only). The profile itself leaves at no level.
+- The arithmetic leak: ease in centimetres published next to a garment's finished measurements reveals body measurements by subtraction. Below scoped, ease values are stripped from the report.
+- Confidence is exposed, decomposed per zone and capped when data is thin: a cold start, with sizes only and no measurements, never goes above 0.40.
+- The algorithm is not normative. The shape of the answer is: exposed confidence, per-zone reasoning, correctability.
+- The Cut Profile records finished measurements per size, taken flat laid or as a circumference, with the method declared.
+
+What Agio Fit is not: not a size-recommendation vendor, not an identity system, not a scanning technology, not a size-chart aggregator, not a protocol. It is a data model, and nothing in it is stable before 1.0.
+
+Licensing is split: the specification is CC BY 4.0; the reference implementation (Python, zero runtime dependencies) is Apache 2.0. Agio Fit is a personal project by Antonio Ferraioli.
+
+## Site
+
+- [Overview](https://agiofit.org/): what the model is, the three documents, the four disclosure levels, the scope
+- [Interactive guide](https://agiofit.org/guide/): where the tape goes on a shirt, and the exact Match Report at every disclosure level
+- [Cut Profile builder](https://agiofit.org/builder/): measure a shirt laid flat and get a valid Cut Profile; runs in the browser, nothing is uploaded or stored
+
+The overview and the guide are also available in Italian (https://agiofit.org/it/) and French (https://agiofit.org/fr/).
+
+## Schemas (JSON Schema 2020-12, v0.1)
+
+- [Fit Profile schema](https://agiofit.org/schemas/v0.1/fit-profile.schema.json): the person's document
+- [Cut Profile schema](https://agiofit.org/schemas/v0.1/cut-profile.schema.json): the seller's document
+- [Match Report schema](https://agiofit.org/schemas/v0.1/match-report.schema.json): what travels
+
+## Specification
+
+- [Overview](https://raw.githubusercontent.com/agiofit/agiofit/main/spec/00-overview.md): purpose, terms, and how schema descriptions relate to the prose
+- [Fit Profile](https://raw.githubusercontent.com/agiofit/agiofit/main/spec/01-fit-profile.md)
+- [Cut Profile](https://raw.githubusercontent.com/agiofit/agiofit/main/spec/02-cut-profile.md): measurement vocabulary and measuring definitions
+- [Matching](https://raw.githubusercontent.com/agiofit/agiofit/main/spec/03-matching.md): the normative shape of the answer and confidence
+- [Privacy](https://raw.githubusercontent.com/agiofit/agiofit/main/spec/04-privacy.md): disclosure levels and the arithmetic leak
+
+## Optional
+
+- [Open questions](https://raw.githubusercontent.com/agiofit/agiofit/main/spec/05-open-questions.md)
+- [Threat model](https://raw.githubusercontent.com/agiofit/agiofit/main/spec/06-threat-model.md)
+- [Repository](https://github.com/agiofit/agiofit): specification, schemas, examples and the reference implementation
+- [Archived release](https://doi.org/10.5281/zenodo.21922898): Zenodo concept DOI
