@@ -226,6 +226,12 @@ button{cursor:pointer}
 .actions{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 
 #result{margin-top:22px}
+/* what happened to a file opened at the top of the page */
+#open-result{font-size:15px;color:var(--ink-70);max-width:60ch;overflow-wrap:anywhere}
+#open-result:not(:empty){margin-top:12px}
+#open-result .ok{border-radius:var(--radius)}
+.linkbtn{font:inherit;color:var(--accent-ink);text-decoration:underline;background:none;border:0;padding:0}
+.ok .linkbtn{color:inherit}
 .ok,.bad{border-radius:8px;padding:13px 16px;font-size:14.5px;border:1px solid}
 /* a valid file: the message and the JSON are one block, the message on top */
 .ok{background:#EFF6F1;color:var(--ok);border:0;border-radius:var(--radius) var(--radius) 0 0;
@@ -280,6 +286,9 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
       <h1>Cut Profile builder</h1>
       <p class="lede" id="t-lede">Lay a garment flat, take five measurements, and get a file that describes how it is cut.</p>
       <p class="sub" id="t-spec">The form is the easy way in. The data model is the point: read the <a href="https://github.com/agiofit/agiofit/tree/main/spec">specification</a>.</p>
+      <p class="sub" id="t-open">Made a file here before? <button class="linkbtn" id="open" type="button">Open it to correct it</button>, and it stays the same file.</p>
+      <input type="file" id="open-file" accept=".json,application/json" hidden>
+      <div id="open-result" role="status"></div>
       <nav class="steps" aria-label="Steps">
         <a href="#step-1"><span class="sn">1</span>The garment</a>
         <a href="#step-2"><span class="sn">2</span>Lay it flat</a>
@@ -654,7 +663,21 @@ const UI = {
   emptyList: (at) => at + ": the list is empty.",
   badFormat: (at, format) => at + ": is not a valid " + (format === "date-time" ? "date and time" : format) + ".",
   badName: (at, name) => at + ': "' + name + '" is not a valid name. Names are lowercase letters, digits and underscores.',
-  schemaSays: (path, message) => "The schema says: " + path + " " + message
+  schemaSays: (path, message) => "The schema says: " + path + " " + message,
+  notJsonFile: (name) => name + " is not a JSON file this page can read.",
+  openSchemaFail: "Could not load the schema to check the file against. It was not opened.",
+  notValidProfile: (name) => name + " is not a valid Cut Profile v0.1, so it was not opened:",
+  cannotHold: (name) => name + " is a valid Cut Profile, but this form cannot hold all of it, so it was not opened. Correcting it here would drop:",
+  shirtsOnly: (category) => "category " + category + ": this page writes shirts only.",
+  flatOnly: (method) => "measurement_method " + method + ": this page writes flat-laid measurements only.",
+  noPlace: (at) => at + ": the form has no place for it.",
+  intentOnly: (field) => field + " (only the brand or the manufacturer can state it)",
+  mixedUnits: "units: the form uses one unit for the whole file, and this file mixes cm and in.",
+  replaceForm: "Opening a file replaces what is in the form. Continue?",
+  readBackFail: (paths) => "This page could not read the file back as it was (" + paths.join(", ") + "). The form has been cleared; nothing was changed in your file.",
+  opened: (name, id) => "Opened " + name + ". You are correcting it: when you download, it keeps the id " + id + ".",
+  makeNew: "Make it a new file instead",
+  madeNew: "This will be a new file, with an id of its own."
 };
 
 const SCHEMA_URL = "../schemas/v0.1/cut-profile.schema.json";
@@ -791,11 +814,16 @@ function num(el) {
   return Number.isFinite(n) ? n : null;
 }
 
+/* A file opened here keeps its id, so whatever points at it still finds it once
+   corrected. A new document takes a new id at every check: two shirts measured
+   one after the other must not end up sharing one. */
+let keptId = null;
+
 function collect() {
   const unit = $("unit").value;
   const doc = {
     schema_version: "0.1.0",
-    cut_profile_id: crypto.randomUUID()
+    cut_profile_id: keptId || crypto.randomUUID()
   };
 
   const brand = $("brand").value.trim();
@@ -1013,6 +1041,204 @@ function clearResult() {
   current = null;
 }
 
+/* -------------------------------------------------------------------- open */
+/* What the form writes, field by field. A file holding anything else is not
+   opened: the form would not show it, and the download would quietly drop it. */
+const FORM_HOLDS = {
+  root: ["schema_version", "cut_profile_id", "brand", "style_name", "category", "size_system",
+         "measurement_method", "fabric", "sizes", "cut", "production_tolerance",
+         "critical_zones", "intended_ease", "provenance"],
+  fabric: ["composition"],
+  provenance: ["published_by", "published_at"],
+  size: ["size_label", "finished_measurements"],
+  measurement: ["value", "unit"]
+};
+const INTENT_FIELDS = ["cut", "production_tolerance", "critical_zones", "intended_ease"];
+
+function isObject(x) {
+  return x !== null && typeof x === "object" && !Array.isArray(x);
+}
+
+/* Every unit in the file: measurements first, then tolerance, then ease. */
+function fileUnits(doc) {
+  const measures = doc.sizes.flatMap(s => Object.values(s.finished_measurements).map(m => m.unit));
+  const tolerance = doc.production_tolerance ? [doc.production_tolerance.unit] : [];
+  const ease = Object.values(doc.intended_ease || {}).map(e => e.unit);
+  return measures.concat(tolerance, ease);
+}
+
+/* What the form could not hold of a valid Cut Profile, one line each. The
+   measurements and the zones are read from the page, not listed here. */
+function cannotHold(doc) {
+  if (!Object.hasOwn(CATEGORIES, doc.category)) return [UI.shirtsOnly(doc.category)];
+  const out = [];
+  const extra = (obj, allowed, at) => {
+    for (const k of Object.keys(obj)) if (!allowed.includes(k)) out.push(UI.noPlace(at(k)));
+  };
+  if (doc.measurement_method !== "flat_laid") out.push(UI.flatOnly(doc.measurement_method));
+  if (!CATEGORIES[doc.category].size_systems.includes(doc.size_system)) {
+    out.push(UI.noPlace("size_system " + doc.size_system));
+  }
+  extra(doc, FORM_HOLDS.root, k => k);
+  if (doc.fabric) extra(doc.fabric, FORM_HOLDS.fabric, k => "fabric · " + k);
+  extra(doc.provenance, FORM_HOLDS.provenance, k => "provenance · " + k);
+
+  const keys = [...$("sizes").querySelector(".sizeblock").querySelectorAll(".measure-value")]
+    .map(input => input.dataset.key);
+  doc.sizes.forEach((s, i) => {
+    const size = where("/sizes/" + i, doc);
+    extra(s, FORM_HOLDS.size, k => size + " · " + k);
+    for (const [key, m] of Object.entries(s.finished_measurements)) {
+      if (!keys.includes(key)) out.push(UI.noPlace(size + " · " + key));
+      else extra(m, FORM_HOLDS.measurement, k => size + " · " + key + " · " + k);
+    }
+  });
+
+  if (!CAN_DECLARE_INTENT.includes(doc.provenance.published_by)) {
+    for (const f of INTENT_FIELDS) if (doc[f] !== undefined) out.push(UI.noPlace(UI.intentOnly(f)));
+  } else if (doc.intended_ease) {
+    const zones = [...$("ease").querySelectorAll(".ease-min")].map(input => input.dataset.zone);
+    for (const z of Object.keys(doc.intended_ease)) {
+      if (!zones.includes(z)) out.push(UI.noPlace("intended_ease · " + z));
+    }
+  }
+
+  if (new Set(fileUnits(doc)).size > 1) out.push(UI.mixedUnits);
+  return out;
+}
+
+/* Every path where two documents differ, the id and the publication time aside. */
+function differences(a, b, path = "", out = []) {
+  if (path === "/cut_profile_id" || path === "/provenance/published_at") return out;
+  if ((Array.isArray(a) && Array.isArray(b)) || (isObject(a) && isObject(b))) {
+    for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) {
+      differences(a[k], b[k], path + "/" + k.replace(/~/g, "~0").replace(/\//g, "~1"), out);
+    }
+  } else if (a !== b) {
+    out.push(path);
+  }
+  return out;
+}
+
+function formHasWriting() {
+  return [...document.querySelectorAll("input:not([type=file])")].some(filled)
+    || $("sizes").querySelectorAll(".sizeblock").length > 1;
+}
+
+/* The form as the page opens it: empty fields, one size, every menu at its first option. */
+function resetForm() {
+  for (const id of ["brand", "style_name", "composition", "production_tolerance", "critical_zones"]) {
+    $(id).value = "";
+  }
+  for (const input of $("ease").querySelectorAll("input")) input.value = "";
+  for (const id of ["category", "unit", "published_by", "cut"]) $(id).selectedIndex = 0;
+  paintCategory();
+  const blocks = [...$("sizes").querySelectorAll(".sizeblock")];
+  for (const block of blocks.slice(1)) block.remove();
+  blocks[0].querySelector(".size-label").value = "";
+  for (const input of blocks[0].querySelectorAll(".measure-value")) input.value = "";
+  paintAdvanced();
+  $("adv").open = false;
+  tapeBlock = blocks[0];
+  paintUnit();
+  clearResult();
+  keptId = null;
+}
+
+function fill(doc) {
+  const unit = fileUnits(doc)[0] || $("unit").value;
+  resetForm();
+  $("brand").value = doc.brand || "";
+  $("style_name").value = doc.style_name || "";
+  $("category").value = doc.category;
+  paintCategory();
+  $("size_system").value = doc.size_system;
+  $("composition").value = (doc.fabric && doc.fabric.composition) || "";
+  $("unit").value = unit;
+
+  for (let i = 1; i < doc.sizes.length; i++) addSize();
+  const blocks = $("sizes").querySelectorAll(".sizeblock");
+  doc.sizes.forEach((s, i) => {
+    blocks[i].querySelector(".size-label").value = s.size_label;
+    for (const input of blocks[i].querySelectorAll(".measure-value")) {
+      const m = s.finished_measurements[input.dataset.key];
+      input.value = m ? String(m.value) : "";
+    }
+  });
+
+  $("published_by").value = doc.provenance.published_by;
+  paintAdvanced();
+  $("cut").value = doc.cut || "";
+  $("production_tolerance").value = doc.production_tolerance ? String(doc.production_tolerance.value) : "";
+  $("critical_zones").value = (doc.critical_zones || []).join(", ");
+  for (const lo of $("ease").querySelectorAll(".ease-min")) {
+    const e = doc.intended_ease && doc.intended_ease[lo.dataset.zone];
+    const hi = $("ease").querySelector('.ease-max[data-zone="' + lo.dataset.zone + '"]');
+    lo.value = e ? String(e.min) : "";
+    hi.value = e ? String(e.max) : "";
+  }
+  $("adv").open = INTENT_FIELDS.some(f => doc[f] !== undefined);
+
+  tapeBlock = blocks[0];
+  paintUnit();
+  paintPlaceholders();
+  clearResult();
+}
+
+function openMessage(kind, text, lines) {
+  const box = $("open-result");
+  box.textContent = "";
+  const d = document.createElement("div");
+  d.className = kind;
+  d.textContent = text;
+  if (lines && lines.length) {
+    const ul = document.createElement("ul");
+    for (const line of lines) {
+      const li = document.createElement("li");
+      li.textContent = line;
+      ul.append(li);
+    }
+    d.append(ul);
+  }
+  box.append(d);
+  return d;
+}
+
+/* A file is opened only if the form can hold all of it. The list in cannotHold()
+   stops the cases it foresees; reading the filled form back catches the rest, so
+   a download never carries less than what was opened. */
+async function openFile(file) {
+  const name = file.name;
+  let doc = null;
+  try { doc = JSON.parse(await file.text()); } catch (e) { doc = null; }
+  if (!isObject(doc)) { openMessage("bad", UI.notJsonFile(name)); return; }
+  try { await loadValidator(); } catch (e) { openMessage("bad", UI.openSchemaFail); return; }
+  if (!validator(doc)) { openMessage("bad", UI.notValidProfile(name), explain(validator.errors, doc)); return; }
+  const drops = cannotHold(doc);
+  if (drops.length) { openMessage("bad", UI.cannotHold(name), drops); return; }
+  if (formHasWriting() && !window.confirm(UI.replaceForm)) { $("open-result").textContent = ""; return; }
+
+  fill(doc);
+  keptId = doc.cut_profile_id;
+  const lost = differences(doc, collect());
+  if (lost.length) {
+    resetForm();
+    openMessage("bad", UI.readBackFail([...new Set(lost.map(p => where(p, doc)))]));
+    return;
+  }
+  const d = openMessage("ok", UI.opened(name, keptId) + " ");
+  const again = document.createElement("button");
+  again.className = "linkbtn";
+  again.type = "button";
+  again.textContent = UI.makeNew;
+  again.addEventListener("click", () => {
+    keptId = null;
+    clearResult();
+    openMessage("", UI.madeNew);
+  });
+  d.append(again);
+}
+
 /* -------------------------------------------------------------------- wire */
 for (const [key, c] of Object.entries(CATEGORIES)) {
   $("category").append(new Option(c.label, key));
@@ -1037,6 +1263,12 @@ $("sizes").addEventListener("focusout", paintTape);
 document.fonts.ready.then(paintTape);
 $("add-size").addEventListener("click", addSize);
 $("published_by").addEventListener("change", paintAdvanced);
+$("open").addEventListener("click", () => $("open-file").click());
+$("open-file").addEventListener("change", () => {
+  const file = $("open-file").files[0];
+  $("open-file").value = "";
+  if (file) openFile(file);
+});
 
 $("build").addEventListener("click", () => {
   const doc = collect();
@@ -1052,7 +1284,7 @@ $("build").addEventListener("click", () => {
 
 for (const type of ["input", "change"]) {
   document.addEventListener(type, (e) => {
-    if (e.target.matches("input, select")) clearResult();
+    if (e.target.matches("input:not([type=file]), select")) clearResult();
   });
 }
 
