@@ -640,7 +640,21 @@ const UI = {
   easeOrder: (zone) => "Intended ease · " + zone + ": the minimum is larger than the maximum.",
   tolNotNumber: (text) => 'Production tolerance: "' + text + '" is not a number.',
   tolNegative: "Production tolerance cannot be less than 0.",
-  schemaFail: "Could not load the schema to check against. Nothing was built."
+  schemaFail: "Could not load the schema to check against. Nothing was built.",
+  atRoot: "The file",
+  atSize: (label) => "Size " + label,
+  missing: (at, name) => at + ": " + name + " is missing.",
+  notInProfile: (at, name) => at + ": " + name + " is not part of a Cut Profile.",
+  oneOf: (at, values) => at + ": must be one of " + values.join(", ") + ".",
+  mustBe: (at, value) => at + ": must be " + JSON.stringify(value) + ".",
+  types: { number: "a number", string: "text", array: "a list", object: "an object" },
+  mustBeType: (at, type) => at + ": must be " + (UI.types[type] || "a " + type) + ".",
+  moreThan: (at, limit) => at + ": must be more than " + limit + ".",
+  notLessThan: (at, limit) => at + ": cannot be less than " + limit + ".",
+  emptyList: (at) => at + ": the list is empty.",
+  badFormat: (at, format) => at + ": is not a valid " + (format === "date-time" ? "date and time" : format) + ".",
+  badName: (at, name) => at + ': "' + name + '" is not a valid name. Names are lowercase letters, digits and underscores.',
+  schemaSays: (path, message) => "The schema says: " + path + " " + message
 };
 
 const SCHEMA_URL = "../schemas/v0.1/cut-profile.schema.json";
@@ -913,6 +927,47 @@ function loadValidator() {
   return ready;
 }
 
+/* Where an objection points, in words: "Size 41 · chest_width" rather than
+   /sizes/0/finished_measurements/chest_width/value. */
+function where(path, doc) {
+  const parts = path.split("/").slice(1).map(p => p.replace(/~1/g, "/").replace(/~0/g, "~"));
+  if (!parts.length) return UI.atRoot;
+  if (parts[0] !== "sizes" || parts.length < 2) return parts.join(" · ");
+  const i = Number(parts[1]);
+  const size = doc && Array.isArray(doc.sizes) ? doc.sizes[i] : null;
+  const label = size && typeof size.size_label === "string" && size.size_label !== ""
+    ? size.size_label : String(i + 1);
+  const rest = parts.slice(2).filter((p, j) =>
+    !(j === 0 && p === "finished_measurements") && !(j === 2 && p === "value"));
+  return [UI.atSize(label)].concat(rest).join(" · ");
+}
+
+/* The schema's objections, one line each, saying where and what. A keyword this
+   list does not know is never hidden: it is shown in the schema's own words. */
+function explain(errors, doc) {
+  const lines = [];
+  for (const e of errors) {
+    /* a bad name is reported twice, by propertyNames and by its inner pattern */
+    if (e.keyword === "pattern" && e.propertyName !== undefined) continue;
+    const at = where(e.instancePath, doc);
+    const p = e.params || {};
+    switch (e.keyword) {
+      case "required": lines.push(UI.missing(at, p.missingProperty)); break;
+      case "additionalProperties": lines.push(UI.notInProfile(at, p.additionalProperty)); break;
+      case "enum": lines.push(UI.oneOf(at, p.allowedValues)); break;
+      case "const": lines.push(UI.mustBe(at, p.allowedValue)); break;
+      case "type": lines.push(UI.mustBeType(at, p.type)); break;
+      case "exclusiveMinimum": lines.push(UI.moreThan(at, p.limit)); break;
+      case "minimum": lines.push(UI.notLessThan(at, p.limit)); break;
+      case "minItems": lines.push(UI.emptyList(at)); break;
+      case "format": lines.push(UI.badFormat(at, p.format)); break;
+      case "propertyNames": lines.push(UI.badName(at, p.propertyName)); break;
+      default: lines.push(UI.schemaSays(e.instancePath || "/", e.message));
+    }
+  }
+  return [...new Set(lines)];
+}
+
 let current = null;
 
 function show(doc, problems) {
@@ -991,7 +1046,7 @@ $("build").addEventListener("click", () => {
   loadValidator().then(() => {
     if (seq !== checkSeq) return;
     if (validator(doc)) { show(doc, []); return; }
-    show(doc, validator.errors.map(e => (e.instancePath || "/") + " " + e.message));
+    show(doc, explain(validator.errors, doc));
   }).catch(() => { if (seq === checkSeq) show(doc, [UI.schemaFail]); });
 });
 
