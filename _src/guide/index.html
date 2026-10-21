@@ -65,8 +65,8 @@ body.lang-it .en, body.lang-it .fr{display:none}
 body.lang-fr .en, body.lang-fr .it{display:none}
 
 /* ---------- the site bar, shared by every page ---------- */
-.sitenav{border-bottom:1px solid var(--rule);background:rgba(245,240,232,.92);
-  backdrop-filter:saturate(140%) blur(6px);position:sticky;top:0;z-index:20}
+.sitenav{border-bottom:1px solid var(--rule);background:var(--surface);box-shadow:var(--shadow);
+  position:sticky;top:0;z-index:20}
 .sitenav-inner{max-width:1120px;margin:0 auto;padding:0 24px;height:58px;
   display:flex;align-items:center;gap:24px}
 .sitenav-mark{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:18px;color:var(--ink);
@@ -90,9 +90,21 @@ body.lang-fr .en, body.lang-fr .it{display:none}
 .sitenav-gh:hover{background:var(--ink);color:var(--paper)}
 .visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
   clip:rect(0 0 0 0);white-space:nowrap;border:0}
-/* one line at every width: below 840 px the bar scrolls sideways instead of wrapping */
-@media(max-width:840px){.sitenav-inner{gap:16px;overflow-x:auto}.sitenav-inner>*{flex-shrink:0}}
-@media(max-width:640px){.sitenav-ver{display:none}}
+/* two rows below 840 px, no sideways scroll: mark, languages, badge and GitHub on top, the four links
+   below a rule; order only moves the boxes, so the tab order still follows the markup */
+@media(max-width:840px){
+  .sitenav-inner{flex-wrap:wrap;height:auto;column-gap:18px;row-gap:0}
+  .sitenav-mark{order:0;height:48px}
+  .sitenav-lang,.sitenav-ver,.sitenav-gh{order:1}
+  .sitenav-lang{margin-left:auto;border-left:0;padding-left:0}
+  .sitenav-inner::after{content:"";order:2;flex-basis:calc(100% + 48px);height:1px;background:var(--rule);margin:0 -24px}
+  .sitenav a.sitenav-link{order:3;height:40px;display:flex;align-items:center;padding:0}
+}
+@media(max-width:640px){
+  .sitenav-inner{padding:0 16px}
+  .sitenav-inner::after{flex-basis:calc(100% + 32px);margin:0 -16px}
+  .sitenav-ver,.sitenav-gh{display:none}
+}
 
 /* laid out like the rest of the site: sections on the paper, white only for cards */
 .page{max-width:1120px;margin:0 auto;padding:0 24px 96px}
@@ -136,6 +148,7 @@ h1 .tagline{display:inline-block;margin-top:12px;font-size:.5em;font-style:itali
 
 /* ---------- sections ---------- */
 .section{margin-top:88px;scroll-margin-top:80px}
+@media(max-width:840px){.section{scroll-margin-top:112px}} /* the bar has two rows here */
 #vocabulary{margin-top:72px}
 .kicker{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px}
