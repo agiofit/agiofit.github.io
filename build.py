@@ -12,19 +12,21 @@ sets <html lang>, writes canonical, hreflang and og:locale, and turns the JavaSc
 switcher into three plain links: the EN, IT and FR buttons of the site bar's .sitenav-lang
 become links to the three versions of the same page. The head carries its Italian and French
 text in data-it and data-fr attributes on <title> and on the text <meta> tags; this script
-picks the page's language and removes the attributes. Nothing is translated here: the source
-stays the single place where the three languages live.
+picks the page's language and removes the attributes. An attribute in the body does the same
+with data-it-<name> and data-fr-<name>: aria-label="…" data-it-aria-label="…" data-fr-aria-label="…".
+Nothing is translated here: the source stays the single place where the three languages live.
 
 Before writing, every page is checked: no element of another language left, span and tspan
-balanced, every head text translated, no call to setLang left, and in the site bar one
-language group holding three links to the right pages, in order, with only the page's own
-language marked current. The builder's "Measured by" and "Cut" options are checked against
+balanced, every head text and attribute translated, no call to setLang left, and in the site
+bar one language group holding three links to the right pages, in order, with only the page's
+own language marked current. The builder's "Measured by" and "Cut" options are checked against
 the schema the builder validates with, and every agiofit.org link in llms.txt against the
 sitemap list. If one check fails, nothing is written. Each file
 written is read back at once; if one does not hold what was meant, nothing more is written.
 
-    _src/index.html        ->  /index.html        /it/index.html        /fr/index.html
-    _src/guide/index.html  ->  /guide/index.html  /it/guide/index.html  /fr/guide/index.html
+    _src/index.html          ->  /index.html          /it/index.html          /fr/index.html
+    _src/guide/index.html    ->  /guide/index.html    /it/guide/index.html    /fr/guide/index.html
+    _src/builder/index.html  ->  /builder/index.html  /it/builder/index.html  /fr/builder/index.html
 """
 
 import json
@@ -59,6 +61,7 @@ LANG_TAG = re.compile(r"<(/?)(span|tspan)\b([^>]*)>")
 PAGES = {
     "index.html": "",
     "guide/index.html": "guide/",
+    "builder/index.html": "builder/",
 }
 
 
@@ -134,6 +137,32 @@ def translate_head(html: str, lang: str) -> str:
     return html
 
 
+# an attribute in the body whose text changes with the language: the English value is in the
+# attribute, the other two in data-it-<name> and data-fr-<name> on the same tag
+LANG_ATTR = re.compile(r'\sdata-(it|fr)-([a-z][a-z-]*)="([^"]*)"')
+LANG_ATTR_TAG = re.compile(r'<[a-zA-Z][^>]*\sdata-(?:it|fr)-[a-z][^>]*>')
+
+
+def translate_attrs(html: str, lang: str) -> str:
+    """Put the page's language into every attribute that has data-it-* and data-fr-*,
+    then drop those two."""
+    def one(m):
+        tag = m.group(0)
+        texts = {(l, name): text for l, name, text in LANG_ATTR.findall(tag)}
+        for name in sorted({name for _, name in texts}):
+            where = f"{name}, line {line_of(html, m.start())}"
+            for l in ("it", "fr"):
+                if not texts.get((l, name), "").strip():
+                    raise ValueError(f"{where} has no {l} text")
+            own = re.compile(r'(\s%s=")[^"]*(")' % re.escape(name))
+            if not own.search(tag):
+                raise ValueError(f"{where} has translations but no English value")
+            if lang != "en":
+                tag = own.sub(lambda c: c.group(1) + texts[(lang, name)] + c.group(2), tag, count=1)
+        return LANG_ATTR.sub("", tag)
+    return LANG_ATTR_TAG.sub(one, html)
+
+
 def og_locales(lang: str) -> str:
     rows = [f'<meta property="og:locale" content="{OG[lang]}">']
     rows += [f'<meta property="og:locale:alternate" content="{OG[l]}">' for l in LANGS if l != lang]
@@ -185,6 +214,8 @@ def check_page(html: str, page: str, lang: str) -> list:
         problems.append(f"{len(stack)} span/tspan never closed")
     if re.search(r"\sdata-(it|fr)=", html):
         problems.append("data-it or data-fr left in the page")
+    for m in re.finditer(r"\sdata-(it|fr)-[a-z][a-z-]*=", html):
+        problems.append(f"{m.group(0).strip()} left, line {line_of(html, m.start())}")
     # a language button not turned into a link would call a function the page no longer has
     for m in re.finditer(r"setLang\(", html):
         problems.append(f"setLang( left, line {line_of(html, m.start())}")
@@ -236,6 +267,7 @@ def build_page(source: str, page: str, lang: str) -> str:
     # 1. one language only, in the body and in the head
     h = strip_languages(h, lang)
     h = translate_head(h, lang)
+    h = translate_attrs(h, lang)
 
     # 2. the document declares which language it is, and the body no longer switches
     h = re.sub(r'<html([^>]*)\slang="[a-z-]+"', r'<html\1 lang="%s"' % lang, h, count=1)
@@ -252,10 +284,11 @@ def build_page(source: str, page: str, lang: str) -> str:
                r"\g<1>%s/%s\g<2>" % (SITE, out_path(page, lang)), h)
 
     # 4. every internal link is absolute, so a page works from any folder; and inside a
-    #    language folder the guide link points at that language's guide
+    #    language folder the guide and builder links point at that language's pages
     h = re.sub(r'href="(?!http|#|mailto|/)([^"]+)"', r'href="/\1"', h)
     if lang != "en":
         h = h.replace('href="/guide/"', 'href="/%s/guide/"' % lang)
+        h = h.replace('href="/builder/"', 'href="/%s/builder/"' % lang)
         h = h.replace('href="/"', 'href="/%s/"' % lang)
         h = h.replace('href="/#schemas"', 'href="/%s/#schemas"' % lang)
 
@@ -307,16 +340,17 @@ def check_builder() -> tuple:
     """The builder's "Measured by" and "Cut" options against the schema it validates with.
 
     A value the schema does not accept makes a file nobody can download; a value it accepts
-    but the builder does not offer leaves someone out. Returns (problems, summary).
+    but the builder does not offer leaves someone out. The source is read: its option values
+    are the ones all three pages carry. Returns (problems, summary).
     """
-    page = ROOT / "builder" / "index.html"
+    page = SRC / "builder" / "index.html"
     if not page.is_file():
-        return ["builder/index.html is missing"], ""
+        return ["_src/builder/index.html is missing"], ""
     html = page.read_text(encoding="utf-8")
 
     m = re.search(r"""\bSCHEMA_URL\s*=\s*["']([^"']+)["']""", html)
     if not m:
-        return ["SCHEMA_URL not found in builder/index.html"], ""
+        return ["SCHEMA_URL not found in _src/builder/index.html"], ""
     url = urljoin("/builder/", m.group(1))
     if not url.startswith("/"):
         return [f"SCHEMA_URL is not on this site: {m.group(1)}"], ""
@@ -338,7 +372,7 @@ def check_builder() -> tuple:
     for sid, allowed in enums.items():
         found = parser.values[sid]
         if found is None:
-            problems.append(f'<select id="{sid}"> not found in builder/index.html')
+            problems.append(f'<select id="{sid}"> not found in _src/builder/index.html')
             continue
         if sid == "cut":
             found = [v for v in found if v != ""]    # "not stated" writes nothing
@@ -348,7 +382,7 @@ def check_builder() -> tuple:
             problems.append(f"#{sid}: not in the schema: {', '.join(map(str, extra))}")
         if missing:
             problems.append(f"#{sid}: missing from the builder: {', '.join(missing)}")
-    summary = (f"builder/index.html: #published_by ({len(enums['published_by'])}) and "
+    summary = (f"_src/builder/index.html: #published_by ({len(enums['published_by'])}) and "
                f"#cut ({len(enums['cut'])}) match {url.lstrip('/')}")
     return problems, summary
 
@@ -390,7 +424,8 @@ def main() -> int:
             return 1
         text = src.read_text(encoding="utf-8")
         for lang in LANGS:
-            if not re.search(r'<span class="%s">' % lang, text):
+            # English is also the text outside the language spans: a page may carry none of its own
+            if lang != "en" and not re.search(r'<span class="%s">' % lang, text):
                 print(f"\n  Nothing written: {page} has no {lang} text\n")
                 return 1
             try:
@@ -413,7 +448,7 @@ def main() -> int:
         print("\n  Nothing written: the pages above did not pass the checks\n")
         return 1
 
-    urls = [f"{SITE}/{out_path(p, l)}" for p in PAGES for l in LANGS] + [f"{SITE}/builder/"]
+    urls = [f"{SITE}/{out_path(p, l)}" for p in PAGES for l in LANGS]
     schemas = ["fit-profile", "cut-profile", "match-report"]
     sitemap_urls = urls + [f"{SITE}/schemas/v0.1/{s}.schema.json" for s in schemas]
 
