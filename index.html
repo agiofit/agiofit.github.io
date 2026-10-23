@@ -137,10 +137,15 @@ h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-
 .figure-caption{margin-top:2px;text-align:center;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;color:var(--ink-70)}
 
 /* the shirt laid flat, as in the guide and the builder: a width is a solid line, the collar a
-   dashed ring. Here the drawing sits on the paper, so the labels off the garment keep the paper colour */
+   dashed line along its band, shown opened out in the corner (the whole way round). Here the
+   drawing sits on the paper, so the labels off the garment keep the paper colour */
 .shirt .cloth{fill:var(--surface);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
 .shirt .collar{fill:var(--surface);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
 .shirt .collar-in{fill:var(--paper)}
+.shirt .inset{fill:var(--surface);stroke:var(--rule);stroke-width:1}
+.shirt .band{fill:var(--surface);stroke:var(--ink);stroke-width:1.4;stroke-linejoin:round}
+.shirt .leaf{fill:var(--paper);stroke:var(--ink-70);stroke-width:1.1;stroke-linejoin:round}
+.shirt .hole{fill:none;stroke:var(--ink-70);stroke-width:1}
 .shirt .seam{fill:none;stroke:var(--ink-70);stroke-width:1}
 .shirt .button{fill:var(--surface);stroke:var(--ink-70);stroke-width:1}
 .shirt .dim{fill:none;stroke:var(--accent-ink);stroke-width:1.25;stroke-linecap:round}
@@ -412,7 +417,8 @@ footer .legal a{color:var(--accent-ink)}
         <!--
           The shirt laid flat, one drawing for the whole site, as in the guide: geometry as it is,
           values of size 41 in examples/cut-shirt.json, written once. A width is a solid line
-          across the garment (half the way round), the collar a dashed ring (the whole way round).
+          across the garment (half the way round), the collar a dashed line along its band, shown
+          opened out in the corner (the whole way round).
         -->
         <svg xmlns="http://www.w3.org/2000/svg" class="shirt" viewBox="0 22 600 418" width="600" height="418" role="img" aria-labelledby="hero-shirt-desc">
           <!-- the garment -->
@@ -438,14 +444,20 @@ footer .legal a{color:var(--accent-ink)}
             <circle class="button" cx="508.1" cy="353.5" r="2.2"/>
           </g>
 
-          <!-- 1 neck_circumference: the collar, the whole way round -->
+          <!-- 1 neck_circumference: the collar opened out, along the band, button to buttonhole -->
           <g class="m" data-key="neck_circumference">
-            <path class="dim round" d="M300 105 C 254 102 252 64 300 61 C 348 64 346 102 300 105 Z"/>
-            <line class="dim lead" x1="263" y1="90" x2="242" y2="108"/>
-            <rect class="label-bg" x="206" y="104" width="64" height="20" rx="3"/>
-            <circle class="badge" cx="217" cy="114" r="8"/>
-            <text class="badge-n" x="217" y="114" text-anchor="middle" dominant-baseline="central">1</text>
-            <text class="val" x="229" y="118.3"><tspan class="num">42</tspan><tspan class="unit" dx="4">cm</tspan></text>
+            <path class="dim round" d="M268 80 Q300 59 332 80"/>
+            <line class="dim lead" x1="264" y1="75" x2="170" y2="64"/>
+            <rect class="inset" x="6" y="26" width="162" height="122" rx="6"/>
+            <path class="leaf" d="M32 90.7 Q87 107.5 142 90.7 L152 52 Q87 72 22 52 Z"/>
+            <path class="band" d="M18 86 Q87 112 156 86 L156 100 Q87 126 18 100 Z"/>
+            <circle class="button" cx="27" cy="96" r="3.2"/>
+            <rect class="hole" x="140" y="94" width="14" height="4" rx="2"/>
+            <path class="dim round" d="M27 96 Q87 115.5 147 96"/>
+            <rect class="label-bg" x="66" y="120" width="64" height="20" rx="3"/>
+            <circle class="badge" cx="77" cy="130" r="8"/>
+            <text class="badge-n" x="77" y="130" text-anchor="middle" dominant-baseline="central">1</text>
+            <text class="val" x="89" y="134.3"><tspan class="num">42</tspan><tspan class="unit" dx="4">cm</tspan></text>
           </g>
 
           <!-- 2 shoulder_width: seam to seam, a straight line -->
@@ -492,7 +504,7 @@ footer .legal a{color:var(--accent-ink)}
             <text class="val" x="500" y="219.3"><tspan class="num">65</tspan><tspan class="unit" dx="4">cm</tspan></text>
           </g>
         </svg>
-        <figcaption class="figure-caption">Laid flat, fastened, not stretched. Chest and waist are half the way round; the collar, the whole way.</figcaption>
+        <figcaption class="figure-caption">Laid flat, fastened, not stretched; the collar opened out. Chest and waist are half the way round; the collar, the whole way.</figcaption>
       </figure>
 
       <div class="hero-cards">
