@@ -20,7 +20,7 @@ Licensing is split: the specification is CC BY 4.0; the reference implementation
 - [Interactive guide](https://agiofit.org/guide/): where the tape goes on a shirt, and the exact Match Report at every disclosure level
 - [Cut Profile builder](https://agiofit.org/builder/): measure a shirt laid flat and get a valid Cut Profile; runs in the browser, nothing is uploaded or stored
 
-The overview and the guide are also available in Italian (https://agiofit.org/it/) and French (https://agiofit.org/fr/).
+The overview, the guide and the builder are also available in Italian (https://agiofit.org/it/ and https://agiofit.org/it/builder/) and French (https://agiofit.org/fr/ and https://agiofit.org/fr/builder/).
 
 ## Schemas (JSON Schema 2020-12, v0.1)
 

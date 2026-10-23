@@ -322,27 +322,27 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
   <div class="head">
     <div class="intro">
       <p class="kicker">Cut Profile</p>
-      <h1>Cut Profile builder</h1>
-      <p class="lede" id="t-lede">Lay a garment flat, take five measurements, and get a file that describes how it is cut.</p>
-      <p class="sub" id="t-spec">The form is the easy way in. The data model is the point: read the <a href="https://github.com/agiofit/agiofit/tree/main/spec">specification</a>.</p>
-      <p class="sub" id="t-open">Made a file here before? <button class="linkbtn" id="open" type="button">Open it to correct it</button>, and it stays the same file.</p>
+      <h1>Builder del Cut Profile</h1>
+      <p class="lede" id="t-lede">Stendi un capo, prendi cinque misure e ottieni un file che descrive come è tagliato.</p>
+      <p class="sub" id="t-spec">Il modulo è il modo più facile per entrare. Il punto è il modello dati: leggi la <a href="https://github.com/agiofit/agiofit/tree/main/spec">specifica</a>.</p>
+      <p class="sub" id="t-open">Hai già fatto un file qui? <button class="linkbtn" id="open" type="button">Aprilo per correggerlo</button>: resterà lo stesso file.</p>
       <input type="file" id="open-file" accept=".json,application/json" hidden>
       <div id="open-result" role="status"></div>
-      <nav class="steps" aria-label="Steps">
-        <a href="#step-1"><span class="sn">1</span>The garment</a>
-        <a href="#step-2"><span class="sn">2</span>Lay it flat</a>
-        <a href="#step-3"><span class="sn">3</span>The measurements</a>
-        <a href="#step-4"><span class="sn">4</span>Who measured it</a>
-        <a href="#step-5"><span class="sn">5</span>Make the file</a>
+      <nav class="steps" aria-label="Passi">
+        <a href="#step-1"><span class="sn">1</span>Il capo</a>
+        <a href="#step-2"><span class="sn">2</span>Stendilo</a>
+        <a href="#step-3"><span class="sn">3</span>Le misure</a>
+        <a href="#step-4"><span class="sn">4</span>Chi l’ha misurato</a>
+        <a href="#step-5"><span class="sn">5</span>Crea il file</a>
       </nav>
     </div>
 
     <div class="status">
       <dl>
-        <div><dt id="s-writes-t">Writes</dt><dd id="s-writes">Cut Profile, one garment</dd></div>
-        <div><dt id="s-schema-t">Checked against</dt><dd id="s-schema">cut-profile.schema.json v0.1.0</dd></div>
-        <div><dt id="s-status-t">Status</dt><dd id="s-status">draft — the model may still change</dd></div>
-        <div><dt id="s-data-t">Your data</dt><dd id="s-data">stays in this browser, nothing is sent. A draft is kept here until you download the file.</dd></div>
+        <div><dt id="s-writes-t">Scrive</dt><dd id="s-writes">Cut Profile, un capo</dd></div>
+        <div><dt id="s-schema-t">Verificato con</dt><dd id="s-schema">cut-profile.schema.json v0.1.0</dd></div>
+        <div><dt id="s-status-t">Stato</dt><dd id="s-status">bozza: il modello può ancora cambiare</dd></div>
+        <div><dt id="s-data-t">I tuoi dati</dt><dd id="s-data">restano in questo browser, non viene inviato nulla. Una bozza resta qui finché non scarichi il file.</dd></div>
       </dl>
     </div>
   </div>
@@ -353,49 +353,49 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
   </div>
 
   <section class="block" id="step-1">
-    <div class="bh"><span class="n">Step 1</span><h2 id="t-garment">The garment</h2></div>
+    <div class="bh"><span class="n">Passo 1</span><h2 id="t-garment">Il capo</h2></div>
     <div class="body">
-      <p class="hint" id="t-garment-hint">Only shirts for now. The rest of the vocabulary exists, but each category needs its measuring instructions written properly, so they arrive when someone asks for them. Tell us which you want.</p>
+      <p class="hint" id="t-garment-hint">Per ora solo camicie. Il resto del vocabolario esiste, ma ogni categoria ha bisogno di istruzioni di misura scritte bene, quindi arrivano quando qualcuno le chiede. Dicci quale ti serve.</p>
       <div class="grid">
-        <div class="field"><label for="category" id="l-category">Category</label><select id="category"></select></div>
+        <div class="field"><label for="category" id="l-category">Categoria</label><select id="category"></select></div>
         <div class="field">
-          <label for="size_system" id="l-size-system">Size system</label>
-          <select id="size_system" aria-describedby="n-size-system"><option value="">Choose…</option></select>
-          <p class="note" id="n-size-system">Use the size printed on its own, such as XL or 41. Many labels add a grid of conversions (I 46, F 42, D 40…): leave the grid, and choose the system of the size you used.</p>
+          <label for="size_system" id="l-size-system">Sistema di taglie</label>
+          <select id="size_system" aria-describedby="n-size-system"><option value="">Scegli…</option></select>
+          <p class="note" id="n-size-system">Usa la taglia stampata da sola, come XL o 41. Molte etichette aggiungono una griglia di conversioni (I 46, F 42, D 40…): lascia stare la griglia e scegli il sistema della taglia che hai usato.</p>
         </div>
         <div class="field">
-          <label for="brand" id="l-brand">Brand</label>
+          <label for="brand" id="l-brand">Marchio</label>
           <input id="brand" autocomplete="off" aria-describedby="n-brand">
-          <p class="note" id="n-brand">Leave it empty if you don't know it.</p>
+          <p class="note" id="n-brand">Lascialo vuoto se non lo conosci.</p>
         </div>
-        <div class="field"><label for="style_name" id="l-style">Model name</label><input id="style_name" autocomplete="off"></div>
+        <div class="field"><label for="style_name" id="l-style">Nome del modello</label><input id="style_name" autocomplete="off"></div>
         <div class="field wide">
-          <label for="composition" id="l-composition">Fabric composition</label>
-          <input id="composition" autocomplete="off" placeholder="97% cotton, 3% elastane">
-          <p class="note" id="n-composition">Copy the care label as it is written.</p>
+          <label for="composition" id="l-composition">Composizione del tessuto</label>
+          <input id="composition" autocomplete="off" placeholder="97% cotone, 3% elastan">
+          <p class="note" id="n-composition">Copia l’etichetta di composizione così com’è scritta.</p>
         </div>
       </div>
     </div>
   </section>
 
   <section class="block" id="step-2">
-    <div class="bh"><span class="n">Step 2</span><h2 id="t-flat">Lay it flat</h2></div>
+    <div class="bh"><span class="n">Passo 2</span><h2 id="t-flat">Stendilo</h2></div>
     <div class="body">
-      <p class="hint" id="t-flat-hint">The garment is laid flat, fastened, and not stretched. Widths are taken perpendicular to the centre line. Leave out anything you cannot measure rather than estimating it: a gap is useful, a guess is not.</p>
+      <p class="hint" id="t-flat-hint">Il capo va steso, abbottonato e senza tirarlo. Le larghezze si prendono perpendicolari alla linea centrale. Lascia fuori ciò che non riesci a misurare invece di stimarlo: un vuoto serve, una stima no.</p>
       <div class="grid">
         <div class="field">
-          <label for="unit" id="l-unit">Your tape reads in</label>
+          <label for="unit" id="l-unit">Il tuo metro è in</label>
           <select id="unit"><option value="cm">cm</option><option value="in">in</option></select>
-          <p class="note" id="t-unit-hint">This is about the tape in your hand, not about the garment. A shirt labelled in one country can be measured with any tape: if yours is marked in centimetres, choose centimetres, whatever the size label says.</p>
+          <p class="note" id="t-unit-hint">Riguarda il metro che hai in mano, non il capo. Una camicia etichettata in un paese si può misurare con qualunque metro: se il tuo è segnato in centimetri, scegli i centimetri, qualunque cosa dica l’etichetta di taglia.</p>
         </div>
       </div>
     </div>
   </section>
 
   <section class="block" id="step-3">
-    <div class="bh"><span class="n">Step 3</span><h2 id="t-measure">The measurements</h2></div>
+    <div class="bh"><span class="n">Passo 3</span><h2 id="t-measure">Le misure</h2></div>
     <div class="body">
-      <p class="hint" id="t-measure-hint">One garment, one size. If you own the same model in another size, add it: a Cut Profile describes a model, not a single item.</p>
+      <p class="hint" id="t-measure-hint">Un capo, una taglia. Se hai lo stesso modello in un’altra taglia, aggiungila: un Cut Profile descrive un modello, non un singolo esemplare.</p>
       <div class="measure">
       <div id="sizes">
         <!-- The measuring instructions below are taken word for word from
@@ -404,46 +404,46 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
         <div class="sizeblock" data-size="1">
           <div class="top">
             <div class="field">
-              <label for="size-label-1">Size label</label>
+              <label for="size-label-1">Taglia in etichetta</label>
               <input id="size-label-1" class="size-label" autocomplete="off">
-              <p class="note">Exactly as written on the garment label.</p>
+              <p class="note">Esattamente come è scritta sull’etichetta del capo.</p>
             </div>
-            <button class="drop" type="button" hidden>Remove this size</button>
+            <button class="drop" type="button" hidden>Togli questa taglia</button>
           </div>
-          <p class="warn size-warn" hidden>That does not look like a size of the system chosen above. If the label prints one size and a grid of conversions, use the size on its own and choose its system.</p>
+          <p class="warn size-warn" hidden>Non sembra una taglia del sistema scelto sopra. Se l’etichetta stampa una taglia e una griglia di conversioni, usa la taglia da sola e scegli il suo sistema.</p>
           <!-- "cannot be altered" marks the critical zones of shirts: shoulders and neck.
                They are deliberately NOT written into the file: critical_zones overrides a
                consumer's own defaults, and someone who measured a shirt has not decided
                to override anything. -->
           <div class="pom">
-            <div class="key"><span class="no" aria-hidden="true">1</span><label for="m-1-neck_circumference">neck_circumference</label><span class="tag">cannot be altered</span></div>
-            <div class="how" id="how-1-neck_circumference">Unlike the rest of the garment, the collar is measured unfastened. Open it out flat and measure along the middle of the collar band, the stand sewn to the neckline and not the fold-over collar, from the centre of the button to the centre of the buttonhole, or between the centres of the two halves of a snap. This is the whole circumference, not half of it, despite the garment being flat.<em> Leave this one out and every answer about this garment will count for less, and say so.</em></div>
+            <div class="key"><span class="no" aria-hidden="true">1</span><label for="m-1-neck_circumference">neck_circumference</label><span class="tag">non si può modificare</span></div>
+            <div class="how" id="how-1-neck_circumference">A differenza del resto del capo, il collo si misura aperto. Steso il collo, si misura lungo la linea di mezzo del piede, la fascia cucita allo scollo e non il collo che si ripiega, dal centro del bottone al centro dell’asola, oppure tra i centri delle due metà di un automatico. È la circonferenza intera, non la metà, anche se il capo è steso.<em> Se la lasci fuori, ogni risposta su questo capo varrà di meno, e lo dirà.</em></div>
             <div class="val"><input id="m-1-neck_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="neck_circumference" aria-describedby="how-1-neck_circumference"><span class="u">cm</span></div>
-            <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
+            <p class="warn" hidden>Sembra insolito per una camicia. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
           </div>
           <div class="pom">
-            <div class="key"><span class="no" aria-hidden="true">2</span><label for="m-1-shoulder_width">shoulder_width</label><span class="tag">cannot be altered</span></div>
-            <div class="how" id="how-1-shoulder_width">From shoulder seam to shoulder seam across the back. A raglan or kimono garment has no shoulder seams and should leave this out rather than estimate.<em> Leave this one out and every answer about this garment will count for less, and say so.</em></div>
+            <div class="key"><span class="no" aria-hidden="true">2</span><label for="m-1-shoulder_width">shoulder_width</label><span class="tag">non si può modificare</span></div>
+            <div class="how" id="how-1-shoulder_width">Da una cucitura della spalla all’altra, sul dietro. Un capo raglan o kimono non ha cuciture sulle spalle, e questa misura va lasciata fuori invece di stimarla.<em> Se la lasci fuori, ogni risposta su questo capo varrà di meno, e lo dirà.</em></div>
             <div class="val"><input id="m-1-shoulder_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="shoulder_width" aria-describedby="how-1-shoulder_width"><span class="u">cm</span></div>
-            <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
+            <p class="warn" hidden>Sembra insolito per una camicia. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
           </div>
           <div class="pom">
             <div class="key"><span class="no" aria-hidden="true">3</span><label for="m-1-chest_width">chest_width</label></div>
-            <div class="how" id="how-1-chest_width">Across, from armhole seam to armhole seam, about 2 cm below the armhole.</div>
+            <div class="how" id="how-1-chest_width">In larghezza, da una cucitura del giromanica all’altra, circa 2 cm sotto il giromanica.</div>
             <div class="val"><input id="m-1-chest_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="chest_width" aria-describedby="how-1-chest_width"><span class="u">cm</span></div>
-            <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
+            <p class="warn" hidden>Sembra insolito per una camicia. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
           </div>
           <div class="pom">
             <div class="key"><span class="no" aria-hidden="true">4</span><label for="m-1-waist_width">waist_width</label></div>
-            <div class="how" id="how-1-waist_width">Across, at the narrowest point. Where the garment does not narrow, halfway between armhole and hem.</div>
+            <div class="how" id="how-1-waist_width">In larghezza, nel punto più stretto. Se il capo non si stringe, a metà tra giromanica e orlo.</div>
             <div class="val"><input id="m-1-waist_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="waist_width" aria-describedby="how-1-waist_width"><span class="u">cm</span></div>
-            <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
+            <p class="warn" hidden>Sembra insolito per una camicia. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
           </div>
           <div class="pom">
             <div class="key"><span class="no" aria-hidden="true">5</span><label for="m-1-sleeve_length">sleeve_length</label></div>
-            <div class="how" id="how-1-sleeve_length">From the shoulder seam to the edge of the cuff, following the sleeve. On a raglan, from the base of the collar.</div>
+            <div class="how" id="how-1-sleeve_length">Dalla cucitura della spalla al bordo del polsino, seguendo la manica. Su un raglan, dalla base del collo.</div>
             <div class="val"><input id="m-1-sleeve_length" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="sleeve_length" aria-describedby="how-1-sleeve_length"><span class="u">cm</span></div>
-            <p class="warn" hidden>That looks unusual for a shirt. Check the tape and the units — the file will still be made if it is right.</p>
+            <p class="warn" hidden>Sembra insolito per una camicia. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
           </div>
           <!-- Italian and French only: the English definitions are the specification's own words.
                addSize() leaves it out of the sizes it adds. -->
@@ -452,9 +452,9 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
       </div>
       <!-- The drawing shows the size being filled in. Its labels start empty and are
            written by paintTape(); the dash means "not measured". -->
-      <aside class="tapeguide" aria-label="Where the tape goes">
-        <div class="tg-head"><h3>Where the tape goes</h3><span class="tg-size" id="tape-size">size — · 0 of 5</span></div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="shirt" viewBox="0 22 600 418" width="600" height="418" role="img" aria-label="A shirt laid flat with five measuring points: 1 neck circumference, 2 shoulder width, 3 chest width, 4 waist width, 5 sleeve length.">
+      <aside class="tapeguide" aria-label="Dove passa il metro">
+        <div class="tg-head"><h3>Dove passa il metro</h3><span class="tg-size" id="tape-size">taglia — · 0 di 5</span></div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="shirt" viewBox="0 22 600 418" width="600" height="418" role="img" aria-label="Una camicia stesa con cinque punti di misura: 1 circonferenza del collo, 2 larghezza delle spalle, 3 larghezza del torace, 4 larghezza della vita, 5 lunghezza della manica.">
           <!-- the garment -->
           <g class="garment">
             <path class="cloth" d="M197.7 100 L63.4 352.5 L110.2 377.4 L172.4 200 C178 170 190 135 197.7 100 Z"/>
@@ -538,88 +538,88 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
             <text class="val" x="500" y="219.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
           </g>
         </svg>
-        <p class="tg-note">Chest and waist are half the way round; the collar, the whole way.</p>
+        <p class="tg-note">Torace e vita sono metà del giro; il collo, il giro intero.</p>
       </aside>
       </div>
-      <button class="btn ghost" id="add-size" type="button">Add another size</button>
+      <button class="btn ghost" id="add-size" type="button">Aggiungi un’altra taglia</button>
     </div>
   </section>
 
   <section class="block" id="step-4">
-    <div class="bh"><span class="n">Step 4</span><h2 id="t-who">Who measured it</h2></div>
+    <div class="bh"><span class="n">Passo 4</span><h2 id="t-who">Chi l’ha misurato</h2></div>
     <div class="body">
-      <p class="hint" id="t-who-hint">This says where the numbers came from. It does not say they are right.</p>
+      <p class="hint" id="t-who-hint">Dice da dove vengono i numeri. Non dice che siano giusti.</p>
       <div class="grid">
-        <div class="field"><label for="published_by" id="l-published-by">Measured by</label><select id="published_by">
-          <option value="measured_by_owner">The owner, with a tape</option>
-          <option value="marketplace_seller">A second-hand seller</option>
-          <option value="brand">The brand</option>
-          <option value="manufacturer">The manufacturer</option>
-          <option value="retailer">The retailer</option>
-          <option value="community">The community</option>
+        <div class="field"><label for="published_by" id="l-published-by">Misurato da</label><select id="published_by">
+          <option value="measured_by_owner">Il proprietario, con il metro</option>
+          <option value="marketplace_seller">Un venditore dell’usato</option>
+          <option value="brand">Il marchio</option>
+          <option value="manufacturer">Il produttore</option>
+          <option value="retailer">Il rivenditore</option>
+          <option value="community">La comunità</option>
         </select></div>
       </div>
       <details class="advanced" id="adv">
-        <summary id="t-adv">What the garment was meant to do<span class="only">brand or manufacturer only</span></summary>
+        <summary id="t-adv">Cosa doveva fare il capo<span class="only">solo marchio o produttore</span></summary>
         <div class="inner">
-          <p class="why" id="t-adv-why">These four fields ask what the garment was designed to do, not what the tape says. Only whoever drew or produced it can answer them.</p>
-          <p class="locked-msg" id="t-adv-locked" hidden>Choose the brand or the manufacturer above to fill these in. As the owner of a garment you can measure it exactly, but you cannot know what ease its designer intended, and an invented value is worse than an absent one.</p>
+          <p class="why" id="t-adv-why">Questi quattro campi chiedono cosa il capo doveva fare per progetto, non cosa dice il metro. Può rispondere solo chi l’ha disegnato o prodotto.</p>
+          <p class="locked-msg" id="t-adv-locked" hidden>Scegli il marchio o il produttore qui sopra per compilarli. Chi possiede un capo può misurarlo con esattezza, ma non può sapere quale agio intendeva chi l’ha disegnato, e un valore inventato è peggio di un valore assente.</p>
           <div class="grid">
-            <div class="field"><label for="cut" id="l-cut">Cut</label><select id="cut">
-              <option value="">not stated</option>
-              <option value="very_fitted">very fitted</option>
-              <option value="fitted">fitted</option>
-              <option value="regular">regular</option>
-              <option value="relaxed">relaxed</option>
-              <option value="oversized">oversized</option>
+            <div class="field"><label for="cut" id="l-cut">Taglio</label><select id="cut">
+              <option value="">non dichiarato</option>
+              <option value="very_fitted">molto aderente</option>
+              <option value="fitted">aderente</option>
+              <option value="regular">regolare</option>
+              <option value="relaxed">comodo</option>
+              <option value="oversized">oversize</option>
             </select></div>
             <div class="field">
-              <label for="production_tolerance" id="l-prodtol">Production tolerance</label>
+              <label for="production_tolerance" id="l-prodtol">Tolleranza di produzione</label>
               <input id="production_tolerance" class="num" inputmode="decimal" autocomplete="off">
-              <p class="note" id="n-prodtol">In the units you chose above.</p>
+              <p class="note" id="n-prodtol">Nell’unità scelta sopra.</p>
             </div>
             <div class="field wide">
-              <label for="critical_zones" id="l-crit">Critical zones</label>
+              <label for="critical_zones" id="l-crit">Zone critiche</label>
               <input id="critical_zones" autocomplete="off" placeholder="shoulders, neck">
-              <p class="note" id="n-crit">Comma separated. This replaces the reader's own defaults for this category.</p>
+              <p class="note" id="n-crit">Separate da virgole. Sostituiscono i valori predefiniti di chi legge il file, per questa categoria.</p>
             </div>
           </div>
           <div id="ease">
-            <label>Intended ease, per zone</label>
+            <label>Agio previsto, per zona</label>
             <div class="zones">
               <div class="zone">
                 <span class="zone-name">neck</span>
                 <div class="row">
-                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="neck" aria-label="neck minimum">
-                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="neck" aria-label="neck maximum">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="neck" aria-label="neck minimo">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="neck" aria-label="neck massimo">
                 </div>
               </div>
               <div class="zone">
                 <span class="zone-name">shoulders</span>
                 <div class="row">
-                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="shoulders" aria-label="shoulders minimum">
-                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="shoulders" aria-label="shoulders maximum">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="shoulders" aria-label="shoulders minimo">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="shoulders" aria-label="shoulders massimo">
                 </div>
               </div>
               <div class="zone">
                 <span class="zone-name">chest</span>
                 <div class="row">
-                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="chest" aria-label="chest minimum">
-                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="chest" aria-label="chest maximum">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="chest" aria-label="chest minimo">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="chest" aria-label="chest massimo">
                 </div>
               </div>
               <div class="zone">
                 <span class="zone-name">waist</span>
                 <div class="row">
-                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="waist" aria-label="waist minimum">
-                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="waist" aria-label="waist maximum">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="waist" aria-label="waist minimo">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="waist" aria-label="waist massimo">
                 </div>
               </div>
               <div class="zone">
                 <span class="zone-name">sleeve_length</span>
                 <div class="row">
-                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="sleeve_length" aria-label="sleeve_length minimum">
-                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="sleeve_length" aria-label="sleeve_length maximum">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="sleeve_length" aria-label="sleeve_length minimo">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="sleeve_length" aria-label="sleeve_length massimo">
                 </div>
               </div>
             </div>
@@ -630,12 +630,12 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
   </section>
 
   <section class="block" id="step-5">
-    <div class="bh"><span class="n">Step 5</span><h2 id="t-make">Make the file</h2></div>
+    <div class="bh"><span class="n">Passo 5</span><h2 id="t-make">Crea il file</h2></div>
     <div class="body">
-      <p class="hint" id="t-make-hint">The file is checked against the published schema before you can download it.</p>
+      <p class="hint" id="t-make-hint">Il file viene verificato con lo schema pubblicato prima che tu possa scaricarlo.</p>
       <div class="actions">
-        <button class="btn" id="build" type="button">Check and show the file</button>
-        <button class="btn ghost" id="download" type="button" disabled>Download</button>
+        <button class="btn" id="build" type="button">Verifica e mostra il file</button>
+        <button class="btn ghost" id="download" type="button" disabled>Scarica</button>
       </div>
       <div id="result"></div>
       <pre id="out" hidden></pre>
@@ -643,11 +643,11 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
   </section>
 
   <footer>
-    <p id="t-foot-1">The file is yours. Publish it where you like, send it to whoever you like, or keep it. Nothing is uploaded here and no Cut Profile is stored on agiofit.org.</p>
-    <p id="t-foot-2">This tool never asks for body measurements, and we do not want to receive any. A Cut Profile is about a garment.</p>
-    <p id="t-foot-3">There is no matching here yet. This page writes the garment side of the model; the part that compares it against a person is a separate piece of work.</p>
+    <p id="t-foot-1">Il file è tuo. Pubblicalo dove vuoi, mandalo a chi vuoi, o tienilo. Qui non viene caricato nulla e nessun Cut Profile viene conservato su agiofit.org.</p>
+    <p id="t-foot-2">Questo strumento non chiede mai misure del corpo, e non vogliamo riceverne. Un Cut Profile parla di un capo.</p>
+    <p id="t-foot-3">Qui il confronto non c’è ancora. Questa pagina scrive il lato capo del modello; la parte che lo confronta con una persona è un lavoro a parte.</p>
     <div class="legal">
-      <span>© 2026 Antonio Ferraioli · Agio Fit · a personal project by <a href="https://github.com/antferr">antferr</a></span>
+      <span>© 2026 Antonio Ferraioli · Agio Fit · un progetto personale di <a href="https://github.com/antferr">antferr</a></span>
       <span class="mono-small">spec: CC BY 4.0 · code: Apache-2.0 · <a href="https://github.com/agiofit">github.com/agiofit</a></span>
     </div>
   </footer>
@@ -671,6 +671,16 @@ const WORDS_BY_LANG = {
     shirts: "Shirt",
     brandSpecific: "whatever the brand prints",
     tapeSize: (label, count, total) => "size " + label + " · " + count + " of " + total
+  },
+  it: {
+    shirts: "Camicia",
+    brandSpecific: "quello che stampa il marchio",
+    tapeSize: (label, count, total) => "taglia " + label + " · " + count + " di " + total
+  },
+  fr: {
+    shirts: "Chemise",
+    brandSpecific: "ce qu’imprime la marque",
+    tapeSize: (label, count, total) => "taille " + label + " · " + count + " sur " + total
   }
 };
 const WORDS = WORDS_BY_LANG[PAGE_LANG] || WORDS_BY_LANG.en;
@@ -759,6 +769,104 @@ const UI_BY_LANG = {
     draftBackKept: (date, id) => UI.draftBack(date) + " You were correcting a file: when you download, it keeps the id " + id + ".",
     draftClear: "Clear the form",
     draftCleared: "The form is empty and the draft is gone."
+  },
+  it: {
+    valid: "Valido secondo cut-profile.schema.json v0.1.",
+    invalid: "Non ancora valido:",
+    needOne: "Compila almeno una misura.",
+    needSize: "Ogni taglia ha bisogno della sua etichetta.",
+    chooseSystem: "Scegli il sistema di taglie dell’etichetta.",
+    notNumber: (size, key, text) => size + " · " + key + ": «" + text + "» non è un numero. Scrivi solo il numero, come 58 o 46,5.",
+    notPositive: (size, key) => size + " · " + key + ": una misura deve essere maggiore di 0.",
+    sizeEmpty: (size) => size + " non ha misure. Compilane almeno una, oppure togli la taglia.",
+    easeHalf: (zone) => "Agio previsto · " + zone + ": compila sia il minimo sia il massimo, oppure nessuno dei due.",
+    easeNotNumber: (zone, text) => "Agio previsto · " + zone + ": «" + text + "» non è un numero.",
+    easeOrder: (zone) => "Agio previsto · " + zone + ": il minimo è maggiore del massimo.",
+    tolNotNumber: (text) => "Tolleranza di produzione: «" + text + "» non è un numero.",
+    tolNegative: "La tolleranza di produzione non può essere minore di 0.",
+    schemaFail: "Non è stato possibile caricare lo schema con cui verificare. Non è stato creato nulla.",
+    atRoot: "Il file",
+    atSize: (label) => "Taglia " + label,
+    atSizeNoLabel: (n) => "Taglia " + n + " (senza etichetta)",
+    missing: (at, name) => at + ": manca " + name + ".",
+    notInProfile: (at, name) => at + ": " + name + " non fa parte di un Cut Profile.",
+    oneOf: (at, values) => at + ": deve essere uno di " + values.join(", ") + ".",
+    mustBe: (at, value) => at + ": deve essere " + JSON.stringify(value) + ".",
+    types: { number: "un numero", string: "un testo", array: "un elenco", object: "un oggetto" },
+    mustBeType: (at, type) => at + ": deve essere " + (UI.types[type] || type) + ".",
+    moreThan: (at, limit) => at + ": deve essere maggiore di " + limit + ".",
+    notLessThan: (at, limit) => at + ": non può essere minore di " + limit + ".",
+    emptyList: (at) => at + ": l’elenco è vuoto.",
+    badFormat: (at, format) => at + ": non è " + (format === "date-time" ? "una data e un’ora valide" : "un " + format + " valido") + ".",
+    badName: (at, name) => at + ": «" + name + "» non è un nome valido. I nomi sono fatti di lettere minuscole, cifre e trattini bassi.",
+    schemaSays: (path, message) => "Lo schema dice (in inglese): " + path + " " + message,
+    notJsonFile: (name) => name + " non è un file JSON che questa pagina sa leggere.",
+    openSchemaFail: "Non è stato possibile caricare lo schema con cui verificare il file. Il file non è stato aperto.",
+    notValidProfile: (name) => name + " non è un Cut Profile v0.1 valido, quindi non è stato aperto:",
+    cannotHold: (name) => name + " è un Cut Profile valido, ma questo modulo non può contenerlo tutto, quindi non è stato aperto. Correggendolo qui si perderebbe:",
+    shirtsOnly: (category) => "category " + category + ": questa pagina scrive solo camicie.",
+    flatOnly: (method) => "measurement_method " + method + ": questa pagina scrive solo misure prese con il capo steso.",
+    noPlace: (at) => at + ": nel modulo non c’è un posto per questo.",
+    intentOnly: (field) => field + " (può dichiararlo solo il marchio o il produttore)",
+    mixedUnits: "units: il modulo usa una sola unità per tutto il file, e questo file mescola cm e in.",
+    replaceForm: "Aprire un file sostituisce quello che c’è nel modulo. Continuare?",
+    readBackFail: (paths) => "Questa pagina non è riuscita a rileggere il file così com’era (" + paths.join(", ") + "). Il modulo è stato svuotato; nel tuo file non è cambiato nulla.",
+    opened: (name, id) => "Aperto " + name + ". Lo stai correggendo: quando lo scarichi, conserva l’id " + id + ".",
+    makeNew: "Fanne invece un file nuovo",
+    madeNew: "Sarà un file nuovo, con un id tutto suo.",
+    draftBack: (date) => "La tua bozza" + (date ? " del " + date : "") + " è tornata.",
+    draftBackKept: (date, id) => UI.draftBack(date) + " Stavi correggendo un file: quando lo scarichi, conserva l’id " + id + ".",
+    draftClear: "Svuota il modulo",
+    draftCleared: "Il modulo è vuoto e la bozza non c’è più."
+  },
+  fr: {
+    valid: "Valide selon cut-profile.schema.json v0.1.",
+    invalid: "Pas encore valide :",
+    needOne: "Remplissez au moins une mesure.",
+    needSize: "Chaque taille a besoin de son étiquette.",
+    chooseSystem: "Choisissez le système de tailles de l’étiquette.",
+    notNumber: (size, key, text) => size + " · " + key + " : « " + text + " » n’est pas un nombre. Écrivez seulement le nombre, comme 58 ou 46,5.",
+    notPositive: (size, key) => size + " · " + key + " : une mesure doit être supérieure à 0.",
+    sizeEmpty: (size) => size + " n’a aucune mesure. Remplissez-en au moins une, ou retirez la taille.",
+    easeHalf: (zone) => "Aisance prévue · " + zone + " : remplissez le minimum et le maximum, ou aucun des deux.",
+    easeNotNumber: (zone, text) => "Aisance prévue · " + zone + " : « " + text + " » n’est pas un nombre.",
+    easeOrder: (zone) => "Aisance prévue · " + zone + " : le minimum est supérieur au maximum.",
+    tolNotNumber: (text) => "Tolérance de production : « " + text + " » n’est pas un nombre.",
+    tolNegative: "La tolérance de production ne peut pas être inférieure à 0.",
+    schemaFail: "Impossible de charger le schéma de vérification. Rien n’a été créé.",
+    atRoot: "Le fichier",
+    atSize: (label) => "Taille " + label,
+    atSizeNoLabel: (n) => "Taille " + n + " (sans étiquette)",
+    missing: (at, name) => at + " : " + name + " manque.",
+    notInProfile: (at, name) => at + " : " + name + " ne fait pas partie d’un Cut Profile.",
+    oneOf: (at, values) => at + " : doit être l’un de " + values.join(", ") + ".",
+    mustBe: (at, value) => at + " : doit être " + JSON.stringify(value) + ".",
+    types: { number: "un nombre", string: "du texte", array: "une liste", object: "un objet" },
+    mustBeType: (at, type) => at + " : doit être " + (UI.types[type] || type) + ".",
+    moreThan: (at, limit) => at + " : doit être supérieur à " + limit + ".",
+    notLessThan: (at, limit) => at + " : ne peut pas être inférieur à " + limit + ".",
+    emptyList: (at) => at + " : la liste est vide.",
+    badFormat: (at, format) => at + " : n’est pas " + (format === "date-time" ? "une date et une heure valides" : "un " + format + " valide") + ".",
+    badName: (at, name) => at + " : « " + name + " » n’est pas un nom valide. Les noms sont faits de lettres minuscules, de chiffres et de tirets bas.",
+    schemaSays: (path, message) => "Le schéma indique (en anglais) : " + path + " " + message,
+    notJsonFile: (name) => name + " n’est pas un fichier JSON que cette page sait lire.",
+    openSchemaFail: "Impossible de charger le schéma pour vérifier le fichier. Il n’a pas été ouvert.",
+    notValidProfile: (name) => name + " n’est pas un Cut Profile v0.1 valide, il n’a donc pas été ouvert :",
+    cannotHold: (name) => name + " est un Cut Profile valide, mais ce formulaire ne peut pas tout contenir, il n’a donc pas été ouvert. Le corriger ici ferait perdre :",
+    shirtsOnly: (category) => "category " + category + " : cette page n’écrit que des chemises.",
+    flatOnly: (method) => "measurement_method " + method + " : cette page n’écrit que des mesures prises à plat.",
+    noPlace: (at) => at + " : le formulaire n’a pas de place pour cela.",
+    intentOnly: (field) => field + " (seuls la marque ou le fabricant peuvent l’indiquer)",
+    mixedUnits: "units : le formulaire utilise une seule unité pour tout le fichier, et ce fichier mélange cm et in.",
+    replaceForm: "Ouvrir un fichier remplace le contenu du formulaire. Continuer ?",
+    readBackFail: (paths) => "Cette page n’a pas pu relire le fichier tel qu’il était (" + paths.join(", ") + "). Le formulaire a été vidé ; rien n’a changé dans votre fichier.",
+    opened: (name, id) => name + " est ouvert. Vous le corrigez : au téléchargement, il garde l’id " + id + ".",
+    makeNew: "En faire plutôt un nouveau fichier",
+    madeNew: "Ce sera un nouveau fichier, avec son propre id.",
+    draftBack: (date) => "Votre brouillon" + (date ? " du " + date : "") + " est de retour.",
+    draftBackKept: (date, id) => UI.draftBack(date) + " Vous corrigiez un fichier : au téléchargement, il garde l’id " + id + ".",
+    draftClear: "Vider le formulaire",
+    draftCleared: "Le formulaire est vide et le brouillon a disparu."
   }
 };
 const UI = UI_BY_LANG[PAGE_LANG] || UI_BY_LANG.en;
