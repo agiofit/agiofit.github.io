@@ -12,6 +12,9 @@
   <url><loc>https://agiofit.org/builder/cut-profile/</loc></url>
   <url><loc>https://agiofit.org/it/builder/cut-profile/</loc></url>
   <url><loc>https://agiofit.org/fr/builder/cut-profile/</loc></url>
+  <url><loc>https://agiofit.org/builder/fit-profile/</loc></url>
+  <url><loc>https://agiofit.org/it/builder/fit-profile/</loc></url>
+  <url><loc>https://agiofit.org/fr/builder/fit-profile/</loc></url>
   <url><loc>https://agiofit.org/schemas/v0.1/fit-profile.schema.json</loc></url>
   <url><loc>https://agiofit.org/schemas/v0.1/cut-profile.schema.json</loc></url>
   <url><loc>https://agiofit.org/schemas/v0.1/match-report.schema.json</loc></url>

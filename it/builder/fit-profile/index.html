@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Builder del Fit Profile — Agio Fit</title>
+<meta name="description" content="Scrivi le tue misure del corpo in un Fit Profile, il documento di Agio Fit che è tuo. Non viene inviato né conservato nulla: il file si scarica sul tuo dispositivo.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agio Fit">
+<meta property="og:url" content="https://agiofit.org/it/builder/fit-profile/">
+<meta property="og:title" content="Builder del Fit Profile — Agio Fit">
+<meta property="og:description" content="Scrivi le tue misure del corpo in un Fit Profile, il documento di Agio Fit che è tuo. Non viene inviato né conservato nulla: il file si scarica sul tuo dispositivo.">
+<meta property="og:image" content="https://agiofit.org/assets/social-preview-light.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="Il logo Agio Fit, un anello color terracotta attorno a un disco blu notte, accanto alla scritta in inglese: an open, portable fit profile owned by the person, not the platform.">
+<meta property="og:locale" content="it_IT">
+<meta property="og:locale:alternate" content="en_GB">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.svg">
+<link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<style>
+:root{
+  --paper:#F5F0E8;          /* brand ivory */
+  --rule:#DFDCD2;
+  --ink:#1E2430;     /* brand night blue */
+  --ink-70:#4A5262;
+  --accent:#C96F4A;          /* logo terracotta */
+  --accent-ink:#A9532F;           /* darker terracotta, for small text */
+  --tape:#E9BC3F;          /* tailor's tape */
+  --tape-ink:#8A6A14;
+  --tape-text:#5C460E;     /* text on the tape yellow */
+  --highlight:#FBF6E7;     /* active row, warnings */
+  --code:#202B39;          /* JSON output */
+  --code-ink:#DCE6F0;
+  --ok:#3E7A52;
+  --danger:#9A2B24;
+  --surface:#FFFFFF;
+  --shadow:0 1px 2px rgba(30,42,56,.08), 0 6px 18px rgba(30,42,56,.07);
+  --radius:10px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'IBM Plex Sans','IBM Plex Sans Fallback',system-ui,sans-serif;color:var(--ink);
+  background:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px),
+    var(--paper);
+  background-size:28px 28px, 28px 28px, auto;
+  line-height:1.6;font-size:16px;margin:0;
+}
+a{color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
+
+/* the site bar, shared by every page */
+.sitenav{border-bottom:1px solid var(--rule);background:var(--surface);box-shadow:var(--shadow);
+  position:sticky;top:0;z-index:20}
+.sitenav-inner{max-width:1120px;margin:0 auto;padding:0 24px;height:58px;
+  display:flex;align-items:center;gap:24px}
+.sitenav-mark{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:18px;color:var(--ink);
+  text-decoration:none;margin-right:auto;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+.sitenav-mark svg{display:block}
+.sitenav a.sitenav-link{font-size:14.5px;color:var(--ink);text-decoration:none;opacity:.7;padding:6px 0}
+.sitenav a.sitenav-link:hover{opacity:1}
+.sitenav a.sitenav-link[aria-current]{opacity:1;font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
+.sitenav-lang{position:relative;display:flex;align-items:center;gap:2px;padding-left:18px;border-left:1px solid var(--rule);
+  font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.06em}
+.sitenav-lang a{padding:5px 8px;border-radius:999px;text-decoration:none;color:var(--ink-70)}
+.sitenav-lang a:hover{color:var(--ink)}
+.sitenav-lang a[aria-current]{background:rgba(30,36,48,.07);color:var(--ink);font-weight:500}
+.sitenav-ver{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.08em;
+  background:var(--tape);color:var(--tape-text);border-radius:999px;padding:3px 10px;white-space:nowrap}
+.sitenav-gh{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:5px 14px;
+  border-radius:999px;border:1.5px solid var(--ink);font-size:13.5px;font-weight:600;
+  color:var(--ink);text-decoration:none;white-space:nowrap}
+.sitenav-gh:hover{background:var(--ink);color:var(--paper)}
+.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* two rows below 840 px, no sideways scroll: mark, languages, badge and GitHub on top, the four links
+   below a rule; order only moves the boxes, so the tab order still follows the markup */
+@media(max-width:840px){
+  .sitenav-inner{flex-wrap:wrap;height:auto;column-gap:18px;row-gap:0}
+  .sitenav-mark{order:0;height:48px}
+  .sitenav-lang,.sitenav-ver,.sitenav-gh{order:1}
+  .sitenav-lang{margin-left:auto;border-left:0;padding-left:0}
+  .sitenav-inner::after{content:"";order:2;flex-basis:calc(100% + 48px);height:1px;background:var(--rule);margin:0 -24px}
+  .sitenav a.sitenav-link{order:3;height:40px;display:flex;align-items:center;padding:0}
+}
+@media(max-width:640px){
+  .sitenav-inner{padding:0 16px}
+  .sitenav-inner::after{flex-basis:calc(100% + 32px);margin:0 -16px}
+  .sitenav-ver,.sitenav-gh{display:none}
+}
+
+/* laid out like the rest of the site: content on the paper, no cards around the sections */
+.page{max-width:1120px;margin:0 auto;padding:0 24px 96px}
+/* header: text on the left, status on the right, one above the other when there is no room */
+.head{padding-top:44px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:28px 48px}
+.head .intro{flex:1.2 1 440px;min-width:0}
+.kicker{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent-ink);margin:0 0 10px}
+h1{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:700;font-size:clamp(38px,5.4vw,60px);line-height:1.04;
+  letter-spacing:-.015em;margin:0}
+h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:clamp(24px,3.4vw,32px);line-height:1.15;margin:0}
+.lede{margin-top:20px;font-size:17.5px;color:var(--ink-70);max-width:52ch}
+.sub{margin-top:12px;font-size:15px;color:var(--ink-70);max-width:60ch}
+.steps{margin-top:18px;display:flex;flex-wrap:wrap;gap:6px 18px}
+.steps a{font-size:14.5px;color:var(--accent-ink);text-decoration:none}
+.steps a:hover{text-decoration:underline}
+.steps .sn{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;color:var(--ink-70);margin-right:5px}
+
+/* the status box, shaped like .status on the home page */
+.status{flex:1 1 340px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:var(--radius);box-shadow:var(--shadow);padding:4px 20px}
+.status dl{margin:0}
+.status dl>div{display:flex;flex-wrap:wrap;gap:2px 22px;padding:11px 0;border-bottom:1px solid var(--rule)}
+.status dl>div:last-child{border-bottom:none}
+.status dt,.status dd{margin:0;font-size:14.5px}
+.status dt{flex:0 0 130px;color:var(--ink-70);white-space:nowrap}
+.status dd{flex:1 1 160px;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px}
+
+/* tailor's tape divider, as on the home page */
+.ruler{margin:44px 0 0;user-select:none}
+.ruler .ruler-ticks{height:16px;background:
+  repeating-linear-gradient(90deg, var(--tape-ink) 0 1px, transparent 1px 7px),
+  var(--tape);
+  border-radius:3px 3px 0 0;border:1px solid var(--tape-ink);border-bottom:0}
+.ruler .ruler-numbers{display:flex;justify-content:space-between;border:1px solid var(--tape-ink);border-top:0;
+  background:var(--tape);border-radius:0 0 3px 3px;
+  padding:0 6px;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:10px;color:var(--tape-text);letter-spacing:1px}
+
+.block{margin-top:72px;scroll-margin-top:80px}
+@media(max-width:840px){.block{scroll-margin-top:112px}} /* the bar has two rows here */
+.bh{display:flex;flex-direction:column}
+.bh .n{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px}
+.hint{margin-top:12px;color:var(--ink-70);max-width:64ch}
+.body{margin-top:22px}
+
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px;max-width:620px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field.wide{grid-column:1/-1}
+label{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;font-weight:500;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-70)}
+.note{font-size:13.5px;color:var(--ink-70);margin:0}
+input,select{width:100%;padding:10px 12px;font-family:'IBM Plex Sans','IBM Plex Sans Fallback',sans-serif;font-size:15px;
+  border:1px solid #C9C3B4;border-radius:8px;background:#FDFCF8;color:var(--ink)}
+input::placeholder{color:#8A93A1}
+input:focus,select:focus{border-color:var(--accent);background:#fff}
+input:disabled,select:disabled{background:rgba(30,36,48,.04);color:#8A93A1}
+input.num{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;text-align:right}
+@media(max-width:640px){.grid{grid-template-columns:1fr}}
+
+/* the measurements of one part of the body: a document, so white, as a size is in the Cut Profile builder */
+.group{background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden}
+.pom{display:grid;grid-template-columns:240px 1fr 116px;border-top:1px solid var(--rule);
+  padding:16px 20px;align-items:start}
+.pom:first-child{border-top:0}
+.pom:focus-within{background:var(--highlight)}
+.pom .key{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;padding-top:10px;overflow-wrap:anywhere}
+.pom .key label{font:inherit;letter-spacing:normal;text-transform:none;color:var(--ink)}
+.pom .how{font-size:14.5px;color:var(--ink-70);line-height:1.5;padding:8px 22px 0 0;max-width:56ch}
+.pom .val{display:flex;align-items:center;gap:8px;align-self:center}
+.pom .val input{width:80px}
+.pom .val .u{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;color:var(--ink-70)}
+.pom .warn{grid-column:1/-1;font-size:13.5px;color:var(--tape-ink);background:var(--highlight);
+  border:1px solid #EADFB4;border-radius:8px;padding:9px 12px;margin:12px 0 0;max-width:62ch}
+@media(max-width:720px){.pom{grid-template-columns:1fr;gap:8px}.pom .key{padding-top:0}
+  .pom .how{padding:0}.pom .val{align-self:start}}
+
+button{cursor:pointer}
+.btn{display:inline-block;font-family:inherit;font-weight:600;font-size:15px;
+  border-radius:999px;padding:11px 22px;border:1.5px solid var(--ink);
+  background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--ink-70);border-color:var(--ink-70)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn.ghost:hover{background:rgba(30,36,48,.05);border-color:var(--ink)}
+.btn:disabled{opacity:.38;cursor:not-allowed}
+.actions{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+#result{margin-top:22px}
+.ok,.bad{border-radius:8px;padding:13px 16px;font-size:14.5px;border:1px solid}
+/* a valid file: the message and the JSON are one block, the message on top */
+.ok{background:#EFF6F1;color:var(--ok);border:0;border-radius:var(--radius) var(--radius) 0 0;
+  position:relative;z-index:1}
+/* the tick is decoration: the second declaration hides it from screen readers where supported */
+.ok::before{content:"\2713";content:"\2713" / "";margin-right:8px}
+.bad{background:#FBF0EF;border-color:#E6C9C6;color:var(--danger)}
+.bad ul{margin:9px 0 0;padding-left:20px}
+.bad li{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px}
+/* the JSON is only shown under a valid message */
+pre{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;line-height:1.55;
+  background:var(--code);color:var(--code-ink);border:0;border-radius:0 0 var(--radius) var(--radius);
+  box-shadow:var(--shadow);padding:18px;overflow:auto;max-height:440px;margin:0}
+
+/* after the download: how to use the file, on the paper like the rest of the step */
+.try{margin-top:28px;max-width:72ch}
+.try h3{font-family:'Fraunces','Fraunces Fallback',serif;font-size:19px;font-weight:600;margin:0}
+.try p{color:var(--ink-70);margin:10px 0 0}
+/* the command: on one line where it fits, wrapped on a phone rather than scrolling the page sideways */
+.cmd{margin:12px 0 0;width:max-content;max-width:100%;padding:14px 18px;border-radius:var(--radius);box-shadow:var(--shadow);
+  background:var(--code);color:var(--code-ink);font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;
+  font-size:13px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;max-height:none}
+
+footer{margin-top:72px;padding-top:26px;border-top:1px solid var(--rule)}
+footer p{font-size:14.5px;color:var(--ink-70);margin:0 0 12px;max-width:64ch}
+footer p:last-child{margin-bottom:0}
+/* the legal line, as on the home page */
+footer .legal{margin-top:26px;border-top:1px solid var(--rule);padding-top:22px;
+  font-size:13px;color:var(--ink-70);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px}
+@media(max-width:640px){footer .legal{flex-direction:column;gap:8px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<link rel="canonical" href="https://agiofit.org/it/builder/fit-profile/">
+<link rel="alternate" hreflang="en" href="https://agiofit.org/builder/fit-profile/">
+<link rel="alternate" hreflang="it" href="https://agiofit.org/it/builder/fit-profile/">
+<link rel="alternate" hreflang="fr" href="https://agiofit.org/fr/builder/fit-profile/">
+<link rel="alternate" hreflang="x-default" href="https://agiofit.org/builder/fit-profile/">
+</head>
+<body>
+
+<nav class="sitenav" aria-label="Site">
+  <div class="sitenav-inner">
+    <a class="sitenav-mark" href="/it/"><svg width="22" height="22" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="84" fill="none" stroke="#c96f4a" stroke-width="15"/><circle cx="120" cy="120" r="42" fill="#1e2430"/></svg>Agio Fit</a>
+    <a class="sitenav-link" href="/it/">Overview</a>
+    <a class="sitenav-link" href="/it/guide/">Guide</a>
+    <!-- the section this page is in, not the page itself: the Builder link goes to the index -->
+    <a class="sitenav-link" aria-current="true" href="/it/builder/">Builder</a>
+    <a class="sitenav-link" href="/it/#schemas">Schemas</a>
+    <!-- build.py writes the three links of each page; these are the English page's -->
+    <div class="sitenav-lang" role="group" aria-label="Language / Lingua / Langue">
+      <a href="/builder/fit-profile/" hreflang="en" lang="en" aria-label="English">EN</a>
+      <a href="/it/builder/fit-profile/" hreflang="it" lang="it" aria-label="Italiano" aria-current="true">IT</a>
+      <a href="/fr/builder/fit-profile/" hreflang="fr" lang="fr" aria-label="Français">FR</a>
+    </div>
+    <span class="sitenav-ver">v0.1 draft</span>
+    <a class="sitenav-gh" href="https://github.com/agiofit/agiofit" title="Specification and reference implementation">GitHub <span aria-hidden="true">&#8599;</span></a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="head">
+    <div class="intro">
+      <p class="kicker">Fit Profile</p>
+      <h1>Fit Profile builder</h1>
+      <p class="lede" id="t-lede">Take your measurements with a tape and get a file that holds them, for the reference implementation to compare with a garment on your own computer.</p>
+      <p class="sub" id="t-keeps">This page keeps nothing: no draft, no copy, and nothing is sent. It compares nothing either: the comparison runs on your computer. In this version it does not open a file you made before.</p>
+      <nav class="steps" aria-label="Passi">
+        <a href="#step-1"><span class="sn">1</span>Before you measure</a>
+        <a href="#step-2"><span class="sn">2</span>Upper body</a>
+        <a href="#step-3"><span class="sn">3</span>Legs</a>
+        <a href="#step-4"><span class="sn">4</span>Crea il file</a>
+      </nav>
+    </div>
+
+    <div class="status">
+      <dl>
+        <div><dt id="s-writes-t">Scrive</dt><dd id="s-writes">Fit Profile, one person</dd></div>
+        <div><dt id="s-schema-t">Verificato con</dt><dd id="s-schema">fit-profile.schema.json v0.1.0</dd></div>
+        <div><dt id="s-status-t">Stato</dt><dd id="s-status">bozza: il modello può ancora cambiare</dd></div>
+        <div><dt id="s-data-t">I tuoi dati</dt><dd id="s-data">stays on this page. Nothing is sent and nothing is kept: close the page and it is gone, so download the file first.</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="ruler" aria-hidden="true">
+    <div class="ruler-ticks"></div>
+    <div class="ruler-numbers"><span>0</span><span>10</span><span>20</span><span>30</span><span>40</span><span>50</span><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span></div>
+  </div>
+
+  <section class="block" id="step-1">
+    <div class="bh"><span class="n">Passo 1</span><h2 id="t-before">Before you measure</h2></div>
+    <div class="body">
+      <!-- The general paragraph and the instructions below are taken word for word from
+           spec/01-fit-profile.md, section "Measurement names". -->
+      <p class="hint" id="t-before-hint">Stand relaxed, in light underwear or close-fitting clothes, without shoes. A girth goes all the way round with the tape level, snug against the body and not pulling it in; breathe normally. A length follows the body. The shoulders and the arm need a second person; the rest can be taken alone.</p>
+      <p class="hint" id="t-leave">Fill in what you measured, and leave the rest empty: a gap is useful, a guess is not.</p>
+      <div class="grid">
+        <div class="field">
+          <label for="unit" id="l-unit">Il tuo metro è in</label>
+          <select id="unit" aria-describedby="n-unit"><option value="cm">cm</option><option value="in">in</option></select>
+          <p class="note" id="n-unit">One unit for the whole file.</p>
+        </div>
+        <div class="field">
+          <label for="source" id="l-source">How did you take them?</label>
+          <select id="source" aria-describedby="n-source">
+            <option value="tape_measured" selected>With a tape, today</option>
+            <option value="self_reported">From memory, or an old note</option>
+          </select>
+          <p class="note" id="n-source">It goes with every measurement in the file.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="step-2">
+    <div class="bh"><span class="n">Passo 2</span><h2 id="t-upper">Upper body</h2></div>
+    <div class="body">
+      <div class="group">
+        <div class="pom">
+          <div class="key"><label for="m-neck_circumference">neck_circumference</label></div>
+          <div class="how" id="how-neck_circumference">Around the base of the neck, where the band of a shirt collar sits.</div>
+          <div class="val"><input id="m-neck_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="neck_circumference" aria-describedby="how-neck_circumference"><span class="u">cm</span></div>
+          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+        </div>
+        <div class="pom">
+          <div class="key"><label for="m-shoulder_width">shoulder_width</label></div>
+          <div class="how" id="how-shoulder_width">Across the back, with the tape resting on it, from the tip of one shoulder to the tip of the other: the point where the bone of the shoulder ends and the arm begins.</div>
+          <div class="val"><input id="m-shoulder_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="shoulder_width" aria-describedby="how-shoulder_width"><span class="u">cm</span></div>
+          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+        </div>
+        <div class="pom">
+          <div class="key"><label for="m-chest_circumference">chest_circumference</label></div>
+          <div class="how" id="how-chest_circumference">Around the fullest part of the chest, under the arms and across the shoulder blades. On a body with breasts this is the fullest part of the bust. The difference between bust and underbust matters for garments this version does not cover, and is left open (<a href="https://github.com/agiofit/agiofit/blob/main/spec/05-open-questions.md">05-open-questions.md</a>, question 10).</div>
+          <div class="val"><input id="m-chest_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="chest_circumference" aria-describedby="how-chest_circumference"><span class="u">cm</span></div>
+          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+        </div>
+        <div class="pom">
+          <div class="key"><label for="m-waist_circumference">waist_circumference</label></div>
+          <div class="how" id="how-waist_circumference">Around the natural waist: the narrowest part of the torso, usually a little above the navel. This is the waist of a shirt, not of a pair of trousers.</div>
+          <div class="val"><input id="m-waist_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="waist_circumference" aria-describedby="how-waist_circumference"><span class="u">cm</span></div>
+          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+        </div>
+        <div class="pom">
+          <div class="key"><label for="m-arm_length">arm_length</label></div>
+          <div class="how" id="how-arm_length">From the tip of the shoulder, down the outside of the arm held slightly bent, over the elbow, to the wrist bone.</div>
+          <div class="val"><input id="m-arm_length" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="arm_length" aria-describedby="how-arm_length"><span class="u">cm</span></div>
+          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="step-3">
+    <div class="bh"><span class="n">Passo 3</span><h2 id="t-legs">Legs</h2></div>
+    <div class="body">
+      <div class="group">
+        <div class="pom">
+          <div class="key"><label for="m-trouser_waist_circumference">trouser_waist_circumference</label></div>
+          <div class="how" id="how-trouser_waist_circumference">Around the body where the waistband of your trousers usually sits. For most people this is lower than the natural waist. A garment cut to sit higher or lower than usual will be judged against this height all the same: the Cut Profile does not say where a waistband sits.</div>
+          <div class="val"><input id="m-trouser_waist_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="trouser_waist_circumference" aria-describedby="how-trouser_waist_circumference"><span class="u">cm</span></div>
+          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+        </div>
+        <div class="pom">
+          <div class="key"><label for="m-hip_circumference">hip_circumference</label></div>
+          <div class="how" id="how-hip_circumference">Around the fullest part of the hips and seat, with the feet together.</div>
+          <div class="val"><input id="m-hip_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="hip_circumference" aria-describedby="how-hip_circumference"><span class="u">cm</span></div>
+          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+        </div>
+        <div class="pom">
+          <div class="key"><label for="m-thigh_circumference">thigh_circumference</label></div>
+          <div class="how" id="how-thigh_circumference">Around the fullest part of one thigh, just below the crotch.</div>
+          <div class="val"><input id="m-thigh_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="thigh_circumference" aria-describedby="how-thigh_circumference"><span class="u">cm</span></div>
+          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+        </div>
+        <div class="pom">
+          <div class="key"><label for="m-inseam">inseam</label></div>
+          <div class="how" id="how-inseam">Along the inside of the leg, from the crotch to the ankle bone, standing straight.</div>
+          <div class="val"><input id="m-inseam" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="inseam" aria-describedby="how-inseam"><span class="u">cm</span></div>
+          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="step-4">
+    <div class="bh"><span class="n">Passo 4</span><h2 id="t-make">Crea il file</h2></div>
+    <div class="body">
+      <p class="hint" id="t-make-hint">Il file viene verificato con lo schema pubblicato prima che tu possa scaricarlo.</p>
+      <div class="actions">
+        <button class="btn" id="build" type="button">Verifica e mostra il file</button>
+        <button class="btn ghost" id="download" type="button" disabled>Scarica</button>
+      </div>
+      <div id="result"></div>
+      <pre id="out" hidden></pre>
+      <!-- shown once the file is downloaded -->
+      <div class="try" id="try" hidden>
+        <h3>Try it with a garment</h3>
+        <p>Put fit-profile.json in a folder with a Cut Profile, and the reference implementation compares them on your computer:</p>
+        <pre class="cmd"><code>python -m agiofit.cli fit-profile.json &lt;garment&gt;.cut-profile.json explained</code></pre>
+        <p>No Cut Profile yet? Measure a garment with the <a href="/it/builder/cut-profile/">Cut Profile builder</a>, or follow the <a href="https://github.com/agiofit/agiofit#quickstart">Quickstart</a> to install the reference implementation.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p id="t-foot-1">Keep this file where you keep private things. We do not want to receive it, and no one needs it to sell you a garment.</p>
+    <div class="legal">
+      <span>© 2026 Antonio Ferraioli · Agio Fit · un progetto personale di <a href="https://github.com/antferr">antferr</a></span>
+      <span class="mono-small">spec: CC BY 4.0 · code: Apache-2.0 · <a href="https://github.com/agiofit">github.com/agiofit</a></span>
+    </div>
+  </footer>
+</div>
+
+<script src="/builder/ajv2020.bundle.js"
+        integrity="sha384-BD14ZYKsZds1BCMmD60Ia0dGf/TSWRFJVKHkaSGpeJH0tXm3I9A5KTO0ym42fg00"
+        crossorigin="anonymous"></script>
+<script>
+
+"use strict";
+
+/* The page's language, as build.py writes it in <html lang>. A language with no
+   table of its own below reads the English one, and so does a message that its
+   table does not have yet. */
+const PAGE_LANG = document.documentElement.lang;
+
+/* ------------------------------------------------------------------- strings
+   Only the messages that appear after an action. Everything a reader sees
+   before acting is written in the HTML. One table per language, with the same
+   keys and the same arguments.                                             */
+const UI_BY_LANG = {
+  en: {
+    valid: "Valid against fit-profile.schema.json v0.1.",
+    invalid: "Not valid yet:",
+    needOne: "Fill in at least one measurement.",
+    notNumber: (key, text) => key + ': "' + text + '" is not a number. Write just the number, such as 98 or 41.5.',
+    notPositive: (key) => key + ": a measurement must be more than 0.",
+    schemaFail: "Could not load the schema to check against. Nothing was built.",
+    atRoot: "The file",
+    missing: (at, name) => at + ": " + name + " is missing.",
+    notInProfile: (at, name) => at + ": " + name + " is not part of a Fit Profile.",
+    oneOf: (at, values) => at + ": must be one of " + values.join(", ") + ".",
+    mustBe: (at, value) => at + ": must be " + JSON.stringify(value) + ".",
+    types: { number: "a number", string: "text", array: "a list", object: "an object" },
+    mustBeType: (at, type) => at + ": must be " + (UI.types[type] || "a " + type) + ".",
+    moreThan: (at, limit) => at + ": must be more than " + limit + ".",
+    notLessThan: (at, limit) => at + ": cannot be less than " + limit + ".",
+    badFormat: (at, format) => at + ": is not a valid " + (format === "date-time" ? "date and time" : format) + ".",
+    badName: (at, name) => at + ': "' + name + '" is not a valid name. Names are lowercase letters, digits and underscores.',
+    schemaSays: (path, message) => "The schema says: " + path + " " + message
+  }
+};
+const UI = Object.assign({}, UI_BY_LANG.en, UI_BY_LANG[PAGE_LANG]);
+
+const SCHEMA_URL = "/schemas/v0.1/fit-profile.schema.json";
+
+const $ = (id) => document.getElementById(id);
+
+/* Per measurement, the range in centimetres outside which the "outside the range"
+   hint appears. A hint, never a block: a body is not wrong for being unusual. */
+const PLAUSIBLE_CM = {
+  neck_circumference:          [28, 60],
+  shoulder_width:              [30, 60],
+  chest_circumference:         [60, 160],
+  waist_circumference:         [50, 160],
+  trouser_waist_circumference: [50, 160],
+  hip_circumference:           [60, 170],
+  thigh_circumference:         [35, 90],
+  arm_length:                  [45, 80],
+  inseam:                      [55, 100]
+};
+
+/* An empty field means "not measured". num() cannot tell it from text that is
+   not a number, so whatever reads a field asks filled() first. */
+function filled(el) {
+  return (el.value || "").trim() !== "";
+}
+
+function num(el) {
+  const raw = (el.value || "").trim().replace(",", ".");
+  if (raw === "") return null;
+  const n = Number(raw);
+  return Number.isFinite(n) ? n : null;
+}
+
+function plausible(range, input) {
+  const v = num(input);
+  if (v === null || !range) return true;
+  const cm = $("unit").value === "in" ? v * 2.54 : v;
+  return cm >= range[0] && cm <= range[1];
+}
+
+function warnIfImplausible(input) {
+  input.closest(".pom").querySelector(".warn").hidden = plausible(PLAUSIBLE_CM[input.dataset.key], input);
+}
+
+function paintUnit() {
+  for (const u of document.querySelectorAll(".pom .u")) u.textContent = $("unit").value;
+  for (const input of document.querySelectorAll(".measure-value")) warnIfImplausible(input);
+}
+
+/* ------------------------------------------------------------------- build */
+/* What the file holds: the measurements written, each with its unit, how it was
+   taken and when, and nothing else of the person: no tolerance, which the reader
+   takes from the way it was taken, no preferences, no history, no morphology.
+   The id is random, a new one at every check, and taken from nothing the person
+   wrote. A measurement written from memory is dated today as well: this version
+   has nowhere to say when it was taken. */
+function collect() {
+  const unit = $("unit").value;
+  const source = $("source").value;
+  const now = new Date().toISOString();
+  const measurements = {};
+  for (const input of document.querySelectorAll(".measure-value")) {
+    const v = num(input);
+    if (v !== null) measurements[input.dataset.key] = { value: v, unit, source, observed_at: now };
+  }
+  const doc = {
+    schema_version: "0.1.0",
+    profile_id: crypto.randomUUID(),
+    updated_at: now,
+    units: { length: unit }
+  };
+  if (Object.keys(measurements).length) doc.body = { measurements };
+  doc.disclosure_defaults = { default_level: "result_only" };
+  return doc;
+}
+
+/* A field with something in it goes into the file, or the check stops and says why. */
+function problems(doc) {
+  const out = [];
+  for (const input of document.querySelectorAll(".measure-value")) {
+    if (!filled(input)) continue;
+    const v = num(input);
+    if (v === null) out.push(UI.notNumber(input.dataset.key, input.value.trim()));
+    else if (v <= 0) out.push(UI.notPositive(input.dataset.key));
+  }
+  if (!out.length && !doc.body) out.push(UI.needOne);
+  return out;
+}
+
+let validator = null;
+let ready = null;
+
+function loadValidator() {
+  if (ready) return ready;
+  ready = fetch(SCHEMA_URL)
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(schema => {
+      const { Ajv2020, addFormats } = globalThis.AgioAjv;
+      const Ctor = Ajv2020.default || Ajv2020;
+      const fmt = addFormats.default || addFormats;
+      const ajv = new Ctor({ allErrors: true, strict: false });
+      fmt(ajv);
+      validator = ajv.compile(schema);
+    });
+  return ready;
+}
+
+/* Where an objection points, in words: "chest_circumference" rather than
+   /body/measurements/chest_circumference/value. */
+function where(path) {
+  const parts = path.split("/").slice(1).map(p => p.replace(/~1/g, "/").replace(/~0/g, "~"));
+  if (!parts.length) return UI.atRoot;
+  if (parts[0] === "body" && parts[1] === "measurements" && parts.length > 2) {
+    return parts.slice(2).filter((p, j) => !(j === 1 && p === "value")).join(" · ");
+  }
+  return parts.join(" · ");
+}
+
+/* The schema's objections, one line each, saying where and what. A keyword this
+   list does not know is never hidden: it is shown in the schema's own words. */
+function explain(errors) {
+  const lines = [];
+  for (const e of errors) {
+    if (e.keyword === "pattern" && e.propertyName !== undefined) continue;
+    const at = where(e.instancePath);
+    const p = e.params || {};
+    switch (e.keyword) {
+      case "required": lines.push(UI.missing(at, p.missingProperty)); break;
+      case "additionalProperties": lines.push(UI.notInProfile(at, p.additionalProperty)); break;
+      case "enum": lines.push(UI.oneOf(at, p.allowedValues)); break;
+      case "const": lines.push(UI.mustBe(at, p.allowedValue)); break;
+      case "type": lines.push(UI.mustBeType(at, p.type)); break;
+      case "exclusiveMinimum": lines.push(UI.moreThan(at, p.limit)); break;
+      case "minimum": lines.push(UI.notLessThan(at, p.limit)); break;
+      case "format": lines.push(UI.badFormat(at, p.format)); break;
+      case "propertyNames": lines.push(UI.badName(at, p.propertyName)); break;
+      default: lines.push(UI.schemaSays(e.instancePath || "/", e.message));
+    }
+  }
+  return [...new Set(lines)];
+}
+
+let current = null;
+
+function show(doc, lines) {
+  const box = $("result");
+  box.textContent = "";
+  const out = $("out");
+  if (lines.length) {
+    const d = document.createElement("div");
+    d.className = "bad";
+    d.textContent = UI.invalid;
+    const ul = document.createElement("ul");
+    for (const line of lines) {
+      const li = document.createElement("li");
+      li.textContent = line;
+      ul.append(li);
+    }
+    d.append(ul);
+    box.append(d);
+    out.hidden = true;
+    $("download").disabled = true;
+    current = null;
+    return;
+  }
+  const d = document.createElement("div");
+  d.className = "ok";
+  d.textContent = UI.valid;
+  box.append(d);
+  out.textContent = JSON.stringify(doc, null, 2);
+  out.hidden = false;
+  $("download").disabled = false;
+  current = doc;
+}
+
+/* A checked file describes the form as it was when checked: any change to the form
+   discards it, and a check still waiting for the schema is not shown. */
+let checkSeq = 0;
+
+function clearResult() {
+  checkSeq++;
+  $("result").textContent = "";
+  $("out").hidden = true;
+  $("download").disabled = true;
+  current = null;
+}
+
+/* The form as the page opens it. */
+function resetForm() {
+  for (const input of document.querySelectorAll(".measure-value")) input.value = "";
+  $("unit").value = "cm";
+  $("source").value = "tape_measured";
+  $("try").hidden = true;
+  paintUnit();
+  clearResult();
+}
+
+/* -------------------------------------------------------------------- wire */
+/* Nothing here is written to any storage of the browser: no draft, no cookie. A page
+   the browser brings back from its memory, on going back to it, comes back empty too:
+   the measurements belong to the visit that wrote them. */
+paintUnit();
+addEventListener("pageshow", (e) => { if (e.persisted) resetForm(); });
+$("unit").addEventListener("change", paintUnit);
+document.addEventListener("input", (e) => {
+  if (e.target.matches(".measure-value")) warnIfImplausible(e.target);
+});
+for (const type of ["input", "change"]) {
+  document.addEventListener(type, (e) => {
+    if (e.target.matches("input, select")) clearResult();
+  });
+}
+
+$("build").addEventListener("click", () => {
+  const doc = collect();
+  const lines = problems(doc);
+  if (lines.length) { show(doc, lines); return; }
+  const seq = checkSeq;
+  loadValidator().then(() => {
+    if (seq !== checkSeq) return;
+    show(doc, validator(doc) ? [] : explain(validator.errors));
+  }).catch(() => { if (seq === checkSeq) show(doc, [UI.schemaFail]); });
+});
+
+/* The name is always the same: a name made from what the person wrote would say it
+   to whoever sees the file. */
+$("download").addEventListener("click", () => {
+  if (!current) return;
+  const blob = new Blob([JSON.stringify(current, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "fit-profile.json";
+  a.click();
+  $("try").hidden = false;
+  /* Some browsers start the download later, after asking: keep the address alive. */
+  setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+});
+</script>
+</body>
+</html>

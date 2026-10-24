@@ -20,8 +20,9 @@ Licensing is split: the specification is CC BY 4.0; the reference implementation
 - [Interactive guide](https://agiofit.org/guide/): where the tape goes on a shirt, and the exact Match Report at every disclosure level
 - [Builders](https://agiofit.org/builder/): the builders that write Agio Fit documents in the browser, and how to compare their files with the reference implementation
 - [Cut Profile builder](https://agiofit.org/builder/cut-profile/): measure a shirt, a T-shirt, trousers or jeans laid flat and get a valid Cut Profile; runs in the browser, nothing is uploaded or stored
+- [Fit Profile builder](https://agiofit.org/builder/fit-profile/): write your own body measurements into a Fit Profile; runs in the browser, nothing is sent and nothing is kept, not even a draft
 
-Every page above is also available in Italian (https://agiofit.org/it/ · https://agiofit.org/it/guide/ · https://agiofit.org/it/builder/ · https://agiofit.org/it/builder/cut-profile/) and French (https://agiofit.org/fr/ · https://agiofit.org/fr/guide/ · https://agiofit.org/fr/builder/ · https://agiofit.org/fr/builder/cut-profile/).
+Every page above is also available in Italian (https://agiofit.org/it/ · https://agiofit.org/it/guide/ · https://agiofit.org/it/builder/ · https://agiofit.org/it/builder/cut-profile/ · https://agiofit.org/it/builder/fit-profile/) and French (https://agiofit.org/fr/ · https://agiofit.org/fr/guide/ · https://agiofit.org/fr/builder/ · https://agiofit.org/fr/builder/cut-profile/ · https://agiofit.org/fr/builder/fit-profile/).
 
 ## Schemas (JSON Schema 2020-12, v0.1)
 

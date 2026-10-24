@@ -30,6 +30,8 @@ written.
     _src/builder/index.html              ->  /builder/  /it/builder/  /fr/builder/
     _src/builder/cut-profile/index.html  ->  /builder/cut-profile/  /it/builder/cut-profile/
                                              /fr/builder/cut-profile/
+    _src/builder/fit-profile/index.html  ->  /builder/fit-profile/  /it/builder/fit-profile/
+                                             /fr/builder/fit-profile/
 """
 
 import json
@@ -66,6 +68,7 @@ PAGES = {
     "guide/index.html": "guide/",
     "builder/index.html": "builder/",
     "builder/cut-profile/index.html": "builder/cut-profile/",
+    "builder/fit-profile/index.html": "builder/fit-profile/",
 }
 
 
