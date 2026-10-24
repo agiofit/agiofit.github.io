@@ -424,8 +424,7 @@ def main() -> int:
             return 1
         text = src.read_text(encoding="utf-8")
         for lang in LANGS:
-            # English is also the text outside the language spans: a page may carry none of its own
-            if lang != "en" and not re.search(r'<span class="%s">' % lang, text):
+            if not re.search(r'<span class="%s">' % lang, text):
                 print(f"\n  Nothing written: {page} has no {lang} text\n")
                 return 1
             try:
