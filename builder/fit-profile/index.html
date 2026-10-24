@@ -168,6 +168,9 @@ input.num{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;text-al
 .pom .val{display:flex;align-items:center;gap:8px;align-self:center}
 .pom .val input{width:80px}
 .pom .val .u{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;color:var(--ink-70)}
+/* Italian and French only, under each group: the definitions are translated, as in the guide */
+.group .translation-note{margin:0;padding:14px 20px;border-top:1px solid var(--rule);
+  font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;color:var(--ink-70)}
 .pom .warn{grid-column:1/-1;font-size:13.5px;color:var(--tape-ink);background:var(--highlight);
   border:1px solid #EADFB4;border-radius:8px;padding:9px 12px;margin:12px 0 0;max-width:62ch}
 @media(max-width:720px){.pom{grid-template-columns:1fr;gap:8px}.pom .key{padding-top:0}
@@ -333,6 +336,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
           <div class="val"><input id="m-arm_length" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="arm_length" aria-describedby="how-arm_length"><span class="u">cm</span></div>
           <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
         </div>
+        
       </div>
     </div>
   </section>
@@ -365,6 +369,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
           <div class="val"><input id="m-inseam" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="inseam" aria-describedby="how-inseam"><span class="u">cm</span></div>
           <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
         </div>
+        
       </div>
     </div>
   </section>
@@ -434,6 +439,46 @@ const UI_BY_LANG = {
     badFormat: (at, format) => at + ": is not a valid " + (format === "date-time" ? "date and time" : format) + ".",
     badName: (at, name) => at + ': "' + name + '" is not a valid name. Names are lowercase letters, digits and underscores.',
     schemaSays: (path, message) => "The schema says: " + path + " " + message
+  },
+  it: {
+    valid: "Valido secondo fit-profile.schema.json v0.1.",
+    invalid: "Non ancora valido:",
+    needOne: "Compila almeno una misura.",
+    notNumber: (key, text) => key + ": «" + text + "» non è un numero. Scrivi solo il numero, come 98 o 41,5.",
+    notPositive: (key) => key + ": una misura deve essere maggiore di 0.",
+    schemaFail: "Non è stato possibile caricare lo schema con cui verificare. Non è stato creato nulla.",
+    atRoot: "Il file",
+    missing: (at, name) => at + ": manca " + name + ".",
+    notInProfile: (at, name) => at + ": " + name + " non fa parte di un Fit Profile.",
+    oneOf: (at, values) => at + ": deve essere uno di " + values.join(", ") + ".",
+    mustBe: (at, value) => at + ": deve essere " + JSON.stringify(value) + ".",
+    types: { number: "un numero", string: "un testo", array: "un elenco", object: "un oggetto" },
+    mustBeType: (at, type) => at + ": deve essere " + (UI.types[type] || type) + ".",
+    moreThan: (at, limit) => at + ": deve essere maggiore di " + limit + ".",
+    notLessThan: (at, limit) => at + ": non può essere minore di " + limit + ".",
+    badFormat: (at, format) => at + ": non è " + (format === "date-time" ? "una data e un’ora valide" : "un " + format + " valido") + ".",
+    badName: (at, name) => at + ": «" + name + "» non è un nome valido. I nomi sono fatti di lettere minuscole, cifre e trattini bassi.",
+    schemaSays: (path, message) => "Lo schema dice (in inglese): " + path + " " + message
+  },
+  fr: {
+    valid: "Valide selon fit-profile.schema.json v0.1.",
+    invalid: "Pas encore valide :",
+    needOne: "Remplissez au moins une mesure.",
+    notNumber: (key, text) => key + " : « " + text + " » n’est pas un nombre. Écrivez seulement le nombre, comme 98 ou 41,5.",
+    notPositive: (key) => key + " : une mesure doit être supérieure à 0.",
+    schemaFail: "Impossible de charger le schéma de vérification. Rien n’a été créé.",
+    atRoot: "Le fichier",
+    missing: (at, name) => at + " : " + name + " manque.",
+    notInProfile: (at, name) => at + " : " + name + " ne fait pas partie d’un Fit Profile.",
+    oneOf: (at, values) => at + " : doit être l’un de " + values.join(", ") + ".",
+    mustBe: (at, value) => at + " : doit être " + JSON.stringify(value) + ".",
+    types: { number: "un nombre", string: "du texte", array: "une liste", object: "un objet" },
+    mustBeType: (at, type) => at + " : doit être " + (UI.types[type] || type) + ".",
+    moreThan: (at, limit) => at + " : doit être supérieur à " + limit + ".",
+    notLessThan: (at, limit) => at + " : ne peut pas être inférieur à " + limit + ".",
+    badFormat: (at, format) => at + " : n’est pas " + (format === "date-time" ? "une date et une heure valides" : "un " + format + " valide") + ".",
+    badName: (at, name) => at + " : « " + name + " » n’est pas un nom valide. Les noms sont faits de lettres minuscules, de chiffres et de tirets bas.",
+    schemaSays: (path, message) => "Le schéma indique (en anglais) : " + path + " " + message
   }
 };
 const UI = Object.assign({}, UI_BY_LANG.en, UI_BY_LANG[PAGE_LANG]);

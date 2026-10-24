@@ -169,6 +169,9 @@ input.num{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;text-al
 .pom .val{display:flex;align-items:center;gap:8px;align-self:center}
 .pom .val input{width:80px}
 .pom .val .u{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;color:var(--ink-70)}
+/* Italian and French only, under each group: the definitions are translated, as in the guide */
+.group .translation-note{margin:0;padding:14px 20px;border-top:1px solid var(--rule);
+  font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;color:var(--ink-70)}
 .pom .warn{grid-column:1/-1;font-size:13.5px;color:var(--tape-ink);background:var(--highlight);
   border:1px solid #EADFB4;border-radius:8px;padding:9px 12px;margin:12px 0 0;max-width:62ch}
 @media(max-width:720px){.pom{grid-template-columns:1fr;gap:8px}.pom .key{padding-top:0}
@@ -244,23 +247,23 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
   <div class="head">
     <div class="intro">
       <p class="kicker">Fit Profile</p>
-      <h1>Fit Profile builder</h1>
-      <p class="lede" id="t-lede">Take your measurements with a tape and get a file that holds them, for the reference implementation to compare with a garment on your own computer.</p>
-      <p class="sub" id="t-keeps">This page keeps nothing: no draft, no copy, and nothing is sent. It compares nothing either: the comparison runs on your computer. In this version it does not open a file you made before.</p>
+      <h1><span class="en">Fit Profile builder</span><span class="it">Builder del Fit Profile</span><span class="fr">Builder de Fit Profile</span></h1>
+      <p class="lede" id="t-lede"><span class="en">Take your measurements with a tape and get a file that holds them, for the reference implementation to compare with a garment on your own computer.</span><span class="it">Prendi le tue misure con il metro e ottieni un file che le contiene, perché l’implementazione di riferimento le confronti con un capo sul tuo computer.</span><span class="fr">Prenez vos mesures au mètre ruban et obtenez un fichier qui les contient, pour que l’implémentation de référence les compare à un vêtement sur votre propre ordinateur.</span></p>
+      <p class="sub" id="t-keeps"><span class="en">This page keeps nothing: no draft, no copy, and nothing is sent. It compares nothing either: the comparison runs on your computer. In this version it does not open a file you made before.</span><span class="it">Questa pagina non conserva nulla: nessuna bozza, nessuna copia, e non viene inviato nulla. Non confronta nemmeno nulla: il confronto avviene sul tuo computer. In questa versione non apre un file che hai già fatto.</span><span class="fr">Cette page ne garde rien : aucun brouillon, aucune copie, et rien n’est envoyé. Elle ne compare rien non plus : la comparaison se fait sur votre ordinateur. Dans cette version, elle n’ouvre pas un fichier créé auparavant.</span></p>
       <nav class="steps" aria-label="Steps" data-it-aria-label="Passi" data-fr-aria-label="Étapes">
-        <a href="#step-1"><span class="sn">1</span>Before you measure</a>
-        <a href="#step-2"><span class="sn">2</span>Upper body</a>
-        <a href="#step-3"><span class="sn">3</span>Legs</a>
+        <a href="#step-1"><span class="sn">1</span><span class="en">Before you measure</span><span class="it">Prima di misurare</span><span class="fr">Avant de mesurer</span></a>
+        <a href="#step-2"><span class="sn">2</span><span class="en">Upper body</span><span class="it">Busto</span><span class="fr">Haut du corps</span></a>
+        <a href="#step-3"><span class="sn">3</span><span class="en">Legs</span><span class="it">Gambe</span><span class="fr">Jambes</span></a>
         <a href="#step-4"><span class="sn">4</span><span class="en">Make the file</span><span class="it">Crea il file</span><span class="fr">Créez le fichier</span></a>
       </nav>
     </div>
 
     <div class="status">
       <dl>
-        <div><dt id="s-writes-t"><span class="en">Writes</span><span class="it">Scrive</span><span class="fr">Écrit</span></dt><dd id="s-writes">Fit Profile, one person</dd></div>
+        <div><dt id="s-writes-t"><span class="en">Writes</span><span class="it">Scrive</span><span class="fr">Écrit</span></dt><dd id="s-writes"><span class="en">Fit Profile, one person</span><span class="it">Fit Profile, una persona</span><span class="fr">Fit Profile, une personne</span></dd></div>
         <div><dt id="s-schema-t"><span class="en">Checked against</span><span class="it">Verificato con</span><span class="fr">Vérifié avec</span></dt><dd id="s-schema">fit-profile.schema.json v0.1.0</dd></div>
         <div><dt id="s-status-t"><span class="en">Status</span><span class="it">Stato</span><span class="fr">État</span></dt><dd id="s-status"><span class="en">draft — the model may still change</span><span class="it">bozza: il modello può ancora cambiare</span><span class="fr">brouillon : le modèle peut encore changer</span></dd></div>
-        <div><dt id="s-data-t"><span class="en">Your data</span><span class="it">I tuoi dati</span><span class="fr">Vos données</span></dt><dd id="s-data">stays on this page. Nothing is sent and nothing is kept: close the page and it is gone, so download the file first.</dd></div>
+        <div><dt id="s-data-t"><span class="en">Your data</span><span class="it">I tuoi dati</span><span class="fr">Vos données</span></dt><dd id="s-data"><span class="en">stays on this page. Nothing is sent and nothing is kept: close the page and it is gone, so download the file first.</span><span class="it">restano in questa pagina. Non viene inviato né conservato nulla: chiusa la pagina non ci sono più, quindi scarica prima il file.</span><span class="fr">restent sur cette page. Rien n’est envoyé ni conservé : une fois la page fermée, elles ont disparu, alors téléchargez d’abord le fichier.</span></dd></div>
       </dl>
     </div>
   </div>
@@ -271,96 +274,98 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
   </div>
 
   <section class="block" id="step-1">
-    <div class="bh"><span class="n"><span class="en">Step 1</span><span class="it">Passo 1</span><span class="fr">Étape 1</span></span><h2 id="t-before">Before you measure</h2></div>
+    <div class="bh"><span class="n"><span class="en">Step 1</span><span class="it">Passo 1</span><span class="fr">Étape 1</span></span><h2 id="t-before"><span class="en">Before you measure</span><span class="it">Prima di misurare</span><span class="fr">Avant de mesurer</span></h2></div>
     <div class="body">
       <!-- The general paragraph and the instructions below are taken word for word from
            spec/01-fit-profile.md, section "Measurement names". -->
-      <p class="hint" id="t-before-hint">Stand relaxed, in light underwear or close-fitting clothes, without shoes. A girth goes all the way round with the tape level, snug against the body and not pulling it in; breathe normally. A length follows the body. The shoulders and the arm need a second person; the rest can be taken alone.</p>
-      <p class="hint" id="t-leave">Fill in what you measured, and leave the rest empty: a gap is useful, a guess is not.</p>
+      <p class="hint" id="t-before-hint"><span class="en">Stand relaxed, in light underwear or close-fitting clothes, without shoes. A girth goes all the way round with the tape level, snug against the body and not pulling it in; breathe normally. A length follows the body. The shoulders and the arm need a second person; the rest can be taken alone.</span><span class="it">Stai in piedi e rilassati, in biancheria leggera o con abiti aderenti, senza scarpe. Una circonferenza fa tutto il giro con il metro in piano, aderente al corpo senza stringerlo; respira normalmente. Una lunghezza segue il corpo. Per spalle e braccio serve una seconda persona; il resto si può prendere senza aiuto.</span><span class="fr">Tenez-vous debout sans vous crisper, en sous-vêtements légers ou en vêtements près du corps, sans chaussures. Un tour se prend tout autour, le mètre ruban à l’horizontale, ajusté au corps sans le serrer ; respirez normalement. Une longueur suit le corps. Les épaules et le bras demandent une deuxième personne ; le reste peut se prendre sans aide.</span></p>
+      <p class="hint" id="t-leave"><span class="en">Fill in what you measured, and leave the rest empty: a gap is useful, a guess is not.</span><span class="it">Compila quello che hai misurato e lascia vuoto il resto: un vuoto serve, una stima no.</span><span class="fr">Remplissez ce que vous avez mesuré et laissez le reste vide : un manque est utile, une estimation non.</span></p>
       <div class="grid">
         <div class="field">
           <label for="unit" id="l-unit"><span class="en">Your tape reads in</span><span class="it">Il tuo metro è in</span><span class="fr">Votre mètre ruban est en</span></label>
           <select id="unit" aria-describedby="n-unit"><option value="cm">cm</option><option value="in">in</option></select>
-          <p class="note" id="n-unit">One unit for the whole file.</p>
+          <p class="note" id="n-unit"><span class="en">One unit for the whole file.</span><span class="it">Un’unità sola per tutto il file.</span><span class="fr">Une seule unité pour tout le fichier.</span></p>
         </div>
         <div class="field">
-          <label for="source" id="l-source">How did you take them?</label>
+          <label for="source" id="l-source"><span class="en">How did you take them?</span><span class="it">Come le hai prese?</span><span class="fr">Comment les avez-vous prises ?</span></label>
           <select id="source" aria-describedby="n-source">
-            <option value="tape_measured" selected>With a tape, today</option>
-            <option value="self_reported">From memory, or an old note</option>
+            <option value="tape_measured" selected><span class="en">With a tape, today</span><span class="it">Con il metro, oggi</span><span class="fr">Au mètre ruban, aujourd’hui</span></option>
+            <option value="self_reported"><span class="en">From memory, or an old note</span><span class="it">A memoria, o da un vecchio appunto</span><span class="fr">De mémoire, ou d’après une ancienne note</span></option>
           </select>
-          <p class="note" id="n-source">It goes with every measurement in the file.</p>
+          <p class="note" id="n-source"><span class="en">It goes with every measurement in the file.</span><span class="it">Vale per tutte le misure del file.</span><span class="fr">Cela vaut pour toutes les mesures du fichier.</span></p>
         </div>
       </div>
     </div>
   </section>
 
   <section class="block" id="step-2">
-    <div class="bh"><span class="n"><span class="en">Step 2</span><span class="it">Passo 2</span><span class="fr">Étape 2</span></span><h2 id="t-upper">Upper body</h2></div>
+    <div class="bh"><span class="n"><span class="en">Step 2</span><span class="it">Passo 2</span><span class="fr">Étape 2</span></span><h2 id="t-upper"><span class="en">Upper body</span><span class="it">Busto</span><span class="fr">Haut du corps</span></h2></div>
     <div class="body">
       <div class="group">
         <div class="pom">
           <div class="key"><label for="m-neck_circumference">neck_circumference</label></div>
-          <div class="how" id="how-neck_circumference">Around the base of the neck, where the band of a shirt collar sits.</div>
+          <div class="how" id="how-neck_circumference"><span class="en">Around the base of the neck, where the band of a shirt collar sits.</span><span class="it">Intorno alla base del collo, dove si appoggia il piede del collo di una camicia.</span><span class="fr">Autour de la base du cou, là où repose le pied de col d’une chemise.</span></div>
           <div class="val"><input id="m-neck_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="neck_circumference" aria-describedby="how-neck_circumference"><span class="u">cm</span></div>
-          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+          <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-shoulder_width">shoulder_width</label></div>
-          <div class="how" id="how-shoulder_width">Across the back, with the tape resting on it, from the tip of one shoulder to the tip of the other: the point where the bone of the shoulder ends and the arm begins.</div>
+          <div class="how" id="how-shoulder_width"><span class="en">Across the back, with the tape resting on it, from the tip of one shoulder to the tip of the other: the point where the bone of the shoulder ends and the arm begins.</span><span class="it">Sulla schiena, con il metro appoggiato, dalla punta di una spalla alla punta dell’altra: il punto in cui finisce l’osso della spalla e comincia il braccio.</span><span class="fr">Dans le dos, le mètre ruban posé dessus, de la pointe d’une épaule à la pointe de l’autre : le point où l’os de l’épaule se termine et où le bras commence.</span></div>
           <div class="val"><input id="m-shoulder_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="shoulder_width" aria-describedby="how-shoulder_width"><span class="u">cm</span></div>
-          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+          <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-chest_circumference">chest_circumference</label></div>
-          <div class="how" id="how-chest_circumference">Around the fullest part of the chest, under the arms and across the shoulder blades. On a body with breasts this is the fullest part of the bust. The difference between bust and underbust matters for garments this version does not cover, and is left open (<a href="https://github.com/agiofit/agiofit/blob/main/spec/05-open-questions.md">05-open-questions.md</a>, question 10).</div>
+          <div class="how" id="how-chest_circumference"><span class="en">Around the fullest part of the chest, under the arms and across the shoulder blades. On a body with breasts this is the fullest part of the bust. The difference between bust and underbust matters for garments this version does not cover, and is left open (<a href="https://github.com/agiofit/agiofit/blob/main/spec/05-open-questions.md">05-open-questions.md</a>, question 10).</span><span class="it">Intorno alla parte più piena del torace, sotto le braccia e passando sulle scapole. Su un corpo con il seno è la parte più piena del seno. La differenza tra seno e sottoseno conta per capi che questa versione non copre, e resta aperta (<a href="https://github.com/agiofit/agiofit/blob/main/spec/05-open-questions.md">05-open-questions.md</a>, domanda 10).</span><span class="fr">Autour de la partie la plus forte de la poitrine, sous les bras et en passant sur les omoplates. Sur un corps avec des seins, c’est la partie la plus forte du buste. La différence entre tour de poitrine et dessous de poitrine compte pour des vêtements que cette version ne couvre pas, et reste ouverte (<a href="https://github.com/agiofit/agiofit/blob/main/spec/05-open-questions.md">05-open-questions.md</a>, question 10).</span></div>
           <div class="val"><input id="m-chest_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="chest_circumference" aria-describedby="how-chest_circumference"><span class="u">cm</span></div>
-          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+          <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-waist_circumference">waist_circumference</label></div>
-          <div class="how" id="how-waist_circumference">Around the natural waist: the narrowest part of the torso, usually a little above the navel. This is the waist of a shirt, not of a pair of trousers.</div>
+          <div class="how" id="how-waist_circumference"><span class="en">Around the natural waist: the narrowest part of the torso, usually a little above the navel. This is the waist of a shirt, not of a pair of trousers.</span><span class="it">Intorno al punto vita naturale: la parte più stretta del busto, di solito poco sopra l’ombelico. È la vita di una camicia, non di un pantalone.</span><span class="fr">Autour de la taille naturelle : la partie la plus étroite du buste, en général un peu au-dessus du nombril. C’est la taille d’une chemise, pas celle d’un pantalon.</span></div>
           <div class="val"><input id="m-waist_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="waist_circumference" aria-describedby="how-waist_circumference"><span class="u">cm</span></div>
-          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+          <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-arm_length">arm_length</label></div>
-          <div class="how" id="how-arm_length">From the tip of the shoulder, down the outside of the arm held slightly bent, over the elbow, to the wrist bone.</div>
+          <div class="how" id="how-arm_length"><span class="en">From the tip of the shoulder, down the outside of the arm held slightly bent, over the elbow, to the wrist bone.</span><span class="it">Dalla punta della spalla, lungo l’esterno del braccio tenuto leggermente piegato, sopra il gomito, fino all’osso del polso.</span><span class="fr">De la pointe de l’épaule, le long de l’extérieur du bras légèrement plié, par-dessus le coude, jusqu’à l’os du poignet.</span></div>
           <div class="val"><input id="m-arm_length" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="arm_length" aria-describedby="how-arm_length"><span class="u">cm</span></div>
-          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+          <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
+        <span class="it"><p class="translation-note">Le definizioni sono tradotte: fa fede il testo inglese della <a href="https://github.com/agiofit/agiofit/blob/main/spec/01-fit-profile.md#measurement-names">specifica</a>.</p></span><span class="fr"><p class="translation-note">Les définitions sont traduites : seul le texte anglais de la <a href="https://github.com/agiofit/agiofit/blob/main/spec/01-fit-profile.md#measurement-names">spécification</a> fait foi.</p></span>
       </div>
     </div>
   </section>
 
   <section class="block" id="step-3">
-    <div class="bh"><span class="n"><span class="en">Step 3</span><span class="it">Passo 3</span><span class="fr">Étape 3</span></span><h2 id="t-legs">Legs</h2></div>
+    <div class="bh"><span class="n"><span class="en">Step 3</span><span class="it">Passo 3</span><span class="fr">Étape 3</span></span><h2 id="t-legs"><span class="en">Legs</span><span class="it">Gambe</span><span class="fr">Jambes</span></h2></div>
     <div class="body">
       <div class="group">
         <div class="pom">
           <div class="key"><label for="m-trouser_waist_circumference">trouser_waist_circumference</label></div>
-          <div class="how" id="how-trouser_waist_circumference">Around the body where the waistband of your trousers usually sits. For most people this is lower than the natural waist. A garment cut to sit higher or lower than usual will be judged against this height all the same: the Cut Profile does not say where a waistband sits.</div>
+          <div class="how" id="how-trouser_waist_circumference"><span class="en">Around the body where the waistband of your trousers usually sits. For most people this is lower than the natural waist. A garment cut to sit higher or lower than usual will be judged against this height all the same: the Cut Profile does not say where a waistband sits.</span><span class="it">Intorno al corpo, dove di solito sta la cintura dei tuoi pantaloni. Per quasi tutti è più in basso del punto vita naturale. Un capo tagliato per stare più in alto o più in basso del solito verrà giudicato comunque su questa altezza: il Cut Profile non dice dove sta una cintura.</span><span class="fr">Autour du corps, là où se trouve d’habitude la ceinture de vos pantalons. Pour la plupart des gens, c’est plus bas que la taille naturelle. Un vêtement coupé pour se porter plus haut ou plus bas que d’habitude sera tout de même jugé à cette hauteur : le Cut Profile ne dit pas où se place une ceinture.</span></div>
           <div class="val"><input id="m-trouser_waist_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="trouser_waist_circumference" aria-describedby="how-trouser_waist_circumference"><span class="u">cm</span></div>
-          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+          <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-hip_circumference">hip_circumference</label></div>
-          <div class="how" id="how-hip_circumference">Around the fullest part of the hips and seat, with the feet together.</div>
+          <div class="how" id="how-hip_circumference"><span class="en">Around the fullest part of the hips and seat, with the feet together.</span><span class="it">Intorno alla parte più piena di fianchi e glutei, a piedi uniti.</span><span class="fr">Autour de la partie la plus forte des hanches et du fessier, pieds joints.</span></div>
           <div class="val"><input id="m-hip_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="hip_circumference" aria-describedby="how-hip_circumference"><span class="u">cm</span></div>
-          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+          <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-thigh_circumference">thigh_circumference</label></div>
-          <div class="how" id="how-thigh_circumference">Around the fullest part of one thigh, just below the crotch.</div>
+          <div class="how" id="how-thigh_circumference"><span class="en">Around the fullest part of one thigh, just below the crotch.</span><span class="it">Intorno alla parte più piena di una coscia, appena sotto il cavallo.</span><span class="fr">Autour de la partie la plus forte d’une cuisse, juste sous l’entrejambe.</span></div>
           <div class="val"><input id="m-thigh_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="thigh_circumference" aria-describedby="how-thigh_circumference"><span class="u">cm</span></div>
-          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+          <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-inseam">inseam</label></div>
-          <div class="how" id="how-inseam">Along the inside of the leg, from the crotch to the ankle bone, standing straight.</div>
+          <div class="how" id="how-inseam"><span class="en">Along the inside of the leg, from the crotch to the ankle bone, standing straight.</span><span class="it">Lungo l’interno della gamba, dal cavallo all’osso della caviglia, in posizione eretta.</span><span class="fr">Le long de l’intérieur de la jambe, de l’entrejambe à la malléole, en position debout.</span></div>
           <div class="val"><input id="m-inseam" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="inseam" aria-describedby="how-inseam"><span class="u">cm</span></div>
-          <p class="warn" hidden>That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</p>
+          <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
+        <span class="it"><p class="translation-note">Le definizioni sono tradotte: fa fede il testo inglese della <a href="https://github.com/agiofit/agiofit/blob/main/spec/01-fit-profile.md#measurement-names">specifica</a>.</p></span><span class="fr"><p class="translation-note">Les définitions sont traduites : seul le texte anglais de la <a href="https://github.com/agiofit/agiofit/blob/main/spec/01-fit-profile.md#measurement-names">spécification</a> fait foi.</p></span>
       </div>
     </div>
   </section>
@@ -377,16 +382,16 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
       <pre id="out" hidden></pre>
       <!-- shown once the file is downloaded -->
       <div class="try" id="try" hidden>
-        <h3>Try it with a garment</h3>
-        <p>Put fit-profile.json in a folder with a Cut Profile, and the reference implementation compares them on your computer:</p>
+        <h3><span class="en">Try it with a garment</span><span class="it">Provalo con un capo</span><span class="fr">Essayez-le avec un vêtement</span></h3>
+        <p><span class="en">Put fit-profile.json in a folder with a Cut Profile, and the reference implementation compares them on your computer:</span><span class="it">Metti fit-profile.json in una cartella con un Cut Profile, e l’implementazione di riferimento li confronta sul tuo computer:</span><span class="fr">Placez fit-profile.json dans un dossier avec un Cut Profile, et l’implémentation de référence les compare sur votre ordinateur :</span></p>
         <pre class="cmd"><code>python -m agiofit.cli fit-profile.json &lt;garment&gt;.cut-profile.json explained</code></pre>
-        <p>No Cut Profile yet? Measure a garment with the <a href="/builder/cut-profile/">Cut Profile builder</a>, or follow the <a href="https://github.com/agiofit/agiofit#quickstart">Quickstart</a> to install the reference implementation.</p>
+        <p><span class="en">No Cut Profile yet? Measure a garment with the <a href="/builder/cut-profile/">Cut Profile builder</a>, or follow the <a href="https://github.com/agiofit/agiofit#quickstart">Quickstart</a> to install the reference implementation.</span><span class="it">Non hai ancora un Cut Profile? Misura un capo con il <a href="/builder/cut-profile/">builder del Cut Profile</a>, oppure segui il <a href="https://github.com/agiofit/agiofit#quickstart">Quickstart</a> per installare l’implementazione di riferimento.</span><span class="fr">Pas encore de Cut Profile ? Mesurez un vêtement avec le <a href="/builder/cut-profile/">builder de Cut Profile</a>, ou suivez le <a href="https://github.com/agiofit/agiofit#quickstart">Quickstart</a> pour installer l’implémentation de référence.</span></p>
       </div>
     </div>
   </section>
 
   <footer>
-    <p id="t-foot-1">Keep this file where you keep private things. We do not want to receive it, and no one needs it to sell you a garment.</p>
+    <p id="t-foot-1"><span class="en">Keep this file where you keep private things. We do not want to receive it, and no one needs it to sell you a garment.</span><span class="it">Tieni questo file dove tieni le cose private. Non vogliamo riceverlo, e a nessuno serve per venderti un capo.</span><span class="fr">Gardez ce fichier là où vous gardez vos affaires privées. Nous ne voulons pas le recevoir, et personne n’en a besoin pour vous vendre un vêtement.</span></p>
     <div class="legal">
       <span><span class="en">© 2026 Antonio Ferraioli · Agio Fit · a personal project by</span><span class="it">© 2026 Antonio Ferraioli · Agio Fit · un progetto personale di</span><span class="fr">© 2026 Antonio Ferraioli · Agio Fit · un projet personnel de</span> <a href="https://github.com/antferr">antferr</a></span>
       <span class="mono-small">spec: CC BY 4.0 · code: Apache-2.0 · <a href="https://github.com/agiofit">github.com/agiofit</a></span>
@@ -430,6 +435,46 @@ const UI_BY_LANG = {
     badFormat: (at, format) => at + ": is not a valid " + (format === "date-time" ? "date and time" : format) + ".",
     badName: (at, name) => at + ': "' + name + '" is not a valid name. Names are lowercase letters, digits and underscores.',
     schemaSays: (path, message) => "The schema says: " + path + " " + message
+  },
+  it: {
+    valid: "Valido secondo fit-profile.schema.json v0.1.",
+    invalid: "Non ancora valido:",
+    needOne: "Compila almeno una misura.",
+    notNumber: (key, text) => key + ": «" + text + "» non è un numero. Scrivi solo il numero, come 98 o 41,5.",
+    notPositive: (key) => key + ": una misura deve essere maggiore di 0.",
+    schemaFail: "Non è stato possibile caricare lo schema con cui verificare. Non è stato creato nulla.",
+    atRoot: "Il file",
+    missing: (at, name) => at + ": manca " + name + ".",
+    notInProfile: (at, name) => at + ": " + name + " non fa parte di un Fit Profile.",
+    oneOf: (at, values) => at + ": deve essere uno di " + values.join(", ") + ".",
+    mustBe: (at, value) => at + ": deve essere " + JSON.stringify(value) + ".",
+    types: { number: "un numero", string: "un testo", array: "un elenco", object: "un oggetto" },
+    mustBeType: (at, type) => at + ": deve essere " + (UI.types[type] || type) + ".",
+    moreThan: (at, limit) => at + ": deve essere maggiore di " + limit + ".",
+    notLessThan: (at, limit) => at + ": non può essere minore di " + limit + ".",
+    badFormat: (at, format) => at + ": non è " + (format === "date-time" ? "una data e un’ora valide" : "un " + format + " valido") + ".",
+    badName: (at, name) => at + ": «" + name + "» non è un nome valido. I nomi sono fatti di lettere minuscole, cifre e trattini bassi.",
+    schemaSays: (path, message) => "Lo schema dice (in inglese): " + path + " " + message
+  },
+  fr: {
+    valid: "Valide selon fit-profile.schema.json v0.1.",
+    invalid: "Pas encore valide :",
+    needOne: "Remplissez au moins une mesure.",
+    notNumber: (key, text) => key + " : « " + text + " » n’est pas un nombre. Écrivez seulement le nombre, comme 98 ou 41,5.",
+    notPositive: (key) => key + " : une mesure doit être supérieure à 0.",
+    schemaFail: "Impossible de charger le schéma de vérification. Rien n’a été créé.",
+    atRoot: "Le fichier",
+    missing: (at, name) => at + " : " + name + " manque.",
+    notInProfile: (at, name) => at + " : " + name + " ne fait pas partie d’un Fit Profile.",
+    oneOf: (at, values) => at + " : doit être l’un de " + values.join(", ") + ".",
+    mustBe: (at, value) => at + " : doit être " + JSON.stringify(value) + ".",
+    types: { number: "un nombre", string: "du texte", array: "une liste", object: "un objet" },
+    mustBeType: (at, type) => at + " : doit être " + (UI.types[type] || type) + ".",
+    moreThan: (at, limit) => at + " : doit être supérieur à " + limit + ".",
+    notLessThan: (at, limit) => at + " : ne peut pas être inférieur à " + limit + ".",
+    badFormat: (at, format) => at + " : n’est pas " + (format === "date-time" ? "une date et une heure valides" : "un " + format + " valide") + ".",
+    badName: (at, name) => at + " : « " + name + " » n’est pas un nom valide. Les noms sont faits de lettres minuscules, de chiffres et de tirets bas.",
+    schemaSays: (path, message) => "Le schéma indique (en anglais) : " + path + " " + message
   }
 };
 const UI = Object.assign({}, UI_BY_LANG.en, UI_BY_LANG[PAGE_LANG]);

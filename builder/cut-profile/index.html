@@ -938,11 +938,17 @@ const WORDS_BY_LANG = {
   },
   it: {
     shirts: "Camicia",
+    tops: "T-shirt",
+    trousers: "Pantaloni",
+    jeans: "Jeans",
     brandSpecific: "quello che stampa il marchio",
     tapeSize: (label, count, total) => "taglia " + label + " · " + count + " di " + total
   },
   fr: {
     shirts: "Chemise",
+    tops: "T-shirt",
+    trousers: "Pantalon",
+    jeans: "Jean",
     brandSpecific: "ce qu’imprime la marque",
     tapeSize: (label, count, total) => "taille " + label + " · " + count + " sur " + total
   }
@@ -1108,6 +1114,7 @@ const UI_BY_LANG = {
     flatOnly: (method) => "measurement_method " + method + ": questa pagina scrive solo misure prese con il capo steso.",
     noPlace: (at) => at + ": nel modulo non c’è un posto per questo.",
     intentOnly: (field) => field + " (può dichiararlo solo il marchio o il produttore)",
+    otherCategory: (category) => "category " + category + ": questa pagina scrive solo camicie, t-shirt, pantaloni e jeans.",
     mixedUnits: "units: il modulo usa una sola unità per tutto il file, e questo file mescola cm e in.",
     replaceForm: "Aprire un file sostituisce quello che c’è nel modulo. Continuare?",
     readBackFail: (paths) => "Questa pagina non è riuscita a rileggere il file così com’era (" + paths.join(", ") + "). Il modulo è stato svuotato; nel tuo file non è cambiato nulla.",
@@ -1156,6 +1163,7 @@ const UI_BY_LANG = {
     flatOnly: (method) => "measurement_method " + method + " : cette page n’écrit que des mesures prises à plat.",
     noPlace: (at) => at + " : le formulaire n’a pas de place pour cela.",
     intentOnly: (field) => field + " (seuls la marque ou le fabricant peuvent l’indiquer)",
+    otherCategory: (category) => "category " + category + " : cette page n’écrit que des chemises, des t-shirts, des pantalons et des jeans.",
     mixedUnits: "units : le formulaire utilise une seule unité pour tout le fichier, et ce fichier mélange cm et in.",
     replaceForm: "Ouvrir un fichier remplace le contenu du formulaire. Continuer ?",
     readBackFail: (paths) => "Cette page n’a pas pu relire le fichier tel qu’il était (" + paths.join(", ") + "). Le formulaire a été vidé ; rien n’a changé dans votre fichier.",
