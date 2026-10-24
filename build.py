@@ -19,10 +19,11 @@ Nothing is translated here: the source stays the single place where the three la
 Before writing, every page is checked: no element of another language left, span and tspan
 balanced, every head text and attribute translated, no call to setLang left, and in the site
 bar one language group holding three links to the right pages, in order, with only the page's
-own language marked current. The Cut Profile builder's "Measured by" and "Cut" options are
-checked against the schema the builder validates with, and every agiofit.org link in llms.txt
-against the sitemap list. If one check fails, nothing is written. Each file
-written is read back at once; if one does not hold what was meant, nothing more is written.
+own language marked current. The Cut Profile builder's options for "Measured by", "Cut" and
+"Does the fabric stretch?" are checked against the schema the builder validates with, and every
+agiofit.org link in llms.txt against the sitemap list. If one check fails, nothing is written.
+Each file written is read back at once; if one does not hold what was meant, nothing more is
+written.
 
     _src/index.html                      ->  /index.html  /it/index.html  /fr/index.html
     _src/guide/index.html                ->  /guide/  /it/guide/  /fr/guide/
@@ -345,7 +346,8 @@ CUT_BUILDER = "builder/cut-profile/index.html"
 
 
 def check_builder() -> tuple:
-    """The Cut Profile builder's "Measured by" and "Cut" options against the schema it checks with.
+    """The Cut Profile builder's options against the schema it checks with: "Measured by", "Cut"
+    and "Does the fabric stretch?".
 
     A value the schema does not accept makes a file nobody can download; a value it accepts
     but the builder does not offer leaves someone out. The source is read: its option values
@@ -371,6 +373,7 @@ def check_builder() -> tuple:
         enums = {
             "published_by": props["provenance"]["properties"]["published_by"]["enum"],
             "cut": props["cut"]["enum"],
+            "stretch_class": props["fabric"]["properties"]["stretch_class"]["enum"],
         }
     except (ValueError, KeyError, TypeError) as e:
         return [f"{url} has no enum where expected ({e})"], ""
@@ -383,16 +386,16 @@ def check_builder() -> tuple:
         if found is None:
             problems.append(f'<select id="{sid}"> not found in {name}')
             continue
-        if sid == "cut":
-            found = [v for v in found if v != ""]    # "not stated" writes nothing
+        if sid in ("cut", "stretch_class"):
+            found = [v for v in found if v != ""]    # "not stated" and "I don't know" write nothing
         extra = [v for v in found if v not in allowed]
         missing = [v for v in allowed if v not in found]
         if extra:
             problems.append(f"#{sid}: not in the schema: {', '.join(map(str, extra))}")
         if missing:
             problems.append(f"#{sid}: missing from the builder: {', '.join(missing)}")
-    summary = (f"{name}: #published_by ({len(enums['published_by'])}) and "
-               f"#cut ({len(enums['cut'])}) match {url.lstrip('/')}")
+    counted = ", ".join(f"#{sid} ({len(allowed)})" for sid, allowed in enums.items())
+    summary = f"{name}: {counted} match {url.lstrip('/')}"
     return problems, summary
 
 

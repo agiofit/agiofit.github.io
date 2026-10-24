@@ -373,10 +373,23 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
           <p class="note" id="n-brand">Lascialo vuoto se non lo conosci.</p>
         </div>
         <div class="field"><label for="style_name" id="l-style">Nome del modello</label><input id="style_name" autocomplete="off"></div>
-        <div class="field wide">
+        <div class="field">
           <label for="composition" id="l-composition">Composizione del tessuto</label>
           <input id="composition" autocomplete="off" placeholder="97% cotone, 3% elastan">
           <p class="note" id="n-composition">Copia l’etichetta di composizione così com’è scritta.</p>
+        </div>
+        <!-- The values are the stretch_class of the schema, which build.py checks; "I don't know"
+             writes nothing, and the reader then judges the garment as if it did not stretch. -->
+        <div class="field">
+          <label for="stretch_class" id="l-stretch">Does the fabric stretch?</label>
+          <select id="stretch_class" aria-describedby="n-stretch">
+            <option value="none">No</option>
+            <option value="low">A little</option>
+            <option value="medium">Clearly, and it springs back</option>
+            <option value="high">A lot</option>
+            <option value="" selected>I don't know</option>
+          </select>
+          <p class="note" id="n-stretch">Pull the fabric gently across. If it gives and springs back, it stretches. Most T-shirts are “clearly”; a shirt or jeans with a few percent of elastane on the label is usually “a little”.</p>
         </div>
       </div>
     </div>
@@ -1382,7 +1395,10 @@ function collect() {
   doc.category = $("category").value;
   doc.size_system = $("size_system").value;
   doc.measurement_method = "flat_laid";
-  if (comp) doc.fabric = { composition: comp };
+  const fabric = {};
+  if ($("stretch_class").value) fabric.stretch_class = $("stretch_class").value;
+  if (comp) fabric.composition = comp;
+  if (Object.keys(fabric).length) doc.fabric = fabric;
   doc.sizes = [];
 
   for (const block of $("sizes").querySelectorAll(".sizeblock")) {
@@ -1599,7 +1615,7 @@ const FORM_HOLDS = {
   root: ["schema_version", "cut_profile_id", "brand", "style_name", "category", "size_system",
          "measurement_method", "fabric", "sizes", "cut", "production_tolerance",
          "critical_zones", "intended_ease", "provenance"],
-  fabric: ["composition"],
+  fabric: ["stretch_class", "composition"],
   provenance: ["published_by", "published_at"],
   size: ["size_label", "finished_measurements"],
   measurement: ["value", "unit"]
@@ -1684,6 +1700,7 @@ function resetForm() {
   }
   for (const input of $("ease").querySelectorAll("input")) input.value = "";
   for (const id of ["category", "unit", "published_by", "cut"]) $(id).selectedIndex = 0;
+  $("stretch_class").value = "";
   paintCategory();
   const blocks = [...$("sizes").querySelectorAll(".sizeblock")];
   for (const block of blocks.slice(1)) block.remove();
@@ -1706,6 +1723,7 @@ function fill(doc) {
   paintCategory();
   $("size_system").value = doc.size_system;
   $("composition").value = (doc.fabric && doc.fabric.composition) || "";
+  $("stretch_class").value = (doc.fabric && doc.fabric.stretch_class) || "";
   $("unit").value = unit;
 
   for (let i = 1; i < doc.sizes.length; i++) addSize();
@@ -1802,7 +1820,7 @@ async function openFile(file) {
    the page works the same, only without a draft. */
 const DRAFT_KEY = "agiofit.builder.draft";
 const DRAFT_FIELDS = ["brand", "style_name", "composition", "production_tolerance", "critical_zones"];
-const DRAFT_MENUS = ["category", "size_system", "unit", "published_by", "cut"];
+const DRAFT_MENUS = ["category", "size_system", "unit", "published_by", "cut", "stretch_class"];
 let draftTimer = null;
 let restoring = false;
 
