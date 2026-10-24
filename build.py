@@ -19,14 +19,16 @@ Nothing is translated here: the source stays the single place where the three la
 Before writing, every page is checked: no element of another language left, span and tspan
 balanced, every head text and attribute translated, no call to setLang left, and in the site
 bar one language group holding three links to the right pages, in order, with only the page's
-own language marked current. The builder's "Measured by" and "Cut" options are checked against
-the schema the builder validates with, and every agiofit.org link in llms.txt against the
-sitemap list. If one check fails, nothing is written. Each file
+own language marked current. The Cut Profile builder's "Measured by" and "Cut" options are
+checked against the schema the builder validates with, and every agiofit.org link in llms.txt
+against the sitemap list. If one check fails, nothing is written. Each file
 written is read back at once; if one does not hold what was meant, nothing more is written.
 
-    _src/index.html          ->  /index.html          /it/index.html          /fr/index.html
-    _src/guide/index.html    ->  /guide/index.html    /it/guide/index.html    /fr/guide/index.html
-    _src/builder/index.html  ->  /builder/index.html  /it/builder/index.html  /fr/builder/index.html
+    _src/index.html                      ->  /index.html  /it/index.html  /fr/index.html
+    _src/guide/index.html                ->  /guide/  /it/guide/  /fr/guide/
+    _src/builder/index.html              ->  /builder/  /it/builder/  /fr/builder/
+    _src/builder/cut-profile/index.html  ->  /builder/cut-profile/  /it/builder/cut-profile/
+                                             /fr/builder/cut-profile/
 """
 
 import json
@@ -62,6 +64,7 @@ PAGES = {
     "index.html": "",
     "guide/index.html": "guide/",
     "builder/index.html": "builder/",
+    "builder/cut-profile/index.html": "builder/cut-profile/",
 }
 
 
@@ -284,11 +287,12 @@ def build_page(source: str, page: str, lang: str) -> str:
                r"\g<1>%s/%s\g<2>" % (SITE, out_path(page, lang)), h)
 
     # 4. every internal link is absolute, so a page works from any folder; and inside a
-    #    language folder the guide and builder links point at that language's pages
+    #    language folder the guide and builder links point at that language's pages, the
+    #    builders under /builder/ included
     h = re.sub(r'href="(?!http|#|mailto|/)([^"]+)"', r'href="/\1"', h)
     if lang != "en":
         h = h.replace('href="/guide/"', 'href="/%s/guide/"' % lang)
-        h = h.replace('href="/builder/"', 'href="/%s/builder/"' % lang)
+        h = h.replace('href="/builder/', 'href="/%s/builder/' % lang)
         h = h.replace('href="/"', 'href="/%s/"' % lang)
         h = h.replace('href="/#schemas"', 'href="/%s/#schemas"' % lang)
 
@@ -336,22 +340,27 @@ class SelectOptions(HTMLParser):
             self.open = None
 
 
+# the Cut Profile builder's source, under _src/, and the page it becomes
+CUT_BUILDER = "builder/cut-profile/index.html"
+
+
 def check_builder() -> tuple:
-    """The builder's "Measured by" and "Cut" options against the schema it validates with.
+    """The Cut Profile builder's "Measured by" and "Cut" options against the schema it checks with.
 
     A value the schema does not accept makes a file nobody can download; a value it accepts
     but the builder does not offer leaves someone out. The source is read: its option values
     are the ones all three pages carry. Returns (problems, summary).
     """
-    page = SRC / "builder" / "index.html"
+    name = "_src/" + CUT_BUILDER
+    page = SRC / CUT_BUILDER
     if not page.is_file():
-        return ["_src/builder/index.html is missing"], ""
+        return [f"{name} is missing"], ""
     html = page.read_text(encoding="utf-8")
 
     m = re.search(r"""\bSCHEMA_URL\s*=\s*["']([^"']+)["']""", html)
     if not m:
-        return ["SCHEMA_URL not found in _src/builder/index.html"], ""
-    url = urljoin("/builder/", m.group(1))
+        return [f"SCHEMA_URL not found in {name}"], ""
+    url = urljoin("/" + PAGES[CUT_BUILDER], m.group(1))
     if not url.startswith("/"):
         return [f"SCHEMA_URL is not on this site: {m.group(1)}"], ""
     schema_path = ROOT / url.lstrip("/")
@@ -372,7 +381,7 @@ def check_builder() -> tuple:
     for sid, allowed in enums.items():
         found = parser.values[sid]
         if found is None:
-            problems.append(f'<select id="{sid}"> not found in _src/builder/index.html')
+            problems.append(f'<select id="{sid}"> not found in {name}')
             continue
         if sid == "cut":
             found = [v for v in found if v != ""]    # "not stated" writes nothing
@@ -382,7 +391,7 @@ def check_builder() -> tuple:
             problems.append(f"#{sid}: not in the schema: {', '.join(map(str, extra))}")
         if missing:
             problems.append(f"#{sid}: missing from the builder: {', '.join(missing)}")
-    summary = (f"_src/builder/index.html: #published_by ({len(enums['published_by'])}) and "
+    summary = (f"{name}: #published_by ({len(enums['published_by'])}) and "
                f"#cut ({len(enums['cut'])}) match {url.lstrip('/')}")
     return problems, summary
 
@@ -439,7 +448,7 @@ def main() -> int:
         target = ROOT / out_path(page, lang) / "index.html"
         rel = str(target.relative_to(ROOT)).replace("\\", "/")
         problems = check_page(html, page, lang)
-        print(f"  /{rel:26} {lang}  {len(html):>6} bytes  problems: {len(problems)}")
+        print(f"  /{rel:36} {lang}  {len(html):>6} bytes  problems: {len(problems)}")
         for p in problems:
             print(f"      {p}")
         failed = failed or bool(problems)
