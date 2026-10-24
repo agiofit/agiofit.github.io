@@ -203,28 +203,30 @@ input.num{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;text-al
 .tapeguide svg{display:block;width:100%;height:auto;margin-top:8px}
 @media(max-width:900px){.tapeguide{order:-1;position:static}}
 
-/* the shirt laid flat: a width is a solid line, the collar a dashed line along its band,
-   shown opened out in the corner (the whole way round) */
-.shirt .cloth{fill:var(--surface);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
-.shirt .collar{fill:var(--surface);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
-.shirt .collar-in{fill:var(--paper)}
-.shirt .inset{fill:var(--surface);stroke:var(--rule);stroke-width:1}
-.shirt .band{fill:var(--surface);stroke:var(--ink);stroke-width:1.4;stroke-linejoin:round}
-.shirt .leaf{fill:var(--paper);stroke:var(--ink-70);stroke-width:1.1;stroke-linejoin:round}
-.shirt .hole{fill:none;stroke:var(--ink-70);stroke-width:1}
-.shirt .seam{fill:none;stroke:var(--ink-70);stroke-width:1}
-.shirt .button{fill:var(--surface);stroke:var(--ink-70);stroke-width:1}
-.shirt .dim{fill:none;stroke:var(--accent-ink);stroke-width:1.25;stroke-linecap:round}
-.shirt .dim.ext{stroke-width:.9;opacity:.75}
-.shirt .dim.lead{stroke-width:1}
-.shirt .dim.round{stroke-width:1.5;stroke-dasharray:4 3.5}
-.shirt .label-bg{fill:var(--surface)}
-.shirt .label-bg.off{fill:var(--paper)}
-.shirt .badge{fill:var(--accent-ink)}
-.shirt .badge-n{fill:var(--surface);font:500 10.5px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace}
-.shirt .val{fill:var(--ink);font:500 12.5px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace}
-.shirt .val .unit{fill:var(--ink-70);font-weight:400}
-.shirt .m.dimmed{opacity:.16}
+/* the garment laid flat, one drawing per kind: a width is a solid line, a length follows the
+   garment, and the collar of a shirt is a dashed line along its band, shown opened out in the
+   corner (the whole way round). Only the drawing of the category chosen is shown. */
+.tapeguide svg[hidden]{display:none}
+.drawing .cloth{fill:var(--surface);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.drawing .collar{fill:var(--surface);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.drawing .collar-in{fill:var(--paper)}
+.drawing .inset{fill:var(--surface);stroke:var(--rule);stroke-width:1}
+.drawing .band{fill:var(--surface);stroke:var(--ink);stroke-width:1.4;stroke-linejoin:round}
+.drawing .leaf{fill:var(--paper);stroke:var(--ink-70);stroke-width:1.1;stroke-linejoin:round}
+.drawing .hole{fill:none;stroke:var(--ink-70);stroke-width:1}
+.drawing .seam{fill:none;stroke:var(--ink-70);stroke-width:1}
+.drawing .button{fill:var(--surface);stroke:var(--ink-70);stroke-width:1}
+.drawing .dim{fill:none;stroke:var(--accent-ink);stroke-width:1.25;stroke-linecap:round}
+.drawing .dim.ext{stroke-width:.9;opacity:.75}
+.drawing .dim.lead{stroke-width:1}
+.drawing .dim.round{stroke-width:1.5;stroke-dasharray:4 3.5}
+.drawing .label-bg{fill:var(--surface)}
+.drawing .label-bg.off{fill:var(--paper)}
+.drawing .badge{fill:var(--accent-ink)}
+.drawing .badge-n{fill:var(--surface);font:500 10.5px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace}
+.drawing .val{fill:var(--ink);font:500 12.5px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace}
+.drawing .val .unit{fill:var(--ink-70);font-weight:400}
+.drawing .m.dimmed{opacity:.16}
 .tapeguide .label-bg.off{fill:var(--surface)}
 
 details.advanced{margin-top:28px;border:1px dashed #C9C3B4;border-radius:var(--radius);
@@ -245,6 +247,7 @@ details.advanced .inner{padding:0 20px 24px}
 #ease>label{display:block;margin-bottom:10px}
 #ease .zones{display:flex;flex-wrap:wrap;gap:12px 22px;max-width:640px}
 #ease .zone{flex:1 1 180px;display:flex;flex-direction:column;gap:6px;min-width:0}
+#ease .zone[hidden]{display:none}
 #ease .zone-name{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;color:var(--ink)}
 #ease .row{display:flex;gap:8px}
 #ease .row input{min-width:0}
@@ -324,7 +327,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
     <div class="intro">
       <p class="kicker">Cut Profile</p>
       <h1>Builder del Cut Profile</h1>
-      <p class="lede" id="t-lede">Stendi un capo, prendi cinque misure e ottieni un file che descrive come è tagliato.</p>
+      <p class="lede" id="t-lede">Lay a garment flat, take its measurements, and get a file that describes how it is cut.</p>
       <p class="sub" id="t-spec">Il modulo è il modo più facile per entrare. Il punto è il modello dati: leggi la <a href="https://github.com/agiofit/agiofit/tree/main/spec">specifica</a>.</p>
       <p class="sub" id="t-open">Hai già fatto un file qui? <button class="linkbtn" id="open" type="button">Aprilo per correggerlo</button>: resterà lo stesso file.</p>
       <input type="file" id="open-file" accept=".json,application/json" hidden>
@@ -356,7 +359,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
   <section class="block" id="step-1">
     <div class="bh"><span class="n">Passo 1</span><h2 id="t-garment">Il capo</h2></div>
     <div class="body">
-      <p class="hint" id="t-garment-hint">Per ora solo camicie. Il resto del vocabolario esiste, ma ogni categoria ha bisogno di istruzioni di misura scritte bene, quindi arrivano quando qualcuno le chiede. Dicci quale ti serve.</p>
+      <p class="hint" id="t-garment-hint">Shirts, T-shirts, trousers and jeans for now. The rest of the vocabulary exists, but each category needs its measuring instructions written properly, so they arrive when someone asks for them. Tell us which you want.</p>
       <div class="grid">
         <div class="field"><label for="category" id="l-category">Categoria</label><select id="category"></select></div>
         <div class="field">
@@ -400,9 +403,11 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
       <div class="measure">
       <div id="sizes">
         <!-- The measuring instructions below are taken word for word from
-             spec/02-cut-profile.md, section "Measurement names".
-             "Add another size" clones this block. -->
-        <div class="sizeblock" data-size="1">
+             spec/02-cut-profile.md, section "Measurement names": where a definition has a
+             sentence for each kind of garment, only the one for this category. Each category
+             has a block of its own, written in the HTML; this is the shirts'. "Add another size"
+             clones the block of the category chosen. -->
+        <div class="sizeblock" data-size="1" data-category="shirts">
           <div class="top">
             <div class="field">
               <label for="size-label-1">Taglia in etichetta</label>
@@ -412,42 +417,130 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
             <button class="drop" type="button" hidden>Togli questa taglia</button>
           </div>
           <p class="warn size-warn" hidden>Non sembra una taglia del sistema scelto sopra. Se l’etichetta stampa una taglia e una griglia di conversioni, usa la taglia da sola e scegli il suo sistema.</p>
-          <!-- "cannot be altered" marks the critical zones of shirts: shoulders and neck.
-               They are deliberately NOT written into the file: critical_zones overrides a
-               consumer's own defaults, and someone who measured a shirt has not decided
-               to override anything. -->
+          <!-- "cannot be altered" marks the critical zones of the category, as the reference
+               implementation has them: for shirts, shoulders and neck. They are deliberately
+               NOT written into the file: critical_zones overrides a consumer's own defaults, and
+               someone who measured a garment has not decided to override anything. -->
           <div class="pom">
             <div class="key"><span class="no" aria-hidden="true">1</span><label for="m-1-neck_circumference">neck_circumference</label><span class="tag">non si può modificare</span></div>
             <div class="how" id="how-1-neck_circumference">A differenza del resto del capo, il collo si misura aperto. Steso il collo, si misura lungo la linea di mezzo del piede, la fascia cucita allo scollo e non il collo che si ripiega, dal centro del bottone al centro dell’asola, oppure tra i centri delle due metà di un automatico. È la circonferenza intera, non la metà, anche se il capo è steso.<em> Se la lasci fuori, ogni risposta su questo capo varrà di meno, e lo dirà.</em></div>
             <div class="val"><input id="m-1-neck_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="neck_circumference" aria-describedby="how-1-neck_circumference"><span class="u">cm</span></div>
-            <p class="warn" hidden>Sembra insolito per una camicia. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
           </div>
           <div class="pom">
             <div class="key"><span class="no" aria-hidden="true">2</span><label for="m-1-shoulder_width">shoulder_width</label><span class="tag">non si può modificare</span></div>
             <div class="how" id="how-1-shoulder_width">Da una cucitura della spalla all’altra, sul dietro. Un capo raglan o kimono non ha cuciture sulle spalle, e questa misura va lasciata fuori invece di stimarla.<em> Se la lasci fuori, ogni risposta su questo capo varrà di meno, e lo dirà.</em></div>
             <div class="val"><input id="m-1-shoulder_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="shoulder_width" aria-describedby="how-1-shoulder_width"><span class="u">cm</span></div>
-            <p class="warn" hidden>Sembra insolito per una camicia. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
           </div>
           <div class="pom">
             <div class="key"><span class="no" aria-hidden="true">3</span><label for="m-1-chest_width">chest_width</label></div>
             <div class="how" id="how-1-chest_width">In larghezza, da una cucitura del giromanica all’altra, circa 2 cm sotto il giromanica.</div>
             <div class="val"><input id="m-1-chest_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="chest_width" aria-describedby="how-1-chest_width"><span class="u">cm</span></div>
-            <p class="warn" hidden>Sembra insolito per una camicia. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
           </div>
           <div class="pom">
             <div class="key"><span class="no" aria-hidden="true">4</span><label for="m-1-waist_width">waist_width</label></div>
-            <div class="how" id="how-1-waist_width">In larghezza, nel punto più stretto. Se il capo non si stringe, a metà tra giromanica e orlo.</div>
+            <div class="how" id="how-1-waist_width">On a shirt or a top, across at the narrowest point; where the garment does not narrow, halfway between armhole and hem.</div>
             <div class="val"><input id="m-1-waist_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="waist_width" aria-describedby="how-1-waist_width"><span class="u">cm</span></div>
-            <p class="warn" hidden>Sembra insolito per una camicia. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
           </div>
           <div class="pom">
             <div class="key"><span class="no" aria-hidden="true">5</span><label for="m-1-sleeve_length">sleeve_length</label></div>
-            <div class="how" id="how-1-sleeve_length">Dalla cucitura della spalla al bordo del polsino, seguendo la manica. Su un raglan, dalla base del collo.</div>
+            <div class="how" id="how-1-sleeve_length">From the shoulder seam to the edge of the cuff, or of the hem on a sleeve without one, following the sleeve. On a raglan, from the base of the collar, which should be said in a note.<em> Leave it out on a short-sleeved shirt: it would be compared with the length of an arm.</em></div>
             <div class="val"><input id="m-1-sleeve_length" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="sleeve_length" aria-describedby="how-1-sleeve_length"><span class="u">cm</span></div>
-            <p class="warn" hidden>Sembra insolito per una camicia. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
           </div>
           <!-- Italian and French only: the English definitions are the specification's own words.
                addSize() leaves it out of the sizes it adds. -->
+          <p class="translation-note">Le definizioni sono tradotte: fa fede il testo inglese della <a href="https://github.com/agiofit/agiofit/blob/main/spec/02-cut-profile.md#measurement-names">specifica</a>.</p>
+        </div>
+      </div>
+      <!-- The first size of the other categories, written here like the shirts' above. The page
+           takes them out when it starts, and puts the one the category asks for in #sizes. -->
+      <div id="category-sizes" hidden>
+        <div class="sizeblock" data-size="1" data-category="tops">
+          <div class="top">
+            <div class="field">
+              <label for="size-label-tops">Taglia in etichetta</label>
+              <input id="size-label-tops" class="size-label" autocomplete="off">
+              <p class="note">Esattamente come è scritta sull’etichetta del capo.</p>
+            </div>
+            <button class="drop" type="button" hidden>Togli questa taglia</button>
+          </div>
+          <p class="warn size-warn" hidden>Non sembra una taglia del sistema scelto sopra. Se l’etichetta stampa una taglia e una griglia di conversioni, usa la taglia da sola e scegli il suo sistema.</p>
+          <div class="pom">
+            <div class="key"><span class="no" aria-hidden="true">1</span><label for="m-tops-chest_width">chest_width</label><span class="tag">non si può modificare</span></div>
+            <div class="how" id="how-tops-chest_width">In larghezza, da una cucitura del giromanica all’altra, circa 2 cm sotto il giromanica.<em> Se la lasci fuori, ogni risposta su questo capo varrà di meno, e lo dirà.</em></div>
+            <div class="val"><input id="m-tops-chest_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="chest_width" aria-describedby="how-tops-chest_width"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <div class="pom">
+            <div class="key"><span class="no" aria-hidden="true">2</span><label for="m-tops-shoulder_width">shoulder_width</label></div>
+            <div class="how" id="how-tops-shoulder_width">Da una cucitura della spalla all’altra, sul dietro. Un capo raglan o kimono non ha cuciture sulle spalle, e questa misura va lasciata fuori invece di stimarla.</div>
+            <div class="val"><input id="m-tops-shoulder_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="shoulder_width" aria-describedby="how-tops-shoulder_width"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <div class="pom">
+            <div class="key"><span class="no" aria-hidden="true">3</span><label for="m-tops-waist_width">waist_width</label></div>
+            <div class="how" id="how-tops-waist_width">On a shirt or a top, across at the narrowest point; where the garment does not narrow, halfway between armhole and hem.</div>
+            <div class="val"><input id="m-tops-waist_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="waist_width" aria-describedby="how-tops-waist_width"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <div class="pom">
+            <div class="key"><span class="no" aria-hidden="true">4</span><label for="m-tops-hip_width">hip_width</label></div>
+            <div class="how" id="how-tops-hip_width">On upper garments, across at the hem.</div>
+            <div class="val"><input id="m-tops-hip_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="hip_width" aria-describedby="how-tops-hip_width"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <p class="translation-note">Le definizioni sono tradotte: fa fede il testo inglese della <a href="https://github.com/agiofit/agiofit/blob/main/spec/02-cut-profile.md#measurement-names">specifica</a>.</p>
+        </div>
+        <div class="sizeblock" data-size="1" data-category="trousers jeans">
+          <div class="top">
+            <div class="field">
+              <label for="size-label-trousers">Taglia in etichetta</label>
+              <input id="size-label-trousers" class="size-label" autocomplete="off">
+              <p class="note">Esattamente come è scritta sull’etichetta del capo.</p>
+            </div>
+            <button class="drop" type="button" hidden>Togli questa taglia</button>
+          </div>
+          <p class="warn size-warn" hidden>Non sembra una taglia del sistema scelto sopra. Se l’etichetta stampa una taglia e una griglia di conversioni, usa la taglia da sola e scegli il suo sistema.</p>
+          <div class="pom">
+            <div class="key"><span class="no" aria-hidden="true">1</span><label for="m-trousers-waist_width">waist_width</label><span class="tag">non si può modificare</span></div>
+            <div class="how" id="how-trousers-waist_width">On trousers and skirts, across the top of the waistband, fastened.<em> Se la lasci fuori, ogni risposta su questo capo varrà di meno, e lo dirà.</em></div>
+            <div class="val"><input id="m-trousers-waist_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="waist_width" aria-describedby="how-trousers-waist_width"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <div class="pom">
+            <div class="key"><span class="no" aria-hidden="true">2</span><label for="m-trousers-hip_width">hip_width</label><span class="tag">non si può modificare</span></div>
+            <div class="how" id="how-trousers-hip_width">On trousers and skirts, across at 20 cm below the waistband.<em> Se la lasci fuori, ogni risposta su questo capo varrà di meno, e lo dirà.</em></div>
+            <div class="val"><input id="m-trousers-hip_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="hip_width" aria-describedby="how-trousers-hip_width"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <div class="pom">
+            <div class="key"><span class="no" aria-hidden="true">3</span><label for="m-trousers-thigh_width">thigh_width</label></div>
+            <div class="how" id="how-trousers-thigh_width">Trousers folded with the legs together, across from the crotch point, perpendicular to the leg fold.</div>
+            <div class="val"><input id="m-trousers-thigh_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="thigh_width" aria-describedby="how-trousers-thigh_width"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <div class="pom">
+            <div class="key"><span class="no" aria-hidden="true">4</span><label for="m-trousers-inseam">inseam</label></div>
+            <div class="how" id="how-trousers-inseam">Along the inner seam, from where the crotch seams meet to the bottom of the leg.</div>
+            <div class="val"><input id="m-trousers-inseam" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="inseam" aria-describedby="how-trousers-inseam"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <div class="pom">
+            <div class="key"><span class="no" aria-hidden="true">5</span><label for="m-trousers-front_rise">front_rise</label></div>
+            <div class="how" id="how-trousers-front_rise">Along the front, from the crotch seam to the top of the waistband.</div>
+            <div class="val"><input id="m-trousers-front_rise" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="front_rise" aria-describedby="how-trousers-front_rise"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
+          <div class="pom">
+            <div class="key"><span class="no" aria-hidden="true">6</span><label for="m-trousers-hem_width">hem_width</label></div>
+            <div class="how" id="how-trousers-hem_width">Across the opening at the bottom of a leg or skirt.</div>
+            <div class="val"><input id="m-trousers-hem_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="hem_width" aria-describedby="how-trousers-hem_width"><span class="u">cm</span></div>
+            <p class="warn" hidden>That looks unusual for this kind of garment. Check the tape and the units — the file will still be made if it is right.</p>
+          </div>
           <p class="translation-note">Le definizioni sono tradotte: fa fede il testo inglese della <a href="https://github.com/agiofit/agiofit/blob/main/spec/02-cut-profile.md#measurement-names">specifica</a>.</p>
         </div>
       </div>
@@ -455,7 +548,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
            written by paintTape(); the dash means "not measured". -->
       <aside class="tapeguide" aria-label="Dove passa il metro">
         <div class="tg-head"><h3>Dove passa il metro</h3><span class="tg-size" id="tape-size">taglia — · 0 di 5</span></div>
-        <svg xmlns="http://www.w3.org/2000/svg" class="shirt" viewBox="0 22 600 418" width="600" height="418" role="img" aria-label="Una camicia stesa con cinque punti di misura: 1 circonferenza del collo, 2 larghezza delle spalle, 3 larghezza del torace, 4 larghezza della vita, 5 lunghezza della manica.">
+        <svg xmlns="http://www.w3.org/2000/svg" class="drawing" data-category="shirts" viewBox="0 22 600 418" width="600" height="418" role="img" aria-label="Una camicia stesa con cinque punti di misura: 1 circonferenza del collo, 2 larghezza delle spalle, 3 larghezza del torace, 4 larghezza della vita, 5 lunghezza della manica.">
           <!-- the garment -->
           <g class="garment">
             <path class="cloth" d="M197.7 100 L63.4 352.5 L110.2 377.4 L172.4 200 C178 170 190 135 197.7 100 Z"/>
@@ -539,7 +632,139 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
             <text class="val" x="500" y="219.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
           </g>
         </svg>
-        <p class="tg-note">Torace e vita sono metà del giro; il collo, il giro intero.</p>
+        <svg xmlns="http://www.w3.org/2000/svg" class="drawing" data-category="tops" viewBox="0 22 600 418" width="600" height="418" role="img" aria-label="A T-shirt laid flat with four measuring points: 1 chest width, 2 shoulder width, 3 waist width, 4 hip width, at the hem." hidden>
+          <!-- the garment -->
+          <g class="garment">
+            <path class="cloth" d="M190 104 L112 186 L148 222 L180 178 Q176 140 190 104 Z"/>
+            <path class="cloth" d="M410 104 L488 186 L452 222 L420 178 Q424 140 410 104 Z"/>
+            <path class="cloth" d="M262 82 L190 104 Q176 140 180 178 L184 404 L416 404 L420 178 Q424 140 410 104 L338 82 Q300 92 262 82 Z"/>
+            <path class="collar-in" d="M267 86 Q300 97 333 86 L338 82 Q300 124 262 82 Z"/>
+            <path class="band" d="M262 82 Q300 92 338 82 L333 86 Q300 97 267 86 Z"/>
+            <path class="band" d="M262 82 Q300 124 338 82 L334 88 Q300 134 266 88 Z"/>
+            <line class="seam" x1="117" y1="181" x2="153" y2="217"/>
+            <line class="seam" x1="483" y1="181" x2="447" y2="217"/>
+            <line class="seam" x1="184.3" y1="397" x2="415.7" y2="397"/>
+          </g>
+
+          <!-- 1 chest_width: across, about 2 cm below the armhole -->
+          <g class="m" data-key="chest_width">
+            <line class="dim" x1="180.2" y1="190" x2="419.8" y2="190"/>
+            <path class="dim" d="M176.2 194 L184.2 186 M415.8 194 L423.8 186"/>
+            <rect class="label-bg" x="268" y="180" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="190" r="8"/>
+            <text class="badge-n" x="279" y="190" text-anchor="middle" dominant-baseline="central">1</text>
+            <text class="val" x="291" y="194.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+
+          <!-- 2 shoulder_width: seam to seam, a straight line -->
+          <g class="m" data-key="shoulder_width">
+            <line class="dim ext" x1="190" y1="33" x2="190" y2="97"/>
+            <line class="dim ext" x1="410" y1="33" x2="410" y2="97"/>
+            <line class="dim" x1="190" y1="40" x2="410" y2="40"/>
+            <path class="dim" d="M186 44 L194 36 M406 44 L414 36"/>
+            <rect class="label-bg off" x="268" y="30" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="40" r="8"/>
+            <text class="badge-n" x="279" y="40" text-anchor="middle" dominant-baseline="central">2</text>
+            <text class="val" x="291" y="44.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+
+          <!-- 3 waist_width: across, halfway between armhole and hem where the garment does not narrow -->
+          <g class="m" data-key="waist_width">
+            <line class="dim" x1="182" y1="291" x2="418" y2="291"/>
+            <path class="dim" d="M178 295 L186 287 M414 295 L422 287"/>
+            <rect class="label-bg" x="268" y="281" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="291" r="8"/>
+            <text class="badge-n" x="279" y="291" text-anchor="middle" dominant-baseline="central">3</text>
+            <text class="val" x="291" y="295.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+
+          <!-- 4 hip_width: across at the hem -->
+          <g class="m" data-key="hip_width">
+            <line class="dim" x1="183.8" y1="389" x2="416.2" y2="389"/>
+            <path class="dim" d="M179.8 393 L187.8 385 M412.2 393 L420.2 385"/>
+            <rect class="label-bg" x="268" y="379" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="279" cy="389" r="8"/>
+            <text class="badge-n" x="279" y="389" text-anchor="middle" dominant-baseline="central">4</text>
+            <text class="val" x="291" y="393.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="drawing" data-category="trousers jeans" viewBox="0 22 600 418" width="600" height="418" role="img" aria-label="A pair of trousers laid flat, legs together, with six measuring points: 1 waist width, 2 hip width, 3 thigh width, 4 inseam, 5 front rise, 6 hem width." hidden>
+          <!-- the garment -->
+          <g class="garment">
+            <path class="cloth" d="M216 44 L384 44 L384 60 C392 92 401 126 404 160 L386 428 L307 428 L300 160 L293 428 L214 428 L196 160 C199 126 208 92 216 60 Z"/>
+            <line class="seam" x1="216" y1="60" x2="384" y2="60"/>
+            <line class="seam" x1="300" y1="60" x2="300" y2="152"/>
+            <path class="seam" d="M313 60 V124 Q313 140 300 146"/>
+            <path class="seam" d="M236 60 Q240 96 206 106"/>
+            <path class="seam" d="M364 60 Q360 96 394 106"/>
+            <line class="seam" x1="213.5" y1="421" x2="293.2" y2="421"/>
+            <line class="seam" x1="306.8" y1="421" x2="386.5" y2="421"/>
+            <circle class="button" cx="290" cy="52" r="3"/>
+          </g>
+
+          <!-- 1 waist_width: across the top of the waistband, fastened -->
+          <g class="m" data-key="waist_width">
+            <line class="dim" x1="216" y1="47" x2="384" y2="47"/>
+            <path class="dim" d="M212 51 L220 43 M380 51 L388 43"/>
+            <rect class="label-bg" x="232" y="37" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="243" cy="47" r="8"/>
+            <text class="badge-n" x="243" y="47" text-anchor="middle" dominant-baseline="central">1</text>
+            <text class="val" x="255" y="51.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+
+          <!-- 2 hip_width: across, 20 cm below the waistband -->
+          <g class="m" data-key="hip_width">
+            <line class="dim" x1="199.7" y1="132" x2="400.3" y2="132"/>
+            <path class="dim" d="M195.7 136 L203.7 128 M396.3 136 L404.3 128"/>
+            <rect class="label-bg" x="226" y="122" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="237" cy="132" r="8"/>
+            <text class="badge-n" x="237" y="132" text-anchor="middle" dominant-baseline="central">2</text>
+            <text class="val" x="249" y="136.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+
+          <!-- 3 thigh_width: across one leg from the crotch point -->
+          <g class="m" data-key="thigh_width">
+            <line class="dim" x1="300" y1="160" x2="404" y2="160"/>
+            <path class="dim" d="M296 164 L304 156 M400 164 L408 156"/>
+            <rect class="label-bg" x="330" y="150" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="341" cy="160" r="8"/>
+            <text class="badge-n" x="341" y="160" text-anchor="middle" dominant-baseline="central">3</text>
+            <text class="val" x="353" y="164.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+
+          <!-- 4 inseam: along the inner seam, from the crotch to the bottom of the leg -->
+          <g class="m" data-key="inseam">
+            <line class="dim" x1="292" y1="162" x2="285" y2="426"/>
+            <path class="dim" d="M288 166 L296 158 M281 430 L289 422"/>
+            <rect class="label-bg" x="226" y="282" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="237" cy="292" r="8"/>
+            <text class="badge-n" x="237" y="292" text-anchor="middle" dominant-baseline="central">4</text>
+            <text class="val" x="249" y="296.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+
+          <!-- 5 front_rise: along the front, from the crotch seam to the top of the waistband -->
+          <g class="m" data-key="front_rise">
+            <line class="dim" x1="300" y1="44" x2="300" y2="160"/>
+            <path class="dim" d="M296 48 L304 40 M296 164 L304 156"/>
+            <rect class="label-bg" x="322" y="90" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="333" cy="100" r="8"/>
+            <text class="badge-n" x="333" y="100" text-anchor="middle" dominant-baseline="central">5</text>
+            <text class="val" x="345" y="104.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+
+          <!-- 6 hem_width: across the opening at the bottom of a leg -->
+          <g class="m" data-key="hem_width">
+            <line class="dim" x1="306.6" y1="414" x2="386.9" y2="414"/>
+            <path class="dim" d="M302.6 418 L310.6 410 M382.9 418 L390.9 410"/>
+            <rect class="label-bg" x="322" y="404" width="39" height="20" rx="3"/>
+            <circle class="badge" cx="333" cy="414" r="8"/>
+            <text class="badge-n" x="333" y="414" text-anchor="middle" dominant-baseline="central">6</text>
+            <text class="val" x="345" y="418.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+          </g>
+        </svg>
+        <p class="tg-note" data-category="shirts">Torace e vita sono metà del giro; il collo, il giro intero.</p>
+        <p class="tg-note" data-category="tops" hidden>Chest, waist and hem are half the way round.</p>
+        <p class="tg-note" data-category="trousers jeans" hidden>Waist, hips, thigh and hem are half the way round.</p>
       </aside>
       </div>
       <button class="btn ghost" id="add-size" type="button">Aggiungi un’altra taglia</button>
@@ -588,39 +813,60 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
           <div id="ease">
             <label>Agio previsto, per zona</label>
             <div class="zones">
-              <div class="zone">
+              <div class="zone" data-category="shirts">
                 <span class="zone-name">neck</span>
                 <div class="row">
                   <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="neck" aria-label="neck minimo">
                   <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="neck" aria-label="neck massimo">
                 </div>
               </div>
-              <div class="zone">
+              <div class="zone" data-category="shirts tops">
                 <span class="zone-name">shoulders</span>
                 <div class="row">
                   <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="shoulders" aria-label="shoulders minimo">
                   <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="shoulders" aria-label="shoulders massimo">
                 </div>
               </div>
-              <div class="zone">
+              <div class="zone" data-category="shirts tops">
                 <span class="zone-name">chest</span>
                 <div class="row">
                   <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="chest" aria-label="chest minimo">
                   <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="chest" aria-label="chest massimo">
                 </div>
               </div>
-              <div class="zone">
+              <div class="zone" data-category="shirts tops trousers jeans">
                 <span class="zone-name">waist</span>
                 <div class="row">
                   <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="waist" aria-label="waist minimo">
                   <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="waist" aria-label="waist massimo">
                 </div>
               </div>
-              <div class="zone">
+              <div class="zone" data-category="tops trousers jeans" hidden>
+                <span class="zone-name">hip</span>
+                <div class="row">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="hip" aria-label="hip minimo">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="hip" aria-label="hip massimo">
+                </div>
+              </div>
+              <div class="zone" data-category="trousers jeans" hidden>
+                <span class="zone-name">thigh</span>
+                <div class="row">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="thigh" aria-label="thigh minimo">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="thigh" aria-label="thigh massimo">
+                </div>
+              </div>
+              <div class="zone" data-category="shirts">
                 <span class="zone-name">sleeve_length</span>
                 <div class="row">
                   <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="sleeve_length" aria-label="sleeve_length minimo">
                   <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="sleeve_length" aria-label="sleeve_length massimo">
+                </div>
+              </div>
+              <div class="zone" data-category="trousers jeans" hidden>
+                <span class="zone-name">inseam</span>
+                <div class="row">
+                  <input class="num ease-min" inputmode="decimal" autocomplete="off" placeholder="min" data-zone="inseam" aria-label="inseam minimo">
+                  <input class="num ease-max" inputmode="decimal" autocomplete="off" placeholder="max" data-zone="inseam" aria-label="inseam massimo">
                 </div>
               </div>
             </div>
@@ -662,14 +908,18 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
 "use strict";
 
 /* The page's language, as build.py writes it in <html lang>. A language with no
-   table of its own below reads the English one. */
+   table of its own below reads the English one, and so does a word or a message
+   that its table does not have yet. */
 const PAGE_LANG = document.documentElement.lang;
 
-/* The words the script writes into the page before any action: the category's
-   name, the example of brand_specific, and the line above the drawing. */
+/* The words the script writes into the page before any action: the names of the
+   categories, the example of brand_specific, and the line above the drawing. */
 const WORDS_BY_LANG = {
   en: {
     shirts: "Shirt",
+    tops: "T-shirt",
+    trousers: "Trousers",
+    jeans: "Jeans",
     brandSpecific: "whatever the brand prints",
     tapeSize: (label, count, total) => "size " + label + " · " + count + " of " + total
   },
@@ -684,7 +934,7 @@ const WORDS_BY_LANG = {
     tapeSize: (label, count, total) => "taille " + label + " · " + count + " sur " + total
   }
 };
-const WORDS = WORDS_BY_LANG[PAGE_LANG] || WORDS_BY_LANG.en;
+const WORDS = Object.assign({}, WORDS_BY_LANG.en, WORDS_BY_LANG[PAGE_LANG]);
 
 /* ---------------------------------------------------------------- categories
    What changes with the category and is not text on the page:
@@ -692,12 +942,30 @@ const WORDS = WORDS_BY_LANG[PAGE_LANG] || WORDS_BY_LANG.en;
    - size_systems: the options of "Size system";
    - size_examples: per size system, the examples shown beside it in "Size
      system" and the placeholder of every size label;
+   - critical_example: the placeholder of "Critical zones", the zones the
+     reference implementation takes as critical for the category;
    - plausible_cm: per measurement, the range in centimetres outside which
      the "looks unusual" hint appears. A hint, never a block.
-   The measurements of a category, their instructions, its zones and its
-   critical zones are not here: they live in the category's size block in the
-   HTML, which is their only source. A second category brings its own block,
-   next to the shirts'.                                                     */
+   The measurements of a category, their instructions and its critical zones
+   are not here: they live in the category's size block in the HTML, which is
+   their only source. Its drawing, the note under it and its zones of intended
+   ease are in the HTML too, marked with data-category.                     */
+const LEGS = {
+  size_systems: ["IT", "EU", "FR", "UK", "US", "numeric_waist_inseam", "alpha", "brand_specific"],
+  size_examples: {
+    IT: "46, 48, 50", EU: "46, 48, 50", FR: "38, 40, 42", UK: "32, 34, 36", US: "32, 34, 36",
+    numeric_waist_inseam: "32/32, 34/32", alpha: "S, M, L", brand_specific: WORDS.brandSpecific
+  },
+  critical_example: "waist, hip",
+  plausible_cm: {
+    waist_width:        [25, 75],
+    hip_width:          [30, 85],
+    thigh_width:        [18, 50],
+    inseam:             [40, 100],
+    front_rise:         [15, 45],
+    hem_width:          [10, 40]
+  }
+};
 const CATEGORIES = {
   shirts: {
     label: WORDS.shirts,
@@ -707,6 +975,7 @@ const CATEGORIES = {
       UK: "15.5, 16, 16.5", US: "15.5, 16, 16.5",
       alpha: "S, M, L, XL", brand_specific: WORDS.brandSpecific
     },
+    critical_example: "shoulders, neck",
     plausible_cm: {
       neck_circumference: [28, 55],
       shoulder_width:     [30, 65],
@@ -714,13 +983,31 @@ const CATEGORIES = {
       waist_width:        [30, 85],
       sleeve_length:      [35, 95]
     }
-  }
+  },
+  tops: {
+    label: WORDS.tops,
+    size_systems: ["alpha", "IT", "EU", "FR", "brand_specific"],
+    size_examples: {
+      alpha: "S, M, L, XL", IT: "46, 48, 50", EU: "46, 48, 50", FR: "46, 48, 50",
+      brand_specific: WORDS.brandSpecific
+    },
+    critical_example: "chest",
+    plausible_cm: {
+      chest_width:        [35, 85],
+      shoulder_width:     [30, 65],
+      waist_width:        [30, 85],
+      hip_width:          [30, 85]
+    }
+  },
+  trousers: Object.assign({ label: WORDS.trousers }, LEGS),
+  jeans: Object.assign({ label: WORDS.jeans }, LEGS)
 };
 
 /* ------------------------------------------------------------------- strings
    Only the messages that appear after an action. Everything a reader sees
    before acting is written in the HTML. One table per language, with the same
-   keys and the same arguments.                                             */
+   keys and the same arguments; a key a table does not have yet reads the
+   English one.                                                             */
 const UI_BY_LANG = {
   en: {
     valid: "Valid against cut-profile.schema.json v0.1.",
@@ -756,7 +1043,7 @@ const UI_BY_LANG = {
     openSchemaFail: "Could not load the schema to check the file against. It was not opened.",
     notValidProfile: (name) => name + " is not a valid Cut Profile v0.1, so it was not opened:",
     cannotHold: (name) => name + " is a valid Cut Profile, but this form cannot hold all of it, so it was not opened. Correcting it here would drop:",
-    shirtsOnly: (category) => "category " + category + ": this page writes shirts only.",
+    otherCategory: (category) => "category " + category + ": this page writes shirts, tops, trousers and jeans only.",
     flatOnly: (method) => "measurement_method " + method + ": this page writes flat-laid measurements only.",
     noPlace: (at) => at + ": the form has no place for it.",
     intentOnly: (field) => field + " (only the brand or the manufacturer can state it)",
@@ -805,7 +1092,6 @@ const UI_BY_LANG = {
     openSchemaFail: "Non è stato possibile caricare lo schema con cui verificare il file. Il file non è stato aperto.",
     notValidProfile: (name) => name + " non è un Cut Profile v0.1 valido, quindi non è stato aperto:",
     cannotHold: (name) => name + " è un Cut Profile valido, ma questo modulo non può contenerlo tutto, quindi non è stato aperto. Correggendolo qui si perderebbe:",
-    shirtsOnly: (category) => "category " + category + ": questa pagina scrive solo camicie.",
     flatOnly: (method) => "measurement_method " + method + ": questa pagina scrive solo misure prese con il capo steso.",
     noPlace: (at) => at + ": nel modulo non c’è un posto per questo.",
     intentOnly: (field) => field + " (può dichiararlo solo il marchio o il produttore)",
@@ -854,7 +1140,6 @@ const UI_BY_LANG = {
     openSchemaFail: "Impossible de charger le schéma pour vérifier le fichier. Il n’a pas été ouvert.",
     notValidProfile: (name) => name + " n’est pas un Cut Profile v0.1 valide, il n’a donc pas été ouvert :",
     cannotHold: (name) => name + " est un Cut Profile valide, mais ce formulaire ne peut pas tout contenir, il n’a donc pas été ouvert. Le corriger ici ferait perdre :",
-    shirtsOnly: (category) => "category " + category + " : cette page n’écrit que des chemises.",
     flatOnly: (method) => "measurement_method " + method + " : cette page n’écrit que des mesures prises à plat.",
     noPlace: (at) => at + " : le formulaire n’a pas de place pour cela.",
     intentOnly: (field) => field + " (seuls la marque ou le fabricant peuvent l’indiquer)",
@@ -870,24 +1155,64 @@ const UI_BY_LANG = {
     draftCleared: "Le formulaire est vide et le brouillon a disparu."
   }
 };
-const UI = UI_BY_LANG[PAGE_LANG] || UI_BY_LANG.en;
+const UI = Object.assign({}, UI_BY_LANG.en, UI_BY_LANG[PAGE_LANG]);
 
 const SCHEMA_URL = "/schemas/v0.1/cut-profile.schema.json";
 
 const $ = (id) => document.getElementById(id);
 
 /* ---------------------------------------------------------------- category */
-/* Today there is one category, and its size block is the one in the HTML. When a
-   second arrives, choosing it must also show its own block of sizes: an entry in
-   CATEGORIES alone would leave the shirt's rows under another category. */
+/* Whether an element of the page belongs to a category: its data-category lists the
+   categories it is there for. */
+function inCategory(el, key) {
+  return el.dataset.category.split(" ").includes(key);
+}
+
+/* The minimum of every zone of intended ease that a category has, in the order of
+   the page. */
+function easeMins(key) {
+  return [...$("ease").querySelectorAll(".zone")]
+    .filter(zone => inCategory(zone, key))
+    .map(zone => zone.querySelector(".ease-min"));
+}
+
+/* The first size of every category, as the HTML writes it: the shirts' in #sizes, the
+   others in #category-sizes, which goes once they are taken. Taken before anything is
+   written in them, so every size starts blank. */
+const FIRST_SIZES = {};
+
+function takeFirstSizes() {
+  for (const block of document.querySelectorAll(".sizeblock[data-category]")) {
+    for (const key of block.dataset.category.split(" ")) FIRST_SIZES[key] = block.cloneNode(true);
+  }
+  $("category-sizes").remove();
+}
+
+/* What the category brings: its size systems and their examples and, written in the
+   HTML, its first size, its drawing, the note under the drawing and its zones of
+   intended ease. The sizes written for another category go, and so do the ease bands
+   and the critical zones: a waist is not taken in the same place on trousers as on a
+   shirt, so a number under the same name would not say the same thing. Trousers and
+   jeans are measured alike, and keep what was written. */
 function paintCategory() {
-  const c = CATEGORIES[$("category").value];
+  const key = $("category").value;
+  const c = CATEGORIES[key];
   const sel = $("size_system");
   /* the first option, "Choose…", is written in the HTML and stays */
   sel.length = 1;
   for (const s of c.size_systems) sel.append(new Option(s + " · " + c.size_examples[s], s));
   sel.selectedIndex = 0;
+  if (!inCategory($("sizes").querySelector(".sizeblock"), key)) {
+    $("sizes").replaceChildren(blankSize(FIRST_SIZES[key]));
+    for (const input of $("ease").querySelectorAll("input")) input.value = "";
+    $("critical_zones").value = "";
+  }
+  for (const el of document.querySelectorAll(".tapeguide [data-category], #ease .zone")) {
+    el.toggleAttribute("hidden", !inCategory(el, key));
+  }
+  $("critical_zones").placeholder = c.critical_example;
   paintSizeLabels();
+  paintUnit();
 }
 
 /* What the size labels take from the size system: their placeholder, and the hint. */
@@ -905,7 +1230,9 @@ function paintSizeLabels() {
 const NUMBER_SIZE = /^\d+([.,]\d+)?$/;
 const SIZE_SHAPES = {
   IT: NUMBER_SIZE, EU: NUMBER_SIZE, FR: NUMBER_SIZE, JP: NUMBER_SIZE, UK: NUMBER_SIZE, US: NUMBER_SIZE,
-  alpha: /^(X{0,2}S|M|X{0,4}L|[2-6]XL)$/i
+  alpha: /^(X{0,2}S|M|X{0,4}L|[2-6]XL)$/i,
+  /* a waist and an inseam: 32/32, 32x32 or W32 L32 */
+  numeric_waist_inseam: /^(\d+([.,]\d+)?\s*[\/x]\s*\d+([.,]\d+)?|w\s*\d+([.,]\d+)?\s*l\s*\d+([.,]\d+)?)$/i
 };
 
 function warnIfOtherSystem(label) {
@@ -921,13 +1248,14 @@ function paintUnit() {
 }
 
 /* ------------------------------------------------------------------- sizes */
-/* The first size is written in the HTML; every other one is a clone of it.
-   Numbers are never reused: after a removal, a new size takes a new one. */
+/* The first size of each category is written in the HTML; every other one is a
+   blank copy of the first size in the form. Numbers are never reused: after a
+   removal, or a change of category, a new size takes a new one. */
 let sizeSeq = 1;
 
-function addSize() {
+function blankSize(from) {
   const id = ++sizeSeq;
-  const block = $("sizes").querySelector(".sizeblock").cloneNode(true);
+  const block = from.cloneNode(true);
   block.dataset.size = id;
   const label = block.querySelector(".size-label");
   label.id = "size-label-" + id;
@@ -943,6 +1271,11 @@ function addSize() {
   }
   for (const v of block.querySelectorAll(".measure-value")) v.value = "";
   for (const w of block.querySelectorAll(".warn")) w.hidden = true;
+  return block;
+}
+
+function addSize() {
+  const block = blankSize($("sizes").querySelector(".sizeblock"));
   /* the note on translated definitions stays under the first size only */
   for (const n of block.querySelectorAll(".translation-note")) n.remove();
   const drop = block.querySelector(".drop");
@@ -955,8 +1288,9 @@ function addSize() {
 }
 
 /* -------------------------------------------------------------- tape guide */
-/* The drawing beside the measurements shows one size: the one holding the focus,
-   else the last one that held it, else the first. It only reads the form. */
+/* The drawing of the category, beside the measurements, shows one size: the one
+   holding the focus, else the last one that held it, else the first. It only reads
+   the form. */
 let tapeBlock = null;
 
 function paintTape() {
@@ -966,7 +1300,7 @@ function paintTape() {
   const focused = document.activeElement;
   const active = focused && focused.matches(".measure-value") ? focused.dataset.key : null;
   let count = 0;
-  for (const g of document.querySelectorAll(".tapeguide .m")) {
+  for (const g of document.querySelectorAll(".tapeguide svg:not([hidden]) .m")) {
     const input = tapeBlock.querySelector('.measure-value[data-key="' + g.dataset.key + '"]');
     const v = input ? num(input) : null;
     if (v !== null) count++;
@@ -1075,7 +1409,7 @@ function collect() {
   if (crit.length) doc.critical_zones = crit;
 
   const ease = {};
-  for (const lo of (intent ? $("ease").querySelectorAll(".ease-min") : [])) {
+  for (const lo of (intent ? easeMins(doc.category) : [])) {
     const hi = $("ease").querySelector('.ease-max[data-zone="' + lo.dataset.zone + '"]');
     const a = num(lo), b = num(hi);
     if (a !== null && b !== null) ease[lo.dataset.zone] = { min: a, max: b, unit };
@@ -1132,7 +1466,7 @@ function fieldProblems() {
     else if (v < 0) out.push(UI.tolNegative);
   }
 
-  for (const lo of $("ease").querySelectorAll(".ease-min")) {
+  for (const lo of easeMins($("category").value)) {
     const zone = lo.dataset.zone;
     const hi = $("ease").querySelector('.ease-max[data-zone="' + zone + '"]');
     if (!filled(lo) && !filled(hi)) continue;
@@ -1285,9 +1619,10 @@ function fileUnits(doc) {
 }
 
 /* What the form could not hold of a valid Cut Profile, one line each. The
-   measurements and the zones are read from the page, not listed here. */
+   measurements and the zones are read from the page, those of the file's
+   category, not listed here. */
 function cannotHold(doc) {
-  if (!Object.hasOwn(CATEGORIES, doc.category)) return [UI.shirtsOnly(doc.category)];
+  if (!Object.hasOwn(CATEGORIES, doc.category)) return [UI.otherCategory(doc.category)];
   const out = [];
   const extra = (obj, allowed, at) => {
     for (const k of Object.keys(obj)) if (!allowed.includes(k)) out.push(UI.noPlace(at(k)));
@@ -1300,7 +1635,7 @@ function cannotHold(doc) {
   if (doc.fabric) extra(doc.fabric, FORM_HOLDS.fabric, k => "fabric · " + k);
   extra(doc.provenance, FORM_HOLDS.provenance, k => "provenance · " + k);
 
-  const keys = [...$("sizes").querySelector(".sizeblock").querySelectorAll(".measure-value")]
+  const keys = [...FIRST_SIZES[doc.category].querySelectorAll(".measure-value")]
     .map(input => input.dataset.key);
   doc.sizes.forEach((s, i) => {
     const size = where("/sizes/" + i, doc);
@@ -1314,7 +1649,7 @@ function cannotHold(doc) {
   if (!CAN_DECLARE_INTENT.includes(doc.provenance.published_by)) {
     for (const f of INTENT_FIELDS) if (doc[f] !== undefined) out.push(UI.noPlace(UI.intentOnly(f)));
   } else if (doc.intended_ease) {
-    const zones = [...$("ease").querySelectorAll(".ease-min")].map(input => input.dataset.zone);
+    const zones = easeMins(doc.category).map(input => input.dataset.zone);
     for (const z of Object.keys(doc.intended_ease)) {
       if (!zones.includes(z)) out.push(UI.noPlace("intended_ease · " + z));
     }
@@ -1575,6 +1910,7 @@ function restoreDraft() {
 }
 
 /* -------------------------------------------------------------------- wire */
+takeFirstSizes();
 for (const [key, c] of Object.entries(CATEGORIES)) {
   $("category").append(new Option(c.label, key));
 }

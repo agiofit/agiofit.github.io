@@ -19,7 +19,7 @@ Licensing is split: the specification is CC BY 4.0; the reference implementation
 - [Overview](https://agiofit.org/): what the model is, the three documents, the four disclosure levels, the scope
 - [Interactive guide](https://agiofit.org/guide/): where the tape goes on a shirt, and the exact Match Report at every disclosure level
 - [Builders](https://agiofit.org/builder/): the builders that write Agio Fit documents in the browser, and how to compare their files with the reference implementation
-- [Cut Profile builder](https://agiofit.org/builder/cut-profile/): measure a shirt laid flat and get a valid Cut Profile; runs in the browser, nothing is uploaded or stored
+- [Cut Profile builder](https://agiofit.org/builder/cut-profile/): measure a shirt, a T-shirt, trousers or jeans laid flat and get a valid Cut Profile; runs in the browser, nothing is uploaded or stored
 
 Every page above is also available in Italian (https://agiofit.org/it/ · https://agiofit.org/it/guide/ · https://agiofit.org/it/builder/ · https://agiofit.org/it/builder/cut-profile/) and French (https://agiofit.org/fr/ · https://agiofit.org/fr/guide/ · https://agiofit.org/fr/builder/ · https://agiofit.org/fr/builder/cut-profile/).
 
