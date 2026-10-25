@@ -253,10 +253,10 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
       <p class="kicker">Fit Profile</p>
       <h1>Builder del Fit Profile</h1>
       <p class="lede" id="t-lede">Prendi le tue misure con il metro e ottieni un file che le contiene, perché l’implementazione di riferimento le confronti con un capo sul tuo computer.</p>
-      <p class="sub" id="t-keeps">Questa pagina non conserva nulla: nessuna bozza, nessuna copia, e non viene inviato nulla. Non confronta nemmeno nulla: il confronto avviene sul tuo computer. In questa versione non apre un file che hai già fatto.</p>
+      <p class="sub" id="t-keeps">Questa pagina non conserva nulla: nessuna bozza, nessuna copia, e non viene inviato nulla. Non confronta nemmeno nulla: il confronto avviene sul tuo computer. In questa versione non apre un file creato in precedenza.</p>
       <nav class="steps" aria-label="Passi">
         <a href="#step-1"><span class="sn">1</span>Prima di misurare</a>
-        <a href="#step-2"><span class="sn">2</span>Busto</a>
+        <a href="#step-2"><span class="sn">2</span>Busto e braccia</a>
         <a href="#step-3"><span class="sn">3</span>Gambe</a>
         <a href="#step-4"><span class="sn">4</span>Crea il file</a>
       </nav>
@@ -282,7 +282,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
     <div class="body">
       <!-- The general paragraph and the instructions below are taken word for word from
            spec/01-fit-profile.md, section "Measurement names". -->
-      <p class="hint" id="t-before-hint">Stai in piedi e rilassati, in biancheria leggera o con abiti aderenti, senza scarpe. Una circonferenza fa tutto il giro con il metro in piano, aderente al corpo senza stringerlo; respira normalmente. Una lunghezza segue il corpo. Per spalle e braccio serve una seconda persona; il resto si può prendere senza aiuto.</p>
+      <p class="hint" id="t-before-hint">Stai in piedi e rilassati, in biancheria leggera o con abiti aderenti, senza scarpe. Una circonferenza fa tutto il giro con il metro orizzontale, aderente al corpo senza stringerlo; respira normalmente. Una lunghezza segue il corpo. Per spalle e braccio serve una seconda persona; il resto si può prendere senza aiuto.</p>
       <p class="hint" id="t-leave">Compila quello che hai misurato e lascia vuoto il resto: un vuoto serve, una stima no.</p>
       <div class="grid">
         <div class="field">
@@ -303,38 +303,38 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
   </section>
 
   <section class="block" id="step-2">
-    <div class="bh"><span class="n">Passo 2</span><h2 id="t-upper">Busto</h2></div>
+    <div class="bh"><span class="n">Passo 2</span><h2 id="t-upper">Busto e braccia</h2></div>
     <div class="body">
       <div class="group">
         <div class="pom">
           <div class="key"><label for="m-neck_circumference">neck_circumference</label></div>
           <div class="how" id="how-neck_circumference">Intorno alla base del collo, dove si appoggia il piede del collo di una camicia.</div>
           <div class="val"><input id="m-neck_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="neck_circumference" aria-describedby="how-neck_circumference"><span class="u">cm</span></div>
-          <p class="warn" hidden>È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+          <p class="warn" hidden>Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-shoulder_width">shoulder_width</label></div>
           <div class="how" id="how-shoulder_width">Sulla schiena, con il metro appoggiato, dalla punta di una spalla alla punta dell’altra: il punto in cui finisce l’osso della spalla e comincia il braccio.</div>
           <div class="val"><input id="m-shoulder_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="shoulder_width" aria-describedby="how-shoulder_width"><span class="u">cm</span></div>
-          <p class="warn" hidden>È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+          <p class="warn" hidden>Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-chest_circumference">chest_circumference</label></div>
-          <div class="how" id="how-chest_circumference">Intorno alla parte più piena del torace, sotto le braccia e passando sulle scapole. Su un corpo con il seno è la parte più piena del seno. La differenza tra seno e sottoseno conta per capi che questa versione non copre, e resta aperta (<a href="https://github.com/agiofit/agiofit/blob/main/spec/05-open-questions.md">05-open-questions.md</a>, domanda 10).</div>
+          <div class="how" id="how-chest_circumference">Intorno alla parte più piena del torace, sotto le braccia e passando sulle scapole. Su un corpo con il seno è la parte più piena del seno. La differenza tra giro seno e giro sottoseno conta per capi che questa versione non copre, e resta aperta (<a href="https://github.com/agiofit/agiofit/blob/main/spec/05-open-questions.md">05-open-questions.md</a>, domanda 10).</div>
           <div class="val"><input id="m-chest_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="chest_circumference" aria-describedby="how-chest_circumference"><span class="u">cm</span></div>
-          <p class="warn" hidden>È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+          <p class="warn" hidden>Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-waist_circumference">waist_circumference</label></div>
           <div class="how" id="how-waist_circumference">Intorno al punto vita naturale: la parte più stretta del busto, di solito poco sopra l’ombelico. È la vita di una camicia, non di un pantalone.</div>
           <div class="val"><input id="m-waist_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="waist_circumference" aria-describedby="how-waist_circumference"><span class="u">cm</span></div>
-          <p class="warn" hidden>È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+          <p class="warn" hidden>Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-arm_length">arm_length</label></div>
           <div class="how" id="how-arm_length">Dalla punta della spalla, lungo l’esterno del braccio tenuto leggermente piegato, sopra il gomito, fino all’osso del polso.</div>
           <div class="val"><input id="m-arm_length" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="arm_length" aria-describedby="how-arm_length"><span class="u">cm</span></div>
-          <p class="warn" hidden>È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+          <p class="warn" hidden>Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</p>
         </div>
         <p class="translation-note">Le definizioni sono tradotte: fa fede il testo inglese della <a href="https://github.com/agiofit/agiofit/blob/main/spec/01-fit-profile.md#measurement-names">specifica</a>.</p>
       </div>
@@ -349,25 +349,25 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
           <div class="key"><label for="m-trouser_waist_circumference">trouser_waist_circumference</label></div>
           <div class="how" id="how-trouser_waist_circumference">Intorno al corpo, dove di solito sta la cintura dei tuoi pantaloni. Per quasi tutti è più in basso del punto vita naturale. Un capo tagliato per stare più in alto o più in basso del solito verrà giudicato comunque su questa altezza: il Cut Profile non dice dove sta una cintura.</div>
           <div class="val"><input id="m-trouser_waist_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="trouser_waist_circumference" aria-describedby="how-trouser_waist_circumference"><span class="u">cm</span></div>
-          <p class="warn" hidden>È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+          <p class="warn" hidden>Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-hip_circumference">hip_circumference</label></div>
           <div class="how" id="how-hip_circumference">Intorno alla parte più piena di fianchi e glutei, a piedi uniti.</div>
           <div class="val"><input id="m-hip_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="hip_circumference" aria-describedby="how-hip_circumference"><span class="u">cm</span></div>
-          <p class="warn" hidden>È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+          <p class="warn" hidden>Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-thigh_circumference">thigh_circumference</label></div>
           <div class="how" id="how-thigh_circumference">Intorno alla parte più piena di una coscia, appena sotto il cavallo.</div>
           <div class="val"><input id="m-thigh_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="thigh_circumference" aria-describedby="how-thigh_circumference"><span class="u">cm</span></div>
-          <p class="warn" hidden>È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+          <p class="warn" hidden>Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</p>
         </div>
         <div class="pom">
           <div class="key"><label for="m-inseam">inseam</label></div>
           <div class="how" id="how-inseam">Lungo l’interno della gamba, dal cavallo all’osso della caviglia, in posizione eretta.</div>
           <div class="val"><input id="m-inseam" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="inseam" aria-describedby="how-inseam"><span class="u">cm</span></div>
-          <p class="warn" hidden>È fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è giusto, il file si fa comunque.</p>
+          <p class="warn" hidden>Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</p>
         </div>
         <p class="translation-note">Le definizioni sono tradotte: fa fede il testo inglese della <a href="https://github.com/agiofit/agiofit/blob/main/spec/01-fit-profile.md#measurement-names">specifica</a>.</p>
       </div>
