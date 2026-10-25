@@ -101,6 +101,15 @@ a{color:var(--accent-ink)}
 /* header: text on the left, status on the right, one above the other when there is no room */
 .head{padding-top:44px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:28px 48px}
 .head .intro{flex:1.2 1 440px;min-width:0}
+/* the two builders, as two tabs above the title: the one open is a white tab, marked in
+   terracotta like the current link of the site bar; the same in the other builder */
+.buildertabs{display:flex;gap:4px;margin-top:24px;border-bottom:1px solid var(--rule)}
+.buildertabs a{font-size:14.5px;color:var(--ink-70);text-decoration:none;white-space:nowrap;padding:9px 18px;
+  border:1px solid transparent;border-bottom:0;border-radius:8px 8px 0 0;margin-bottom:-1px}
+.buildertabs a:hover{color:var(--ink)}
+.buildertabs a[aria-current]{color:var(--ink);font-weight:600;background:var(--surface);
+  border-color:var(--rule);box-shadow:inset 0 2px 0 var(--accent)}
+.buildertabs+.head{padding-top:32px}
 .kicker{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.18em;
   text-transform:uppercase;color:var(--accent-ink);margin:0 0 10px}
 h1{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:700;font-size:clamp(38px,5.4vw,60px);line-height:1.04;
@@ -339,6 +348,11 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
 
 
 <div class="page">
+  <!-- the names of the documents stay in English; build.py takes the links to the page's language -->
+  <nav class="buildertabs" aria-label="Builder">
+    <a href="/it/builder/cut-profile/" aria-current="page">Cut Profile</a>
+    <a href="/it/builder/fit-profile/">Fit Profile</a>
+  </nav>
   <div class="head">
     <div class="intro">
       <p class="kicker">Cut Profile</p>
