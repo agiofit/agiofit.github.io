@@ -141,9 +141,14 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 .hint{margin-top:12px;color:var(--ink-70);max-width:64ch}
 .body{margin-top:22px}
 
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px;max-width:620px}
+/* the fields use the width of the page in three columns, as in the Cut Profile builder;
+   two columns below 900 px, one below 640 */
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 22px}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
-.field.wide{grid-column:1/-1}
+@media(max-width:900px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:620px}
+  .field.wide{grid-column:1/-1}
+}
 label{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;font-weight:500;letter-spacing:.06em;
   text-transform:uppercase;color:var(--ink-70)}
 .note{font-size:13.5px;color:var(--ink-70);margin:0}
@@ -175,6 +180,22 @@ input.num{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;text-al
   border:1px solid #EADFB4;border-radius:8px;padding:9px 12px;margin:12px 0 0;max-width:62ch}
 @media(max-width:720px){.pom{grid-template-columns:1fr;gap:8px}.pom .key{padding-top:0}
   .pom .how{padding:0}.pom .val{align-self:start}}
+
+/* steps 2 and 3: the measurements of both on the left, the drawing of the body on the right,
+   held in place from the neck to the inseam; one column below 900 px */
+.measure{margin-top:72px;display:flex;flex-wrap:wrap;align-items:flex-start;gap:24px}
+.measure .rows{flex:1.35 1 520px;min-width:0}
+.measure .rows>.block:first-child{margin-top:0}
+.bodyguide{flex:1 1 340px;position:sticky;top:74px;aspect-ratio:420/460;
+  border:1.5px dashed #C9C3B4;border-radius:var(--radius)}
+@media(max-width:900px){.bodyguide{display:none}}
+/* in the narrower column, the instruction goes under its name and the value stays beside both */
+@media(min-width:901px){
+  .measure .pom{grid-template-columns:minmax(0,1fr) 116px;column-gap:22px}
+  .measure .pom .key{grid-column:1;grid-row:1;padding-top:0}
+  .measure .pom .how{grid-column:1;grid-row:2;padding:6px 0 0}
+  .measure .pom .val{grid-column:2;grid-row:1/3}
+}
 
 button{cursor:pointer}
 .btn{display:inline-block;font-family:inherit;font-weight:600;font-size:15px;
@@ -302,6 +323,8 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
     </div>
   </section>
 
+  <div class="measure">
+  <div class="rows">
   <section class="block" id="step-2">
     <div class="bh"><span class="n">Passo 2</span><h2 id="t-upper">Busto e braccia</h2></div>
     <div class="body">
@@ -373,6 +396,10 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
       </div>
     </div>
   </section>
+  </div>
+  <!-- the place of the drawing of the body, beside the measurements of steps 2 and 3 -->
+  <div class="bodyguide" aria-hidden="true"></div>
+  </div>
 
   <section class="block" id="step-4">
     <div class="bh"><span class="n">Passo 4</span><h2 id="t-make">Crea il file</h2></div>

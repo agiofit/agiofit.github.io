@@ -142,9 +142,20 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 .hint{margin-top:12px;color:var(--ink-70);max-width:64ch}
 .body{margin-top:22px}
 
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 22px;max-width:620px}
+/* the fields use the width of the page in three columns, so that no line of a note grows
+   past about 64 characters; two columns below 900 px, one below 640 */
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px 22px}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
-.field.wide{grid-column:1/-1}
+/* a field alone with a long note: the note beside the field, in the next column */
+.field.side{grid-column:span 2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 22px;align-items:start}
+.field.side>label{grid-column:1;grid-row:1}
+.field.side>select{grid-column:1;grid-row:2}
+.field.side>.note{grid-column:2;grid-row:2}
+@media(max-width:900px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));max-width:620px}
+  .field.wide{grid-column:1/-1}
+  .field.side{grid-column:auto;display:flex}
+}
 label{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;font-weight:500;letter-spacing:.06em;
   text-transform:uppercase;color:var(--ink-70)}
 .note{font-size:13.5px;color:var(--ink-70);margin:0}
@@ -246,8 +257,13 @@ details.advanced .inner{padding:0 20px 24px}
 .why,.locked-msg{font-size:14.5px;color:var(--ink-70);margin:0 0 20px;max-width:62ch}
 #ease{margin-top:26px}
 #ease>label{display:block;margin-bottom:10px}
-#ease .zones{display:flex;flex-wrap:wrap;gap:12px 22px;max-width:640px}
-#ease .zone{flex:1 1 180px;display:flex;flex-direction:column;gap:6px;min-width:0}
+/* on the columns of the fields above; as before below 900 px */
+#ease .zones{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 22px}
+#ease .zone{display:flex;flex-direction:column;gap:6px;min-width:0}
+@media(max-width:900px){
+  #ease .zones{display:flex;flex-wrap:wrap;max-width:640px}
+  #ease .zone{flex:1 1 180px}
+}
 #ease .zone[hidden]{display:none}
 #ease .zone-name{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;color:var(--ink)}
 #ease .row{display:flex;gap:8px}
@@ -396,7 +412,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
     <div class="body">
       <p class="hint" id="t-flat-hint"><span class="en">The garment is laid flat, fastened, and not stretched. Widths are taken perpendicular to the centre line. Leave out anything you cannot measure rather than estimating it: a gap is useful, a guess is not.</span><span class="it">Il capo va steso, abbottonato e senza tirarlo. Le larghezze si prendono perpendicolari alla linea centrale. Lascia fuori ciò che non riesci a misurare invece di stimarlo: un vuoto serve, una stima no.</span><span class="fr">Le vêtement est posé à plat, fermé, sans être tendu. Les largeurs se prennent perpendiculairement à la ligne médiane. Laissez de côté ce que vous ne pouvez pas mesurer plutôt que de l’estimer : un manque est utile, une estimation non.</span></p>
       <div class="grid">
-        <div class="field">
+        <div class="field side">
           <label for="unit" id="l-unit"><span class="en">Your tape reads in</span><span class="it">Il tuo metro è in</span><span class="fr">Votre mètre ruban est en</span></label>
           <select id="unit"><option value="cm">cm</option><option value="in">in</option></select>
           <p class="note" id="t-unit-hint"><span class="en">This is about the tape in your hand, not about the garment. A shirt labelled in one country can be measured with any tape: if yours is marked in centimetres, choose centimetres, whatever the size label says.</span><span class="it">Riguarda il metro che hai in mano, non il capo. Una camicia etichettata in un paese si può misurare con qualunque metro: se il tuo è segnato in centimetri, scegli i centimetri, qualunque cosa dica l’etichetta di taglia.</span><span class="fr">Il s’agit du mètre ruban que vous tenez, pas du vêtement. Une chemise étiquetée dans un pays se mesure avec n’importe quel mètre : si le vôtre est gradué en centimètres, choisissez les centimètres, quoi que dise l’étiquette de taille.</span></p>
