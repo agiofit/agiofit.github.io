@@ -1068,6 +1068,7 @@ const UI_BY_LANG = {
     intentOnly: (field) => field + " (only the brand or the manufacturer can state it)",
     mixedUnits: "units: the form uses one unit for the whole file, and this file mixes cm and in.",
     replaceForm: "Opening a file replaces what is in the form. Continue?",
+    changeCategory: "Changing the category empties the measurements you have written. Continue?",
     readBackFail: (paths) => "This page could not read the file back as it was (" + paths.join(", ") + "). The form has been cleared; nothing was changed in your file.",
     opened: (name, id) => "Opened " + name + ". You are correcting it: when you download, it keeps the id " + id + ".",
     makeNew: "Make it a new file instead",
@@ -1117,6 +1118,7 @@ const UI_BY_LANG = {
     otherCategory: (category) => "category " + category + ": questa pagina scrive solo camicie, t-shirt, pantaloni e jeans.",
     mixedUnits: "units: il modulo usa una sola unità per tutto il file, e questo file mescola cm e in.",
     replaceForm: "Aprire un file sostituisce quello che c’è nel modulo. Continuare?",
+    changeCategory: "Cambiare categoria svuota le misure che hai scritto. Continuare?",
     readBackFail: (paths) => "Questa pagina non è riuscita a rileggere il file così com’era (" + paths.join(", ") + "). Il modulo è stato svuotato; nel tuo file non è cambiato nulla.",
     opened: (name, id) => "Aperto " + name + ". Lo stai correggendo: quando lo scarichi, conserva l’id " + id + ".",
     makeNew: "Fanne invece un file nuovo",
@@ -1166,6 +1168,7 @@ const UI_BY_LANG = {
     otherCategory: (category) => "category " + category + " : cette page n’écrit que des chemises, des t-shirts, des pantalons et des jeans.",
     mixedUnits: "units : le formulaire utilise une seule unité pour tout le fichier, et ce fichier mélange cm et in.",
     replaceForm: "Ouvrir un fichier remplace le contenu du formulaire. Continuer ?",
+    changeCategory: "Changer de catégorie vide les mesures saisies. Continuer ?",
     readBackFail: (paths) => "Cette page n’a pas pu relire le fichier tel qu’il était (" + paths.join(", ") + "). Le formulaire a été vidé ; rien n’a changé dans votre fichier.",
     opened: (name, id) => name + " est ouvert. Vous le corrigez : au téléchargement, il garde l’id " + id + ".",
     makeNew: "En faire plutôt un nouveau fichier",
@@ -1223,7 +1226,7 @@ function paintCategory() {
   sel.length = 1;
   for (const s of c.size_systems) sel.append(new Option(s + " · " + c.size_examples[s], s));
   sel.selectedIndex = 0;
-  if (!inCategory($("sizes").querySelector(".sizeblock"), key)) {
+  if (!keepsSizes(key)) {
     $("sizes").replaceChildren(blankSize(FIRST_SIZES[key]));
     for (const input of $("ease").querySelectorAll("input")) input.value = "";
     $("critical_zones").value = "";
@@ -1234,6 +1237,25 @@ function paintCategory() {
   $("critical_zones").placeholder = c.critical_example;
   paintSizeLabels();
   paintUnit();
+  /* kept here, where every way of changing the category passes */
+  shownCategory = key;
+}
+
+/* The category the form is painted for: the one the menu goes back to when the person
+   does not want a change of category to empty the sizes. */
+let shownCategory = null;
+
+/* Whether the sizes written now still mean the same thing in a category. */
+function keepsSizes(key) {
+  return inCategory($("sizes").querySelector(".sizeblock"), key);
+}
+
+/* Whether anything is written in what a change of category empties: the sizes, the
+   intended ease and the critical zones. Brand, style and the rest stay, so they do not
+   count, and neither do sizes added and left blank. */
+function sizesHaveWriting() {
+  return [...$("sizes").querySelectorAll("input"), ...$("ease").querySelectorAll("input"),
+    $("critical_zones")].some(filled);
 }
 
 /* What the size labels take from the size system: their placeholder, and the hint. */
@@ -1945,7 +1967,20 @@ paintUnit();
 paintAdvanced();
 restoreDraft();
 
-$("category").addEventListener("change", paintCategory);
+/* Only the person's own change of the menu asks: opening a file, bringing a draft back
+   and clearing the form paint the category without a question. A change the person does
+   not want leaves no trace, so the page hears of it only once it is kept: the menu fires
+   input before change, and both reach the listener below that clears the result and
+   saves the draft. */
+$("category").addEventListener("input", (e) => e.stopPropagation());
+$("category").addEventListener("change", (e) => {
+  if (!keepsSizes($("category").value) && sizesHaveWriting() && !window.confirm(UI.changeCategory)) {
+    $("category").value = shownCategory;
+    e.stopPropagation();
+    return;
+  }
+  paintCategory();
+});
 $("size_system").addEventListener("change", paintSizeLabels);
 $("unit").addEventListener("change", paintUnit);
 $("sizes").addEventListener("input", (e) => {
