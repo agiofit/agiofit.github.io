@@ -168,7 +168,11 @@ input.num{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;text-al
   padding:16px 20px;align-items:start}
 .pom:first-child{border-top:0}
 .pom:focus-within{background:var(--highlight)}
-.pom .key{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;padding-top:10px;overflow-wrap:anywhere}
+.pom .key{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;padding-top:10px;overflow-wrap:anywhere;
+  display:grid;grid-template-columns:18px auto;column-gap:8px;align-items:center;justify-content:start}
+/* the number of the measurement, the same as in the drawing */
+.pom .key .no{display:flex;align-items:center;justify-content:center;width:18px;height:18px;
+  border-radius:50%;background:var(--accent-ink);color:var(--surface);font-size:10.5px;font-weight:500}
 .pom .key label{font:inherit;letter-spacing:normal;text-transform:none;color:var(--ink)}
 .pom .how{font-size:14.5px;color:var(--ink-70);line-height:1.5;padding:8px 22px 0 0;max-width:56ch}
 .pom .val{display:flex;align-items:center;gap:8px;align-self:center}
@@ -183,13 +187,35 @@ input.num{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;text-al
   .pom .how{padding:0}.pom .val{align-self:start}}
 
 /* steps 2 and 3: the measurements of both on the left, the drawing of the body on the right,
-   held in place from the neck to the inseam; one column below 900 px */
+   held in place from the neck to the inseam; below 900 px the drawing goes above them */
 .measure{margin-top:72px;display:flex;flex-wrap:wrap;align-items:flex-start;gap:24px}
 .measure .rows{flex:1.35 1 520px;min-width:0}
 .measure .rows>.block:first-child{margin-top:0}
-.bodyguide{flex:1 1 340px;position:sticky;top:74px;aspect-ratio:420/460;
-  border:1.5px dashed #C9C3B4;border-radius:var(--radius)}
-@media(max-width:900px){.bodyguide{display:none}}
+/* the drawing of where the tape goes, shaped like the one of the Cut Profile builder */
+.tapeguide{flex:1 1 340px;position:sticky;top:74px;background:var(--surface);border:1px solid var(--rule);
+  border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 16px 18px}
+.tapeguide .tg-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.tapeguide h3{font-family:'Fraunces','Fraunces Fallback',serif;font-size:17px;font-weight:600;margin:0}
+.tapeguide .tg-count,.tapeguide .tg-note{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;color:var(--ink-70)}
+.tapeguide .tg-note{text-align:center;margin:10px 0 0}
+.tapeguide svg{display:block;width:100%;height:auto;margin-top:8px}
+@media(max-width:900px){.tapeguide{order:-1;position:static}}
+
+/* the body seen from the front and from the back, drawn like the garments: a girth goes the
+   whole way round, solid in front and dashed behind the body; a length follows the body */
+.drawing .figure,.drawing .figure-line{fill:var(--surface);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.drawing .figure-line{fill:none}
+.drawing .figure-fill{fill:var(--surface)}
+.drawing .view{fill:var(--ink-70);font:400 17px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace;letter-spacing:.06em}
+.drawing .dim{fill:none;stroke:var(--accent-ink);stroke-width:1.25;stroke-linecap:round}
+.drawing .dim.lead{stroke-width:1}
+.drawing .dim.behind{stroke-width:1;stroke-dasharray:3 3}
+.drawing .label-bg{fill:var(--surface)}
+.drawing .badge{fill:var(--accent-ink)}
+.drawing .badge-n{fill:var(--surface);font:500 10.5px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace}
+.drawing .val{fill:var(--ink);font:500 12.5px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace}
+.drawing .val .unit{fill:var(--ink-70);font-weight:400}
+.drawing .m.dimmed{opacity:.16}
 /* in the narrower column, the instruction goes under its name and the value stays beside both */
 @media(min-width:901px){
   .measure .pom{grid-template-columns:minmax(0,1fr) 116px;column-gap:22px}
@@ -326,31 +352,31 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
     <div class="body">
       <div class="group">
         <div class="pom">
-          <div class="key"><label for="m-neck_circumference">neck_circumference</label></div>
+          <div class="key"><span class="no" aria-hidden="true">1</span><label for="m-neck_circumference">neck_circumference</label></div>
           <div class="how" id="how-neck_circumference"><span class="en">Around the base of the neck, where the band of a shirt collar sits.</span><span class="it">Intorno alla base del collo, dove si appoggia il piede del collo di una camicia.</span><span class="fr">Autour de la base du cou, là où repose le pied de col d’une chemise.</span></div>
           <div class="val"><input id="m-neck_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="neck_circumference" aria-describedby="how-neck_circumference"><span class="u">cm</span></div>
           <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
-          <div class="key"><label for="m-shoulder_width">shoulder_width</label></div>
+          <div class="key"><span class="no" aria-hidden="true">2</span><label for="m-shoulder_width">shoulder_width</label></div>
           <div class="how" id="how-shoulder_width"><span class="en">Across the back, with the tape resting on it, from the tip of one shoulder to the tip of the other: the point where the bone of the shoulder ends and the arm begins.</span><span class="it">Sulla schiena, con il metro appoggiato, dalla punta di una spalla alla punta dell’altra: il punto in cui finisce l’osso della spalla e comincia il braccio.</span><span class="fr">Dans le dos, le mètre ruban posé dessus, de la pointe d’une épaule à la pointe de l’autre : le point où l’os de l’épaule se termine et où le bras commence.</span></div>
           <div class="val"><input id="m-shoulder_width" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="shoulder_width" aria-describedby="how-shoulder_width"><span class="u">cm</span></div>
           <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
-          <div class="key"><label for="m-chest_circumference">chest_circumference</label></div>
+          <div class="key"><span class="no" aria-hidden="true">3</span><label for="m-chest_circumference">chest_circumference</label></div>
           <div class="how" id="how-chest_circumference"><span class="en">Around the fullest part of the chest, under the arms and across the shoulder blades. On a body with breasts this is the fullest part of the bust. The difference between bust and underbust matters for garments this version does not cover, and is left open (<a href="https://github.com/agiofit/agiofit/blob/main/spec/05-open-questions.md">05-open-questions.md</a>, question 10).</span><span class="it">Intorno alla parte più piena del torace, sotto le braccia e passando sulle scapole. Su un corpo con il seno è la parte più piena del seno. La differenza tra giro seno e giro sottoseno conta per capi che questa versione non copre, e resta aperta (<a href="https://github.com/agiofit/agiofit/blob/main/spec/05-open-questions.md">05-open-questions.md</a>, domanda 10).</span><span class="fr">Autour de la partie la plus forte de la poitrine, sous les bras et en passant sur les omoplates. Sur un corps avec des seins, c’est la partie la plus forte du buste. La différence entre tour de poitrine et tour de dessous de poitrine compte pour des vêtements que cette version ne couvre pas, et reste ouverte (<a href="https://github.com/agiofit/agiofit/blob/main/spec/05-open-questions.md">05-open-questions.md</a>, question 10).</span></div>
           <div class="val"><input id="m-chest_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="chest_circumference" aria-describedby="how-chest_circumference"><span class="u">cm</span></div>
           <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
-          <div class="key"><label for="m-waist_circumference">waist_circumference</label></div>
+          <div class="key"><span class="no" aria-hidden="true">4</span><label for="m-waist_circumference">waist_circumference</label></div>
           <div class="how" id="how-waist_circumference"><span class="en">Around the natural waist: the narrowest part of the torso, usually a little above the navel. This is the waist of a shirt, not of a pair of trousers.</span><span class="it">Intorno al punto vita naturale: la parte più stretta del busto, di solito poco sopra l’ombelico. È la vita di una camicia, non di un pantalone.</span><span class="fr">Autour de la taille naturelle : la partie la plus étroite du buste, en général un peu au-dessus du nombril. C’est la taille d’une chemise, pas celle d’un pantalon.</span></div>
           <div class="val"><input id="m-waist_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="waist_circumference" aria-describedby="how-waist_circumference"><span class="u">cm</span></div>
           <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
-          <div class="key"><label for="m-arm_length">arm_length</label></div>
+          <div class="key"><span class="no" aria-hidden="true">5</span><label for="m-arm_length">arm_length</label></div>
           <div class="how" id="how-arm_length"><span class="en">From the tip of the shoulder, down the outside of the arm held slightly bent, over the elbow, to the wrist bone.</span><span class="it">Dalla punta della spalla, lungo l’esterno del braccio tenuto leggermente piegato, sopra il gomito, fino all’osso del polso.</span><span class="fr">De la pointe de l’épaule, le long de l’extérieur du bras légèrement plié, par-dessus le coude, jusqu’à l’os du poignet.</span></div>
           <div class="val"><input id="m-arm_length" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="arm_length" aria-describedby="how-arm_length"><span class="u">cm</span></div>
           <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
@@ -365,25 +391,25 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
     <div class="body">
       <div class="group">
         <div class="pom">
-          <div class="key"><label for="m-trouser_waist_circumference">trouser_waist_circumference</label></div>
+          <div class="key"><span class="no" aria-hidden="true">6</span><label for="m-trouser_waist_circumference">trouser_waist_circumference</label></div>
           <div class="how" id="how-trouser_waist_circumference"><span class="en">Around the body where the waistband of your trousers usually sits. For most people this is lower than the natural waist. A garment cut to sit higher or lower than usual will be judged against this height all the same: the Cut Profile does not say where a waistband sits.</span><span class="it">Intorno al corpo, dove di solito sta la cintura dei tuoi pantaloni. Per quasi tutti è più in basso del punto vita naturale. Un capo tagliato per stare più in alto o più in basso del solito verrà giudicato comunque su questa altezza: il Cut Profile non dice dove sta una cintura.</span><span class="fr">Autour du corps, là où se trouve d’habitude la ceinture de vos pantalons. Pour la plupart des gens, c’est plus bas que la taille naturelle. Un vêtement coupé pour se porter plus haut ou plus bas que d’habitude sera tout de même jugé à cette hauteur : le Cut Profile ne dit pas où se place une ceinture.</span></div>
           <div class="val"><input id="m-trouser_waist_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="trouser_waist_circumference" aria-describedby="how-trouser_waist_circumference"><span class="u">cm</span></div>
           <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
-          <div class="key"><label for="m-hip_circumference">hip_circumference</label></div>
+          <div class="key"><span class="no" aria-hidden="true">7</span><label for="m-hip_circumference">hip_circumference</label></div>
           <div class="how" id="how-hip_circumference"><span class="en">Around the fullest part of the hips and seat, with the feet together.</span><span class="it">Intorno alla parte più piena di fianchi e glutei, a piedi uniti.</span><span class="fr">Autour de la partie la plus forte des hanches et des fesses, pieds joints.</span></div>
           <div class="val"><input id="m-hip_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="hip_circumference" aria-describedby="how-hip_circumference"><span class="u">cm</span></div>
           <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
-          <div class="key"><label for="m-thigh_circumference">thigh_circumference</label></div>
+          <div class="key"><span class="no" aria-hidden="true">8</span><label for="m-thigh_circumference">thigh_circumference</label></div>
           <div class="how" id="how-thigh_circumference"><span class="en">Around the fullest part of one thigh, just below the crotch.</span><span class="it">Intorno alla parte più piena di una coscia, appena sotto il cavallo.</span><span class="fr">Autour de la partie la plus forte d’une cuisse, juste sous l’entrejambe.</span></div>
           <div class="val"><input id="m-thigh_circumference" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="thigh_circumference" aria-describedby="how-thigh_circumference"><span class="u">cm</span></div>
           <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
         </div>
         <div class="pom">
-          <div class="key"><label for="m-inseam">inseam</label></div>
+          <div class="key"><span class="no" aria-hidden="true">9</span><label for="m-inseam">inseam</label></div>
           <div class="how" id="how-inseam"><span class="en">Along the inside of the leg, from the crotch to the ankle bone, standing straight.</span><span class="it">Lungo l’interno della gamba, dal cavallo all’osso della caviglia, in posizione eretta.</span><span class="fr">Le long de l’intérieur de la jambe, de l’entrejambe à la malléole, en position debout.</span></div>
           <div class="val"><input id="m-inseam" class="num measure-value" inputmode="decimal" autocomplete="off" data-key="inseam" aria-describedby="how-inseam"><span class="u">cm</span></div>
           <p class="warn" hidden><span class="en">That is outside the range this page expects. Check the tape and the units — the file will still be made if it is right.</span><span class="it">Il valore è fuori dall’intervallo che questa pagina si aspetta. Controlla il metro e l’unità: se è corretto, il file viene creato comunque.</span><span class="fr">C’est en dehors de la plage que cette page attend. Vérifiez le mètre et l’unité : si c’est juste, le fichier sera quand même créé.</span></p>
@@ -393,8 +419,114 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
     </div>
   </section>
   </div>
-  <!-- the place of the drawing of the body, beside the measurements of steps 2 and 3 -->
-  <div class="bodyguide" aria-hidden="true"></div>
+  <!-- The drawing shows the measurements written in the rows, with the same numbers. Its
+       labels start empty and are written by paintTape(); the dash means "not measured". -->
+  <aside class="tapeguide" aria-label="Where the tape goes" data-it-aria-label="Dove passa il metro" data-fr-aria-label="Où passe le mètre ruban">
+    <div class="tg-head"><h3><span class="en">Where the tape goes</span><span class="it">Dove passa il metro</span><span class="fr">Où passe le mètre ruban</span></h3><span class="tg-count" id="tape-count"><span class="en">0 of 9</span><span class="it">0 di 9</span><span class="fr">0 sur 9</span></span></div>
+    <svg xmlns="http://www.w3.org/2000/svg" class="drawing" viewBox="0 0 600 616" width="600" height="616" role="img" aria-label="A body seen from the front and from the back, with nine measuring points: 1 neck circumference, 2 shoulder width, 3 chest circumference, 4 waist circumference, 5 arm length, 6 trouser waist circumference, 7 hip circumference, 8 thigh circumference, 9 inseam." data-it-aria-label="Un corpo visto davanti e dietro, con nove punti di misura: 1 circonferenza del collo, 2 larghezza delle spalle, 3 circonferenza del torace, 4 circonferenza della vita, 5 lunghezza del braccio, 6 vita dei pantaloni, 7 circonferenza dei fianchi, 8 circonferenza della coscia, 9 interno gamba." data-fr-aria-label="Un corps vu de face et de dos, avec neuf points de mesure : 1 tour de cou, 2 largeur d’épaules, 3 tour de poitrine, 4 tour de taille, 5 longueur de bras, 6 taille du pantalon, 7 tour de hanches, 8 tour de cuisse, 9 entrejambe.">
+      <!-- the two views -->
+      <text class="view" x="150" y="18" text-anchor="middle"><tspan class="en">front</tspan><tspan class="it">davanti</tspan><tspan class="fr">devant</tspan></text>
+      <text class="view" x="450" y="18" text-anchor="middle"><tspan class="en">back</tspan><tspan class="it">dietro</tspan><tspan class="fr">dos</tspan></text>
+      <!-- the body, the same shape seen from the front and from the back -->
+      <g class="body">
+        <path class="figure" d="M162 94 C162.3 97.3 160.3 109.2 164 114 C167.7 118.8 177.7 120.5 184 123 C190.3 125.5 197.7 126.5 202 129 C206.3 131.5 208.5 134.5 210 138 C211.5 141.5 212.5 143.7 211 150 C209.5 156.3 202.7 168.7 201 176 C199.3 183.3 201.5 186.7 201 194 C200.5 201.3 199 210.2 198 220 C197 229.8 195.2 244.2 195 253 C194.8 261.8 196.3 266.8 197 273 C197.7 279.2 198.2 281.5 199 290 C199.8 298.5 201.7 315.3 202 324 C202.3 332.7 201.5 335.3 201 342 C200.5 348.7 200.3 351.3 199 364 C197.7 376.7 195 399.3 193 418 C191 436.7 188.2 460.2 187 476 C185.8 491.8 187.3 499.3 186 513 C184.7 526.7 181.3 545.5 179 558 C176.7 570.5 172.5 581 172 588 C171.5 595 175.2 596.7 176 600 C176.8 603.3 176.8 606.7 177 608 L156 608 C156.2 604.7 156.5 598 157 588 C157.5 578 158.5 560.5 159 548 C159.5 535.5 160 525 160 513 C160 501 159.5 490.2 159 476 C158.5 461.8 158 446.7 157 428 C156 409.3 154.2 377.3 153 364 C151.8 350.7 150.5 350.7 150 348 C149.5 350.7 148.2 350.7 147 364 C145.8 377.3 144 409.3 143 428 C142 446.7 141.5 461.8 141 476 C140.5 490.2 140 501 140 513 C140 525 140.5 535.5 141 548 C141.5 560.5 142.5 578 143 588 C143.5 598 143.8 604.7 144 608 L123 608 C123.2 606.7 123.2 603.3 124 600 C124.8 596.7 128.5 595 128 588 C127.5 581 123.3 570.5 121 558 C118.7 545.5 115.3 526.7 114 513 C112.7 499.3 114.2 491.8 113 476 C111.8 460.2 109 436.7 107 418 C105 399.3 102.3 376.7 101 364 C99.7 351.3 99.5 348.7 99 342 C98.5 335.3 97.7 332.7 98 324 C98.3 315.3 100.2 298.5 101 290 C101.8 281.5 102.3 279.2 103 273 C103.7 266.8 105.2 261.8 105 253 C104.8 244.2 103 229.8 102 220 C101 210.2 99.5 201.3 99 194 C98.5 186.7 100.7 183.3 99 176 C97.3 168.7 90.5 156.3 89 150 C87.5 143.7 88.5 141.5 90 138 C91.5 134.5 93.7 131.5 98 129 C102.3 126.5 109.7 125.5 116 123 C122.3 120.5 132.3 118.8 136 114 C139.7 109.2 137.7 97.3 138 94 Z"/>
+        <path class="figure-fill" d="M210 138 C211.7 141.3 216.8 148 220 158 C223.2 168 226.3 184.3 229 198 C231.7 211.7 233.5 225 236 240 C238.5 255 241.7 273 244 288 C246.3 303 248.2 318.3 250 330 C251.8 341.7 254.3 349.7 255 358 C255.7 366.3 255.2 374.3 254 380 C252.8 385.7 249 390 248 392 L241 390 C240.3 387.2 238.2 383 237 373 C235.8 363 235.5 344.2 234 330 C232.5 315.8 230.2 303 228 288 C225.8 273 223.8 254.2 221 240 C218.2 225.8 214.3 213.3 211 203 C207.7 192.7 202.7 182.2 201 178 L196 158 L204 136 Z"/>
+        <path class="figure-line" d="M210 138 C211.7 141.3 216.8 148 220 158 C223.2 168 226.3 184.3 229 198 C231.7 211.7 233.5 225 236 240 C238.5 255 241.7 273 244 288 C246.3 303 248.2 318.3 250 330 C251.8 341.7 254.3 349.7 255 358 C255.7 366.3 255.2 374.3 254 380 C252.8 385.7 249 390 248 392 L241 390 C240.3 387.2 238.2 383 237 373 C235.8 363 235.5 344.2 234 330 C232.5 315.8 230.2 303 228 288 C225.8 273 223.8 254.2 221 240 C218.2 225.8 214.3 213.3 211 203 C207.7 192.7 202.7 182.2 201 178"/>
+        <path class="figure-fill" d="M90 138 C88.3 141.3 83.2 148 80 158 C76.8 168 73.7 184.3 71 198 C68.3 211.7 66.5 225 64 240 C61.5 255 58.3 273 56 288 C53.7 303 51.8 318.3 50 330 C48.2 341.7 45.7 349.7 45 358 C44.3 366.3 44.8 374.3 46 380 C47.2 385.7 51 390 52 392 L59 390 C59.7 387.2 61.8 383 63 373 C64.2 363 64.5 344.2 66 330 C67.5 315.8 69.8 303 72 288 C74.2 273 76.2 254.2 79 240 C81.8 225.8 85.7 213.3 89 203 C92.3 192.7 97.3 182.2 99 178 L104 158 L96 136 Z"/>
+        <path class="figure-line" d="M90 138 C88.3 141.3 83.2 148 80 158 C76.8 168 73.7 184.3 71 198 C68.3 211.7 66.5 225 64 240 C61.5 255 58.3 273 56 288 C53.7 303 51.8 318.3 50 330 C48.2 341.7 45.7 349.7 45 358 C44.3 366.3 44.8 374.3 46 380 C47.2 385.7 51 390 52 392 L59 390 C59.7 387.2 61.8 383 63 373 C64.2 363 64.5 344.2 66 330 C67.5 315.8 69.8 303 72 288 C74.2 273 76.2 254.2 79 240 C81.8 225.8 85.7 213.3 89 203 C92.3 192.7 97.3 182.2 99 178"/>
+        <ellipse class="figure" cx="150" cy="70" rx="24" ry="31"/>
+        <path class="figure" d="M462 94 C462.3 97.3 460.3 109.2 464 114 C467.7 118.8 477.7 120.5 484 123 C490.3 125.5 497.7 126.5 502 129 C506.3 131.5 508.5 134.5 510 138 C511.5 141.5 512.5 143.7 511 150 C509.5 156.3 502.7 168.7 501 176 C499.3 183.3 501.5 186.7 501 194 C500.5 201.3 499 210.2 498 220 C497 229.8 495.2 244.2 495 253 C494.8 261.8 496.3 266.8 497 273 C497.7 279.2 498.2 281.5 499 290 C499.8 298.5 501.7 315.3 502 324 C502.3 332.7 501.5 335.3 501 342 C500.5 348.7 500.3 351.3 499 364 C497.7 376.7 495 399.3 493 418 C491 436.7 488.2 460.2 487 476 C485.8 491.8 487.3 499.3 486 513 C484.7 526.7 481.3 545.5 479 558 C476.7 570.5 472.5 581 472 588 C471.5 595 475.2 596.7 476 600 C476.8 603.3 476.8 606.7 477 608 L456 608 C456.2 604.7 456.5 598 457 588 C457.5 578 458.5 560.5 459 548 C459.5 535.5 460 525 460 513 C460 501 459.5 490.2 459 476 C458.5 461.8 458 446.7 457 428 C456 409.3 454.2 377.3 453 364 C451.8 350.7 450.5 350.7 450 348 C449.5 350.7 448.2 350.7 447 364 C445.8 377.3 444 409.3 443 428 C442 446.7 441.5 461.8 441 476 C440.5 490.2 440 501 440 513 C440 525 440.5 535.5 441 548 C441.5 560.5 442.5 578 443 588 C443.5 598 443.8 604.7 444 608 L423 608 C423.2 606.7 423.2 603.3 424 600 C424.8 596.7 428.5 595 428 588 C427.5 581 423.3 570.5 421 558 C418.7 545.5 415.3 526.7 414 513 C412.7 499.3 414.2 491.8 413 476 C411.8 460.2 409 436.7 407 418 C405 399.3 402.3 376.7 401 364 C399.7 351.3 399.5 348.7 399 342 C398.5 335.3 397.7 332.7 398 324 C398.3 315.3 400.2 298.5 401 290 C401.8 281.5 402.3 279.2 403 273 C403.7 266.8 405.2 261.8 405 253 C404.8 244.2 403 229.8 402 220 C401 210.2 399.5 201.3 399 194 C398.5 186.7 400.7 183.3 399 176 C397.3 168.7 390.5 156.3 389 150 C387.5 143.7 388.5 141.5 390 138 C391.5 134.5 393.7 131.5 398 129 C402.3 126.5 409.7 125.5 416 123 C422.3 120.5 432.3 118.8 436 114 C439.7 109.2 437.7 97.3 438 94 Z"/>
+        <path class="figure-fill" d="M510 138 C511.7 141.3 516.8 148 520 158 C523.2 168 526.3 184.3 529 198 C531.7 211.7 533.5 225 536 240 C538.5 255 541.7 273 544 288 C546.3 303 548.2 318.3 550 330 C551.8 341.7 554.3 349.7 555 358 C555.7 366.3 555.2 374.3 554 380 C552.8 385.7 549 390 548 392 L541 390 C540.3 387.2 538.2 383 537 373 C535.8 363 535.5 344.2 534 330 C532.5 315.8 530.2 303 528 288 C525.8 273 523.8 254.2 521 240 C518.2 225.8 514.3 213.3 511 203 C507.7 192.7 502.7 182.2 501 178 L496 158 L504 136 Z"/>
+        <path class="figure-line" d="M510 138 C511.7 141.3 516.8 148 520 158 C523.2 168 526.3 184.3 529 198 C531.7 211.7 533.5 225 536 240 C538.5 255 541.7 273 544 288 C546.3 303 548.2 318.3 550 330 C551.8 341.7 554.3 349.7 555 358 C555.7 366.3 555.2 374.3 554 380 C552.8 385.7 549 390 548 392 L541 390 C540.3 387.2 538.2 383 537 373 C535.8 363 535.5 344.2 534 330 C532.5 315.8 530.2 303 528 288 C525.8 273 523.8 254.2 521 240 C518.2 225.8 514.3 213.3 511 203 C507.7 192.7 502.7 182.2 501 178"/>
+        <path class="figure-fill" d="M390 138 C388.2 141.7 382.3 149.7 379 160 C375.7 170.3 374 186 370 200 C366 214 357 232.3 355 244 C353 255.7 356.5 260.7 358 270 C359.5 279.3 362 291 364 300 C366 309 368.7 315.7 370 324 C371.3 332.3 371.3 342.7 372 350 C372.7 357.3 372.7 363.3 374 368 C375.3 372.7 379 376.3 380 378 L386 370 C386.3 367 388 359.7 388 352 C388 344.3 387.3 333.7 386 324 C384.7 314.3 382.3 306 380 294 C377.7 282 370.7 266.7 372 252 C373.3 237.3 383.5 218.3 388 206 C392.5 193.7 397.2 182.7 399 178 L404 158 L396 136 Z"/>
+        <path class="figure-line" d="M390 138 C388.2 141.7 382.3 149.7 379 160 C375.7 170.3 374 186 370 200 C366 214 357 232.3 355 244 C353 255.7 356.5 260.7 358 270 C359.5 279.3 362 291 364 300 C366 309 368.7 315.7 370 324 C371.3 332.3 371.3 342.7 372 350 C372.7 357.3 372.7 363.3 374 368 C375.3 372.7 379 376.3 380 378 L386 370 C386.3 367 388 359.7 388 352 C388 344.3 387.3 333.7 386 324 C384.7 314.3 382.3 306 380 294 C377.7 282 370.7 266.7 372 252 C373.3 237.3 383.5 218.3 388 206 C392.5 193.7 397.2 182.7 399 178"/>
+        <ellipse class="figure" cx="450" cy="70" rx="24" ry="31"/>
+      </g>
+      <!-- 1 neck_circumference: round the base of the neck, where a collar band sits -->
+      <g class="m" data-key="neck_circumference">
+        <path class="dim behind" d="M134 112 A16 4 0 0 1 166 112"/>
+        <path class="dim" d="M134 112 A16 4 0 0 0 166 112"/>
+        <line class="dim lead" x1="133" y1="112" x2="52" y2="112"/>
+        <rect class="label-bg" x="30" y="102" width="39" height="20" rx="3"/>
+        <circle class="badge" cx="41" cy="112" r="8"/>
+        <text class="badge-n" x="41" y="112" text-anchor="middle" dominant-baseline="central">1</text>
+        <text class="val" x="53" y="116.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+      </g>
+      <!-- 2 shoulder_width: across the back, from the tip of one shoulder to the other, following the curve -->
+      <g class="m" data-key="shoulder_width">
+        <path class="dim" d="M390 138 Q450 156 510 138"/>
+        <path class="dim" d="M386 142 L394 134 M506 142 L514 134"/>
+        <rect class="label-bg" x="418" y="137" width="39" height="20" rx="3"/>
+        <circle class="badge" cx="429" cy="147" r="8"/>
+        <text class="badge-n" x="429" y="147" text-anchor="middle" dominant-baseline="central">2</text>
+        <text class="val" x="441" y="151.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+      </g>
+      <!-- 3 chest_circumference: round the fullest part of the chest, under the arms -->
+      <g class="m" data-key="chest_circumference">
+        <path class="dim behind" d="M95 194 A55 7 0 0 1 205 194"/>
+        <path class="dim" d="M95 194 A55 7 0 0 0 205 194"/>
+        <rect class="label-bg" x="107" y="184" width="39" height="20" rx="3"/>
+        <circle class="badge" cx="118" cy="194" r="8"/>
+        <text class="badge-n" x="118" y="194" text-anchor="middle" dominant-baseline="central">3</text>
+        <text class="val" x="130" y="198.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+      </g>
+      <!-- 4 waist_circumference: round the natural waist, a little above the navel -->
+      <g class="m" data-key="waist_circumference">
+        <path class="dim behind" d="M102 253 A48 6 0 0 1 198 253"/>
+        <path class="dim" d="M102 253 A48 6 0 0 0 198 253"/>
+        <rect class="label-bg" x="107" y="243" width="39" height="20" rx="3"/>
+        <circle class="badge" cx="118" cy="253" r="8"/>
+        <text class="badge-n" x="118" y="253" text-anchor="middle" dominant-baseline="central">4</text>
+        <text class="val" x="130" y="257.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+      </g>
+      <!-- 5 arm_length: from the tip of the shoulder, down the outside of the arm held slightly bent, over the elbow, to the wrist bone -->
+      <g class="m" data-key="arm_length">
+        <path class="dim" d="M389 136 C386.7 140 379 149.3 375 160 C371 170.7 369.2 186 365 200 C360.8 214 352 232 350 244 C348 256 351.5 262.3 353 272 C354.5 281.7 357 293.3 359 302 C361 310.7 364 320.3 365 324"/>
+        <path class="dim" d="M384 133 L394 139 M360 324 L370 324"/>
+        <rect class="label-bg" x="339" y="234" width="39" height="20" rx="3"/>
+        <circle class="badge" cx="350" cy="244" r="8"/>
+        <text class="badge-n" x="350" y="244" text-anchor="middle" dominant-baseline="central">5</text>
+        <text class="val" x="362" y="248.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+      </g>
+      <!-- 6 trouser_waist_circumference: where the waistband of trousers sits, lower than the natural waist -->
+      <g class="m" data-key="trouser_waist_circumference">
+        <path class="dim behind" d="M98 290 A52 6 0 0 1 202 290"/>
+        <path class="dim" d="M98 290 A52 6 0 0 0 202 290"/>
+        <rect class="label-bg" x="107" y="280" width="39" height="20" rx="3"/>
+        <circle class="badge" cx="118" cy="290" r="8"/>
+        <text class="badge-n" x="118" y="290" text-anchor="middle" dominant-baseline="central">6</text>
+        <text class="val" x="130" y="294.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+      </g>
+      <!-- 7 hip_circumference: round the fullest part of the hips and seat -->
+      <g class="m" data-key="hip_circumference">
+        <path class="dim behind" d="M94 324 A56 7 0 0 1 206 324"/>
+        <path class="dim" d="M94 324 A56 7 0 0 0 206 324"/>
+        <rect class="label-bg" x="107" y="314" width="39" height="20" rx="3"/>
+        <circle class="badge" cx="118" cy="324" r="8"/>
+        <text class="badge-n" x="118" y="324" text-anchor="middle" dominant-baseline="central">7</text>
+        <text class="val" x="130" y="328.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+      </g>
+      <!-- 9 inseam: along the inside of the leg, from the crotch to the ankle bone -->
+      <g class="m" data-key="inseam">
+        <path class="dim" d="M154 352 C154.7 364.7 156.5 407.3 158 428 C159.5 448.7 162 461.8 163 476 C164 490.2 164 501 164 513 C164 525 163.5 535.8 163 548 C162.5 560.2 161.3 579.7 161 586"/>
+        <path class="dim" d="M150 352 L158 352 M157 586 L165 586"/>
+        <rect class="label-bg" x="152" y="468" width="39" height="20" rx="3"/>
+        <circle class="badge" cx="163" cy="478" r="8"/>
+        <text class="badge-n" x="163" y="478" text-anchor="middle" dominant-baseline="central">9</text>
+        <text class="val" x="175" y="482.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+      </g>
+      <!-- 8 thigh_circumference: round the fullest part of one thigh, just below the crotch -->
+      <g class="m" data-key="thigh_circumference">
+        <path class="dim behind" d="M98 366 A26 5 0 0 1 150 366"/>
+        <path class="dim" d="M98 366 A26 5 0 0 0 150 366"/>
+        <rect class="label-bg" x="102" y="375" width="39" height="20" rx="3"/>
+        <circle class="badge" cx="113" cy="385" r="8"/>
+        <text class="badge-n" x="113" y="385" text-anchor="middle" dominant-baseline="central">8</text>
+        <text class="val" x="125" y="389.3"><tspan class="num">—</tspan><tspan class="unit" dx="4"></tspan></text>
+      </g>
+    </svg>
+    <p class="tg-note"><span class="en">Girths go all the way round, level and snug; lengths follow the body.</span><span class="it">I giri fanno tutto il giro, orizzontali e aderenti; le lunghezze seguono il corpo.</span><span class="fr">Les tours font tout le tour, à l’horizontale et ajustés ; les longueurs suivent le corps.</span></p>
+  </aside>
   </div>
 
   <section class="block" id="step-4">
@@ -439,9 +571,9 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
 const PAGE_LANG = document.documentElement.lang;
 
 /* ------------------------------------------------------------------- strings
-   Only the messages that appear after an action. Everything a reader sees
-   before acting is written in the HTML. One table per language, with the same
-   keys and the same arguments.                                             */
+   Only the messages that appear after an action, and the count above the
+   drawing as it changes. Everything a reader sees before acting is written in
+   the HTML. One table per language, with the same keys and the same arguments. */
 const UI_BY_LANG = {
   en: {
     valid: "Valid against fit-profile.schema.json v0.1.",
@@ -461,7 +593,8 @@ const UI_BY_LANG = {
     notLessThan: (at, limit) => at + ": cannot be less than " + limit + ".",
     badFormat: (at, format) => at + ": is not a valid " + (format === "date-time" ? "date and time" : format) + ".",
     badName: (at, name) => at + ': "' + name + '" is not a valid name. Names are lowercase letters, digits and underscores.',
-    schemaSays: (path, message) => "The schema says: " + path + " " + message
+    schemaSays: (path, message) => "The schema says: " + path + " " + message,
+    tapeCount: (count, total) => count + " of " + total
   },
   it: {
     valid: "Valido secondo fit-profile.schema.json v0.1.",
@@ -481,7 +614,8 @@ const UI_BY_LANG = {
     notLessThan: (at, limit) => at + ": non può essere minore di " + limit + ".",
     badFormat: (at, format) => at + ": non è " + (format === "date-time" ? "una data e un’ora valide" : "un " + format + " valido") + ".",
     badName: (at, name) => at + ": «" + name + "» non è un nome valido. I nomi sono fatti di lettere minuscole, cifre e trattini bassi.",
-    schemaSays: (path, message) => "Lo schema dice (in inglese): " + path + " " + message
+    schemaSays: (path, message) => "Lo schema dice (in inglese): " + path + " " + message,
+    tapeCount: (count, total) => count + " di " + total
   },
   fr: {
     valid: "Valide selon fit-profile.schema.json v0.1.",
@@ -501,7 +635,8 @@ const UI_BY_LANG = {
     notLessThan: (at, limit) => at + " : ne peut pas être inférieur à " + limit + ".",
     badFormat: (at, format) => at + " : n’est pas " + (format === "date-time" ? "une date et une heure valides" : "un " + format + " valide") + ".",
     badName: (at, name) => at + " : « " + name + " » n’est pas un nom valide. Les noms sont faits de lettres minuscules, de chiffres et de tirets bas.",
-    schemaSays: (path, message) => "Le schéma indique (en anglais) : " + path + " " + message
+    schemaSays: (path, message) => "Le schéma indique (en anglais) : " + path + " " + message,
+    tapeCount: (count, total) => count + " sur " + total
   }
 };
 const UI = Object.assign({}, UI_BY_LANG.en, UI_BY_LANG[PAGE_LANG]);
@@ -551,6 +686,33 @@ function warnIfImplausible(input) {
 function paintUnit() {
   for (const u of document.querySelectorAll(".pom .u")) u.textContent = $("unit").value;
   for (const input of document.querySelectorAll(".measure-value")) warnIfImplausible(input);
+  paintTape();
+}
+
+/* -------------------------------------------------------------- tape guide */
+/* The drawing of the body, beside the measurements, shows what the rows hold, as
+   the drawing of the garment does in the Cut Profile builder: each point its value,
+   or a dash; with the focus on a measurement, the other points fade. It only reads
+   the form. */
+function paintTape() {
+  const unit = $("unit").value;
+  const focused = document.activeElement;
+  const active = focused && focused.matches(".measure-value") ? focused.dataset.key : null;
+  const marks = document.querySelectorAll(".tapeguide .m");
+  let count = 0;
+  for (const g of marks) {
+    const v = num($("m-" + g.dataset.key));
+    if (v !== null) count++;
+    g.querySelector(".num").textContent = v === null ? "—" : String(v);
+    g.querySelector(".unit").textContent = v === null ? "" : unit;
+    /* the label's background grows with its text */
+    const text = g.querySelector(".val");
+    const bg = g.querySelector(".label-bg");
+    const x = parseFloat(text.getAttribute("x")) - parseFloat(bg.getAttribute("x"));
+    bg.setAttribute("width", (x + text.getComputedTextLength() + 8).toFixed(1));
+    g.classList.toggle("dimmed", active !== null && g.dataset.key !== active);
+  }
+  $("tape-count").textContent = UI.tapeCount(count, marks.length);
 }
 
 /* ------------------------------------------------------------------- build */
@@ -709,8 +871,15 @@ paintUnit();
 addEventListener("pageshow", (e) => { if (e.persisted) resetForm(); });
 $("unit").addEventListener("change", paintUnit);
 document.addEventListener("input", (e) => {
-  if (e.target.matches(".measure-value")) warnIfImplausible(e.target);
+  if (e.target.matches(".measure-value")) {
+    warnIfImplausible(e.target);
+    paintTape();
+  }
 });
+document.addEventListener("focusin", paintTape);
+document.addEventListener("focusout", paintTape);
+/* label widths depend on the font: measure again once it has loaded */
+document.fonts.ready.then(paintTape);
 for (const type of ["input", "change"]) {
   document.addEventListener(type, (e) => {
     if (e.target.matches("input, select")) clearResult();
