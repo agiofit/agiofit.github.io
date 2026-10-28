@@ -203,6 +203,22 @@ def check_lang_links(html: str, page: str, lang: str) -> list:
     return problems
 
 
+SVG_TEXT = re.compile(r"<text\b[^>]*>(.*?)</text>", re.S)
+
+
+def check_svg_text_languages(source: str) -> list:
+    """In the trilingual source, an SVG <text> that has language tspans has all three.
+
+    A missing one is not caught later: the page of that language would just print an empty label."""
+    problems = []
+    for m in SVG_TEXT.finditer(source):
+        found = set(re.findall(r'<tspan\b[^>]*\bclass="(en|it|fr)"', m.group(1)))
+        missing = [l for l in LANGS if l not in found]
+        if found and missing:
+            problems.append(f"<text> without its {'/'.join(missing)} tspan, line {line_of(source, m.start())}")
+    return problems
+
+
 def check_page(html: str, page: str, lang: str) -> list:
     """What a generated page must satisfy before it is written. Returns the problems found."""
     problems = check_lang_links(html, page, lang)
@@ -438,6 +454,13 @@ def main() -> int:
             print(f"\n  Nothing written: {src} is missing\n")
             return 1
         text = src.read_text(encoding="utf-8")
+        source_problems = check_svg_text_languages(text)
+        if source_problems:
+            print(f"\n  Nothing written: {page}")
+            for p in source_problems:
+                print(f"      {p}")
+            print()
+            return 1
         for lang in LANGS:
             if not re.search(r'<span class="%s">' % lang, text):
                 print(f"\n  Nothing written: {page} has no {lang} text\n")
