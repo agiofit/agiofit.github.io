@@ -533,6 +533,169 @@ footer .legal a{color:var(--accent-ink)}
           <p class="leaves-level">disclosure_level: result_only</p>
         </div>
       </div>
+
+      <script>
+      // The shirt draws itself, then is measured point by point, in the order of the Cut Profile: each
+      // value lands in its row of the card as it is measured. The markup above is the resting scene and
+      // what every visitor without this script sees. The "What leaves your vault" card is left alone on
+      // purpose: its report comes from comparing a profile with the garment, and no profile is in this
+      // scene. This script sits after the card because it needs the card's rows; the first frame is set
+      // here, before the first paint.
+      (function(){
+        var svg = document.querySelector('svg.shirt'), card = document.querySelector('.cut-card dl');
+        if(!svg || !card || !window.IntersectionObserver || !window.requestAnimationFrame || !window.matchMedia
+           || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        function all(root, sel){ return Array.prototype.slice.call(root.querySelectorAll(sel)); }
+        var garment = svg.querySelector('.garment');
+        var cloth = all(garment, '.cloth'), collars = all(garment, '.collar, .collar-in');
+        var seams = all(garment, '.seam'), buttons = all(garment, '.button');
+        var rows = Array.prototype.slice.call(card.children);
+        var M = all(svg, 'g.m').map(function(m){
+          return {
+            ext: all(m, '.dim.ext'),
+            main: m.querySelector('line.dim:not(.ext):not(.lead)'),
+            ticks: m.querySelector('path.dim:not(.round)'),
+            label: all(m, '.label-bg, .badge, .badge-n, .val'),
+            rounds: all(m, '.dim.round'),
+            lead: m.querySelector('.dim.lead'),
+            inset: all(m, '.inset, .leaf, .band, .button, .hole')
+          };
+        });
+        var dds = rows.map(function(r){ return r.querySelector('dd'); });
+        var ok = cloth.length === 3 && collars.length === 4 && seams.length === 4 && buttons.length === 8
+          && rows.length === 5 && M.length === 5 && M[0].rounds.length === 2 && M[0].lead;
+        M.forEach(function(k, i){ if(i > 0 && (!k.main || !k.ticks)) ok = false; });
+        dds.forEach(function(d){ if(!d) ok = false; });
+        if(!ok) return;
+
+        var DUR = 6000;
+        var START = [1500, 2800, 3350, 3900, 4450];     // when each measure begins
+        var LAND = [START[0] + 1100, START[1] + 480, START[2] + 480, START[3] + 480, START[4] + 480];
+
+        // the resting values, read from the markup: the end of the animation puts exactly these back
+        var grown = M.slice(1).map(function(k){
+          return {el: k.main, x2: k.main.getAttribute('x2'), y2: k.main.getAttribute('y2'),
+                  from: [+k.main.getAttribute('x1'), +k.main.getAttribute('y1'), +k.main.getAttribute('x2'), +k.main.getAttribute('y2')]};
+        });
+        var touched = all(svg, '.garment *, g.m *').concat(rows, dds);
+        var PROPS = ['stroke-dasharray', 'stroke-dashoffset', 'visibility', 'opacity', 'fill-opacity',
+                     'background-color', 'box-shadow', 'border-radius'];
+
+        function undo(el){
+          PROPS.forEach(function(p){ el.style.removeProperty(p); });
+          if(!el.getAttribute('style')) el.removeAttribute('style');
+        }
+        function rest(){
+          grown.forEach(function(g){ g.el.setAttribute('x2', g.x2); g.el.setAttribute('y2', g.y2); });
+          touched.forEach(undo);
+        }
+
+        function seg(t, a, b){ return t <= a ? 0 : t >= b ? 1 : (t - a) / (b - a); }
+        function eOut(p){ return 1 - Math.pow(1 - p, 3); }
+        function eIO(p){ return p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; }
+        function op(el, v, max){ el.style.opacity = v >= 1 ? '' : v * (max || 1); }
+
+        // a zero-length stroke with a round cap draws a dot, so it stays hidden until it has length
+        function draw(el, p){
+          el.style.visibility = p <= 0 ? 'hidden' : '';
+          if(p >= 1){ el.style.removeProperty('stroke-dasharray'); el.style.removeProperty('stroke-dashoffset'); return; }
+          var len = el.__len || (el.__len = el.getTotalLength());
+          el.style.strokeDasharray = len + ' ' + len;
+          el.style.strokeDashoffset = len * (1 - p);
+        }
+        // the same, for the dashed collar lines: they keep their 4 / 3.5 dash while they grow
+        function drawDashed(el, p){
+          el.style.visibility = p <= 0 ? 'hidden' : '';
+          if(p >= 1){ el.style.removeProperty('stroke-dasharray'); return; }
+          var len = el.__len || (el.__len = el.getTotalLength()), shown = len * p, a = [], s = 0;
+          while(s < shown){
+            var d = Math.min(4, shown - s);
+            a.push(d); s += d;
+            if(s >= shown) break;
+            a.push(3.5); s += 3.5;
+          }
+          if(a.length % 2 === 1) a.push(len); else a.push(0, len);
+          el.style.strokeDasharray = shown <= 0 ? '0 ' + len : a.join(' ');
+        }
+        // a straight line growing from its first end to its second
+        function grow(g, p){
+          g.el.setAttribute('x2', g.from[0] + (g.from[2] - g.from[0]) * p);
+          g.el.setAttribute('y2', g.from[1] + (g.from[3] - g.from[1]) * p);
+          op(g.el, p > 0 ? 1 : 0);
+        }
+        // the row lights up with the tape yellow; the shadows widen the fill by 6px a side without moving anything
+        function glow(row, h){
+          var s = row.style;
+          if(h <= 0){ s.removeProperty('background-color'); s.removeProperty('box-shadow'); s.removeProperty('border-radius'); return; }
+          var c = 'color-mix(in srgb, var(--tape) ' + (28 * h).toFixed(2) + '%, var(--surface))';
+          s.backgroundColor = c; s.boxShadow = '-6px 0 0 ' + c + ', 6px 0 0 ' + c; s.borderRadius = '3px';
+        }
+
+        function render(t){
+          // the garment
+          var f = seg(t, 800, 1250);
+          cloth.forEach(function(c, i){
+            draw(c, eIO(seg(t, i * 120, 1000 + i * 120)));
+            c.style.fillOpacity = f >= 1 ? '' : f;
+          });
+          collars.forEach(function(c){ op(c, seg(t, 750, 1100)); });
+          seams.forEach(function(s, i){ draw(s, eOut(seg(t, 1000 + i * 60, 1300 + i * 60))); });
+          buttons.forEach(function(b, i){ op(b, seg(t, 1050 + i * 40, 1250 + i * 40)); });
+
+          // 1 the collar: the dashed line on the band, the call-out, the opened-out inset, button to buttonhole
+          var n = M[0], s0 = START[0];
+          drawDashed(n.rounds[0], eOut(seg(t, s0, s0 + 350)));
+          draw(n.lead, eOut(seg(t, s0 + 300, s0 + 550)));
+          n.inset.forEach(function(e){ op(e, seg(t, s0 + 500, s0 + 750)); });
+          drawDashed(n.rounds[1], eIO(seg(t, s0 + 700, s0 + 1100)));
+          n.label.forEach(function(e){ op(e, seg(t, s0 + 1050, s0 + 1250)); });
+
+          // 2 to 5: the extensions, the run from end to end, the ticks, the label
+          for(var i = 1; i < 5; i++){
+            var k = M[i], s = START[i];
+            k.ext.forEach(function(e){ op(e, seg(t, s, s + 150), .75); });
+            grow(grown[i - 1], eIO(seg(t, s + 100, s + 450)));
+            op(k.ticks, seg(t, s + 380, s + 480));
+            k.label.forEach(function(e){ op(e, seg(t, s + 450, s + 650)); });
+          }
+
+          // the Cut Profile: each value arrives as its measure lands, and its row lights up briefly
+          rows.forEach(function(r, j){
+            var a = LAND[j];
+            op(dds[j], seg(t, a, a + 200));
+            glow(r, t < a ? 0 : 1 - seg(t, a + 250, a + 1000));
+          });
+        }
+
+        var run = 0, raf = 0, io = null;
+        function play(){
+          cancelAnimationFrame(raf);
+          var token = ++run, t0 = null;
+          rest(); render(0);
+          function frame(now){
+            if(token !== run) return;
+            if(t0 === null) t0 = now;
+            var t = now - t0;
+            if(t >= DUR){ rest(); return; }
+            render(t);
+            raf = requestAnimationFrame(frame);
+          }
+          raf = requestAnimationFrame(frame);
+        }
+
+        // frame 0 now, play when at least half of the figure is on screen (once)
+        render(0);
+        io = new IntersectionObserver(function(entries){
+          entries.forEach(function(e){
+            if(e.isIntersecting && (e.intersectionRatio >= .5 || e.intersectionRect.height >= innerHeight / 2)){
+              io.disconnect(); play();
+            }
+          });
+        }, {threshold: [.25, .5]});
+        io.observe(svg);
+      })();
+      </script>
     </div>
   </div>
 
