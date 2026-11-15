@@ -1,10 +1,10 @@
 # Agio Fit
 
-> Agio Fit is an open data model (v0.1 draft) for a portable fit profile owned by the person, not the platform. Three JSON documents: the Fit Profile (the person's body measurements, preferences and fit history), the Cut Profile (how a garment is cut, published by the seller) and the Match Report (the only document that travels between the two). By default a shop receives a size and how sure the answer is, never the person's measurements.
+> Agio Fit is an open data model (v0.2 draft) for a portable fit profile owned by the person, not the platform. Three JSON documents: the Fit Profile (the person's body measurements, preferences and fit history), the Cut Profile (how a garment is cut, published by the seller) and the Match Report (the only document that travels between the two). A fourth, the Match Request, is what a shop sends to ask for a report: which garment, at what level, who is asking, and nothing about the person. By default a shop receives a size and how sure the answer is, never the person's measurements.
 
 Key ideas, stated as the specification states them:
 
-- The profile lives in a vault the person chooses. The match runs where the profile lives; only the Match Report leaves, at a disclosure level the person controls (full, scoped, explained, result_only). The profile itself leaves at no level.
+- The profile lives in a vault the person chooses, and the specification says what a vault has to guarantee, not how it is built: the model it is written for keeps the profile and computes the match on the person's own device. The match runs where the profile lives; only the Match Report leaves, at a disclosure level the person controls (full, scoped, explained, result_only). The profile itself leaves at no level.
 - The arithmetic leak: ease in centimetres published next to a garment's finished measurements reveals body measurements by subtraction. Below scoped, ease values are stripped from the report.
 - Confidence is exposed, decomposed per zone and capped when data is thin: a cold start, with sizes only and no measurements, never goes above 0.40.
 - The algorithm is not normative. The shape of the answer is: exposed confidence, per-zone reasoning, correctability.
@@ -24,11 +24,14 @@ Licensing is split: the specification is CC BY 4.0; the reference implementation
 
 Every page above is also available in Italian (https://agiofit.org/it/ · https://agiofit.org/it/guide/ · https://agiofit.org/it/builder/ · https://agiofit.org/it/builder/cut-profile/ · https://agiofit.org/it/builder/fit-profile/) and French (https://agiofit.org/fr/ · https://agiofit.org/fr/guide/ · https://agiofit.org/fr/builder/ · https://agiofit.org/fr/builder/cut-profile/ · https://agiofit.org/fr/builder/fit-profile/).
 
-## Schemas (JSON Schema 2020-12, v0.1)
+## Schemas (JSON Schema 2020-12, v0.2)
 
-- [Fit Profile schema](https://agiofit.org/schemas/v0.1/fit-profile.schema.json): the person's document
-- [Cut Profile schema](https://agiofit.org/schemas/v0.1/cut-profile.schema.json): the seller's document
-- [Match Report schema](https://agiofit.org/schemas/v0.1/match-report.schema.json): what travels
+- [Fit Profile schema](https://agiofit.org/schemas/v0.2/fit-profile.schema.json): the person's document
+- [Cut Profile schema](https://agiofit.org/schemas/v0.2/cut-profile.schema.json): the seller's document
+- [Match Report schema](https://agiofit.org/schemas/v0.2/match-report.schema.json): what travels
+- [Match Request schema](https://agiofit.org/schemas/v0.2/match-request.schema.json): what a shop sends to ask for a report
+
+The v0.1 schemas stay where they were published: [Fit Profile](https://agiofit.org/schemas/v0.1/fit-profile.schema.json), [Cut Profile](https://agiofit.org/schemas/v0.1/cut-profile.schema.json), [Match Report](https://agiofit.org/schemas/v0.1/match-report.schema.json). What changed between the two versions: https://raw.githubusercontent.com/agiofit/agiofit/main/spec/07-changes.md
 
 ## Specification
 

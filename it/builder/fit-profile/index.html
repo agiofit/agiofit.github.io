@@ -298,7 +298,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
       <a href="/it/builder/fit-profile/" hreflang="it" lang="it" aria-label="Italiano" aria-current="true">IT</a>
       <a href="/fr/builder/fit-profile/" hreflang="fr" lang="fr" aria-label="Français">FR</a>
     </div>
-    <span class="sitenav-ver">v0.1 draft</span>
+    <span class="sitenav-ver">v0.2 draft</span>
     <a class="sitenav-gh" href="https://github.com/agiofit/agiofit" title="Specification and reference implementation">GitHub <span aria-hidden="true">&#8599;</span></a>
   </div>
 </nav>
@@ -326,7 +326,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
     <div class="status">
       <dl>
         <div><dt id="s-writes-t">Scrive</dt><dd id="s-writes">Fit Profile, una persona</dd></div>
-        <div><dt id="s-schema-t">Verificato con</dt><dd id="s-schema">fit-profile.schema.json v0.1.0</dd></div>
+        <div><dt id="s-schema-t">Verificato con</dt><dd id="s-schema">fit-profile.schema.json v0.2.0</dd></div>
         <div><dt id="s-status-t">Stato</dt><dd id="s-status">bozza: il modello può ancora cambiare</dd></div>
         <div><dt id="s-data-t">I tuoi dati</dt><dd id="s-data">restano in questa pagina. Non viene inviato né conservato nulla: chiusa la pagina non ci sono più, quindi scarica prima il file.</dd></div>
       </dl>
@@ -595,7 +595,7 @@ const PAGE_LANG = document.documentElement.lang;
    the HTML. One table per language, with the same keys and the same arguments. */
 const UI_BY_LANG = {
   en: {
-    valid: "Valid against fit-profile.schema.json v0.1.",
+    valid: "Valid against fit-profile.schema.json v0.2.",
     invalid: "Not valid yet:",
     needOne: "Fill in at least one measurement.",
     notNumber: (key, text) => key + ': "' + text + '" is not a number. Write just the number, such as 98 or 41.5.',
@@ -616,7 +616,7 @@ const UI_BY_LANG = {
     tapeCount: (count, total) => count + " of " + total
   },
   it: {
-    valid: "Valido secondo fit-profile.schema.json v0.1.",
+    valid: "Valido secondo fit-profile.schema.json v0.2.",
     invalid: "Non ancora valido:",
     needOne: "Compila almeno una misura.",
     notNumber: (key, text) => key + ": «" + text + "» non è un numero. Scrivi solo il numero, come 98 o 41,5.",
@@ -637,7 +637,7 @@ const UI_BY_LANG = {
     tapeCount: (count, total) => count + " di " + total
   },
   fr: {
-    valid: "Valide selon fit-profile.schema.json v0.1.",
+    valid: "Valide selon fit-profile.schema.json v0.2.",
     invalid: "Pas encore valide :",
     needOne: "Remplissez au moins une mesure.",
     notNumber: (key, text) => key + " : « " + text + " » n’est pas un nombre. Écrivez seulement le nombre, comme 98 ou 41,5.",
@@ -660,7 +660,7 @@ const UI_BY_LANG = {
 };
 const UI = Object.assign({}, UI_BY_LANG.en, UI_BY_LANG[PAGE_LANG]);
 
-const SCHEMA_URL = "/schemas/v0.1/fit-profile.schema.json";
+const SCHEMA_URL = "/schemas/v0.2/fit-profile.schema.json";
 
 const $ = (id) => document.getElementById(id);
 
@@ -751,7 +751,7 @@ function collect() {
     if (v !== null) measurements[input.dataset.key] = { value: v, unit, source, observed_at: now };
   }
   const doc = {
-    schema_version: "0.1.0",
+    schema_version: "0.2.0",
     profile_id: crypto.randomUUID(),
     updated_at: now,
     units: { length: unit }

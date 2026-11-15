@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agiofit.org/schemas/v0.2/cut-profile.schema.json",
+  "title": "Cut Profile",
+  "description": "How a specific garment is actually cut, size by size. The counterpart a Fit Profile is matched against.",
+  "type": "object",
+  "required": ["schema_version", "cut_profile_id", "category", "size_system", "sizes", "measurement_method", "provenance"],
+  "$defs": {
+    "zone": {
+      "description": "The shared zone vocabulary. Kept identical to the enum of the same name in the Fit Profile schema, by copy rather than by reference so that a Cut Profile can be validated on its own; a test in the reference implementation fails if the two ever diverge.",
+      "enum": [
+        "overall",
+        "neck",
+        "shoulders",
+        "chest",
+        "bust",
+        "waist",
+        "hip",
+        "thigh",
+        "calf",
+        "sleeve_length",
+        "arm_width",
+        "inseam",
+        "rise",
+        "total_length",
+        "foot_length",
+        "foot_width"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "0.2.0" },
+    "cut_profile_id": {
+      "type": "string",
+      "description": "Identifies this document, and is the only link between a Match Report and the profile that produced it. No form is prescribed beyond being usable as an identifier: a readable key, a UUID and a URL are all fine. Uniqueness cannot be checked by a schema, which knows nothing of other documents, so this constrains the shape and not the collision.",
+      "minLength": 8,
+      "pattern": "^\\S{8,}$"
+    },
+    "brand": { "type": "string" },
+    "style_id": { "type": "string" },
+    "style_name": { "type": "string" },
+    "category": {
+      "enum": ["tops", "shirts", "knitwear", "outerwear", "tailoring", "dresses", "trousers", "jeans", "skirts", "activewear", "underwear", "swimwear", "footwear", "accessories"]
+    },
+    "cut": {
+      "enum": ["very_fitted", "fitted", "regular", "relaxed", "oversized"],
+      "description": "The designer's intent for the garment as a whole, on the same five-point scale a person uses to state a preference, so that a person reads both the same way. Descriptive: a consumer should not compute with it. What a consumer computes with is intended_ease, zone by zone."
+    },
+    "size_system": {
+      "enum": ["EU", "IT", "FR", "UK", "US", "JP", "alpha", "numeric_waist_inseam", "brand_specific"]
+    },
+    "measurement_method": {
+      "enum": ["flat_laid", "circumference"],
+      "description": "Flat-laid measurements are half-circumferences and MUST be doubled before comparison with body circumferences. Getting this wrong silently produces answers that are off by a factor of two, which is why it is required. There are two values and no third: where the tape went is something whoever publishes the numbers is expected to know, and a profile that cannot say is not ready to be published. Earlier drafts also allowed iso_8559, which is a standard for measuring bodies and belongs in a Fit Profile, and brand_defined, which named a method no reader could ever learn."
+    },
+    "sizes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["size_label", "finished_measurements"],
+        "additionalProperties": false,
+        "properties": {
+          "size_label": { "type": "string" },
+          "gtins": {
+            "description": "Global Trade Item Numbers for this size. A list because one cut is usually sold in several colours, and GS1 requires a distinct GTIN for every sellable combination of style, colour and size. The check digit is not verified here.",
+            "type": "array",
+            "items": { "type": "string", "pattern": "^[0-9]{8}$|^[0-9]{12,14}$" },
+            "minItems": 1
+          },
+          "finished_measurements": {
+            "type": "object",
+            "minProperties": 1,
+            "description": "Keys are the shared measurement vocabulary defined in the specification, which states where to put the tape for each. A name outside that list is not a dialect but an error, so it is rejected here; a measurement the vocabulary has no name for belongs under the x_ prefix, where it stays valid and is visibly an extension.",
+            "propertyNames": {
+              "anyOf": [
+                { "enum": [
+                  "back_rise",
+                  "calf_width",
+                  "chest_width",
+                  "cuff_width",
+                  "front_rise",
+                  "hem_width",
+                  "hip_width",
+                  "inseam",
+                  "knee_width",
+                  "neck_circumference",
+                  "outseam",
+                  "shoulder_width",
+                  "sleeve_length",
+                  "sleeve_width",
+                  "thigh_width",
+                  "waist_width"
+                ] },
+                { "pattern": "^x_[a-z][a-z0-9_]*$" }
+              ]
+            },
+            "additionalProperties": {
+              "type": "object",
+              "required": ["value", "unit"],
+              "additionalProperties": false,
+              "properties": {
+                "value": { "type": "number", "exclusiveMinimum": 0 },
+                "unit": { "enum": ["cm", "in"] },
+                "tolerance": { "type": "number", "minimum": 0, "description": "Overrides production_tolerance for this measurement." }
+              }
+            }
+          },
+          "availability": {
+            "enum": ["in_stock", "low_stock", "out_of_stock", "unknown"],
+            "description": "Advisory only. Availability is the commerce protocol's job; it appears here so a match report can avoid proposing a size nobody can buy."
+          }
+        }
+      }
+    },
+    "intended_ease": {
+      "type": "object",
+      "description": "The ease the designer intended at each zone, as a range. Where absent, an implementation falls back to a category default and MUST lower confidence accordingly.",
+      "propertyNames": {
+        "anyOf": [
+          { "$ref": "#/$defs/zone" },
+          { "pattern": "^x_[a-z][a-z0-9_]*$" }
+        ]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["min", "max", "unit"],
+        "additionalProperties": false,
+        "properties": {
+          "min": { "type": "number" },
+          "max": { "type": "number" },
+          "unit": { "enum": ["cm", "in"] }
+        }
+      }
+    },
+    "fabric": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "stretch_class": { "enum": ["none", "low", "medium", "high"] },
+        "stretch_pct": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "horizontal": { "type": "number", "minimum": 0 },
+            "vertical": { "type": "number", "minimum": 0 }
+          },
+          "description": "Percentage of comfortable extension, not extension to failure. Only the comfortable range is usable for fit."
+        },
+        "recovery": { "enum": ["poor", "moderate", "good"] },
+        "composition": {
+          "type": "string",
+          "description": "The fibre content as printed on the care label, copied as written. In the EU that label already follows Regulation 1007/2011: percentages and fibre names in descending order by weight."
+        }
+      }
+    },
+    "production_tolerance": {
+      "type": "object",
+      "required": ["value", "unit"],
+      "additionalProperties": false,
+      "properties": {
+        "value": { "type": "number", "minimum": 0 },
+        "unit": { "enum": ["cm", "in"] }
+      },
+      "description": "Default plus/minus applied to every finished measurement. Two garments of the same size are not identical objects, and an answer that pretends otherwise is overconfident."
+    },
+    "critical_zones": {
+      "type": "array",
+      "description": "Zones where a mismatch cannot be tolerated or altered — shoulders on a tailored jacket, rise on trousers. Overrides the category defaults used by the reference implementation.",
+      "items": {
+        "anyOf": [
+          { "$ref": "#/$defs/zone" },
+          { "pattern": "^x_[a-z][a-z0-9_]*$" }
+        ]
+      }
+    },
+	"derived_from": {
+      "type": "object",
+      "description": "The profile this one was built from, when there is one. Most profiles derive from nothing. Asserted in good faith: this document carries no identity, so nothing prevents a third party from claiming to supersede a profile that is not theirs. Verifiable provenance is deferred to a later version.",
+      "required": ["cut_profile_id", "relationship"],
+      "additionalProperties": false,
+      "properties": {
+        "cut_profile_id": {
+          "type": "string",
+          "minLength": 8,
+          "pattern": "^\\S{8,}$"
+        },
+        "relationship": {
+          "description": "supersedes: the earlier profile should no longer be used to recommend a size, although it remains readable and is not withdrawn. extends: both profiles remain valid and this one carries more measurements.",
+          "enum": ["supersedes", "extends"]
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["published_by"],
+      "additionalProperties": false,
+      "properties": {
+        "published_by": {
+          "enum": ["brand", "manufacturer", "retailer", "marketplace_seller", "community", "measured_by_owner"],
+          "description": "Who is making the claim, and nothing else. A community-measured second-hand jacket and a brand-published spec are both useful and are not the same thing, which is why the field is required. It is not a quality score and no weight is assigned to its values: a consumer that weights them anyway should say so in its output."
+        },
+        "verification_method": {
+          "description": "What was actually done to check these numbers, in plain words, when something was. A remeasure by a second person, a sample of units per size checked against the production tolerance, and a claim that the file comes from the brand are three different things that no single flag could tell apart, which is why there is no boolean here. Nothing in this version can confirm any of it, so a reader should treat this as a statement by the publisher rather than as evidence.",
+          "type": "string"
+        },
+        "source_url": { "type": "string", "format": "uri" },
+        "dpp_id": {
+          "type": "string",
+          "description": "Digital Product Passport identifier where one exists. The DPP is the natural long-term carrier for this document, even though its current scope is materials, durability and circularity rather than fit."
+        },
+        "published_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

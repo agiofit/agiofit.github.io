@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agiofit.org/schemas/v0.2/match-request.schema.json",
+  "title": "Match Request",
+  "description": "What a verifier sends to ask for a Match Report: which garment, at what level, and who is asking. It says nothing about the person it is sent to, and a verifier sends the same one to everyone. A document, not a protocol: how it travels is not said here.",
+  "type": "object",
+  "required": ["schema_version", "cut_profile_id", "verifier"],
+  "additionalProperties": false,
+  "$defs": {
+    "address": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://[^\\s/?#@]+(/[^\\s?#]*)?$",
+      "description": "An https address with no credentials, no query and no fragment: the places where something that differs from one person to the next usually travels. A vault contacts no address a request names before the person has authorised the request."
+    }
+  },
+  "properties": {
+    "schema_version": { "const": "0.2.0" },
+    "cut_profile_id": {
+      "type": "string",
+      "minLength": 8,
+      "pattern": "^\\S{8,}$",
+      "description": "The Cut Profile to match against, by its own identifier. A vault answers about a document that carries this identifier and declines when the one it has carries another."
+    },
+    "cut_profile_uri": {
+      "$ref": "#/$defs/address",
+      "description": "Where the Cut Profile can be fetched, when it does not travel with the request."
+    },
+    "verifier": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "description": "Who is asking, as they say it of themselves: a claim to show the person, not proof.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "pattern": "\\S",
+          "description": "The name the person is shown before they authorise the request."
+        },
+        "uri": { "$ref": "#/$defs/address" }
+      }
+    },
+    "disclosure_level": {
+      "enum": ["result_only", "explained", "scoped", "full"],
+      "description": "The level asked. Kept identical to the enum in the other schemas, by copy rather than by reference; a test in the reference implementation fails if they ever diverge. When absent, the level asked is the person's own default. The report is serialised at the lower of the level asked and the level the person authorised."
+    },
+    "justification": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "pattern": "\\S",
+      "description": "Why this level is needed, in words the person is shown before they authorise. Required when the level asked is full."
+    }
+  },
+  "if": {
+    "required": ["disclosure_level"],
+    "properties": { "disclosure_level": { "const": "full" } }
+  },
+  "then": { "required": ["justification"] }
+}

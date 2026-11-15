@@ -486,8 +486,13 @@ def main() -> int:
         return 1
 
     urls = [f"{SITE}/{out_path(p, l)}" for p in PAGES for l in LANGS]
-    schemas = ["fit-profile", "cut-profile", "match-report"]
-    sitemap_urls = urls + [f"{SITE}/schemas/v0.1/{s}.schema.json" for s in schemas]
+    # every version ever published stays listed: a published schema is never taken down
+    published = {
+        "v0.1": ["fit-profile", "cut-profile", "match-report"],
+        "v0.2": ["fit-profile", "cut-profile", "match-report", "match-request"],
+    }
+    sitemap_urls = urls + [f"{SITE}/schemas/{v}/{s}.schema.json"
+                           for v, names in published.items() for s in names]
 
     # every sitemap URL needs its file; the pages this run writes count as present
     planned = {ROOT / out_path(page, lang) / "index.html" for page, lang, _ in plan}

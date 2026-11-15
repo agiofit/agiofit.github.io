@@ -343,9 +343,9 @@ footer .legal a{color:var(--accent-ink)}
       "@type": "TechArticle",
       "@id": "https://agiofit.org/#specification",
       "name": "Agio Fit: an open data model for a portable fit profile",
-      "description": "An open data model for a portable, person-owned fit profile. Three JSON Schema 2020-12 documents: Fit Profile (the person), Cut Profile (how a garment is cut, size by size) and Match Report (the explained recommendation). The profile stays with the person; only the result is disclosed.",
+      "description": "An open data model for a portable, person-owned fit profile. Four JSON Schema 2020-12 documents: Fit Profile (the person), Cut Profile (how a garment is cut, size by size), Match Report (the explained recommendation) and Match Request (what a shop sends to ask for one). The profile stays with the person; only the result is disclosed.",
       "url": "https://agiofit.org/",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "author": {"@id": "https://agiofit.org/#author"},
       "sameAs": "https://doi.org/10.5281/zenodo.21922898"
@@ -377,7 +377,7 @@ footer .legal a{color:var(--accent-ink)}
       <button type="button" id="btn-it" aria-pressed="false" onclick="setLang('it')">IT</button>
       <button type="button" id="btn-fr" aria-pressed="false" onclick="setLang('fr')">FR</button>
     </div>
-    <span class="sitenav-ver">v0.1 draft</span>
+    <span class="sitenav-ver">v0.2 draft</span>
     <a class="sitenav-gh" href="https://github.com/agiofit/agiofit" title="Specification and reference implementation">GitHub <span aria-hidden="true">&#8599;</span></a>
   </div>
 </nav>
@@ -388,7 +388,7 @@ footer .legal a{color:var(--accent-ink)}
   <div class="hero">
     <div class="hero-text">
       <p class="eyebrow">
-        <span class="it">v0.1 draft · standard aperto · un progetto personale di <a class="credit" href="https://github.com/antferr">antferr</a></span><span class="en">v0.1 draft · open standard · a personal project by <a class="credit" href="https://github.com/antferr">antferr</a></span><span class="fr">v0.1 draft · standard ouvert · un projet personnel de <a class="credit" href="https://github.com/antferr">antferr</a></span>
+        <span class="it">v0.2 draft · standard aperto · un progetto personale di <a class="credit" href="https://github.com/antferr">antferr</a></span><span class="en">v0.2 draft · open standard · a personal project by <a class="credit" href="https://github.com/antferr">antferr</a></span><span class="fr">v0.2 draft · standard ouvert · un projet personnel de <a class="credit" href="https://github.com/antferr">antferr</a></span>
       </p>
       <h1>Agio&nbsp;Fit
         <span class="tagline"><span class="it">il profilo di vestibilità è tuo. Ovunque.</span><span class="en">your fit profile is yours. Everywhere.</span><span class="fr">votre profil de bien-aller vous appartient. Partout.</span></span>
@@ -569,9 +569,9 @@ footer .legal a{color:var(--accent-ink)}
   <p class="kicker"><span class="it">Cosa è</span><span class="en">What it is</span><span class="fr">Ce que c'est</span></p>
   <h2><span class="it">Tre documenti JSON, una raccomandazione spiegata</span><span class="en">Three JSON documents, one explained recommendation</span><span class="fr">Trois documents JSON, une recommandation expliquée</span></h2>
   <p class="intro">
-    <span class="it">Il primo lo possiedi tu. Il secondo lo pubblica chi vende. Il terzo è l'unica cosa che viaggia tra i due — con la confidenza esposta e le ragioni per zona, mai una taglia calata dall'alto.</span>
-    <span class="en">You own the first. The seller publishes the second. The third is the only thing that travels between the two — confidence exposed, per-zone reasoning, never a size handed down from a black box.</span>
-    <span class="fr">Le premier vous appartient. Le second est publié par le vendeur. Le troisième est la seule chose qui circule entre les deux — confiance exposée, raisonnement par zone, jamais une taille tombée d'une boîte noire.</span>
+    <span class="it">Il primo lo possiedi tu. Il secondo lo pubblica chi vende. Il terzo è l'unica cosa che viaggia tra i due — con la confidenza esposta e le ragioni per zona, mai una taglia calata dall'alto. Per chiederlo, chi vende manda una Match Request: quale capo, a quale livello, chi chiede, e niente sulla persona.</span>
+    <span class="en">You own the first. The seller publishes the second. The third is the only thing that travels between the two — confidence exposed, per-zone reasoning, never a size handed down from a black box. To ask for it, the seller sends a Match Request: which garment, at what level, who is asking, and nothing about the person.</span>
+    <span class="fr">Le premier vous appartient. Le second est publié par le vendeur. Le troisième est la seule chose qui circule entre les deux — confiance exposée, raisonnement par zone, jamais une taille tombée d'une boîte noire. Pour le demander, le vendeur envoie une Match Request : quel vêtement, à quel niveau, qui demande, et rien sur la personne.</span>
   </p>
   <!-- the excerpts are cut from the repository's examples; "..." says the real file has more fields -->
   <div class="docs">
@@ -588,7 +588,7 @@ footer .legal a{color:var(--accent-ink)}
   <span class="k">"tolerance"</span>: <span class="n">1.0</span>,
   ...
 }</pre>
-      <a class="schema" href="schemas/v0.1/fit-profile.schema.json">schemas/v0.1/fit-profile.schema.json</a>
+      <a class="schema" href="schemas/v0.2/fit-profile.schema.json">schemas/v0.2/fit-profile.schema.json</a>
     </div>
     <div class="op" aria-hidden="true"></div>
     <div class="doc">
@@ -605,7 +605,7 @@ footer .legal a{color:var(--accent-ink)}
   },
   ...
 }</pre>
-      <a class="schema" href="schemas/v0.1/cut-profile.schema.json">schemas/v0.1/cut-profile.schema.json</a>
+      <a class="schema" href="schemas/v0.2/cut-profile.schema.json">schemas/v0.2/cut-profile.schema.json</a>
     </div>
     <div class="op to" aria-hidden="true"></div>
     <div class="doc">
@@ -622,7 +622,7 @@ footer .legal a{color:var(--accent-ink)}
 <span class="k">"confidence"</span>: <span class="n"><!-- ref:mature/result_only/confidence -->0.84<!-- /ref:mature/result_only/confidence --></span>,
 <span class="k">"correctable"</span>: <span class="n">true</span>,
 ...</pre>
-      <a class="schema" href="schemas/v0.1/match-report.schema.json">schemas/v0.1/match-report.schema.json</a>
+      <a class="schema" href="schemas/v0.2/match-report.schema.json">schemas/v0.2/match-report.schema.json</a>
     </div>
   </div>
   <p class="docs-note"><span class="en">The match runs where the profile lives, and only the report travels. The excerpts come from the repository's examples; the guide shows the exact report at every level.</span><span class="it">Il confronto avviene dove vive il profilo, e viaggia solo il report. Gli estratti vengono dagli esempi del repository; la guida mostra il report esatto a ogni livello.</span><span class="fr">La comparaison se fait là où vit le profil, et seul le rapport circule. Les extraits viennent des exemples du dépôt ; le guide montre le rapport exact à chaque niveau.</span></p>
@@ -722,7 +722,7 @@ footer .legal a{color:var(--accent-ink)}
   <h2><span class="it">Cosa non è, dichiarato prima che lo chiediate</span><span class="en">What it is not, stated before you ask</span><span class="fr">Ce que ce n'est pas, déclaré avant qu'on le demande</span></h2>
   <div class="scope-list">
     <p><span class="it"><b>Non un fornitore di size recommendation.</b> L'argomento è proprietà e portabilità; diventare un altro silo lo distruggerebbe.</span><span class="en"><b>Not a size-recommendation vendor.</b> The argument is ownership and portability; becoming another silo would destroy it.</span><span class="fr"><b>Pas un fournisseur de recommandation de taille.</b> L'argument est la propriété et la portabilité ; devenir un silo de plus le détruirait.</span></p>
-    <p><span class="it"><b>Non un sistema di identità.</b> Il profilo vive in un vault scelto dalla persona; autenticazione e custodia sono rimandate ai wallet esistenti.</span><span class="en"><b>Not an identity system.</b> The profile lives in a vault the person chooses; authentication and custody are deferred to existing wallets.</span><span class="fr"><b>Pas un système d'identité.</b> Le profil vit dans un vault choisi par la personne ; authentification et garde sont déléguées aux wallets existants.</span></p>
+    <p><span class="it"><b>Non un sistema di identità.</b> Il profilo vive in un vault scelto dalla persona, e la risposta non nomina né il profilo né la persona. La specifica dice cosa un vault deve garantire, non come è fatto.</span><span class="en"><b>Not an identity system.</b> The profile lives in a vault the person chooses, and the answer names neither the profile nor the person. The specification says what a vault has to guarantee, not how it is built.</span><span class="fr"><b>Pas un système d'identité.</b> Le profil vit dans un vault choisi par la personne, et la réponse ne nomme ni le profil ni la personne. La spécification dit ce qu'un vault doit garantir, pas comment il est fait.</span></p>
     <p><span class="it"><b>Non una tecnologia di scansione.</b> Il modello accetta misure da qualunque fonte — e ne dichiara la qualità invece di fingerla uniforme.</span><span class="en"><b>Not a scanning technology.</b> The model accepts measurements from any source — and declares their quality instead of pretending it uniform.</span><span class="fr"><b>Pas une technologie de scan.</b> Le modèle accepte des mesures de toute source — et en déclare la qualité au lieu de la feindre uniforme.</span></p>
     <p><span class="it"><b>Non un aggregatore di tabelle taglie.</b> Le tabelle dicono come un brand <em>chiama</em> una taglia, non come il capo è tagliato.</span><span class="en"><b>Not a size-chart aggregator.</b> Charts say what a brand <em>calls</em> a size, not how the garment is cut.</span><span class="fr"><b>Pas un agrégateur de guides des tailles.</b> Les guides disent comment une marque <em>nomme</em> une taille, pas comment le vêtement est coupé.</span></p>
     <p><span class="it"><b>Non un protocollo.</b> È un modello dati: funziona su una normale API HTTP, e l'algoritmo non è normativo — normativa è la forma della risposta.</span><span class="en"><b>Not a protocol.</b> It is a data model: it works over a plain HTTP API, and the algorithm is not normative — the shape of the answer is.</span><span class="fr"><b>Pas un protocole.</b> C'est un modèle de données : il fonctionne sur une simple API HTTP, et l'algorithme n'est pas normatif — la forme de la réponse l'est.</span></p>
@@ -732,10 +732,10 @@ footer .legal a{color:var(--accent-ink)}
 <!-- ============ status and getting involved ============ -->
 <section class="section" id="status">
   <p class="kicker"><span class="it">Stato</span><span class="en">Status</span><span class="fr">État</span></p>
-  <h2><span class="it">v0.1 draft, in pubblico</span><span class="en">v0.1 draft, in the open</span><span class="fr">v0.1 draft, au grand jour</span></h2>
+  <h2><span class="it">v0.2 draft, in pubblico</span><span class="en">v0.2 draft, in the open</span><span class="fr">v0.2 draft, au grand jour</span></h2>
   <div class="status">
     <dl>
-      <div><dt><span class="en">Version</span><span class="it">Versione</span><span class="fr">Version</span></dt><dd><span class="badge-draft">v0.1 draft</span> <span class="en">nothing is stable before 1.0</span><span class="it">niente è stabile prima della 1.0</span><span class="fr">rien n'est stable avant la 1.0</span></dd></div>
+      <div><dt><span class="en">Version</span><span class="it">Versione</span><span class="fr">Version</span></dt><dd><span class="badge-draft">v0.2 draft</span> <span class="en">nothing is stable before 1.0</span><span class="it">niente è stabile prima della 1.0</span><span class="fr">rien n'est stable avant la 1.0</span></dd></div>
       <div><dt><span class="en">Schema identifiers</span><span class="it">Identificatori degli schemi</span><span class="fr">Identifiants des schémas</span></dt><dd><span class="en">stay resolvable; breaking changes bump the version</span><span class="it">restano risolvibili; le rotture incrementano la versione</span><span class="fr">restent résolubles ; les ruptures incrémentent la version</span></dd></div>
       <div><dt><span class="en">Specification</span><span class="it">Specifica</span><span class="fr">Spécification</span></dt><dd>CC BY 4.0</dd></div>
       <div><dt><span class="en">Reference implementation</span><span class="it">Implementazione di riferimento</span><span class="fr">Implémentation de référence</span></dt><dd><span class="en">Python · Apache 2.0 · zero runtime dependencies</span><span class="it">Python · Apache 2.0 · zero dipendenze a runtime</span><span class="fr">Python · Apache 2.0 · zéro dépendance à l'exécution</span></dd></div>

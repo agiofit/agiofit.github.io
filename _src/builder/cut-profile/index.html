@@ -336,7 +336,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
       <a href="/it/builder/cut-profile/" hreflang="it" lang="it" aria-label="Italiano">IT</a>
       <a href="/fr/builder/cut-profile/" hreflang="fr" lang="fr" aria-label="Français">FR</a>
     </div>
-    <span class="sitenav-ver">v0.1 draft</span>
+    <span class="sitenav-ver">v0.2 draft</span>
     <a class="sitenav-gh" href="https://github.com/agiofit/agiofit" title="Specification and reference implementation">GitHub <span aria-hidden="true">&#8599;</span></a>
   </div>
 </nav>
@@ -370,7 +370,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
     <div class="status">
       <dl>
         <div><dt id="s-writes-t"><span class="en">Writes</span><span class="it">Scrive</span><span class="fr">Écrit</span></dt><dd id="s-writes"><span class="en">Cut Profile, one garment</span><span class="it">Cut Profile, un capo</span><span class="fr">Cut Profile, un vêtement</span></dd></div>
-        <div><dt id="s-schema-t"><span class="en">Checked against</span><span class="it">Verificato con</span><span class="fr">Vérifié avec</span></dt><dd id="s-schema">cut-profile.schema.json v0.1.0</dd></div>
+        <div><dt id="s-schema-t"><span class="en">Checked against</span><span class="it">Verificato con</span><span class="fr">Vérifié avec</span></dt><dd id="s-schema">cut-profile.schema.json v0.2.0</dd></div>
         <div><dt id="s-status-t"><span class="en">Status</span><span class="it">Stato</span><span class="fr">État</span></dt><dd id="s-status"><span class="en">draft — the model may still change</span><span class="it">bozza: il modello può ancora cambiare</span><span class="fr">brouillon : le modèle peut encore changer</span></dd></div>
         <div><dt id="s-data-t"><span class="en">Your data</span><span class="it">I tuoi dati</span><span class="fr">Vos données</span></dt><dd id="s-data"><span class="en">stays in this browser, nothing is sent. A draft is kept here until you download the file.</span><span class="it">restano in questo browser, non viene inviato nulla. Una bozza resta qui finché non scarichi il file.</span><span class="fr">restent dans ce navigateur, rien n’est envoyé. Un brouillon est gardé ici jusqu’au téléchargement du fichier.</span></dd></div>
       </dl>
@@ -1169,7 +1169,7 @@ const CATEGORIES = {
    English one.                                                             */
 const UI_BY_LANG = {
   en: {
-    valid: "Valid against cut-profile.schema.json v0.1.",
+    valid: "Valid against cut-profile.schema.json v0.2.",
     invalid: "Not valid yet:",
     needOne: "Fill in at least one measurement.",
     needSize: "Every size needs a label.",
@@ -1200,7 +1200,8 @@ const UI_BY_LANG = {
     schemaSays: (path, message) => "The schema says: " + path + " " + message,
     notJsonFile: (name) => name + " is not a JSON file this page can read.",
     openSchemaFail: "Could not load the schema to check the file against. It was not opened.",
-    notValidProfile: (name) => name + " is not a valid Cut Profile v0.1, so it was not opened:",
+    notValidProfile: (name) => name + " is not a valid Cut Profile v0.2, so it was not opened:",
+    oldVersion: (name) => name + " was written for version 0.1. This page reads and writes version 0.2, so it was not opened. What changed between the two is listed at https://github.com/agiofit/agiofit/blob/main/spec/07-changes.md",
     cannotHold: (name) => name + " is a valid Cut Profile, but this form cannot hold all of it, so it was not opened. Correcting it here would drop:",
     otherCategory: (category) => "category " + category + ": this page writes shirts, tops, knitwear, trousers and jeans only.",
     flatOnly: (method) => "measurement_method " + method + ": this page writes flat-laid measurements only.",
@@ -1219,7 +1220,7 @@ const UI_BY_LANG = {
     draftCleared: "The form is empty and the draft is gone."
   },
   it: {
-    valid: "Valido secondo cut-profile.schema.json v0.1.",
+    valid: "Valido secondo cut-profile.schema.json v0.2.",
     invalid: "Non ancora valido:",
     needOne: "Compila almeno una misura.",
     needSize: "Ogni taglia ha bisogno della sua etichetta.",
@@ -1250,7 +1251,8 @@ const UI_BY_LANG = {
     schemaSays: (path, message) => "Lo schema dice (in inglese): " + path + " " + message,
     notJsonFile: (name) => name + " non è un file JSON che questa pagina sa leggere.",
     openSchemaFail: "Non è stato possibile caricare lo schema con cui verificare il file. Il file non è stato aperto.",
-    notValidProfile: (name) => name + " non è un Cut Profile v0.1 valido, quindi non è stato aperto:",
+    notValidProfile: (name) => name + " non è un Cut Profile v0.2 valido, quindi non è stato aperto:",
+    oldVersion: (name) => name + " è scritto per la versione 0.1. Questa pagina legge e scrive la versione 0.2, quindi non è stato aperto. Cosa cambia fra le due è elencato in https://github.com/agiofit/agiofit/blob/main/spec/07-changes.md",
     cannotHold: (name) => name + " è un Cut Profile valido, ma questo modulo non può contenerlo tutto, quindi non è stato aperto. Correggendolo qui si perderebbe:",
     flatOnly: (method) => "measurement_method " + method + ": questa pagina scrive solo misure prese con il capo steso.",
     noPlace: (at) => at + ": nel modulo non c’è un posto per questo.",
@@ -1269,7 +1271,7 @@ const UI_BY_LANG = {
     draftCleared: "Il modulo è vuoto e la bozza non c’è più."
   },
   fr: {
-    valid: "Valide selon cut-profile.schema.json v0.1.",
+    valid: "Valide selon cut-profile.schema.json v0.2.",
     invalid: "Pas encore valide :",
     needOne: "Remplissez au moins une mesure.",
     needSize: "Chaque taille a besoin de son étiquette.",
@@ -1300,7 +1302,8 @@ const UI_BY_LANG = {
     schemaSays: (path, message) => "Le schéma indique (en anglais) : " + path + " " + message,
     notJsonFile: (name) => name + " n’est pas un fichier JSON que cette page sait lire.",
     openSchemaFail: "Impossible de charger le schéma pour vérifier le fichier. Il n’a pas été ouvert.",
-    notValidProfile: (name) => name + " n’est pas un Cut Profile v0.1 valide, il n’a donc pas été ouvert :",
+    notValidProfile: (name) => name + " n’est pas un Cut Profile v0.2 valide, il n’a donc pas été ouvert :",
+    oldVersion: (name) => name + " est écrit pour la version 0.1. Cette page lit et écrit la version 0.2, il n’a donc pas été ouvert. Ce qui change entre les deux est listé sur https://github.com/agiofit/agiofit/blob/main/spec/07-changes.md",
     cannotHold: (name) => name + " est un Cut Profile valide, mais ce formulaire ne peut pas tout contenir, il n’a donc pas été ouvert. Le corriger ici ferait perdre :",
     flatOnly: (method) => "measurement_method " + method + " : cette page n’écrit que des mesures prises à plat.",
     noPlace: (at) => at + " : le formulaire n’a pas de place pour cela.",
@@ -1321,7 +1324,7 @@ const UI_BY_LANG = {
 };
 const UI = Object.assign({}, UI_BY_LANG.en, UI_BY_LANG[PAGE_LANG]);
 
-const SCHEMA_URL = "/schemas/v0.1/cut-profile.schema.json";
+const SCHEMA_URL = "/schemas/v0.2/cut-profile.schema.json";
 
 const $ = (id) => document.getElementById(id);
 
@@ -1552,7 +1555,7 @@ let keptId = null;
 function collect() {
   const unit = $("unit").value;
   const doc = {
-    schema_version: "0.1.0",
+    schema_version: "0.2.0",
     cut_profile_id: keptId || crypto.randomUUID()
   };
 
@@ -1961,6 +1964,10 @@ async function openFile(file) {
   let doc = null;
   try { doc = JSON.parse(await file.text()); } catch (e) { doc = null; }
   if (!isObject(doc)) { openMessage("bad", UI.notJsonFile(name)); return; }
+  if (typeof doc.schema_version === "string" && doc.schema_version.startsWith("0.1.")) {
+    openMessage("bad", UI.oldVersion(name));
+    return;
+  }
   try { await loadValidator(); } catch (e) { openMessage("bad", UI.openSchemaFail); return; }
   if (!validator(doc)) { openMessage("bad", UI.notValidProfile(name), explain(validator.errors, doc)); return; }
   const drops = cannotHold(doc);

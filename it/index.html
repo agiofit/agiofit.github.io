@@ -342,9 +342,9 @@ footer .legal a{color:var(--accent-ink)}
       "@type": "TechArticle",
       "@id": "https://agiofit.org/#specification",
       "name": "Agio Fit: an open data model for a portable fit profile",
-      "description": "An open data model for a portable, person-owned fit profile. Three JSON Schema 2020-12 documents: Fit Profile (the person), Cut Profile (how a garment is cut, size by size) and Match Report (the explained recommendation). The profile stays with the person; only the result is disclosed.",
+      "description": "An open data model for a portable, person-owned fit profile. Four JSON Schema 2020-12 documents: Fit Profile (the person), Cut Profile (how a garment is cut, size by size), Match Report (the explained recommendation) and Match Request (what a shop sends to ask for one). The profile stays with the person; only the result is disclosed.",
       "url": "https://agiofit.org/",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "license": "https://creativecommons.org/licenses/by/4.0/",
       "author": {"@id": "https://agiofit.org/#author"},
       "sameAs": "https://doi.org/10.5281/zenodo.21922898"
@@ -381,7 +381,7 @@ footer .legal a{color:var(--accent-ink)}
       <a href="/it/" hreflang="it" lang="it" aria-label="Italiano" aria-current="true">IT</a>
       <a href="/fr/" hreflang="fr" lang="fr" aria-label="Français">FR</a>
     </div>
-    <span class="sitenav-ver">v0.1 draft</span>
+    <span class="sitenav-ver">v0.2 draft</span>
     <a class="sitenav-gh" href="https://github.com/agiofit/agiofit" title="Specification and reference implementation">GitHub <span aria-hidden="true">&#8599;</span></a>
   </div>
 </nav>
@@ -392,7 +392,7 @@ footer .legal a{color:var(--accent-ink)}
   <div class="hero">
     <div class="hero-text">
       <p class="eyebrow">
-        v0.1 draft · standard aperto · un progetto personale di <a class="credit" href="https://github.com/antferr">antferr</a>
+        v0.2 draft · standard aperto · un progetto personale di <a class="credit" href="https://github.com/antferr">antferr</a>
       </p>
       <h1>Agio&nbsp;Fit
         <span class="tagline">il profilo di vestibilità è tuo. Ovunque.</span>
@@ -573,7 +573,7 @@ footer .legal a{color:var(--accent-ink)}
   <p class="kicker">Cosa è</p>
   <h2>Tre documenti JSON, una raccomandazione spiegata</h2>
   <p class="intro">
-    Il primo lo possiedi tu. Il secondo lo pubblica chi vende. Il terzo è l'unica cosa che viaggia tra i due — con la confidenza esposta e le ragioni per zona, mai una taglia calata dall'alto.
+    Il primo lo possiedi tu. Il secondo lo pubblica chi vende. Il terzo è l'unica cosa che viaggia tra i due — con la confidenza esposta e le ragioni per zona, mai una taglia calata dall'alto. Per chiederlo, chi vende manda una Match Request: quale capo, a quale livello, chi chiede, e niente sulla persona.
     
     
   </p>
@@ -592,7 +592,7 @@ footer .legal a{color:var(--accent-ink)}
   <span class="k">"tolerance"</span>: <span class="n">1.0</span>,
   ...
 }</pre>
-      <a class="schema" href="/schemas/v0.1/fit-profile.schema.json">schemas/v0.1/fit-profile.schema.json</a>
+      <a class="schema" href="/schemas/v0.2/fit-profile.schema.json">schemas/v0.2/fit-profile.schema.json</a>
     </div>
     <div class="op" aria-hidden="true"></div>
     <div class="doc">
@@ -609,7 +609,7 @@ footer .legal a{color:var(--accent-ink)}
   },
   ...
 }</pre>
-      <a class="schema" href="/schemas/v0.1/cut-profile.schema.json">schemas/v0.1/cut-profile.schema.json</a>
+      <a class="schema" href="/schemas/v0.2/cut-profile.schema.json">schemas/v0.2/cut-profile.schema.json</a>
     </div>
     <div class="op to" aria-hidden="true"></div>
     <div class="doc">
@@ -626,7 +626,7 @@ footer .legal a{color:var(--accent-ink)}
 <span class="k">"confidence"</span>: <span class="n"><!-- ref:mature/result_only/confidence -->0.84<!-- /ref:mature/result_only/confidence --></span>,
 <span class="k">"correctable"</span>: <span class="n">true</span>,
 ...</pre>
-      <a class="schema" href="/schemas/v0.1/match-report.schema.json">schemas/v0.1/match-report.schema.json</a>
+      <a class="schema" href="/schemas/v0.2/match-report.schema.json">schemas/v0.2/match-report.schema.json</a>
     </div>
   </div>
   <p class="docs-note">Il confronto avviene dove vive il profilo, e viaggia solo il report. Gli estratti vengono dagli esempi del repository; la guida mostra il report esatto a ogni livello.</p>
@@ -726,7 +726,7 @@ footer .legal a{color:var(--accent-ink)}
   <h2>Cosa non è, dichiarato prima che lo chiediate</h2>
   <div class="scope-list">
     <p><b>Non un fornitore di size recommendation.</b> L'argomento è proprietà e portabilità; diventare un altro silo lo distruggerebbe.</p>
-    <p><b>Non un sistema di identità.</b> Il profilo vive in un vault scelto dalla persona; autenticazione e custodia sono rimandate ai wallet esistenti.</p>
+    <p><b>Non un sistema di identità.</b> Il profilo vive in un vault scelto dalla persona, e la risposta non nomina né il profilo né la persona. La specifica dice cosa un vault deve garantire, non come è fatto.</p>
     <p><b>Non una tecnologia di scansione.</b> Il modello accetta misure da qualunque fonte — e ne dichiara la qualità invece di fingerla uniforme.</p>
     <p><b>Non un aggregatore di tabelle taglie.</b> Le tabelle dicono come un brand <em>chiama</em> una taglia, non come il capo è tagliato.</p>
     <p><b>Non un protocollo.</b> È un modello dati: funziona su una normale API HTTP, e l'algoritmo non è normativo — normativa è la forma della risposta.</p>
@@ -736,10 +736,10 @@ footer .legal a{color:var(--accent-ink)}
 <!-- ============ status and getting involved ============ -->
 <section class="section" id="status">
   <p class="kicker">Stato</p>
-  <h2>v0.1 draft, in pubblico</h2>
+  <h2>v0.2 draft, in pubblico</h2>
   <div class="status">
     <dl>
-      <div><dt>Versione</dt><dd><span class="badge-draft">v0.1 draft</span> niente è stabile prima della 1.0</dd></div>
+      <div><dt>Versione</dt><dd><span class="badge-draft">v0.2 draft</span> niente è stabile prima della 1.0</dd></div>
       <div><dt>Identificatori degli schemi</dt><dd>restano risolvibili; le rotture incrementano la versione</dd></div>
       <div><dt>Specifica</dt><dd>CC BY 4.0</dd></div>
       <div><dt>Implementazione di riferimento</dt><dd>Python · Apache 2.0 · zero dipendenze a runtime</dd></div>
