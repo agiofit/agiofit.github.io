@@ -14,14 +14,15 @@
 <meta property="og:image" content="https://agiofit.org/assets/social-preview-light.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="The Agio Fit logo, a terracotta ring around a night-blue disc, beside the words: an open, portable fit profile owned by the person, not the platform." data-it="Il logo Agio Fit, un anello color terracotta attorno a un disco blu notte, accanto alla scritta in inglese: an open, portable fit profile owned by the person, not the platform." data-fr="Le logo Agio Fit, un anneau couleur terracotta autour d'un disque bleu nuit, à côté de l'inscription en anglais : an open, portable fit profile owned by the person, not the platform.">
+<meta property="og:image:alt" content="The Agio Fit logo, a bordeaux ring around a night-blue disc, beside the words: an open, portable fit profile owned by the person, not the platform." data-it="Il logo Agio Fit, un anello bordeaux attorno a un disco blu notte, accanto alla scritta in inglese: an open, portable fit profile owned by the person, not the platform." data-fr="Le logo Agio Fit, un anneau bordeaux autour d'un disque bleu nuit, à côté de l'inscription en anglais : an open, portable fit profile owned by the person, not the platform.">
 <meta property="og:locale" content="en_GB">
 <meta property="og:locale:alternate" content="it_IT">
 <meta property="og:locale:alternate" content="fr_FR">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/favicon.svg">
-<link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/zilla-slab-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/zilla-slab-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
 <style>
 :root{
@@ -29,8 +30,8 @@
   --rule:#DFDCD2;
   --ink:#1E2430;     /* brand night blue */
   --ink-70:#4A5262;
-  --accent:#C96F4A;          /* logo terracotta */
-  --accent-ink:#A9532F;           /* darker terracotta, for small text */
+  --accent:#8C2F45;          /* logo bordeaux */
+  --accent-ink:#7A2739;           /* darker bordeaux, for small text */
   --tape:#E9BC3F;          /* tailor's tape */
   --tape-ink:#8A6A14;
   --tape-text:#5C460E;     /* text on the tape yellow */
@@ -43,7 +44,7 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  font-family:'IBM Plex Sans','IBM Plex Sans Fallback',system-ui,sans-serif;color:var(--ink);
+  font-family:'Source Sans 3','Source Sans 3 Fallback',system-ui,sans-serif;color:var(--ink);
   background:
     linear-gradient(var(--rule) 1px, transparent 1px),
     linear-gradient(90deg, var(--rule) 1px, transparent 1px),
@@ -59,7 +60,7 @@ a{color:var(--accent-ink)}
   position:sticky;top:0;z-index:20}
 .sitenav-inner{max-width:1120px;margin:0 auto;padding:0 24px;height:58px;
   display:flex;align-items:center;gap:24px}
-.sitenav-mark{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:18px;color:var(--ink);
+.sitenav-mark{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-weight:600;font-size:18px;color:var(--ink);
   text-decoration:none;margin-right:auto;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
 .sitenav-mark svg{display:block}
 .sitenav a.sitenav-link{font-size:14.5px;color:var(--ink);text-decoration:none;opacity:.7;padding:6px 0}
@@ -67,15 +68,13 @@ a{color:var(--accent-ink)}
 .sitenav a.sitenav-link[aria-current]{opacity:1;font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
 .sitenav-lang{position:relative;display:flex;align-items:center;gap:2px;padding-left:18px;border-left:1px solid var(--rule);
   font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.06em}
-.sitenav-lang a{padding:5px 8px;border-radius:999px;text-decoration:none;color:var(--ink-70)}
+.sitenav-lang a{padding:5px 6px;text-decoration:none;color:var(--ink-70)}
 .sitenav-lang a:hover{color:var(--ink)}
-.sitenav-lang a[aria-current]{background:rgba(30,36,48,.07);color:var(--ink);font-weight:500}
-.sitenav-ver{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.08em;
-  background:var(--tape);color:var(--tape-text);border-radius:999px;padding:3px 10px;white-space:nowrap}
-.sitenav-gh{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:5px 14px;
-  border-radius:999px;border:1.5px solid var(--ink);font-size:13.5px;font-weight:600;
-  color:var(--ink);text-decoration:none;white-space:nowrap}
-.sitenav-gh:hover{background:var(--ink);color:var(--paper)}
+.sitenav-lang a[aria-current]{color:var(--ink);font-weight:500;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:6px}
+.sitenav-ver{font-size:12.5px;font-weight:600;line-height:1.4;
+  background:var(--tape);color:var(--tape-text);border-radius:4px;padding:2px 8px;white-space:nowrap}
+.sitenav-gh{font-size:14.5px;color:var(--ink);text-decoration:none;opacity:.7;padding:6px 0;white-space:nowrap}
+.sitenav-gh:hover{opacity:1}
 /* two rows below 840 px, no sideways scroll: mark, languages, badge and GitHub on top, the four links
    below a rule; order only moves the boxes, so the tab order still follows the markup */
 @media(max-width:840px){
@@ -95,11 +94,9 @@ a{color:var(--accent-ink)}
 /* laid out like the rest of the site: content on the paper, white only for the cards */
 .page{max-width:1120px;margin:0 auto;padding:0 24px 96px}
 .head{padding-top:44px}
-.kicker{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--accent-ink);margin:0 0 10px}
-h1{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:700;font-size:clamp(38px,5.4vw,60px);line-height:1.04;
+h1{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-weight:700;font-size:clamp(38px,5.4vw,60px);line-height:1.04;
   letter-spacing:-.015em;margin:0}
-h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:clamp(24px,3.4vw,32px);line-height:1.15;margin:0}
+h2{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-weight:600;font-size:clamp(24px,3.4vw,32px);line-height:1.15;margin:0}
 .lede{margin:20px 0 0;font-size:17.5px;color:var(--ink-70);max-width:52ch}
 
 /* tailor's tape divider, as on the home page */
@@ -116,14 +113,12 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 .cards{display:flex;flex-wrap:wrap;gap:16px;margin-top:44px}
 .card{flex:0 1 380px;min-width:0;display:flex;flex-direction:column;background:var(--surface);
   border:1px solid var(--rule);border-radius:var(--radius);padding:18px 18px 16px;box-shadow:var(--shadow)}
-.card .writes{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.06em;
-  color:var(--tape-ink);margin:0 0 6px}
+.card .writes{font-size:13px;color:var(--tape-ink);margin:0 0 6px}
 .card h2{font-size:22px}
 .card p.what{flex:1 1 auto;font-size:14.5px;color:var(--ink-70);margin:8px 0 0}
-/* the arrow is decoration, hidden from screen readers */
-.card-link{margin-top:12px;align-self:flex-start;font-size:14.5px;font-weight:600;color:var(--accent-ink);text-decoration:none}
-.card-link:hover{text-decoration:underline}
-.card-link::after{content:" \2192";content:" \2192" / ""}
+.card-link{margin-top:12px;align-self:flex-start;font-size:14.5px;font-weight:600;color:var(--accent-ink);
+  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.card-link:hover{text-decoration-thickness:2px}
 
 .together{margin-top:72px}
 .together p{color:var(--ink-70);max-width:64ch;margin:12px 0 0}
@@ -135,7 +130,6 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 footer{margin-top:72px;padding-top:26px;border-top:1px solid var(--rule)}
 /* the legal line, as on the home page */
 footer .legal{font-size:13px;color:var(--ink-70);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px}
 @media(max-width:640px){footer .legal{flex-direction:column;gap:8px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -144,7 +138,7 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
 
 <nav class="sitenav" aria-label="Site">
   <div class="sitenav-inner">
-    <a class="sitenav-mark" href="/"><svg width="22" height="22" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="84" fill="none" stroke="#c96f4a" stroke-width="15"/><circle cx="120" cy="120" r="42" fill="#1e2430"/></svg>Agio Fit</a>
+    <a class="sitenav-mark" href="/"><svg width="22" height="22" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="84" fill="none" stroke="#8c2f45" stroke-width="15"/><circle cx="120" cy="120" r="42" fill="#1e2430"/></svg>Agio Fit</a>
     <a class="sitenav-link" href="/">Overview</a>
     <a class="sitenav-link" href="/guide/">Guide</a>
     <a class="sitenav-link" aria-current="page" href="/builder/">Builder</a>
@@ -156,13 +150,12 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
       <a href="/fr/builder/" hreflang="fr" lang="fr" aria-label="Français">FR</a>
     </div>
     <span class="sitenav-ver">v0.2 draft</span>
-    <a class="sitenav-gh" href="https://github.com/agiofit/agiofit" title="Specification and reference implementation">GitHub <span aria-hidden="true">&#8599;</span></a>
+    <a class="sitenav-gh" href="https://github.com/agiofit/agiofit" title="Specification and reference implementation">GitHub</a>
   </div>
 </nav>
 
 <div class="page">
   <div class="head">
-    <p class="kicker">Builder</p>
     <h1><span class="en">The builders</span><span class="it">I builder</span><span class="fr">Les builders</span></h1>
     <p class="lede"><span class="en">Each one writes an Agio Fit document in your browser and checks it against the published schema before you download it. Nothing is sent.</span><span class="it">Ognuno scrive un documento Agio Fit nel tuo browser e lo verifica con lo schema pubblicato prima che tu lo scarichi. Non viene inviato nulla.</span><span class="fr">Chacun écrit un document Agio Fit dans votre navigateur et le vérifie avec le schéma publié avant que vous le téléchargiez. Rien n’est envoyé.</span></p>
   </div>
@@ -196,8 +189,8 @@ footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',m
 
   <footer>
     <div class="legal">
-      <span><span class="en">© 2026 Antonio Ferraioli · Agio Fit · a personal project by</span><span class="it">© 2026 Antonio Ferraioli · Agio Fit · un progetto personale di</span><span class="fr">© 2026 Antonio Ferraioli · Agio Fit · un projet personnel de</span> <a href="https://github.com/antferr">antferr</a></span>
-      <span class="mono-small">spec: CC BY 4.0 · code: Apache-2.0 · <a href="https://github.com/agiofit">github.com/agiofit</a></span>
+      <span><span class="en">© 2026 Antonio Ferraioli. Agio Fit, a personal project by </span><span class="it">© 2026 Antonio Ferraioli. Agio Fit, un progetto personale di </span><span class="fr">© 2026 Antonio Ferraioli. Agio Fit, un projet personnel d’</span><a href="https://github.com/antferr">antferr</a>.</span>
+      <span>spec: CC BY 4.0, code: Apache-2.0, <a href="https://github.com/agiofit">github.com/agiofit</a></span>
     </div>
   </footer>
 </div>

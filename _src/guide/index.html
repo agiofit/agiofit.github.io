@@ -16,13 +16,14 @@
 <meta property="og:title" content="Agio Fit — the interactive guide" data-it="Agio Fit — la guida interattiva" data-fr="Agio Fit — le guide interactif">
 <meta property="og:description" content="Change how much of the profile leaves, and watch what is left of the answer." data-it="Cambia quanto del profilo esce, e guarda cosa resta della risposta." data-fr="Changez la part du profil qui sort, et regardez ce qui reste de la réponse.">
 <meta property="og:image" content="https://agiofit.org/assets/social-preview-light.png">
-<meta property="og:image:alt" content="The Agio Fit logo, a terracotta ring around a night-blue disc, beside the words: an open, portable fit profile owned by the person, not the platform." data-it="Il logo Agio Fit, un anello color terracotta attorno a un disco blu notte, accanto alla scritta in inglese: an open, portable fit profile owned by the person, not the platform." data-fr="Le logo Agio Fit, un anneau couleur terracotta autour d'un disque bleu nuit, à côté de l'inscription en anglais : an open, portable fit profile owned by the person, not the platform.">
+<meta property="og:image:alt" content="The Agio Fit logo, a bordeaux ring around a night-blue disc, beside the words: an open, portable fit profile owned by the person, not the platform." data-it="Il logo Agio Fit, un anello bordeaux attorno a un disco blu notte, accanto alla scritta in inglese: an open, portable fit profile owned by the person, not the platform." data-fr="Le logo Agio Fit, un anneau bordeaux autour d'un disque bleu nuit, à côté de l'inscription en anglais : an open, portable fit profile owned by the person, not the platform.">
 <meta property="og:locale" content="en_GB">
 <meta property="og:locale:alternate" content="it_IT">
 <meta property="og:locale:alternate" content="fr_FR">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/zilla-slab-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/zilla-slab-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
 <style>
 :root{
@@ -30,8 +31,8 @@
   --rule:#DFDCD2;
   --ink:#1E2430;     /* brand night blue */
   --ink-70:#4A5262;
-  --accent:#C96F4A;          /* logo terracotta */
-  --accent-ink:#A9532F;           /* darker terracotta, for small text */
+  --accent:#8C2F45;          /* logo bordeaux */
+  --accent-ink:#7A2739;           /* darker bordeaux, for small text */
   --tape:#E9BC3F;          /* tailor's tape */
   --tape-ink:#8A6A14;
   --tape-text:#5C460E;     /* text on the tape yellow */
@@ -41,6 +42,8 @@
   --ok:#3E7A52;
   --warn:#A8720E;
   --surface:#FFFFFF;
+  --cloth:#C9D9EB;          /* the example shirt, a blue Oxford */
+  --cloth-shade:#B2C6DE;    /* inside of its collar */
   --shadow:0 1px 2px rgba(30,42,56,.08), 0 6px 18px rgba(30,42,56,.07);
   --radius:10px;
 }
@@ -48,7 +51,7 @@
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
 body{
-  font-family:'IBM Plex Sans','IBM Plex Sans Fallback',system-ui,sans-serif;
+  font-family:'Source Sans 3','Source Sans 3 Fallback',system-ui,sans-serif;
   color:var(--ink);
   background:
     linear-gradient(var(--rule) 1px, transparent 1px),
@@ -69,7 +72,7 @@ body.lang-fr .en, body.lang-fr .it{display:none}
   position:sticky;top:0;z-index:20}
 .sitenav-inner{max-width:1120px;margin:0 auto;padding:0 24px;height:58px;
   display:flex;align-items:center;gap:24px}
-.sitenav-mark{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:18px;color:var(--ink);
+.sitenav-mark{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-weight:600;font-size:18px;color:var(--ink);
   text-decoration:none;margin-right:auto;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
 .sitenav-mark svg{display:block}
 .sitenav a.sitenav-link{font-size:14.5px;color:var(--ink);text-decoration:none;opacity:.7;padding:6px 0}
@@ -79,15 +82,13 @@ body.lang-fr .en, body.lang-fr .it{display:none}
   font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.06em}
 /* the buttons exist only in the source; build.py turns them into links */
 .sitenav-lang button{font:inherit;letter-spacing:inherit;border:0;background:none;cursor:pointer}
-.sitenav-lang a,.sitenav-lang button{padding:5px 8px;border-radius:999px;text-decoration:none;color:var(--ink-70)}
+.sitenav-lang a,.sitenav-lang button{padding:5px 6px;text-decoration:none;color:var(--ink-70)}
 .sitenav-lang a:hover,.sitenav-lang button:hover{color:var(--ink)}
-.sitenav-lang a[aria-current],.sitenav-lang button[aria-pressed="true"]{background:rgba(30,36,48,.07);color:var(--ink);font-weight:500}
-.sitenav-ver{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.08em;
-  background:var(--tape);color:var(--tape-text);border-radius:999px;padding:3px 10px;white-space:nowrap}
-.sitenav-gh{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:5px 14px;
-  border-radius:999px;border:1.5px solid var(--ink);font-size:13.5px;font-weight:600;
-  color:var(--ink);text-decoration:none;white-space:nowrap}
-.sitenav-gh:hover{background:var(--ink);color:var(--paper)}
+.sitenav-lang a[aria-current],.sitenav-lang button[aria-pressed="true"]{color:var(--ink);font-weight:500;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:6px}
+.sitenav-ver{font-size:12.5px;font-weight:600;line-height:1.4;
+  background:var(--tape);color:var(--tape-text);border-radius:4px;padding:2px 8px;white-space:nowrap}
+.sitenav-gh{font-size:14.5px;color:var(--ink);text-decoration:none;opacity:.7;padding:6px 0;white-space:nowrap}
+.sitenav-gh:hover{opacity:1}
 .visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;
   clip:rect(0 0 0 0);white-space:nowrap;border:0}
 /* two rows below 840 px, no sideways scroll: mark, languages, badge and GitHub on top, the four links
@@ -138,16 +139,14 @@ header{padding-top:56px}
 .logo-replay[hidden]{display:none}
 .logo-replay:hover{color:var(--ink)}
 .logo-replay:focus-visible{outline:2px solid var(--accent-ink);outline-offset:2px}
-.eyebrow{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px}
-h1{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:700;font-size:clamp(44px,6.2vw,72px);line-height:1.02;letter-spacing:-.015em}
+.byline{margin-top:16px;font-size:14px;color:var(--ink-70);text-wrap:pretty}
+h1{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-weight:700;font-size:clamp(44px,6.2vw,72px);line-height:1.02;letter-spacing:-.015em}
 h1 .tagline{display:inline-block;margin-top:12px;font-size:.5em;font-style:italic;font-weight:400;color:var(--ink-70)}
 .lede{margin-top:20px;font-size:17.5px;max-width:56ch;color:var(--ink-70)}
 .lede strong{color:var(--ink)}
 /* the page's table of contents */
 .toc{margin-top:28px;padding-top:14px;border-top:1px dashed #C9C3B4;max-width:56ch}
-.toc-title{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--ink-70)}
+.toc-title{font-size:14px;font-weight:600;color:var(--ink-70)}
 .toc-links{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 18px}
 .toc a{font-size:14.5px;color:var(--accent-ink);text-decoration:none}
 .toc a:hover{text-decoration:underline}
@@ -157,9 +156,9 @@ h1 .tagline{display:inline-block;margin-top:12px;font-size:.5em;font-style:itali
 .section{margin-top:88px;scroll-margin-top:80px}
 @media(max-width:840px){.section{scroll-margin-top:112px}} /* the bar has two rows here */
 #vocabulary{margin-top:72px}
-.kicker{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px}
-h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.15}
+.kicker{font-size:15px;font-weight:600;color:var(--accent-ink);margin-bottom:8px}
+.kicker .sn{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:13px;font-weight:500;color:var(--ink-70);margin-right:6px}
+h2{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.15}
 .intro{margin-top:12px;color:var(--ink-70);max-width:64ch}
 .intro b,.intro strong{color:var(--ink)}
 
@@ -168,13 +167,13 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 /* the flow scene: the garment, the body, a seam, and what crosses it */
 .s5-scene{margin-top:32px;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
   box-shadow:var(--shadow);padding:30px 30px 22px;position:relative}
-.s5-title{font-family:'Fraunces','Fraunces Fallback',serif;font-style:italic;font-weight:500;font-size:clamp(22px,3.1vw,34px);
+.s5-title{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-style:italic;font-weight:500;font-size:clamp(22px,3.1vw,34px);
   line-height:1.2;text-align:center;color:var(--ink);margin:0 auto 14px}
 .s5-title em{color:var(--accent-ink)}
 .s5{display:block;width:100%;height:auto;overflow:visible}
 .s5-mob{display:none}
 @media(max-width:640px){.s5-desk{display:none}.s5-mob{display:block}.s5-scene{padding:22px 14px 16px}}
-.s5 text{font-family:'IBM Plex Sans','IBM Plex Sans Fallback',system-ui,sans-serif;fill:var(--ink)}
+.s5 text{font-family:'Source Sans 3','Source Sans 3 Fallback',system-ui,sans-serif;fill:var(--ink)}
 .s5 .s5-lane{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;letter-spacing:.2em;fill:var(--accent-ink);text-anchor:middle}
 .s5 text.s5-start{text-anchor:start}.s5 text.s5-end{text-anchor:end}
 .s5 .s5-cloth{fill:var(--paper);stroke:var(--ink);stroke-width:3.4;stroke-linejoin:round}
@@ -195,7 +194,7 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 .s5 .s5-zone circle{fill:var(--ok)}
 .s5 .s5-zone path{fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .s5 .s5-here{font-size:13px;text-anchor:middle;fill:var(--ink-70)}
-.s5 .s5-mhead{font-family:'Fraunces','Fraunces Fallback',serif;font-size:17.5px;font-weight:600;fill:var(--accent-ink)}
+.s5 .s5-mhead{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-size:17.5px;font-weight:600;fill:var(--accent-ink)}
 .s5 .s5-msmall{font-size:11.5px;fill:var(--ink-70)}
 .s5-mob .s5-mhead{font-size:13.5px}.s5-mob .s5-msmall{font-size:10.5px}
 .s5 .s5-trail{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-dasharray:2 6;stroke-linecap:round;opacity:.5}
@@ -255,7 +254,7 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 .s5-scene.armed.s4 .s5-step[data-n="4"],.s5-scene.armed.s5 .s5-step[data-n="5"],.s5-scene.armed.done .s5-step{opacity:1}
 .doc{flex:1 1 300px;min-width:0;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
   box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column}
-.doc h3{font-family:'Fraunces','Fraunces Fallback',serif;font-size:19px;font-weight:600;margin-bottom:2px}
+.doc h3{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-size:19px;font-weight:600;margin-bottom:2px}
 .doc .file{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;color:var(--accent-ink);margin-bottom:10px}
 .doc .example .file{margin:10px 0 0}
 .doc p{font-size:14px;color:var(--ink-70)}
@@ -273,13 +272,13 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 
 /* ---------- where the tape goes ---------- */
 .tape{margin-top:56px}
-.tape h3{font-family:'Fraunces','Fraunces Fallback',serif;font-size:24px;font-weight:600;line-height:1.25}
+.tape h3{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-size:24px;font-weight:600;line-height:1.25}
 .tape-intro{margin-top:10px;color:var(--ink-70);max-width:64ch}
 /* drawing and buttons side by side; the drawing goes on top when they do not fit */
 .tape-body{display:flex;flex-wrap:wrap;align-items:flex-start;gap:28px 40px;margin-top:24px}
 .tape-figure{flex:1.1 1 420px;min-width:0;margin:0}
 .tape-figure svg{display:block;width:100%;height:auto}
-.tape-caption{margin-top:10px;text-align:center;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;color:var(--ink-70)}
+.tape-caption{margin-top:10px;text-align:center;font-size:14px;line-height:1.5;color:var(--ink-70);text-wrap:balance}
 .tape-keys{flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:8px}
 .tape-keys button{display:grid;grid-template-columns:20px 1fr;column-gap:12px;align-items:start;width:100%;
   text-align:left;font:inherit;color:inherit;cursor:pointer;
@@ -306,19 +305,19 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 .proven-text{flex:1 1 420px;min-width:0;font-size:14.5px;color:var(--ink-70)}
 .proven-text b{color:var(--ink)}
 .proven-cta{flex:none;display:flex;flex-direction:column;align-items:center;gap:6px}
-a.cta{display:inline-flex;align-items:center;min-height:44px;padding:0 22px;border-radius:999px;
+a.cta{display:inline-flex;align-items:center;min-height:44px;padding:0 22px;border-radius:6px;
   background:var(--ink);color:var(--paper);font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap}
 a.cta:hover{background:var(--ink-70)}
 
 /* the shirt laid flat, as in the builder: a width is a solid line, the collar a dashed line
    along its band, shown opened out in the corner (the whole way round).
    Here the drawing sits on the paper, so the labels off the garment keep the paper colour */
-.shirt .cloth{fill:var(--surface);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
-.shirt .collar{fill:var(--surface);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
-.shirt .collar-in{fill:var(--paper)}
+.shirt .cloth{fill:var(--cloth);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.shirt .collar{fill:var(--cloth);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.shirt .collar-in{fill:var(--cloth-shade)}
 .shirt .inset{fill:var(--surface);stroke:var(--rule);stroke-width:1}
-.shirt .band{fill:var(--surface);stroke:var(--ink);stroke-width:1.4;stroke-linejoin:round}
-.shirt .leaf{fill:var(--paper);stroke:var(--ink-70);stroke-width:1.1;stroke-linejoin:round}
+.shirt .band{fill:var(--cloth);stroke:var(--ink);stroke-width:1.4;stroke-linejoin:round}
+.shirt .leaf{fill:var(--cloth-shade);stroke:var(--ink-70);stroke-width:1.1;stroke-linejoin:round}
 .shirt .hole{fill:none;stroke:var(--ink-70);stroke-width:1}
 .shirt .seam{fill:none;stroke:var(--ink-70);stroke-width:1}
 .shirt .button{fill:var(--surface);stroke:var(--ink-70);stroke-width:1}
@@ -328,6 +327,7 @@ a.cta:hover{background:var(--ink-70)}
 .shirt .dim.round{stroke-width:1.5;stroke-dasharray:4 3.5}
 .shirt .label-bg{fill:var(--surface)}
 .shirt .label-bg.off{fill:var(--paper)}
+.shirt .label-bg.on-cloth{fill:var(--cloth)}
 .shirt .badge{fill:var(--accent-ink)}
 .shirt .badge-n{fill:var(--surface);font:500 10.5px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace}
 .shirt .val{fill:var(--ink);font:500 12.5px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace}
@@ -361,8 +361,8 @@ a.cta:hover{background:var(--ink-70)}
 .demo-empty{color:var(--ink-70);font-size:15px;font-style:italic}
 /* the size and the confidence */
 .outcome{display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 22px;margin-bottom:12px}
-.size{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:700;font-size:56px;line-height:1}
-.size small{font-size:16px;font-weight:400;font-family:'IBM Plex Sans','IBM Plex Sans Fallback',sans-serif;color:var(--ink-70)}
+.size{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-weight:700;font-size:56px;line-height:1}
+.size small{font-size:16px;font-weight:400;font-family:'Source Sans 3','Source Sans 3 Fallback',sans-serif;color:var(--ink-70)}
 .confidence{flex:1 1 240px;min-width:0}
 .confidence-label{display:flex;justify-content:space-between;margin-bottom:4px;
   font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px;color:var(--ink-70)}
@@ -411,7 +411,7 @@ table.zones td small{display:block;font-size:12.5px;color:var(--ink-70);margin-t
 table.zones .badge{display:inline-block;max-width:100%;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
 table.zones .badge.ok{background:#E4F0E8;color:var(--ok)}
 table.zones .badge.watch{background:#FBF0DA;color:var(--warn)}
-table.zones .badge.critical{background:#F7E3DF;color:var(--accent-ink)}
+table.zones .badge.critical{background:#F4E3E7;color:var(--accent-ink)}
 table.zones .badge.unknown{background:rgba(30,36,48,.06);color:var(--ink-70)}
 /* explained: where the scoped report has numbers, this one says they were stripped */
 .stripped{display:inline-block;padding:1px 6px;border-radius:4px;
@@ -444,7 +444,7 @@ table.zones .badge.unknown{background:rgba(30,36,48,.06);color:var(--ink-70)}
 .level h4{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:13px;letter-spacing:.04em;color:var(--accent-ink);margin-bottom:8px}
 .level p{font-size:13.5px;color:var(--ink-70)}
 .leak{margin-top:28px;background:var(--ink);color:#E8EDF3;border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
-.leak h3{font-family:'Fraunces','Fraunces Fallback',serif;font-size:21px;margin-bottom:10px;color:#fff}
+.leak h3{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-size:21px;margin-bottom:10px;color:#fff}
 .leak p{font-size:14.5px;color:#B9C4D0;max-width:640px}
 .leak p strong{color:#fff}
 /* scoped and explained lead to the demo, set to that level */
@@ -454,7 +454,7 @@ table.zones .badge.unknown{background:rgba(30,36,48,.06);color:var(--ink-70)}
 .tiles{display:flex;align-items:stretch;gap:14px;margin:18px 0}
 .tile{flex:1 1 0;min-width:0;background:#2A3646;border-radius:8px;padding:16px}
 .tile-label{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#B9C4D0}
-.tile-value{font-family:'Fraunces','Fraunces Fallback',serif;font-size:30px;font-weight:600;line-height:1.2;margin-top:4px;color:var(--tape)}
+.tile-value{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-size:30px;font-weight:600;line-height:1.2;margin-top:4px;color:var(--tape)}
 .tile-note{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;line-height:1.5;margin-top:6px;color:#B9C4D0}
 .tile.body{background:var(--paper)}
 .tile.body .tile-label{color:var(--accent-ink)}
@@ -478,27 +478,26 @@ table.zones .badge.unknown{background:rgba(30,36,48,.06);color:var(--ink-70)}
 .decision{flex:1 1 460px;min-width:0;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);
   padding:18px 20px;box-shadow:var(--shadow);display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
 .decision .pin{width:34px;height:34px;border-radius:50%;background:var(--highlight);border:1px solid var(--tape);
-  display:flex;align-items:center;justify-content:center;font-family:'Fraunces','Fraunces Fallback',serif;font-style:italic;font-weight:400;color:var(--tape-ink)}
+  display:flex;align-items:center;justify-content:center;font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-style:italic;font-weight:400;color:var(--tape-ink)}
 .decision h4{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:14px;color:var(--accent-ink);margin-bottom:4px}
 .decision p{font-size:14.5px;color:var(--ink-70)}
 .decision p b{color:var(--ink)}
 
 /* ---------- footer: the note on the demo, then the legal line, as in the builder ---------- */
 footer{margin-top:88px;padding-top:26px;border-top:1px solid var(--rule)}
-footer .demo-note{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;line-height:1.8;color:var(--ink-70)}
+footer .demo-note{font-size:13px;line-height:1.7;color:var(--ink-70)}
 footer .legal{margin-top:22px;border-top:1px solid var(--rule);padding-top:22px;
   font-size:13px;color:var(--ink-70);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px}
 footer .legal a{color:var(--accent-ink)}
 @media(max-width:640px){footer .legal{flex-direction:column;gap:8px}}
-a.credit{color:var(--accent-ink);text-decoration:none;border-bottom:1px solid rgba(201,111,74,.45)}
+a.credit{color:var(--accent-ink);text-decoration:none;border-bottom:1px solid rgba(140,47,69,.45)}
 a.credit:hover{border-bottom-color:var(--accent-ink)}
 </style>
 </head>
 <body class="lang-en">
 <nav class="sitenav" aria-label="Site">
   <div class="sitenav-inner">
-    <a class="sitenav-mark" href="/"><svg width="22" height="22" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="84" fill="none" stroke="#c96f4a" stroke-width="15"/><circle cx="120" cy="120" r="42" fill="#1e2430"/></svg>Agio Fit</a>
+    <a class="sitenav-mark" href="/"><svg width="22" height="22" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="84" fill="none" stroke="#8c2f45" stroke-width="15"/><circle cx="120" cy="120" r="42" fill="#1e2430"/></svg>Agio Fit</a>
     <a class="sitenav-link" href="/">Overview</a>
     <a class="sitenav-link" aria-current="page" href="/guide/">Guide</a>
     <a class="sitenav-link" href="/builder/">Builder</a>
@@ -509,7 +508,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
       <button type="button" id="btn-fr" aria-pressed="false" onclick="setLang('fr')">FR</button>
     </div>
     <span class="sitenav-ver">v0.2 draft</span>
-    <a class="sitenav-gh" href="https://github.com/agiofit/agiofit" title="Specification and reference implementation">GitHub <span aria-hidden="true">&#8599;</span></a>
+    <a class="sitenav-gh" href="https://github.com/agiofit/agiofit" title="Specification and reference implementation">GitHub</a>
   </div>
 </nav>
 
@@ -518,22 +517,20 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
 <header>
   <div class="hero">
   <div class="hero-text">
-  <p class="eyebrow">
-    <span class="it">v0.2 draft · standard aperto · un progetto personale di <a class="credit" href="https://github.com/antferr">antferr</a></span><span class="en">v0.2 draft · open standard · a personal project by <a class="credit" href="https://github.com/antferr">antferr</a></span><span class="fr">v0.2 draft · standard ouvert · un projet personnel de <a class="credit" href="https://github.com/antferr">antferr</a></span>
-  </p>
   <h1>Agio&nbsp;Fit<br>
     <span class="tagline"><span class="it">il profilo di vestibilità che ti porti dietro</span><span class="en">the fit profile you carry with you</span><span class="fr">le profil de bien-aller que vous emportez avec vous</span></span>
   </h1>
   <p class="lede">
     <span class="it">In sartoria l'<strong>agio</strong> è il margine progettato tra corpo e capo.
-    Qui è uno standard aperto: <strong>quattro documenti JSON</strong>, un algoritmo di riferimento e una regola —
+    Qui è uno standard aperto: <strong>quattro documenti JSON</strong>, un algoritmo di riferimento e una regola:
     il profilo resta tuo; di base al negozio arrivano la taglia e quanto è sicura, mai le tue misure.</span>
     <span class="en">In tailoring, <strong>agio</strong> is the ease designed between body and garment.
-    Here it is an open standard: <strong>four JSON documents</strong>, a reference algorithm and one rule —
+    Here it is an open standard: <strong>four JSON documents</strong>, a reference algorithm and one rule:
     the profile stays yours; by default a shop gets a size and how sure it is, never your measurements.</span><span class="fr">En couture, l’<strong>agio</strong> est l’aisance ménagée entre le corps et le vêtement.
-    Ici, c’est un standard ouvert : <strong>quatre documents JSON</strong>, un algorithme de référence et une règle —
+    Ici, c’est un standard ouvert : <strong>quatre documents JSON</strong>, un algorithme de référence et une règle :
     le profil reste à vous ; par défaut, une boutique reçoit une taille et son degré de certitude, jamais vos mesures.</span>
   </p>
+  <p class="byline"><span class="it">Standard aperto, v0.2 draft. Un progetto personale di <a class="credit" href="https://github.com/antferr">antferr</a>.</span><span class="en">Open standard, v0.2 draft. A personal project by <a class="credit" href="https://github.com/antferr">antferr</a>.</span><span class="fr">Standard ouvert, v0.2 draft. Un projet personnel d’<a class="credit" href="https://github.com/antferr">antferr</a>.</span></p>
   <nav class="toc" aria-labelledby="toc-title">
     <p class="toc-title" id="toc-title"><span class="en">On this page</span><span class="it">In questa pagina</span><span class="fr">Sur cette page</span></p>
     <div class="toc-links">
@@ -550,7 +547,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
   <figure class="logo-fig">
     <svg viewBox="0 0 360 250" role="img" aria-label="Agio Fit — logo">
       <!-- mark geometry, scaled -->
-      <circle id="logo-ring" cx="120" cy="130" r="84" fill="none" stroke="#c96f4a" stroke-width="15" transform="rotate(-90 120 130)"/>
+      <circle id="logo-ring" cx="120" cy="130" r="84" fill="none" stroke="#8c2f45" stroke-width="15" transform="rotate(-90 120 130)"/>
       <circle id="logo-core" cx="120" cy="130" r="42" fill="#1e2430"/>
       <!-- tailor's dimension line across the gap -->
       <line id="logo-dim" class="dim" x1="162" y1="130" x2="196.5" y2="130"/>
@@ -718,7 +715,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
 
 <!-- ============ 01: THE THREE DOCUMENTS ============ -->
 <section class="section" id="vocabulary">
-  <p class="kicker"><span class="it">01 · Il vocabolario</span><span class="en">01 · The vocabulary</span><span class="fr">01 · Le vocabulaire</span></p>
+  <p class="kicker"><span class="sn">01</span> <span class="it">Il vocabolario</span><span class="en">The vocabulary</span><span class="fr">Le vocabulaire</span></p>
   <h2><span class="it">Quattro documenti, un contratto</span><span class="en">Four documents, one contract</span><span class="fr">Quatre documents, un contrat</span></h2>
   <p class="intro">
     <span class="it">Lo standard sta in quattro schemi JSON. Il Fit Profile lo possiedi tu e il Cut Profile lo pubblica chi vende; la Match Request e il Match Report sono le sole cose che viaggiano fra voi, e nessuna delle due porta il tuo profilo. Apri gli esempi dei tre documenti principali per vedere la forma reale dei dati.</span>
@@ -918,7 +915,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
           <g class="m" data-key="chest_width">
             <line class="dim" x1="172.4" y1="209" x2="427.6" y2="209"/>
             <path class="dim" d="M168.4 213 L176.4 205 M423.6 213 L431.6 205"/>
-            <rect class="label-bg" x="268" y="199" width="68" height="20" rx="3"/>
+            <rect class="label-bg on-cloth" x="268" y="199" width="68" height="20" rx="3"/>
             <circle class="badge" cx="279" cy="209" r="8"/>
             <text class="badge-n" x="279" y="209" text-anchor="middle" dominant-baseline="central">3</text>
             <text class="val" x="291" y="213.3"><tspan class="num">58</tspan><tspan class="unit" dx="4">cm</tspan></text>
@@ -928,7 +925,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
           <g class="m" data-key="waist_width">
             <line class="dim" x1="181.2" y1="300" x2="418.8" y2="300"/>
             <path class="dim" d="M177.2 304 L185.2 296 M414.8 304 L422.8 296"/>
-            <rect class="label-bg" x="268" y="290" width="68" height="20" rx="3"/>
+            <rect class="label-bg on-cloth" x="268" y="290" width="68" height="20" rx="3"/>
             <circle class="badge" cx="279" cy="300" r="8"/>
             <text class="badge-n" x="279" y="300" text-anchor="middle" dominant-baseline="central">4</text>
             <text class="val" x="291" y="304.3"><tspan class="num">54</tspan><tspan class="unit" dx="4">cm</tspan></text>
@@ -946,7 +943,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
             <text class="val" x="500" y="219.3"><tspan class="num">65</tspan><tspan class="unit" dx="4">cm</tspan></text>
           </g>
         </svg>
-        <figcaption class="tape-caption"><span class="en">The example shirt, size 41. Laid flat, fastened, not stretched; the collar opened out.</span><span class="it">La camicia d’esempio, taglia 41. Stesa, abbottonata, senza tirarla; il collo aperto.</span><span class="fr">La chemise d’exemple, taille 41. À plat, boutonnée, sans la tendre ; le col ouvert.</span></figcaption>
+        <figcaption class="tape-caption"><span class="en">The example shirt, size 41: laid flat, fastened, not stretched, with the collar opened out.</span><span class="it">La camicia d’esempio, taglia 41: stesa, abbottonata, senza tirarla, con il collo aperto.</span><span class="fr">La chemise d’exemple, taille 41 : à plat, boutonnée, sans la tendre, le col ouvert.</span></figcaption>
       </figure>
 
       <!-- one button per measurement, in the order of the drawing -->
@@ -1001,7 +998,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
 
 <!-- ============ 02: THE DEMO ============ -->
 <section class="section" id="try">
-  <p class="kicker"><span class="it">02 · Provalo</span><span class="en">02 · Try it</span><span class="fr">02 · Essayez-le</span></p>
+  <p class="kicker"><span class="sn">02</span> <span class="it">Provalo</span><span class="en">Try it</span><span class="fr">Essayez-le</span></p>
   <h2><span class="it">Il matching, dal vivo</span><span class="en">The matching, live</span><span class="fr">Le matching, en direct</span></h2>
   <p class="intro">
     <span class="it">Qui sotto ci sono le risposte vere dell'implementazione di riferimento (<span class="mono">python -m agiofit.cli</span>), generate per i due profili d'esempio a ogni livello di disclosure. Scegli un profilo e un livello, e guarda cosa esce, e soprattutto <b>cosa non esce</b>. Il capo e i profili sono gli esempi reali del repository: la Classic Oxford di Sartoria Esempio (marchio fittizio), taglie 39–42.</span>
@@ -1062,7 +1059,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
 
 <!-- ============ 03: DISCLOSURE LEVELS AND THE ARITHMETIC LEAK ============ -->
 <section class="section" id="privacy">
-  <p class="kicker"><span class="it">03 · La privacy come design</span><span class="en">03 · Privacy as design</span><span class="fr">03 · La confidentialité comme design</span></p>
+  <p class="kicker"><span class="sn">03</span> <span class="it">La privacy come design</span><span class="en">Privacy as design</span><span class="fr">La confidentialité comme design</span></p>
   <h2><span class="it">Quattro livelli, una sottrazione da impedire</span><span class="en">Four levels, one subtraction to prevent</span><span class="fr">Quatre niveaux, une soustraction à empêcher</span></h2>
   <p class="intro">
     <span class="it">Il chiamante non decide quanto vede: lo decide il livello di disclosure, e i numeri vengono rimossi <b>in serializzazione</b>, non per buona volontà. C'è un test che lo verifica.</span>
@@ -1112,7 +1109,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
 
 <!-- ============ 04: THE COMMAND LINE ============ -->
 <section class="section" id="terminal">
-  <p class="kicker"><span class="it">04 · Sul tuo computer</span><span class="en">04 · On your machine</span><span class="fr">04 · Sur votre machine</span></p>
+  <p class="kicker"><span class="sn">04</span> <span class="it">Sul tuo computer</span><span class="en">On your machine</span><span class="fr">Sur votre machine</span></p>
   <h2><span class="it">Uso da terminale</span><span class="en">Using it from the terminal</span><span class="fr">Utilisation depuis le terminal</span></h2>
   <p class="intro">
     <span class="it">L'implementazione di riferimento è Python puro, zero dipendenze. Dopo aver clonato <span class="mono">github.com/agiofit/agiofit</span>:</span>
@@ -1138,7 +1135,7 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
 
 <!-- ============ 05: DESIGN DECISIONS ============ -->
 <section class="section" id="decisions">
-  <p class="kicker"><span class="it">05 · Da difendere in pubblico</span><span class="en">05 · Worth defending in public</span><span class="fr">05 · À défendre en public</span></p>
+  <p class="kicker"><span class="sn">05</span> <span class="it">Da difendere in pubblico</span><span class="en">Worth defending in public</span><span class="fr">À défendre en public</span></p>
   <h2><span class="it">Le decisioni che non sono una tabella taglie</span><span class="en">The decisions that are not a size chart</span><span class="fr">Les décisions qui ne sont pas un guide des tailles</span></h2>
   <div class="decisions">
     <div class="decision"><div class="pin" aria-hidden="true">a</div><div>
@@ -1165,11 +1162,11 @@ a.credit:hover{border-bottom-color:var(--accent-ink)}
 </section>
 
 <footer>
-  <p class="demo-note"><span class="it">Agio Fit v0.2 · interfaccia dimostrativa · le risposte mostrate sono generate dall'implementazione di riferimento (agiofit@<!-- ref:commit -->c64f970<!-- /ref:commit -->); l'algoritmo non è normativo, la forma della risposta sì</span>
-  <span class="en">Agio Fit v0.2 · demo interface · the answers shown are generated by the reference implementation (agiofit@<!-- ref:commit -->c64f970<!-- /ref:commit -->); the algorithm is not normative, the shape of the answer is</span><span class="fr">Agio Fit v0.2 · interface de démonstration · les réponses affichées sont générées par l’implémentation de référence (agiofit@<!-- ref:commit -->c64f970<!-- /ref:commit -->) ; l’algorithme n’est pas normatif, la forme de la réponse l’est</span></p>
+  <p class="demo-note"><span class="it">Agio Fit v0.2, interfaccia dimostrativa: le risposte mostrate sono generate dall'implementazione di riferimento (agiofit@<!-- ref:commit -->c64f970<!-- /ref:commit -->); l'algoritmo non è normativo, la forma della risposta sì</span>
+  <span class="en">Agio Fit v0.2, demo interface: the answers shown are generated by the reference implementation (agiofit@<!-- ref:commit -->c64f970<!-- /ref:commit -->); the algorithm is not normative, the shape of the answer is</span><span class="fr">Agio Fit v0.2, interface de démonstration : les réponses affichées sont générées par l’implémentation de référence (agiofit@<!-- ref:commit -->c64f970<!-- /ref:commit -->) ; l’algorithme n’est pas normatif, la forme de la réponse l’est</span></p>
   <div class="legal">
-    <span><span class="en">© 2026 Antonio Ferraioli · Agio Fit · a personal project by</span><span class="it">© 2026 Antonio Ferraioli · Agio Fit · un progetto personale di</span><span class="fr">© 2026 Antonio Ferraioli · Agio Fit · un projet personnel de</span> <a href="https://github.com/antferr">antferr</a></span>
-    <span class="mono-small">spec: CC BY 4.0 · code: Apache-2.0 · <a href="https://github.com/agiofit">github.com/agiofit</a></span>
+    <span><span class="en">© 2026 Antonio Ferraioli. Agio Fit, a personal project by </span><span class="it">© 2026 Antonio Ferraioli. Agio Fit, un progetto personale di </span><span class="fr">© 2026 Antonio Ferraioli. Agio Fit, un projet personnel d’</span><a href="https://github.com/antferr">antferr</a>.</span>
+    <span>spec: CC BY 4.0, code: Apache-2.0, <a href="https://github.com/agiofit">github.com/agiofit</a></span>
   </div>
 </footer>
 
