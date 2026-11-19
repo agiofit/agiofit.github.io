@@ -7,23 +7,24 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/agiofitavatar32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/assets/agiofitavatar192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<title>Agio Fit — an open, portable fit profile owned by the person</title>
-<meta name="description" content="Agio Fit is an open data model for a portable fit profile: Fit Profile, Cut Profile and Match Report, a reference implementation, and one rule — the profile stays yours; by default a shop gets a size and how sure it is, never your measurements.">
+<title>Agio Fit: an open, portable fit profile owned by the person</title>
+<meta name="description" content="Agio Fit is an open data model for a portable fit profile: Fit Profile, Cut Profile and Match Report, a reference implementation, and one rule: the profile stays yours; by default a shop gets a size and how sure it is, never your measurements.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Agio Fit">
 <meta property="og:url" content="https://agiofit.org/">
-<meta property="og:title" content="Agio Fit — an open, portable fit profile owned by the person">
+<meta property="og:title" content="Agio Fit: an open, portable fit profile owned by the person">
 <meta property="og:description" content="An open data model for a portable fit profile: Fit Profile, Cut Profile and Match Report. The profile stays yours; by default a shop gets a size and how sure it is, never your measurements.">
 <meta property="og:image" content="https://agiofit.org/assets/social-preview-light.png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
-<meta property="og:image:alt" content="The Agio Fit logo, a terracotta ring around a night-blue disc, beside the words: an open, portable fit profile owned by the person, not the platform.">
+<meta property="og:image:alt" content="The Agio Fit logo, a bordeaux ring around a night-blue disc, beside the words: an open, portable fit profile owned by the person, not the platform.">
 <meta property="og:locale" content="en_GB">
 <meta property="og:locale:alternate" content="it_IT">
 <meta property="og:locale:alternate" content="fr_FR">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/zilla-slab-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/zilla-slab-600-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/source-sans-3-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
 <style>
 :root{
@@ -32,8 +33,8 @@
   --ink:#1E2430;     /* brand night blue */
   --ink-70:#4A5262;
   --ink-50:#666D7B;        /* muted text that still passes AA, for struck-through chips */
-  --accent:#C96F4A;          /* logo terracotta */
-  --accent-ink:#A9532F;           /* darker terracotta, for small text */
+  --accent:#8C2F45;          /* logo bordeaux */
+  --accent-ink:#7A2739;           /* darker bordeaux, for small text */
   --tape:#E9BC3F;          /* tailor's tape */
   --tape-ink:#8A6A14;
   --tape-text:#5C460E;     /* text on the tape yellow */
@@ -41,6 +42,8 @@
   --code:#202B39;          /* JSON output */
   --code-ink:#DCE6F0;
   --surface:#FFFFFF;
+  --cloth:#C9D9EB;          /* the example shirt, a blue Oxford */
+  --cloth-shade:#B2C6DE;    /* inside of its collar */
   --shadow:0 1px 2px rgba(30,42,56,.08), 0 6px 18px rgba(30,42,56,.07);
   --radius:10px;
 }
@@ -48,7 +51,7 @@
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto} *{transition:none!important;animation:none!important}}
 body{
-  font-family:'IBM Plex Sans','IBM Plex Sans Fallback',system-ui,sans-serif;
+  font-family:'Source Sans 3','Source Sans 3 Fallback',system-ui,sans-serif;
   color:var(--ink);
   background:
     linear-gradient(var(--rule) 1px, transparent 1px),
@@ -71,7 +74,7 @@ a{color:var(--accent-ink)}
   position:sticky;top:0;z-index:20}
 .sitenav-inner{max-width:1120px;margin:0 auto;padding:0 24px;height:58px;
   display:flex;align-items:center;gap:24px}
-.sitenav-mark{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:18px;color:var(--ink);
+.sitenav-mark{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-weight:600;font-size:18px;color:var(--ink);
   text-decoration:none;margin-right:auto;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
 .sitenav-mark svg{display:block}
 .sitenav a.sitenav-link{font-size:14.5px;color:var(--ink);text-decoration:none;opacity:.7;padding:6px 0}
@@ -81,15 +84,13 @@ a{color:var(--accent-ink)}
   font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.06em}
 /* the buttons exist only in the source; build.py turns them into links */
 .sitenav-lang button{font:inherit;letter-spacing:inherit;border:0;background:none;cursor:pointer}
-.sitenav-lang a,.sitenav-lang button{padding:5px 8px;border-radius:999px;text-decoration:none;color:var(--ink-70)}
+.sitenav-lang a,.sitenav-lang button{padding:5px 6px;text-decoration:none;color:var(--ink-70)}
 .sitenav-lang a:hover,.sitenav-lang button:hover{color:var(--ink)}
-.sitenav-lang a[aria-current],.sitenav-lang button[aria-pressed="true"]{background:rgba(30,36,48,.07);color:var(--ink);font-weight:500}
-.sitenav-ver{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.08em;
-  background:var(--tape);color:var(--tape-text);border-radius:999px;padding:3px 10px;white-space:nowrap}
-.sitenav-gh{display:inline-flex;align-items:center;gap:6px;min-height:34px;padding:5px 14px;
-  border-radius:999px;border:1.5px solid var(--ink);font-size:13.5px;font-weight:600;
-  color:var(--ink);text-decoration:none;white-space:nowrap}
-.sitenav-gh:hover{background:var(--ink);color:var(--paper)}
+.sitenav-lang a[aria-current],.sitenav-lang button[aria-pressed="true"]{color:var(--ink);font-weight:500;text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:6px}
+.sitenav-ver{font-size:12.5px;font-weight:600;line-height:1.4;
+  background:var(--tape);color:var(--tape-text);border-radius:4px;padding:2px 8px;white-space:nowrap}
+.sitenav-gh{font-size:14.5px;color:var(--ink);text-decoration:none;opacity:.7;padding:6px 0;white-space:nowrap}
+.sitenav-gh:hover{opacity:1}
 /* two rows below 840 px, no sideways scroll: mark, languages, badge and GitHub on top, the four links
    below a rule; order only moves the boxes, so the tab order still follows the markup */
 @media(max-width:840px){
@@ -117,34 +118,29 @@ header{padding-top:56px}
 .hero{display:flex;flex-wrap:wrap;align-items:center;gap:40px 48px}
 .hero-text{flex:1 1 380px;min-width:0}
 .hero-art{flex:1.25 1 460px;min-width:0}
-.eyebrow{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px}
-.eyebrow a.credit{color:inherit}
-h1{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:700;font-size:clamp(44px,6.2vw,72px);line-height:1.02;letter-spacing:-.015em}
+h1{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-weight:700;font-size:clamp(44px,6.2vw,72px);line-height:1.02;letter-spacing:-.015em}
 h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-weight:400;
-  line-height:1.15;letter-spacing:0;color:var(--ink-70)}
+  line-height:1.15;letter-spacing:0;color:var(--ink-70);text-wrap:balance}
 .lede{margin-top:22px;font-size:17.5px;color:var(--ink-70);max-width:52ch}
 /* what agio means, under the buttons */
 .agio{margin-top:32px;padding-top:14px;max-width:52ch;border-top:1px dashed #C9C3B4;font-size:13.5px;color:var(--ink-70)}
-.agio .word{font-family:'Fraunces','Fraunces Fallback',serif;font-style:italic;font-size:17px;color:var(--ink)}
+.agio .word{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-style:italic;font-size:17px;color:var(--ink)}
 .agio .ipa{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px}
 
 /* the example shirt, laid flat */
 .hero-figure{margin:0}
-.figure-title{margin-bottom:4px;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--accent-ink)}
 .hero-figure svg{display:block;width:100%;height:auto}
-.figure-caption{margin-top:2px;text-align:center;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;color:var(--ink-70)}
+.figure-caption{margin-top:2px;text-align:center;font-size:14px;line-height:1.5;color:var(--ink-70);text-wrap:balance}
 
 /* the shirt laid flat, as in the guide and the builder: a width is a solid line, the collar a
    dashed line along its band, shown opened out in the corner (the whole way round). Here the
    drawing sits on the paper, so the labels off the garment keep the paper colour */
-.shirt .cloth{fill:var(--surface);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
-.shirt .collar{fill:var(--surface);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
-.shirt .collar-in{fill:var(--paper)}
+.shirt .cloth{fill:var(--cloth);stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.shirt .collar{fill:var(--cloth);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+.shirt .collar-in{fill:var(--cloth-shade)}
 .shirt .inset{fill:var(--surface);stroke:var(--rule);stroke-width:1}
-.shirt .band{fill:var(--surface);stroke:var(--ink);stroke-width:1.4;stroke-linejoin:round}
-.shirt .leaf{fill:var(--paper);stroke:var(--ink-70);stroke-width:1.1;stroke-linejoin:round}
+.shirt .band{fill:var(--cloth);stroke:var(--ink);stroke-width:1.4;stroke-linejoin:round}
+.shirt .leaf{fill:var(--cloth-shade);stroke:var(--ink-70);stroke-width:1.1;stroke-linejoin:round}
 .shirt .hole{fill:none;stroke:var(--ink-70);stroke-width:1}
 .shirt .seam{fill:none;stroke:var(--ink-70);stroke-width:1}
 .shirt .button{fill:var(--surface);stroke:var(--ink-70);stroke-width:1}
@@ -154,6 +150,7 @@ h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-
 .shirt .dim.round{stroke-width:1.5;stroke-dasharray:4 3.5}
 .shirt .label-bg{fill:var(--surface)}
 .shirt .label-bg.off{fill:var(--paper)}
+.shirt .label-bg.on-cloth{fill:var(--cloth)}
 .shirt .badge{fill:var(--accent-ink)}
 .shirt .badge-n{fill:var(--surface);font:500 10.5px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace}
 .shirt .val{fill:var(--ink);font:500 12.5px 'IBM Plex Mono','IBM Plex Mono Fallback',monospace}
@@ -164,8 +161,8 @@ h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-
 .hero-card{min-width:0;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);box-shadow:var(--shadow)}
 .cut-card{flex:1.2 1 260px;padding:14px 16px 8px}
 .cut-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 10px;margin-bottom:6px}
-.cut-title{font-family:'Fraunces','Fraunces Fallback',serif;font-size:16px;font-weight:600}
-.cut-note{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;color:var(--tape-ink)}
+.cut-title{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-size:16px;font-weight:600}
+.cut-note{font-size:13px;color:var(--tape-ink)}
 .cut-card dl>div{display:flex;align-items:center;gap:10px;padding:5px 0;border-top:1px dashed var(--rule);
   font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px}
 .cut-card dt{flex:1 1 auto;min-width:0;display:flex;align-items:center;gap:10px}
@@ -174,9 +171,9 @@ h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-
   font-size:10.5px;line-height:18px;text-align:center}
 .cut-card .unit{color:var(--ink-70);font-weight:400}
 .leaves-card{flex:1 1 210px;padding:14px 16px;display:flex;flex-direction:column}
-.leaves-title{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.leaves-title{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-size:16px;font-weight:600}
 .leaves-size{margin-top:8px;display:flex;align-items:baseline;gap:10px}
-.leaves-size .value{font-family:'Fraunces','Fraunces Fallback',serif;font-size:48px;font-weight:700;line-height:1}
+.leaves-size .value{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-size:48px;font-weight:700;line-height:1}
 .leaves-size .key,.leaves-conf{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;color:var(--ink-70)}
 .leaves-conf{margin-top:12px;display:flex;justify-content:space-between}
 .leaves-conf .value{color:var(--ink);font-weight:500}
@@ -184,17 +181,20 @@ h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-
 .conf-bar{margin-top:4px;height:6px;border-radius:3px;background:rgba(30,36,48,.09);overflow:hidden}
 .conf-bar .fill{height:100%;width:calc(var(--value) * 100%);background:var(--ink)}
 .leaves-off{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
-.leaves-off .chip{font-size:11.5px;padding:2px 8px}
+.leaves-off .chip{font-size:12.5px;padding:1px 8px}
 .leaves-level{margin-top:auto;padding-top:10px;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;color:var(--ink-70)}
 
-/* the buttons, as in the builder */
-.actions{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+/* one button for the main action, as in the builder; the other ways on are links */
+.actions{margin-top:28px;display:flex;gap:12px 24px;flex-wrap:wrap;align-items:center}
 .btn{display:inline-block;min-height:44px;font-family:inherit;font-weight:600;font-size:15px;
-  border-radius:999px;padding:11px 22px;border:1.5px solid var(--ink);
+  border-radius:6px;padding:11px 22px;border:1.5px solid var(--ink);
   background:var(--ink);color:var(--paper);text-decoration:none}
 .btn:hover{background:var(--ink-70);border-color:var(--ink-70)}
-.btn.ghost{background:transparent;color:var(--ink)}
-.btn.ghost:hover{background:rgba(30,36,48,.05);border-color:var(--ink)}
+.textlink{display:inline-block;padding:11px 0;font-weight:600;font-size:15px;color:var(--ink);
+  text-decoration:underline;text-decoration-color:var(--accent);text-decoration-thickness:1.5px;text-underline-offset:5px}
+.textlink:hover{text-decoration-thickness:2.5px}
+/* who makes it and how far along it is, under the buttons */
+.byline{margin-top:18px;font-size:14px;color:var(--ink-70);text-wrap:pretty}
 
 /* ---------- tailor's tape divider, as in the guide and the builder ---------- */
 .ruler{margin:48px 0 0;user-select:none}
@@ -209,9 +209,7 @@ h1 .tagline{display:block;margin-top:12px;font-size:.5em;font-style:italic;font-
 /* ---------- sections ---------- */
 .section{margin-top:72px;scroll-margin-top:80px}
 @media(max-width:840px){.section{scroll-margin-top:112px}} /* the bar has two rows here */
-.kicker{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--accent-ink);margin-bottom:10px}
-h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.15}
+h2{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-weight:600;font-size:clamp(26px,4vw,36px);line-height:1.15;text-wrap:balance}
 .intro{margin-top:12px;color:var(--ink-70);max-width:64ch}
 
 /* cards that wrap: three in the problem, four in practice */
@@ -219,12 +217,12 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 .card{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;background:var(--surface);
   border:1px solid var(--rule);border-radius:var(--radius);padding:18px 18px 16px;box-shadow:var(--shadow)}
 .cards.scenarios .card{flex-basis:230px}
-.card h3{font-family:'Fraunces','Fraunces Fallback',serif;font-size:19px;font-weight:600;margin-bottom:6px}
+.card h3{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-size:19px;font-weight:600;margin-bottom:6px}
 .card p{flex:1 1 auto;font-size:14.5px;color:var(--ink-70)}
-/* the second-hand card leads to the builder; the arrow is decoration, hidden from screen readers */
-.card-link{margin-top:12px;align-self:flex-start;font-size:14.5px;font-weight:600;color:var(--accent-ink);text-decoration:none}
-.card-link:hover{text-decoration:underline}
-.card-link::after{content:" \2192";content:" \2192" / ""}
+/* the second-hand card leads to the builder */
+.card-link{margin-top:12px;align-self:flex-start;font-size:14.5px;font-weight:600;color:var(--accent-ink);
+  text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.card-link:hover{text-decoration-thickness:2px}
 /* the drawings of the four scenarios: ink lines, the tape and the accent as in the shirt */
 .card-icon{display:block;flex:none;margin-bottom:10px}
 .card-icon .ic-line{fill:var(--surface);stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
@@ -235,19 +233,19 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 .card-icon .ic-ink{fill:var(--ink)}
 .card-icon .ic-accent{stroke:var(--accent);stroke-width:.9}
 .card-icon .ic-speaker{stroke:var(--ink);stroke-width:1.2;stroke-linecap:round}
-.card-icon .ic-size{fill:var(--ink);font:700 11px 'Fraunces','Fraunces Fallback',serif}
+.card-icon .ic-size{fill:var(--ink);font:700 11px 'Zilla Slab','Zilla Slab Fallback',serif}
 .card-icon .ic-track{fill:rgba(30,36,48,.14)}
 .card-icon .ic-fill{fill:var(--accent)}
 .card-icon .ic-ghost{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 2.5;stroke-linejoin:round}
 
 /* the three documents: what you own, what the seller publishes, what travels between them */
-.docs{display:flex;flex-wrap:wrap;align-items:stretch;gap:12px;margin-top:26px}
+.docs{display:flex;flex-wrap:wrap;align-items:stretch;gap:16px;margin-top:26px}
 .doc{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;background:var(--surface);
   border:1px solid var(--rule);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
 .doc-head{display:flex;align-items:center;gap:10px}
 .doc-icon{flex:none;fill:none;stroke:var(--accent-ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.doc h3{font-family:'Fraunces','Fraunces Fallback',serif;font-size:19px;font-weight:600}
-.doc .who{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11px;letter-spacing:.06em;color:var(--tape-ink);margin:2px 0 8px}
+.doc h3{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-size:19px;font-weight:600}
+.doc .who{font-size:13px;color:var(--tape-ink);margin:2px 0 8px}
 .doc .desc{flex:1 1 auto;font-size:14.5px;color:var(--ink-70)}
 .doc .desc b{color:var(--ink)}
 /* the excerpts: as tall as the longest (seven lines), so the three line up; they wrap rather than scroll */
@@ -258,12 +256,6 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 .doc a.schema{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;color:var(--accent-ink);
   margin-top:12px;word-break:break-all;text-decoration:none;border-top:1px dashed var(--rule);padding-top:10px}
 .doc a.schema:hover{text-decoration:underline}
-/* + and → between the documents, drawn here: a sign written as text would stick to the link before it */
-.op{flex:0 0 30px;display:flex;align-items:center;justify-content:center}
-.op::before{content:"+";box-sizing:border-box;display:flex;align-items:center;justify-content:center;width:30px;height:30px;
-  border:1.5px solid var(--ink);border-radius:50%;background:var(--paper);
-  font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:16px;line-height:1}
-.op.to::before{content:"\2192";background:var(--ink);color:var(--paper);font-size:15px}
 .docs-note{margin-top:18px;font-size:14.5px;color:var(--ink-70)}
 .mono{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:.92em;background:rgba(30,36,48,.06);padding:1px 5px;border-radius:4px}
 
@@ -278,8 +270,8 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
   display:flex;align-items:center;gap:8px}
 .vault-level::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:0 0 auto}
 .vault-fields{flex:1 1 320px;min-width:0;padding:14px 16px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.chip{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12px;background:rgba(30,36,48,.06);
-  border:1px solid var(--rule);border-radius:6px;padding:3px 9px;color:var(--ink-70)}
+.chip{font-size:13.5px;background:rgba(30,36,48,.06);
+  border:1px solid var(--rule);border-radius:6px;padding:2px 9px;color:var(--ink-70)}
 .chip.off{background:transparent;border-style:dashed;color:var(--ink-50);text-decoration:line-through;text-decoration-color:var(--accent-ink)}
 .chip.size{background:var(--ink);color:var(--paper);border-color:var(--ink);
   font-size:15px;font-weight:500;padding:5px 14px}
@@ -299,9 +291,9 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 .status dl>div{display:flex;flex-wrap:wrap;gap:2px 26px;padding:11px 0;border-bottom:1px solid var(--rule)}
 .status dl>div:last-child{border-bottom:none}
 .status dt{flex:0 0 220px;font-size:14.5px;color:var(--ink-70)}
-.status dd{flex:1 1 300px;min-width:0;font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:12.5px}
-.status .badge-draft{background:var(--tape);color:var(--tape-text);border-radius:6px;padding:2px 8px;
-  letter-spacing:.06em;white-space:nowrap}
+.status dd{flex:1 1 300px;min-width:0;font-size:15px}
+.status .badge-draft{background:var(--tape);color:var(--tape-text);border-radius:4px;padding:2px 8px;
+  font-weight:600;white-space:nowrap}
 .status-text{margin-top:16px;max-width:72ch;font-size:15px;color:var(--ink-70)}
 .status .actions{margin-top:18px}
 
@@ -309,12 +301,9 @@ h2{font-family:'Fraunces','Fraunces Fallback',serif;font-weight:600;font-size:cl
 footer{margin-top:80px}
 footer .legal{border-top:1px solid var(--rule);padding-top:22px;
   font-size:13px;color:var(--ink-70);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer .legal .mono-small{font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px}
 footer .legal a{color:var(--accent-ink)}
 @media(max-width:640px){footer .legal{flex-direction:column;gap:8px}}
 
-/* the signs between the documents only where the three fit on one line */
-@media (max-width:1011px){.op{display:none}}
 /* on a phone the level's name takes its own line, the width of the card */
 @media (max-width:640px){.vault-level{flex-basis:100%;background:transparent;padding-bottom:2px}}
 </style>
@@ -371,7 +360,7 @@ footer .legal a{color:var(--accent-ink)}
 <body>
 <nav class="sitenav" aria-label="Site">
   <div class="sitenav-inner">
-    <a class="sitenav-mark" href="/"><svg width="22" height="22" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="84" fill="none" stroke="#c96f4a" stroke-width="15"/><circle cx="120" cy="120" r="42" fill="#1e2430"/></svg>Agio Fit</a>
+    <a class="sitenav-mark" href="/"><svg width="22" height="22" viewBox="0 0 240 240" aria-hidden="true"><circle cx="120" cy="120" r="84" fill="none" stroke="#8c2f45" stroke-width="15"/><circle cx="120" cy="120" r="42" fill="#1e2430"/></svg>Agio Fit</a>
     <a class="sitenav-link" aria-current="page" href="/">Overview</a>
     <a class="sitenav-link" href="/guide/">Guide</a>
     <a class="sitenav-link" href="/builder/">Builder</a>
@@ -382,7 +371,7 @@ footer .legal a{color:var(--accent-ink)}
       <a href="/fr/" hreflang="fr" lang="fr" aria-label="Français">FR</a>
     </div>
     <span class="sitenav-ver">v0.2 draft</span>
-    <a class="sitenav-gh" href="https://github.com/agiofit/agiofit" title="Specification and reference implementation">GitHub <span aria-hidden="true">&#8599;</span></a>
+    <a class="sitenav-gh" href="https://github.com/agiofit/agiofit" title="Specification and reference implementation">GitHub</a>
   </div>
 </nav>
 
@@ -391,27 +380,24 @@ footer .legal a{color:var(--accent-ink)}
 <header>
   <div class="hero">
     <div class="hero-text">
-      <p class="eyebrow">
-        v0.2 draft · open standard · a personal project by <a class="credit" href="https://github.com/antferr">antferr</a>
-      </p>
       <h1>Agio&nbsp;Fit
-        <span class="tagline">your fit profile is yours. Everywhere.</span>
+        <span class="tagline">an open fit profile that stays yours</span>
       </h1>
       <p class="lede">
         
-        Every size-recommendation service works — and keeps your profile captive. Agio Fit is the opposite: an open data model where your measurements live in a <em>vault</em> you choose. By default a shop gets a size and how sure it is, never your measurements.
+        Size-recommendation services work, but each one keeps your profile to itself. Agio Fit is an open data model: the profile lives in a <em>vault</em> you choose, and by default a shop gets a size and how sure it is, never your measurements.
         
       </p>
       <div class="actions">
-        <a class="btn" href="/guide/">How it works</a>
-        <a class="btn ghost" href="/builder/cut-profile/">Measure a garment</a>
+        <a class="btn" href="/builder/cut-profile/">Measure a garment</a>
+        <a class="textlink" href="/guide/">How it works</a>
       </div>
+      <p class="byline">Open standard, v0.2 draft. A personal project by <a href="https://github.com/antferr">antferr</a>.</p>
       <p class="agio"><span class="word">agio</span> <span class="ipa">/ˈadʒo/</span>: in tailoring, the ease designed between body and garment. The logo draws it as the space between the ring and the disc.</p>
     </div>
 
     <div class="hero-art">
       <figure class="hero-figure">
-        <p class="figure-title">Example shirt · size 41 · laid flat</p>
         <p class="visually-hidden" id="hero-shirt-desc">A shirt laid flat with five measuring points: 1 neck circumference, 42 cm; 2 shoulder width, 46.5 cm; 3 chest width, 58 cm; 4 waist width, 54 cm; 5 sleeve length, 65 cm.</p>
         <!--
           The shirt laid flat, one drawing for the whole site, as in the guide: geometry as it is,
@@ -475,7 +461,7 @@ footer .legal a{color:var(--accent-ink)}
           <g class="m" data-key="chest_width">
             <line class="dim" x1="172.4" y1="209" x2="427.6" y2="209"/>
             <path class="dim" d="M168.4 213 L176.4 205 M423.6 213 L431.6 205"/>
-            <rect class="label-bg" x="268" y="199" width="68" height="20" rx="3"/>
+            <rect class="label-bg on-cloth" x="268" y="199" width="68" height="20" rx="3"/>
             <circle class="badge" cx="279" cy="209" r="8"/>
             <text class="badge-n" x="279" y="209" text-anchor="middle" dominant-baseline="central">3</text>
             <text class="val" x="291" y="213.3"><tspan class="num">58</tspan><tspan class="unit" dx="4">cm</tspan></text>
@@ -485,7 +471,7 @@ footer .legal a{color:var(--accent-ink)}
           <g class="m" data-key="waist_width">
             <line class="dim" x1="181.2" y1="300" x2="418.8" y2="300"/>
             <path class="dim" d="M177.2 304 L185.2 296 M414.8 304 L422.8 296"/>
-            <rect class="label-bg" x="268" y="290" width="68" height="20" rx="3"/>
+            <rect class="label-bg on-cloth" x="268" y="290" width="68" height="20" rx="3"/>
             <circle class="badge" cx="279" cy="300" r="8"/>
             <text class="badge-n" x="279" y="300" text-anchor="middle" dominant-baseline="central">4</text>
             <text class="val" x="291" y="304.3"><tspan class="num">54</tspan><tspan class="unit" dx="4">cm</tspan></text>
@@ -503,7 +489,7 @@ footer .legal a{color:var(--accent-ink)}
             <text class="val" x="500" y="219.3"><tspan class="num">65</tspan><tspan class="unit" dx="4">cm</tspan></text>
           </g>
         </svg>
-        <figcaption class="figure-caption">Laid flat, fastened, not stretched; the collar opened out. Chest and waist are half the way round; the collar, the whole way.</figcaption>
+        <figcaption class="figure-caption">Example shirt, size 41: laid flat, fastened, not stretched, with the collar opened out. Chest and waist are half the way round; the collar, the whole way round.</figcaption>
       </figure>
 
       <div class="hero-cards">
@@ -511,7 +497,7 @@ footer .legal a{color:var(--accent-ink)}
         <div class="hero-card cut-card">
           <div class="cut-head">
             <p class="cut-title">Cut Profile</p>
-            <p class="cut-note">public · the seller's</p>
+            <p class="cut-note">Published by the seller</p>
           </div>
           <dl>
             <div><dt><span class="no" aria-hidden="true">1</span> neck_circumference</dt><dd>42 <span class="unit">cm</span></dd></div>
@@ -713,8 +699,7 @@ footer .legal a{color:var(--accent-ink)}
 
 <!-- ============ the problem ============ -->
 <section class="section" id="problem">
-  <p class="kicker">The problem</p>
-  <h2>The right size already exists. Your profile doesn't.</h2>
+  <h2>Every new shop starts from scratch</h2>
   <div class="cards">
     <div class="card">
       <h3>Returns</h3>
@@ -722,18 +707,17 @@ footer .legal a{color:var(--accent-ink)}
     </div>
     <div class="card">
       <h3>The silos</h3>
-      <p>Size recommendation works — but in every existing implementation the profile belongs to the vendor or the retailer. You rebuild it, implicitly, at every shop you visit.</p>
+      <p>Size recommendation works, but in every existing implementation the profile belongs to the vendor or the retailer. You rebuild it, implicitly, at every shop you visit.</p>
     </div>
     <div class="card">
       <h3>The agents</h3>
-      <p>Agentic commerce protocols are standardising catalogue, checkout and interfaces — but not fit. The assistant that will buy clothes on your behalf would, today, guess your size from nothing.</p>
+      <p>Agentic commerce protocols are standardising catalogue, checkout and interfaces, but not fit. The assistant that will buy clothes on your behalf would, today, guess your size from nothing.</p>
     </div>
   </div>
 </section>
 
 <!-- ============ what it is ============ -->
 <section class="section" id="schemas">
-  <p class="kicker">What it is</p>
   <h2>Three JSON documents, one explained recommendation</h2>
   <p class="intro">
     
@@ -747,7 +731,7 @@ footer .legal a{color:var(--accent-ink)}
         <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="4" y="9" width="12" height="9" rx="2"/><path d="M7 9 V6.5 a3 3 0 0 1 6 0 V9"/></svg>
         <h3>Fit Profile</h3>
       </div>
-      <p class="who">— yours</p>
+      <p class="who">Yours</p>
       <p class="desc">Body measurements with declared source and uncertainty, fit preferences, and the history of how past garments actually fitted you.</p>
       <pre class="excerpt"><span class="k">"chest_circumference"</span>: {
   <span class="k">"value"</span>: <span class="n">100</span>, <span class="k">"unit"</span>: <span class="s">"cm"</span>,
@@ -757,13 +741,12 @@ footer .legal a{color:var(--accent-ink)}
 }</pre>
       <a class="schema" href="/schemas/v0.2/fit-profile.schema.json">schemas/v0.2/fit-profile.schema.json</a>
     </div>
-    <div class="op" aria-hidden="true"></div>
     <div class="doc">
       <div class="doc-head">
         <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 L16 7 V18 H4 V7 Z"/><circle cx="10" cy="7.2" r="1.4"/><path d="M7 12 H13 M7 15 H11"/></svg>
         <h3>Cut Profile</h3>
       </div>
-      <p class="who">— the seller's</p>
+      <p class="who">The seller's</p>
       <p class="desc">How the garment is <b>cut</b>, not what the brand calls the size: finished measurements per size, intended ease, stretch, data provenance.</p>
       <pre class="excerpt"><span class="k">"size_label"</span>: <span class="s">"41"</span>,
 <span class="k">"finished_measurements"</span>: {
@@ -774,14 +757,13 @@ footer .legal a{color:var(--accent-ink)}
 }</pre>
       <a class="schema" href="/schemas/v0.2/cut-profile.schema.json">schemas/v0.2/cut-profile.schema.json</a>
     </div>
-    <div class="op to" aria-hidden="true"></div>
     <div class="doc">
       <div class="doc-head">
         <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 2 H12 L16 6 V18 H5 Z"/><path d="M12 2 V6 H16"/><path d="M8 10.5 H13 M8 13.5 H11.5"/></svg>
         <h3>Match Report</h3>
       </div>
-      <p class="who">— what travels</p>
-      <p class="desc">A size, the alternatives, zone-by-zone reasoning and an honest confidence — decomposed, capped when data is thin, never overstated.</p>
+      <p class="who">What travels</p>
+      <p class="desc">A size, the alternatives, zone-by-zone reasoning and an honest confidence: decomposed, capped when data is thin, never overstated.</p>
       <!-- the mature profile's report at result_only: the numbers come from the reference, through demo_reports.py -->
       <pre class="excerpt">...
 <span class="k">"disclosure_level"</span>: <span class="s">"result_only"</span>,
@@ -797,24 +779,23 @@ footer .legal a{color:var(--accent-ink)}
 
 <!-- ============ in practice: what becomes possible ============ -->
 <section class="section" id="practice">
-  <p class="kicker">In practice</p>
   <h2>What becomes possible when a garment publishes its cut</h2>
   <div class="cards scenarios">
     <div class="card">
       <svg class="card-icon" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><path class="ic-line" d="M17 9 L22 7 Q24 9.5 26 7 L31 9 L39 16 L35 21 L32 18.5 V40 H16 V18.5 L13 21 L9 16 Z"/><rect class="ic-tape" x="11" y="25" width="26" height="5.5" rx="1"/><path class="ic-ticks" d="M14 25 v2.6 M17 25 v1.6 M20 25 v2.6 M23 25 v1.6 M26 25 v2.6 M29 25 v1.6 M32 25 v2.6 M35 25 v1.6"/></svg>
       <h3>Second-hand</h3>
-      <p>Sellers already lay the garment flat and write the numbers in the listing. But is "chest 54" half the way round, or all of it? The builder turns the same gesture into a Cut Profile that says how it was measured. Shirts, T-shirts, trousers and jeans for now; nothing is uploaded, nothing is stored here.</p>
+      <p>Sellers already lay the garment flat and write the numbers in the listing. But is "chest 54" half the way round, or all of it? The builder turns the same gesture into a Cut Profile that says how it was measured. Shirts, T-shirts, sweaters and cardigans, trousers and jeans for now; nothing is uploaded, nothing is stored here.</p>
       <a class="card-link" href="/builder/cut-profile/">Measure a garment</a>
     </div>
     <div class="card">
       <svg class="card-icon" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><path class="ic-thread" d="M24 11.5 C 22 5.5 27.5 3 30 5.5"/><path class="ic-line" d="M16 14 L24 7.5 L32 14 V41 H16 Z"/><circle class="ic-hole" cx="24" cy="13.5" r="1.7"/><g class="ic-ink"><rect x="18.5" y="18.5" width="4.5" height="4.5"/><rect x="25" y="18.5" width="4.5" height="4.5"/><rect x="18.5" y="25" width="4.5" height="4.5"/><rect x="25.5" y="25.5" width="1.6" height="1.6"/><rect x="27.9" y="27.9" width="1.6" height="1.6"/><rect x="25.5" y="28.4" width="1.6" height="1.6"/></g><line class="ic-accent" x1="18.5" y1="34" x2="29.5" y2="34"/></svg>
       <h3>In store</h3>
-      <p>The fitting room in your pocket: a QR code on the label points to the Cut Profile. Scan it and the match runs on your phone — you know whether it fits before trying it on, and nothing leaves for the shop. Not even the size.</p>
+      <p>The fitting room in your pocket: a QR code on the label points to the Cut Profile. Scan it and the match runs on your phone: you know whether it fits before trying it on, and nothing leaves for the shop, not even the size.</p>
     </div>
     <div class="card">
       <svg class="card-icon" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect class="ic-line" x="15" y="5" width="18" height="38" rx="3.5"/><line class="ic-speaker" x1="21.5" y1="8.6" x2="26.5" y2="8.6"/><text class="ic-size" x="24" y="26" text-anchor="middle">41</text><rect class="ic-track" x="18.5" y="30.5" width="11" height="2" rx="1"/><rect class="ic-fill" x="18.5" y="30.5" width="9.2" height="2" rx="1"/></svg>
       <h3>Online</h3>
-      <p>The same gesture where no fitting room exists: online the garment can't be tried on, but its cut is published and your profile answers — with confidence exposed and per-zone reasoning, not a promise.</p>
+      <p>The same gesture where no fitting room exists: online the garment can't be tried on, but its cut is published and your profile answers with its confidence exposed and its reasoning by zone, not with a promise.</p>
     </div>
     <div class="card">
       <svg class="card-icon" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><path class="ic-line" d="M13 10 L18 8 Q20 10.5 22 8 L27 10 L34 16.5 L30.5 20.5 L28 18.5 V39 H12 V18.5 L9.5 20.5 L6 16.5 Z"/><path class="ic-ghost" d="M22 13 L27 11 Q29 13.5 31 11 L36 13 L43 19.5 L39.5 23.5 L37 21.5 V42 H21 V21.5"/></svg>
@@ -826,11 +807,10 @@ footer .legal a{color:var(--accent-ink)}
 
 <!-- ============ signature: what leaves the vault ============ -->
 <section class="section" id="privacy">
-  <p class="kicker">Privacy by design</p>
-  <h2>Four disclosure levels. You choose what leaves.</h2>
+  <h2>Four disclosure levels: you choose how much leaves your vault</h2>
   <p class="intro">
     
-    In the in-store scenario nothing leaves: the computation happens entirely on your side. When something does need to leave — an online shop, a return, your tailor — the answer is graduated: from the reasoning zone by zone, with its numbers, down to just a size and how sure it is. The profile leaves at no level.
+    In the in-store scenario nothing leaves: the computation happens entirely on your side. When something does need to leave (an online shop, a return, your tailor), the answer is graduated: from the reasoning zone by zone, with its numbers, down to just a size and how sure it is. The profile leaves at no level.
     
   </p>
   <!-- each row ends with the size and the confidence the reference gives the mature profile at
@@ -885,34 +865,32 @@ footer .legal a{color:var(--accent-ink)}
 
 <!-- ============ scope: what it is not ============ -->
 <section class="section" id="scope">
-  <p class="kicker">Scope</p>
-  <h2>What it is not, stated before you ask</h2>
+  <h2>What Agio Fit is not</h2>
   <div class="scope-list">
     <p><b>Not a size-recommendation vendor.</b> The argument is ownership and portability; becoming another silo would destroy it.</p>
     <p><b>Not an identity system.</b> The profile lives in a vault the person chooses, and the answer names neither the profile nor the person. The specification says what a vault has to guarantee, not how it is built.</p>
-    <p><b>Not a scanning technology.</b> The model accepts measurements from any source — and declares their quality instead of pretending it uniform.</p>
+    <p><b>Not a scanning technology.</b> The model accepts measurements from any source and declares their quality, instead of pretending it is uniform.</p>
     <p><b>Not a size-chart aggregator.</b> Charts say what a brand <em>calls</em> a size, not how the garment is cut.</p>
-    <p><b>Not a protocol.</b> It is a data model: it works over a plain HTTP API, and the algorithm is not normative — the shape of the answer is.</p>
+    <p><b>Not a protocol.</b> It is a data model: it works over a plain HTTP API, and the algorithm is not normative; the shape of the answer is.</p>
   </div>
 </section>
 
 <!-- ============ status and getting involved ============ -->
 <section class="section" id="status">
-  <p class="kicker">Status</p>
   <h2>v0.2 draft, in the open</h2>
   <div class="status">
     <dl>
       <div><dt>Version</dt><dd><span class="badge-draft">v0.2 draft</span> nothing is stable before 1.0</dd></div>
       <div><dt>Schema identifiers</dt><dd>stay resolvable; breaking changes bump the version</dd></div>
       <div><dt>Specification</dt><dd>CC BY 4.0</dd></div>
-      <div><dt>Reference implementation</dt><dd>Python · Apache 2.0 · zero runtime dependencies</dd></div>
-      <div><dt>Archived</dt><dd><a href="https://doi.org/10.5281/zenodo.21922898">doi:10.5281/zenodo.21922898</a> · <a href="https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/agiofit/agiofit">Software Heritage</a></dd></div>
+      <div><dt>Reference implementation</dt><dd>Python, Apache 2.0, zero runtime dependencies</dd></div>
+      <div><dt>Archived</dt><dd><a href="https://doi.org/10.5281/zenodo.21922898">doi:10.5281/zenodo.21922898</a>, <a href="https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/agiofit/agiofit">Software Heritage</a></dd></div>
     </dl>
-    <p class="status-text">Zero runtime dependencies, so the privacy invariant can be verified by reading the code in an afternoon. The most valuable contribution? A body and a garment where the answer is obviously wrong, as a failing test. Or a shirt measured with the builder: the measuring definitions are not yet proven, and two people getting different numbers for the same garment is exactly what this version needs to hear.</p>
+    <p class="status-text">Zero runtime dependencies, so the privacy invariant can be verified by reading the code in an afternoon. The most useful contribution is a shirt measured with the builder: the measuring definitions are not yet proven, and two people getting different numbers for the same garment is exactly what this version needs to hear. A failing test helps just as much: a body and a garment where the answer is obviously wrong.</p>
     <div class="actions">
       <a class="btn" href="/builder/cut-profile/">Measure a garment</a>
-      <a class="btn ghost" href="https://github.com/agiofit/agiofit">The repository</a>
-      <a class="btn ghost" href="/guide/">The interactive guide</a>
+      <a class="textlink" href="https://github.com/agiofit/agiofit">The repository</a>
+      <a class="textlink" href="/guide/">The interactive guide</a>
     </div>
   </div>
 </section>
@@ -921,8 +899,8 @@ footer .legal a{color:var(--accent-ink)}
 
 <footer>
   <div class="legal">
-    <span>© 2026 Antonio Ferraioli · Agio Fit · a personal project by <a href="https://github.com/antferr">antferr</a></span>
-    <span class="mono-small">spec: CC BY 4.0 · code: Apache-2.0 · <a href="https://github.com/agiofit">github.com/agiofit</a></span>
+    <span>© 2026 Antonio Ferraioli. Agio Fit, a personal project by <a href="https://github.com/antferr">antferr</a>.</span>
+    <span>spec: CC BY 4.0, code: Apache-2.0, <a href="https://github.com/agiofit">github.com/agiofit</a></span>
   </div>
 </footer>
 
