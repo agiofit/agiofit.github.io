@@ -10,7 +10,7 @@ Key ideas, stated as the specification states them:
 - The algorithm is not normative. The shape of the answer is: exposed confidence, per-zone reasoning, correctability.
 - The Cut Profile records finished measurements per size, taken flat laid or as a circumference, with the method declared.
 
-What Agio Fit is not: not a size-recommendation vendor, not an identity system, not a scanning technology, not a size-chart aggregator, not a protocol. It is a data model, and nothing in it is stable before 1.0.
+What Agio Fit is not: not a size-recommendation vendor, not an identity system, not an application, not a scanning technology, not a size-chart aggregator, not a protocol. It is a data model, and nothing in it is stable before 1.0.
 
 Licensing is split: the specification is CC BY 4.0; the reference implementation (Python, zero runtime dependencies) is Apache 2.0. Agio Fit is a personal project by Antonio Ferraioli.
 

@@ -239,9 +239,11 @@ h2{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-weight:600;font-siz
 .card-icon .ic-fill{fill:var(--accent)}
 .card-icon .ic-ghost{fill:none;stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 2.5;stroke-linejoin:round}
 
-/* the three documents: what you own, what the seller publishes, what travels between them */
-.docs{display:flex;flex-wrap:wrap;align-items:stretch;gap:16px;margin-top:26px}
-.doc{flex:1 1 280px;min-width:0;display:flex;flex-direction:column;background:var(--surface);
+/* the four documents: what you own, what the seller publishes, the answer and the question.
+   Two by two, one under the other on a phone */
+.docs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:26px}
+@media(max-width:640px){.docs{grid-template-columns:minmax(0,1fr)}}
+.doc{min-width:0;display:flex;flex-direction:column;background:var(--surface);
   border:1px solid var(--rule);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
 .doc-head{display:flex;align-items:center;gap:10px}
 .doc-icon{flex:none;fill:none;stroke:var(--accent-ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
@@ -249,7 +251,7 @@ h2{font-family:'Zilla Slab','Zilla Slab Fallback',serif;font-weight:600;font-siz
 .doc .who{font-size:13px;color:var(--tape-ink);margin:2px 0 8px}
 .doc .desc{flex:1 1 auto;font-size:14.5px;color:var(--ink-70)}
 .doc .desc b{color:var(--ink)}
-/* the excerpts: as tall as the longest (seven lines), so the three line up; they wrap rather than scroll */
+/* the excerpts: as tall as the longest (seven lines), so the cards line up; they wrap rather than scroll */
 .excerpt{margin-top:14px;min-height:calc(7 * 1.55em + 24px);padding:12px 14px;border-radius:8px;
   background:var(--code);color:var(--code-ink);font-family:'IBM Plex Mono','IBM Plex Mono Fallback',monospace;font-size:11.5px;
   line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
@@ -769,6 +771,22 @@ footer .legal a{color:var(--accent-ink)}
 ...</pre>
       <a class="schema" href="schemas/v0.2/match-report.schema.json">schemas/v0.2/match-report.schema.json</a>
     </div>
+    <div class="doc">
+      <div class="doc-head">
+        <svg class="doc-icon" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4 H17 V13.5 H9 L5.5 16.5 V13.5 H3 Z"/><path d="M6.5 7.5 H13.5 M6.5 10.5 H11"/></svg>
+        <h3>Match Request</h3>
+      </div>
+      <p class="who"><span class="it">La domanda</span><span class="en">The question</span><span class="fr">La question</span></p>
+      <p class="desc"><span class="it">Ciò che chi vende manda per chiedere il report: quale capo, a quale livello, chi chiede. Niente sulla persona: la stessa richiesta vale per tutti.</span><span class="en">What the seller sends to ask for a report: which garment, at what level, who is asking. Nothing about the person: the same request serves everyone.</span><span class="fr">Ce que le vendeur envoie pour demander un rapport : quel vêtement, à quel niveau, qui demande. Rien sur la personne : la même demande vaut pour tous.</span></p>
+      <!-- cut from examples/match-request.json -->
+      <pre class="excerpt"><span class="k">"cut_profile_id"</span>: <span class="s">"sartoria-esempio:OXF-CLASSIC:2026"</span>,
+<span class="k">"verifier"</span>: {
+  <span class="k">"name"</span>: <span class="s">"Sartoria Esempio"</span>,
+  ...
+},
+<span class="k">"disclosure_level"</span>: <span class="s">"explained"</span></pre>
+      <a class="schema" href="schemas/v0.2/match-request.schema.json">schemas/v0.2/match-request.schema.json</a>
+    </div>
   </div>
   <p class="docs-note"><span class="en">The match runs where the profile lives, and only the report leaves it. The excerpts come from the repository's examples; the guide shows the exact report at every level.</span><span class="it">Il confronto avviene dove vive il profilo, e da lì esce solo il report. Gli estratti vengono dagli esempi del repository; la guida mostra il report esatto a ogni livello.</span><span class="fr">La comparaison se fait là où vit le profil, et seul le rapport en sort. Les extraits viennent des exemples du dépôt ; le guide montre le rapport exact à chaque niveau.</span></p>
 </section>
@@ -865,6 +883,7 @@ footer .legal a{color:var(--accent-ink)}
   <div class="scope-list">
     <p><span class="it"><b>Non un fornitore di size recommendation.</b> L'argomento è proprietà e portabilità; diventare un altro silo lo distruggerebbe.</span><span class="en"><b>Not a size-recommendation vendor.</b> The argument is ownership and portability; becoming another silo would destroy it.</span><span class="fr"><b>Pas un fournisseur de recommandation de taille.</b> L'argument est la propriété et la portabilité ; devenir un silo de plus le détruirait.</span></p>
     <p><span class="it"><b>Non un sistema di identità.</b> Il profilo vive in un vault scelto dalla persona, e la risposta non nomina né il profilo né la persona. La specifica dice cosa un vault deve garantire, non come è fatto.</span><span class="en"><b>Not an identity system.</b> The profile lives in a vault the person chooses, and the answer names neither the profile nor the person. The specification says what a vault has to guarantee, not how it is built.</span><span class="fr"><b>Pas un système d'identité.</b> Le profil vit dans un vault choisi par la personne, et la réponse ne nomme ni le profil ni la personne. La spécification dit ce qu'un vault doit garantir, pas comment il est fait.</span></p>
+    <p><span class="it"><b>Non un'applicazione.</b> Niente qui è un vault, un wallet o un'app da usare: lo strumento a riga di comando serve a verificare la specifica.</span><span class="en"><b>Not an application.</b> Nothing here is a vault, a wallet or an app a person is meant to use: the command line tool is a reference for checking the specification.</span><span class="fr"><b>Pas une application.</b> Rien ici n'est un vault, un portefeuille ou une app destinée à la personne : l'outil en ligne de commande sert de référence pour vérifier la spécification.</span></p>
     <p><span class="it"><b>Non una tecnologia di scansione.</b> Il modello accetta misure da qualunque fonte e ne dichiara la qualità, invece di fingerla uniforme.</span><span class="en"><b>Not a scanning technology.</b> The model accepts measurements from any source and declares their quality, instead of pretending it is uniform.</span><span class="fr"><b>Pas une technologie de scan.</b> Le modèle accepte des mesures de toute source et en déclare la qualité, au lieu de la feindre uniforme.</span></p>
     <p><span class="it"><b>Non un aggregatore di tabelle taglie.</b> Le tabelle dicono come un brand <em>chiama</em> una taglia, non come il capo è tagliato.</span><span class="en"><b>Not a size-chart aggregator.</b> Charts say what a brand <em>calls</em> a size, not how the garment is cut.</span><span class="fr"><b>Pas un agrégateur de guides des tailles.</b> Les guides disent comment une marque <em>nomme</em> une taille, pas comment le vêtement est coupé.</span></p>
     <p><span class="it"><b>Non un protocollo.</b> È un modello dati: funziona su una normale API HTTP, e l'algoritmo non è normativo; normativa è la forma della risposta.</span><span class="en"><b>Not a protocol.</b> It is a data model: it works over a plain HTTP API, and the algorithm is not normative; the shape of the answer is.</span><span class="fr"><b>Pas un protocole.</b> C'est un modèle de données : il fonctionne sur une simple API HTTP, et l'algorithme n'est pas normatif ; la forme de la réponse l'est.</span></p>
