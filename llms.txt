@@ -1,6 +1,6 @@
 # Agio Fit
 
-> Agio Fit is an open data model (v0.2 draft) for a portable fit profile owned by the person, not the platform. Three JSON documents: the Fit Profile (the person's body measurements, preferences and fit history), the Cut Profile (how a garment is cut, published by the seller) and the Match Report (the answer that travels between the two). A fourth, the Match Request, is what a shop sends to ask for a report: which garment, at what level, who is asking, and nothing about the person. By default a shop receives a size and how sure the answer is, never the person's measurements.
+> Agio Fit is an open data model (v0.2 draft) for a portable fit profile owned by the person, not the platform. Four JSON documents: the Fit Profile (the person's body measurements, preferences and fit history), the Cut Profile (how a garment is cut, published by the seller), the Match Report (the answer that travels between the two) and the Match Request (what a shop sends to ask for a report: which garment, at what level, who is asking, and nothing about the person). By default a shop receives a size and how sure the answer is, never the person's measurements.
 
 Key ideas, stated as the specification states them:
 
@@ -16,7 +16,7 @@ Licensing is split: the specification is CC BY 4.0; the reference implementation
 
 ## Site
 
-- [Overview](https://agiofit.org/): what the model is, the three documents, the four disclosure levels, the scope
+- [Overview](https://agiofit.org/): what the model is, the four documents, the four disclosure levels, the scope
 - [Interactive guide](https://agiofit.org/guide/): where the tape goes on a shirt, and the exact Match Report at every disclosure level
 - [Builders](https://agiofit.org/builder/): the builders that write Agio Fit documents in the browser, and how to compare their files with the reference implementation
 - [Cut Profile builder](https://agiofit.org/builder/cut-profile/): measure a shirt, a T-shirt, a sweater or cardigan, trousers or jeans laid flat and get a valid Cut Profile; runs in the browser, nothing is uploaded or stored
